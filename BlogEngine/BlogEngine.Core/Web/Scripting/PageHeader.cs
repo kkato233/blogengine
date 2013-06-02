@@ -92,8 +92,13 @@ namespace BlogEngine.Core.Web.Scripting
         {
             var headerScripts = new List<LiteralControl>();
             var tmpl = "\n\t<script type=\"text/javascript\" src=\"{0}\"></script>";
-            var rsrc = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(BlogSettings.Instance.Language));
+            var lang = BlogSettings.Instance.Language;
 
+            // if specific culture set in blog settings, use it instead
+            if (BlogSettings.Instance.Culture.ToLower() != "auto")
+                lang = BlogSettings.Instance.Culture;
+
+            var rsrc = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(lang));
             headerScripts.Add(new LiteralControl(string.Format(tmpl, rsrc)));
 
             foreach (var f in GetFiles(string.Format("{0}Scripts/Auto", Utils.ApplicationRelativeWebRoot)))

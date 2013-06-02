@@ -206,7 +206,7 @@ namespace App_Code.Controls
 
             foreach (MembershipUser user in users)
             {
-                if (userCnt >= MaxAuthors)
+                if (userCnt >= MaxAuthors && MaxAuthors > 0)
                     break;
 
                 var blog = Post.GetBlogByAuthor(user.UserName);
