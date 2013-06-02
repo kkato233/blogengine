@@ -216,7 +216,7 @@ namespace App_Code.Controls
                     sb.Append(string.Format(LinkFormat, post.RelativeLink, HttpUtility.HtmlEncode(post.Title)));
                     if (this.ShowDescription)
                     {
-                        var description = post.Description;
+                        var description = Utils.StripHtml(post.Description);
                         if (description != null && description.Length > this.DescriptionMaxLength)
                         {
                             description = string.Format("{0}...", description.Substring(0, this.DescriptionMaxLength));
