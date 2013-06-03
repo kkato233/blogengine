@@ -18,6 +18,8 @@ namespace BlogEngine.Core
 
         #region FileExtension
 
+        private static string _fileExtension;
+
         /// <summary>
         ///     The  file extension used for aspx pages
         /// </summary>
@@ -27,13 +29,16 @@ namespace BlogEngine.Core
             {
                 if (BlogSettings.Instance.RemoveExtensionsFromUrls)
                     return "";
-                return WebConfigurationManager.AppSettings["BlogEngine.FileExtension"] ?? ".aspx";
+
+                return _fileExtension ?? (_fileExtension = WebConfigurationManager.AppSettings["BlogEngine.FileExtension"] ?? ".aspx");
             }
         }
 
         #endregion
 
         #region VirtualPath
+        
+        private static string _virtualPath;
 
         /// <summary>
         /// The virtual path of the BE installation.
@@ -42,12 +47,14 @@ namespace BlogEngine.Core
         {
             get
             {
-                return WebConfigurationManager.AppSettings["BlogEngine.VirtualPath"] ?? "~/";
+                return _virtualPath?? (_virtualPath = WebConfigurationManager.AppSettings["BlogEngine.VirtualPath"] ?? "~/");
             }
         }
         #endregion
 
         #region MobileServices
+
+        private static string _mobileServices;
 
         /// <summary>
         /// The regex used to identify mobile devices so a different theme can be shown
@@ -57,13 +64,15 @@ namespace BlogEngine.Core
             get
             {
                 //return WebConfigurationManager.AppSettings["BlogEngine.MobileDevices"] ?? @"(iemobile|iphone|ipod|android|nokia|sonyericsson|blackberry|samsung|sec\-|windows ce|motorola|mot\-|up.b|midp\-)";
-                return WebConfigurationManager.AppSettings["BlogEngine.MobileDevices"];
+                return _mobileServices ?? (_mobileServices = WebConfigurationManager.AppSettings["BlogEngine.MobileDevices"]);
             }
         }
 
         #endregion
 
         #region ReservedBlogNames
+
+        private static string _reservedBlogNames;
 
         /// <summary>
         /// Prevent creating new blog that will conflict with existing folder or path
@@ -72,13 +81,15 @@ namespace BlogEngine.Core
         {
             get
             {
-                return WebConfigurationManager.AppSettings["BlogEngine.ReservedBlogNames"] ?? @"(account|admin|api|app_code|app_data|app_globalresources|bin|content|editors|modules|pics|scripts|setup|templates|tests|themes|user controls|widgets|post|page|category|author|tag|calendar)";
+                return _reservedBlogNames ?? (_reservedBlogNames = WebConfigurationManager.AppSettings["BlogEngine.ReservedBlogNames"] ?? @"(account|admin|api|app_code|app_data|app_globalresources|bin|content|editors|modules|pics|scripts|setup|templates|tests|themes|user controls|widgets|post|page|category|author|tag|calendar)");
             }
         }
 
         #endregion
 
         #region StorageLocation
+
+        private static string _storageLocation;
 
         /// <summary>
         /// Storage location on web server
@@ -90,15 +101,18 @@ namespace BlogEngine.Core
         {
             get
             {
-                return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
+                return _storageLocation?? (
+                _storageLocation = string.IsNullOrEmpty(WebConfigurationManager.AppSettings["StorageLocation"])
                            ? DefaultStorageLocation
-                           : WebConfigurationManager.AppSettings["StorageLocation"];
+                           : WebConfigurationManager.AppSettings["StorageLocation"]);
             }
         }
 
         #endregion
 
-        #region StorageLocation
+        #region BlogInstancesFolderName
+
+        private static string _blogInstancesFolderName;
 
         /// <summary>
         /// Gets name of the folder blog instances are stored in.
@@ -107,13 +121,15 @@ namespace BlogEngine.Core
         {
             get
             {
-                return WebConfigurationManager.AppSettings["BlogInstancesFolderName"] ?? "blogs";
+                return _blogInstancesFolderName ?? (_blogInstancesFolderName = WebConfigurationManager.AppSettings["BlogInstancesFolderName"] ?? "blogs");
             }
         }
 
         #endregion
 
         #region AdministratorRole
+
+        private static string _administrativeRole;
 
         /// <summary>
         ///     The role that has administrator persmissions
@@ -122,12 +138,14 @@ namespace BlogEngine.Core
         {
             get
             {
-                return WebConfigurationManager.AppSettings["BlogEngine.AdminRole"] ?? "administrators";
+                return _administrativeRole ?? (_administrativeRole = WebConfigurationManager.AppSettings["BlogEngine.AdminRole"] ?? "administrators");
             }
         }
         #endregion
 
         #region AnonymousRole
+
+        private static string _anonymousRole;
 
         /// <summary>
         /// The role that represents all non-authenticated users.
@@ -136,13 +154,15 @@ namespace BlogEngine.Core
         {
             get
             {
-                return (WebConfigurationManager.AppSettings["BlogEngine.AnonymousRole"] ?? "Anonymous");
+                return _anonymousRole ?? (_anonymousRole = WebConfigurationManager.AppSettings["BlogEngine.AnonymousRole"] ?? "Anonymous");
             }
         }
 
         #endregion
 
         #region EditorsRole
+
+        private static string _editorsRole;
 
         /// <summary>
         /// The role that represents all non-authenticated users.
@@ -151,7 +171,7 @@ namespace BlogEngine.Core
         {
             get
             {
-                return (WebConfigurationManager.AppSettings["BlogEngine.EditorsRole"] ?? "Editors");
+                return _editorsRole ?? (_editorsRole = WebConfigurationManager.AppSettings["BlogEngine.EditorsRole"] ?? "Editors");
             }
         }
 
@@ -180,6 +200,8 @@ namespace BlogEngine.Core
 
         #region GenericPageSize
 
+        private static int? _genericPageSize;
+
         /// <summary>
         /// Default number of items per page in admin data grids.
         /// </summary>
@@ -187,9 +209,10 @@ namespace BlogEngine.Core
         {
             get
             {
-                return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"])
-                           ? 20
-                           : int.Parse(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"]);
+                return (int) (_genericPageSize ?? (_genericPageSize = 
+                                                   string.IsNullOrEmpty(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"])
+                                                       ? 20
+                                                       : int.Parse(WebConfigurationManager.AppSettings["BlogEngine.GenericPageSize"])));
             }
         }
 
@@ -197,6 +220,7 @@ namespace BlogEngine.Core
 
         #region SingleSignOn
 
+        private static bool? _singleSignOn;
         /// <summary>
         /// Default number of items per page in admin data grids.
         /// </summary>
@@ -204,16 +228,20 @@ namespace BlogEngine.Core
         {
             get
             {
-                string setting = WebConfigurationManager.AppSettings["BlogEngine.SingleSignOn"];
-                if (!string.IsNullOrEmpty(setting))
+                if (_singleSignOn == null)
                 {
-                    bool value;
-                    if (bool.TryParse(setting, out value))
+                    string setting = WebConfigurationManager.AppSettings["BlogEngine.SingleSignOn"];
+                    if (!string.IsNullOrEmpty(setting))
                     {
-                        return value;
+                        bool value;
+                        if (bool.TryParse(setting, out value))
+                        {
+                            _singleSignOn = value;
+                        }
                     }
+                    _singleSignOn = false;
                 }
-                return false;
+                return (bool)_singleSignOn;
             }
         }
 
