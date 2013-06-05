@@ -63,6 +63,16 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                 {
                     this.Post = post;
 
+                    // SEO redirct, discussion #446011
+                    var rawUrl = Request.RawUrl.Replace(Request.QueryString.ToString(), "").Replace("?", "");
+                    if (rawUrl != post.RelativeLink.ToString())
+                    {
+                        Response.Clear();
+                        Response.StatusCode = 301;
+                        Response.AppendHeader("location", post.RelativeLink.ToString());
+                        Response.End();
+                    }
+
                     var settings = BlogSettings.Instance;
                     string encodedPostTitle = Server.HtmlEncode(Post.Title);
                     string path = Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostView.ascx";
