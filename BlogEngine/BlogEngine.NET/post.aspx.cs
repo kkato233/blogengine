@@ -64,7 +64,8 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                     this.Post = post;
 
                     // SEO redirct, discussion #446011
-                    var rawUrl = Request.RawUrl.Replace(Request.QueryString.ToString(), "").Replace("?", "");
+                    int idx = Request.RawUrl.IndexOf("?");
+                    var rawUrl = idx > 0 ? Request.RawUrl.Substring(0, idx) : Request.RawUrl;
                     if (rawUrl != post.RelativeLink.ToString())
                     {
                         Response.Clear();
