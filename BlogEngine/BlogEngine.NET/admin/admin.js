@@ -1,9 +1,22 @@
 ﻿
-$(document).ready(function () {
+$(document).ready(function () {    
    $(document).on("click", ".editButton", function () { return EditRow(this); });
    $(document).on("click", ".deleteButton", function () { return DeleteRow(this); });
    $('.loader').hide();
 });
+
+
+/* Make dropdown menus keyboard accessible - Show rowToolsMenu on tab */
+/* Call to this function added to various load functions below(that process templates to #container) */
+$.fn.accessibleDropDown = function () {
+    var el = $(this);
+    $("a", el).focus(function () {
+        $(this).parents("li").addClass("showOnTab");
+    }).blur(function () {
+        $(this).parents("li").removeClass("showOnTab");
+    });
+}
+
 
 //-------------		EDITING
 
@@ -143,6 +156,7 @@ function LoadComments(page) {
       success: function (msg) {
          $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/comments.htm', null, { filter_data: false });
          $('#Container').processTemplate(msg);
+         $(".rowTools").accessibleDropDown();  
          LoadPager();
       }
    });
@@ -193,6 +207,7 @@ function LoadRoles() {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/roles.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
             SaveOriginalIdValues('#Container tr', '.editable');
+            $(".rowTools").accessibleDropDown();  
         }
     });
 }
@@ -210,6 +225,7 @@ function LoadUsers(page) {
            $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/users.htm', null, { filter_data: false });
            $('#Container').processTemplate(msg);
            SaveOriginalIdValues('#Container tr', '.username');
+           $(".rowTools").accessibleDropDown();  
            LoadGenericPager(page, 'admin/Users/Users.aspx');
            $.cookie('GenericCurrentPage', page, { expires: 7 });
        }
@@ -246,6 +262,8 @@ function LoadProfile() {
 
          $('#Container2').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/profile2.htm', null, { filter_data: false });
          $('#Container2').processTemplate(msg);
+
+         $(".rowTools").accessibleDropDown();  
       }
    });
 }
@@ -261,6 +279,7 @@ function LoadCustomFilters() {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/customfilters.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
         }
     });
 }
@@ -286,6 +305,7 @@ function LoadTrash(obj, page) {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/trash.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
             LoadTrashPager(page);
         }
     });
@@ -762,6 +782,7 @@ function LoadPosts() {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/posts.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
 
             LoadPostsPager(pg, pageSize, ftr1);
 
@@ -799,6 +820,7 @@ function LoadPages(type) {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/pages.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
         }
     });
     return false;
@@ -952,6 +974,7 @@ function LoadBlogs() {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/blogs.htm?v=2', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
 
             LoadBlogsPager(pg, pageSize);
 
@@ -1080,6 +1103,7 @@ function GalleryGetPackages(pg, pkgType) {
         success: function (msg) {
             $('#Container').setTemplateURL(SiteVars.ApplicationRelativeWebRoot + 'Templates/packages.htm', null, { filter_data: false });
             $('#Container').processTemplate(msg);
+            $(".rowTools").accessibleDropDown();  
             GalleryGetPager();
             $('.page-loader').hide();
         }

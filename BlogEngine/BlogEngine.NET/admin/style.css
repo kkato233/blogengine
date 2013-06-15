@@ -199,12 +199,57 @@ label.lbl { display:block; margin:0 0 5px 0;}
     
 .rowTools { margin:0; padding:0; list-style:none; }
 .rowTools li { position: relative; }
-.rowTools li:hover .rowToolsMenu { display:block;}
-.rowToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
-    border:solid 1px #919191; list-style:none; display:none; margin-right:20px; margin-top:1px;}
+
+
+/*** Changed to make tools menu keyboard accessible ***/ 
+  
+.rowToolsMenu {
+	display:block;
+	margin:0;
+	padding:0;
+	background:#fff;	
+	z-index:999;
+	border:solid 1px #919191;
+	list-style:none;
+	margin-right:20px;
+	margin-top:1px;
+	
+	/* Off screen - http://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
+	position:absolute !important;
+    height:1px;
+	width:1px; 
+    overflow:hidden;
+    clip:rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip:rect(1px, 1px, 1px, 1px);
+}   
+
 .rowToolsMenu li {padding:2px; min-width:80px;}
+
+.rowTools li:hover .rowToolsMenu,
+.rowTools li:focus .rowToolsMenu,
+.rowTools li:active .rowToolsMenu,
+.rowTools li.showOnTab .rowToolsMenu { 	
+	height:auto;
+	width:auto;
+	overflow:visible;
+	clip:rect(auto auto auto auto); /* IE6, IE7 */
+	clip:rect(auto, auto, auto, auto);	
+}
+
 .rowToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
-.rowToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
+
+
+/* Add focus and active */
+.rowToolsMenu a:hover,
+.rowToolsMenu a:focus,
+.rowToolsMenu a:active { 
+	background-color:#f0f0f0; color:#555;
+}
+
+/*** End changes to make tools menu keyboard accessible ***/ 
+
+
+
 .topRightTools { position: absolute; right: 5em; z-index: 999; }
 .topRightTools li { white-space: nowrap; }
 

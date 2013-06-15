@@ -417,8 +417,9 @@
             var dir = BlogService.GetDirectory(dirName);
             var file = BlogService.UploadFile(txtUploadFile.PostedFile.InputStream, txtUploadFile.FileName, dir, true);
 
-            txtContent.Text += string.Format("<p><a href=\"{0}\">{1}</a></p>", file.FileDownloadPath, file.FileDescription);
-            txtRawContent.Text += string.Format("<p><a href=\"{0}\">{1}</a></p>", file.FileDownloadPath, file.FileDescription);
+            const string A = "<p><a href=\"{0}file.axd?file={1}\">{2}</a></p>";
+            txtContent.Text += string.Format(A, Utils.RelativeWebRoot, Server.UrlEncode(file.FilePath), file.FileDescription);
+            txtRawContent.Text += string.Format(A, Utils.RelativeWebRoot, Server.UrlEncode(file.FilePath), file.FileDescription);
         }
 
         /// <summary>
