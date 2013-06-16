@@ -7,7 +7,7 @@
 	  <th width="140">{BlogAdmin.i18n.spam}</th>
       <th width="140">{BlogAdmin.i18n.mistakes}</th>
       <th width="140">{BlogAdmin.i18n.accuracy}</th>
-	  <th width="80">&nbsp;</th>
+	  <th width="80">{BlogAdmin.i18n.reset}</th>
     </tr>
   </thead>
   <tbody>
@@ -20,14 +20,11 @@
       <td>{$T.item.Mistakes}</td>
       <td>{$T.item.Accuracy}%</td>
       <td>
-        <ul class="rowTools">
-            <li>
-                <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                <ul class="rowToolsMenu">
-                    <li><a href="#" onclick="return ResetCounters('{$T.item.Name}')" class="unapproveAction">{BlogAdmin.i18n.reset}</a></li>
-                </ul>
-            </li>
-        </ul>
+        <div class="rowTools">
+            <div class="rowToolsMenu">
+                <a href="#" onclick="return ResetCounters('{$T.item.Name}')" class="iconAction" title="{BlogAdmin.i18n.reset}"><i class="icon-undo icon-large"></i></a>
+            </div>
+        </div>
       </td>
     </tr>
     {#/for}

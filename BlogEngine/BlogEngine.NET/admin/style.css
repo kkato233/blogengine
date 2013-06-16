@@ -178,81 +178,29 @@ label.lbl { display:block; margin:0 0 5px 0;}
 .toolsAction span {background: transparent url("images/action-dropdown.png") no-repeat scroll right center;
     padding-right:16px; color:#7a7a7a; font-weight:normal; }
 .toolsAction:hover { text-decoration:none;}    
-.editAction {background: transparent url("images/action-edit-small.png") no-repeat scroll left center; padding-left:18px;
-    font-size:12px;}
-.deleteAction {background: transparent url("images/action-delete-small.png") no-repeat scroll left center; padding-left:18px;
-    font-size:12px;}
-.approveAction {background: transparent url("images/action-enable-small.png") no-repeat scroll left center; padding-left:18px;
-    font-size:12px;}
-.unapproveAction {background: transparent url("images/action-remove-small.png") no-repeat scroll left center; padding-left:18px;
-    font-size:12px;}
+
+.iconAction, .editAction, .deleteAction, .approveAction, .unapproveAction { padding-left:12px; font-size:12px; }
+
 .viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px;
-    font-size:12px;}
-.rightsAction {background: transparent url("images/action-rights-small.png") no-repeat scroll left center;  padding-left:18px;
-    font-size:12px;}
-.profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
 .newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:20px;
     font-size:12px;}
-.deleteAction {background: transparent url("images/action-delete.png") no-repeat scroll left center;  padding-left:20px;
-    font-size:12px;}
     
-.rowTools { margin:0; padding:0; list-style:none; }
-.rowTools li { position: relative; }
+.rowTools, .rowRightTools { margin:0; padding:0; list-style:none; }
+.rowTools li, .rowRightTools li { position: relative; }
 
+.rowRightTools li:hover .rowRightToolsMenu { display:block;}
+.rowRightToolsMenu {display:block; margin:0; padding:0; background:#fff; position:absolute; z-index:999;
+    border:solid 1px #919191; list-style:none; display:none; margin-right:20px; margin-top:1px;}
+.rowRightToolsMenu li {padding:2px; min-width:80px;}
+.rowRightToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
+.rowRightToolsMenu a:hover { background-color:#f0f0f0; color:#555;}
 
-/*** Changed to make tools menu keyboard accessible ***/ 
+.rowTools a { color: #555; text-decoration: none; }
+.rowTools a:hover { color: #ce3900; text-decoration: none; }
   
-.rowToolsMenu {
-	display:block;
-	margin:0;
-	padding:0;
-	background:#fff;	
-	z-index:999;
-	border:solid 1px #919191;
-	list-style:none;
-	margin-right:20px;
-	margin-top:1px;
-	
-	/* Off screen - http://snook.ca/archives/html_and_css/hiding-content-for-accessibility */
-	position:absolute !important;
-    height:1px;
-	width:1px; 
-    overflow:hidden;
-    clip:rect(1px 1px 1px 1px); /* IE6, IE7 */
-    clip:rect(1px, 1px, 1px, 1px);
-}   
-
-.rowToolsMenu li {padding:2px; min-width:80px;}
-
-.rowTools li:hover .rowToolsMenu,
-.rowTools li:focus .rowToolsMenu,
-.rowTools li:active .rowToolsMenu,
-.rowTools li.showOnTab .rowToolsMenu { 	
-	height:auto;
-	width:auto;
-	overflow:visible;
-	clip:rect(auto auto auto auto); /* IE6, IE7 */
-	clip:rect(auto, auto, auto, auto);	
-}
-
-.rowToolsMenu a { display:block; padding:5px 10px 5px 18px; color:#7a7a7a; text-decoration:none;}
-
-
-/* Add focus and active */
-.rowToolsMenu a:hover,
-.rowToolsMenu a:focus,
-.rowToolsMenu a:active { 
-	background-color:#f0f0f0; color:#555;
-}
-
-/*** End changes to make tools menu keyboard accessible ***/ 
-
-
-
 .topRightTools { position: absolute; right: 5em; z-index: 999; }
 .topRightTools li { white-space: nowrap; }
-
 
 /* Buttons with images */
 .addNew {float:right; font-weight:normal; padding:5px 10px 5px 18px; margin-left:20px; font-size:13px;

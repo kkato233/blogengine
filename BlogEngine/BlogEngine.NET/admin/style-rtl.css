@@ -188,10 +188,6 @@ label.lbl { display:block; margin:0 0 5px 0;}
     font-size:12px;}
 .viewAction {background: transparent url("images/action-view-small.png") no-repeat scroll left center;  padding-left:18px;
     font-size:12px;}
-.rightsAction {background: transparent url("images/action-rights-small.png") no-repeat scroll left center;  padding-left:18px;
-    font-size:12px;}
-.profileAction {background: transparent url("images/action-profile-small.png") no-repeat scroll left center;  padding-left:18px;
-    font-size:12px;}
 .newAction {background: transparent url("images/action-add.png") no-repeat scroll left center;  padding-left:20px;
     font-size:12px;}
 .deleteAction {background: transparent url("images/action-delete.png") no-repeat scroll left center;  padding-left:20px;

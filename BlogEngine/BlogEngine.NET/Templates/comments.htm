@@ -22,7 +22,7 @@
             <th width="auto">{BlogAdmin.i18n.comment}</th>
 	        <th width="120">{BlogAdmin.i18n.ip}</th>
 	        <th width="100">{BlogAdmin.i18n.createdOn}</th>
-            <th width="70">&nbsp;</th>
+            <th width="110">{BlogAdmin.i18n.tools}</th>
         </tr>
     </thead>
     <tbody>
@@ -35,23 +35,20 @@
             <td>{$T.cmt.Ip}</td>
             <td><span class="comment_date">{$T.cmt.Date}</span><span class="comment_time">{$T.cmt.Time}</span></td>
             <td>
-                <ul class="rowTools">
-                    <li>
-                        <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                        <ul class="rowToolsMenu">
-                            <li><a class="editAction" href="#" onclick="return EditComment('{$T.cmt.Id}');">{BlogAdmin.i18n.edit}</a></li>
-                            {#if window.location.href.indexOf('Spam.aspx') > 0 || window.location.href.indexOf('Pending.aspx') > 0}
-                            <li><a class="approveAction" href="#" onclick="return CommentAction('Approve','{$T.cmt.Id}');">{BlogAdmin.i18n.approve}</a></li>
-                            {#/if}
-                            {#if window.location.href.indexOf('Approved.aspx') > 0 && $T.cmt.HasChildren == false}
-                            <li><a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.cmt.Id}');">{BlogAdmin.i18n.unapprove}</a></li>
-                            {#/if}
-                            {#if $T.cmt.HasChildren == false}
-                            <li><a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.cmt.Id}');">{BlogAdmin.i18n.doDelete}</a></li>
-                            {#/if}
-                       </ul>
-                    </li>
-               </ul>
+                <div class="rowTools">
+                    <div class="rowToolsMenu">
+                        <a class="editAction" href="#" onclick="return EditComment('{$T.cmt.Id}');" title="{BlogAdmin.i18n.edit}"><i class="icon-edit icon-large"></i></a>
+                        {#if window.location.href.indexOf('Spam.aspx') > 0 || window.location.href.indexOf('Pending.aspx') > 0}
+                        <a class="approveAction" href="#" onclick="return CommentAction('Approve','{$T.cmt.Id}');" title="{BlogAdmin.i18n.approve}"><i class="icon-check-sign icon-large"></i></a>
+                        {#/if}
+                        {#if window.location.href.indexOf('Approved.aspx') > 0 && $T.cmt.HasChildren == false}
+                        <a class="unapproveAction" href="#" onclick="return CommentAction('Reject','{$T.cmt.Id}');" title="{BlogAdmin.i18n.unapprove}"><i class="icon-ban-circle icon-large"></i></a>
+                        {#/if}
+                        {#if $T.cmt.HasChildren == false}
+                        <a href="#" class="deleteAction" onclick="return CommentAction('Delete','{$T.cmt.Id}');" title="{BlogAdmin.i18n.doDelete}"><i class="icon-trash icon-large"></i></a>
+                        {#/if}
+                    </div>
+               </div>
             </td>
         </tr>
         {#/for}
