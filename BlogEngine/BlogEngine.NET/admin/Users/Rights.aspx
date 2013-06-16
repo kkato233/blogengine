@@ -168,10 +168,10 @@
         <div class="content-box-left">
             
             <div class="topRightTools">
-                <ul class="rowTools">
+                <ul class="rowRightTools">
                     <li>
                         <a href="#" class="toolsAction"><span class=""><%=Resources.labels.copyRightsFrom %></span></a>
-                        <ul class="rowToolsMenu assignDefaultRoles">
+                        <ul class="rowRightToolsMenu assignDefaultRoles">
                             <%= RolesForLoading %>
                             <li style="border-top:1px solid #ccc;"><a href="#" onclick="return setDefaultRoleRights('Anonymous',this)"><%=Resources.labels.defaultAnonymousRole %></a></li>
                             <li><a href="#" onclick="return setDefaultRoleRights('Editors',this)"><%=Resources.labels.defaultEditorsRole %></a></li>

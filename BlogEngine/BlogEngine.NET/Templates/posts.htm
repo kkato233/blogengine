@@ -13,7 +13,7 @@
             <th width="120">{BlogAdmin.i18n.tags}</th>
 	        <th width="100">{BlogAdmin.i18n.createdOn}</th>
             <th width="70"></th>
-	        <th width="70">&nbsp;</th>
+	        <th width="90">{BlogAdmin.i18n.tools}</th>
         </tr>
     </thead>
     <tbody>
@@ -27,15 +27,12 @@
             <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>
             <td><span class="comments">{$T.p.Comments}</span></td>
             <td>
-                <ul class="rowTools">
-                    <li>
-                        <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                        <ul class="rowToolsMenu">
-                            {#if $T.p.CanUserEdit}<li><a class="editAction" href="Add_entry.aspx?id={$T.p.Id}">{BlogAdmin.i18n.edit}</a></li>{#/if}
-                            {#if $T.p.CanUserDelete}<li><a id="a-{$T.p.Id}" class="deleteAction" href="#" onclick="return DeletePost(this);">{BlogAdmin.i18n.doDelete}</a></li>{#/if}
-                       </ul>
-                    </li>
-               </ul>
+                <div class="rowTools">
+                    <div class="rowToolsMenu">
+                        {#if $T.p.CanUserEdit}<a class="editAction" href="Add_entry.aspx?id={$T.p.Id}" title="{BlogAdmin.i18n.edit}"><i class="icon-edit icon-large"></i></a>{#/if}
+                        {#if $T.p.CanUserDelete}<a id="a-{$T.p.Id}" class="deleteAction" href="#" onclick="return DeletePost(this);" title="{BlogAdmin.i18n.doDelete}"><i class="icon-trash icon-large"></i></a>{#/if}
+                    </div>
+               </div>
             </td>
         </tr>
         {#/for}

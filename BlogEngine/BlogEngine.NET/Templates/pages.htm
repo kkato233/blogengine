@@ -11,7 +11,7 @@
             <th width="auto">{BlogAdmin.i18n.parent}</th>
             <th width="100" style="text-align:center;">{BlogAdmin.i18n.showInList}</th>
 	        <th width="100">{BlogAdmin.i18n.createdOn}</th>
-            <th width="70">&nbsp;</th>
+            <th width="90">{BlogAdmin.i18n.tools}</th>
         </tr>
     </thead>
     <tbody>
@@ -23,15 +23,12 @@
             <td style="text-align:center;"><span class="published-{$T.p.ShowInList}"></span></td>
             <td><span class="comment_date">{$T.p.Date}</span><span class="comment_time">{$T.p.Time}</span></td>
             <td>
-                <ul class="rowTools">
-                    <li>
-                        <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                        <ul class="rowToolsMenu">
-                            {#if $T.p.CanUserEdit}<li><a class="editAction" href="EditPage.aspx?id={$T.p.Id}">{BlogAdmin.i18n.edit}</a></li>{#/if}
-                            {#if $T.p.HasChildren == false && $T.p.CanUserDelete}<li><a href="#" class="deleteAction" onclick="return DeletePage(this);">{BlogAdmin.i18n.doDelete}</a></li>{#/if}
-                       </ul>
-                    </li>
-               </ul>
+                <div class="rowTools">
+                    <div class="rowToolsMenu">
+                        {#if $T.p.CanUserEdit}<a class="editAction" href="EditPage.aspx?id={$T.p.Id}" title="{BlogAdmin.i18n.edit}"><i class="icon-edit icon-large"></i></a>{#/if}
+                        {#if $T.p.HasChildren == false && $T.p.CanUserDelete}<a href="#" class="deleteAction" onclick="return DeletePage(this);" title="{BlogAdmin.i18n.doDelete}"><i class="icon-trash icon-large"></i></a>{#/if}
+                    </div>
+               </div>
             </td>
         </tr>
         {#/for}

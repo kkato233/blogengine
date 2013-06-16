@@ -15,7 +15,7 @@
             <th width="180">{BlogAdmin.i18n.textBeforeHostName}</th>
             <th width="180">{BlogAdmin.i18n.virtualPath}</th>
             <th width="220">{BlogAdmin.i18n.storageContainerName}</th>
-	        <th width="70">&nbsp;</th>
+	        <th width="90">{BlogAdmin.i18n.tools}</th>
         </tr>
     </thead>
     <tbody>
@@ -30,15 +30,12 @@
             <td><span>{$T.b.VirtualPath}</span></td>
             <td><span>{$T.b.StorageContainerName}</span></td>
             <td>
-                <ul class="rowTools">
-                    <li>
-                        <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                        <ul class="rowToolsMenu">
-                            {#if $T.b.CanUserEdit}<li><a class="editAction" href="#" onclick="return EditBlog(this);">{BlogAdmin.i18n.edit}</a></li>{#/if}
-                            {#if $T.b.CanUserDelete}<li><a class="deleteAction" href="#" onclick="return DeleteBlog(this);">{BlogAdmin.i18n.doDelete}</a></li>{#/if}
-                       </ul>
-                    </li>
-               </ul>
+                <div class="rowTools">
+                    <div class="rowToolsMenu">
+                        {#if $T.b.CanUserEdit}<a class="editAction" href="#" onclick="return EditBlog(this);" title="{BlogAdmin.i18n.edit}"><i class="icon-edit icon-large"></i></a>{#/if}
+                        {#if $T.b.CanUserDelete}<a class="deleteAction" href="#" onclick="return DeleteBlog(this);" title="{BlogAdmin.i18n.doDelete}"><i class="icon-trash icon-large"></i></a>{#/if}
+                    </div>
+               </div>
             </td>
         </tr>
         {#/for}

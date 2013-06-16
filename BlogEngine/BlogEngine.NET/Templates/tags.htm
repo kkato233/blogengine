@@ -9,7 +9,7 @@
       <th width="auto">{BlogAdmin.i18n.tags}</th>
       <th width="120">{BlogAdmin.i18n.posts}</th>
       <th width="120">{BlogAdmin.i18n.count}</th>
-	  <th width="120">&nbsp;</th>
+	  <th width="120">&nbsp;{BlogAdmin.i18n.tools}</th>
     </tr>
   </thead>
   <tbody>
@@ -19,15 +19,12 @@
       <td><a href="../../?tag=/{$T.post.TagName}">{BlogAdmin.i18n.view}</a></td>    
       <td>{$T.post.TagCount}</td>
       <td>
-            <ul class="rowTools">
-                <li>
-                    <a class="toolsAction" href="#"><span class="">{BlogAdmin.i18n.tools}</span></a>
-                    <ul class="rowToolsMenu">
-                        <li><a href="#" class="editButton editAction">{BlogAdmin.i18n.edit}</a></li>
-                        <li><a href="#" class="deleteButton deleteAction">{BlogAdmin.i18n.doDelete}</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="rowTools">
+            <div class="rowToolsMenu">
+                <a href="#" class="editButton editAction" title="{BlogAdmin.i18n.edit}"><i class="icon-edit icon-large"></i></a>
+                <a href="#" class="deleteButton deleteAction" title="{BlogAdmin.i18n.doDelete}"><i class="icon-trash icon-large"></i></a>
+            </div>
+        </div>
       </td>
     </tr>
     {#/for}
