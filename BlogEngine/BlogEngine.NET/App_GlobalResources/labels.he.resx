@@ -877,4 +877,31 @@
   <data name="PageNotFound" xml:space="preserve">
     <value>דף זה לא קיים</value>
   </data>
+  <data name="alphaNumeric" xml:space="preserve">
+    <value>א''ב</value>
+  </data>
+  <data name="downloads" xml:space="preserve">
+    <value>הורדות</value>
+  </data>
+  <data name="extensions" xml:space="preserve">
+    <value>הרחבות</value>
+  </data>
+  <data name="gallery" xml:space="preserve">
+    <value>גלריה</value>
+  </data>
+  <data name="newest" xml:space="preserve">
+    <value>החדש ביותר</value>
+  </data>
+  <data name="orderBy" xml:space="preserve">
+    <value>סדר לפי</value>
+  </data>
+  <data name="priority" xml:space="preserve">
+    <value>עדיפות</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>תגית</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>גירסא</value>
+  </data>
 </root>
