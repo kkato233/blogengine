@@ -187,10 +187,10 @@ namespace Widgets.TagCloud
                 using (var li = new HtmlGenericControl("li"))
                 {
                     li.InnerHtml = string.Format(
-                        LinkFormat, 
-                        string.Format("{0}?tag=/{1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(key)), 
-                        this.WeightedList[key], 
-                        "Tag: " + key, 
+                        LinkFormat,
+                        string.Format("{0}?tag=/{1}", Utils.RelativeWebRoot, Utils.RemoveIllegalCharacters(key)),
+                        this.WeightedList[key],
+                        Resources.labels.Tag + ": " + key,
                         key);
                     this.ulTags.Controls.Add(li);
                 }

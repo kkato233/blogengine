@@ -2029,4 +2029,7 @@
   <data name="noPostsMatchedYourCriteria" xml:space="preserve">
     <value>Sorry, no posts matched your criteria</value>
   </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
 </root>
