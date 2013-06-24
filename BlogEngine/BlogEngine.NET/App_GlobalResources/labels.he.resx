@@ -497,10 +497,10 @@
     <value>אם אפשרות בחירה של מדינות לא מוצגת, שום דגל לא יוצג ליד כל תגובה</value>
   </data>
   <data name="showEnableWebsiteInComments" xml:space="preserve">
-    <value>Need Translation:Enable Website in Comments</value>
+    <value>אפשר הוספת אתר בתגובות</value>
   </data>
   <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
-    <value>Need Translation:Choose whether to allow Website to be published in Comments</value>
+    <value>בחר אם לאפשר פרסום אתר בתגובות</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>הצג רק תיאור של הודעות</value>
@@ -903,5 +903,35 @@
   </data>
   <data name="version" xml:space="preserve">
     <value>גירסא</value>
+  </data>
+  <data name="commentSettings" xml:space="preserve">
+    <value>הגדרת תגובות</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>ימים</value>
+  </data>
+  <data name="deleteKeepReplies" xml:space="preserve">
+    <value>מחק ללא התגובות</value>
+  </data>
+  <data name="deletePlusReplies" xml:space="preserve">
+    <value>מחק כולל תגובות</value>
+  </data>
+  <data name="enableCommentNesting" xml:space="preserve">
+    <value>אפשר תגובות לתגובות</value>
+  </data>
+  <data name="enableCommentNestingDescription" xml:space="preserve">
+    <value>אפשרי רק במידה וערכת הנושא שלך תומכת בכך</value>
+  </data>
+  <data name="enableCommentsModeration1" xml:space="preserve">
+    <value>שליטה בתגובות</value>
+  </data>
+  <data name="never" xml:space="preserve">
+    <value>לעולם לא</value>
+  </data>
+  <data name="pendingApproval" xml:space="preserve">
+    <value>תגובות חדשות ימתינו לאישור מנהל לפני הצגתם</value>
+  </data>
+  <data name="receive" xml:space="preserve">
+    <value>קבל</value>
   </data>
 </root>
