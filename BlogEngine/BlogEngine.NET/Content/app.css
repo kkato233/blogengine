@@ -1,0 +1,403 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Lato:900);
+
+html,
+body {
+    height: 100%;
+    /* The html and body elements cannot have any padding or margin. */
+}
+
+#Container,
+#ng-view {
+    height: 100%;
+}
+/* Wrapper for page content to push down footer */
+#wrap {
+    min-height: 100%;
+    height: auto;
+    /* Negative indent footer by its height */
+    margin: 0 auto -70px;
+    /* Pad bottom by footer height */
+    padding: 0 0 70px;
+}
+
+body {
+    cursor: default;
+    overflow-y: scroll;
+}
+
+label {
+    font-size: 12px;
+    /* bootstrap.css - line + */
+}
+
+.pagination > li {
+    cursor: pointer;
+}
+
+.fa.fa-external-link {
+    position: relative;
+    top: 4px;
+}
+
+.table-item-avatar {
+    padding: 0 !important;
+}
+
+.table-item-avatar img {
+    width: 32px;
+    height: 32px;
+    top: 2px;
+    position: relative;
+}
+
+.text-ellipsis {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 450px;
+    text-overflow: ellipsis;
+}
+
+.admin-views-nav {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    margin: 0;
+}
+
+.admin-views-nav .container > .navbar-collapse {
+    margin-right: -15px !important;
+    margin-left: -15px !important;
+}
+
+.admin-views-subnav {
+    background: #EEE;
+    padding: 10px 0 !important;
+}
+
+.admin-views-subnav .nav-pills {
+    padding: 0 0;
+}
+
+.admin-views-subnav .nav-pills > li {
+    border-left: 1px solid #CCC !important;
+    padding: 0 4px 0 6px;
+    height: 23px;
+}
+
+.admin-views-subnav .nav-pills > li > a {
+    padding: 3px 10px;
+    color: #888;
+    outline: none !important;
+}
+
+.admin-views-subnav .nav-pills > li > a:hover {
+    background-color: #DDD;
+    color: #000;
+}
+
+.admin-views-subnav .nav-pills > li.active > a,
+.admin-views-subnav .nav-pills > li.active > a:hover,
+.admin-views-subnav .nav-pills > li.active > a:focus {
+    color: #333;
+    background: url(../Content/images/selected-nav.png) no-repeat center 22px;
+    padding: 3px 10px;
+    display: block !important;
+    height: 33px;
+    outline: none !important;
+}
+
+
+.page-header {
+    margin-top: 0;
+    /* bootstrap.css - line 567 */
+}
+
+.pagination {
+    margin: 10px 0;
+    /* bootstrap.css - line 4828*/
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    /* bootstrap.css - line 351 */
+}
+
+.well {
+    /* remove this class from bootstrap-theme.css - becuse very dark for tables. */
+    /* bootstrap.css - line 5742 */
+    /* bootstrap-theme.css - line 374 */
+}
+
+/***************************************************/
+
+/****************************************************/
+
+/*
+    new class
+*/
+
+.btn i,
+a i {
+    margin-right: 4px;
+}
+
+.page-header h2.page-title {
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 22px;
+}
+
+.page-header .btn-header {
+    margin-top: 13px;
+}
+
+.toolbar-grid {
+    margin-bottom: 18px;
+}
+
+.search-grid {
+    margin-left: 5px;
+}
+/*************************/
+
+
+
+
+.table thead > tr > th {
+    vertical-align: middle;
+    /* bootstrap.css - line 1588 */
+}
+
+.table {
+    color: #888;
+    font-size: 14px;
+    border-top-color: #CCC;
+}
+
+.table tr th,
+.table tr td {
+    text-align: center;
+}
+
+.table thead {
+    color: #444;
+    font-size: 14px;
+    text-align: center;
+    font-family: "Lato";
+}
+
+.table thead tr th {
+    border-color: #CCC;
+    background-color: #e5e5e5;
+    border-bottom-width: 1px;
+}
+
+.table .table-item-title {
+    text-align: left;
+}
+
+.table .table-item-w10 {
+    width: 10%;
+}
+
+
+.table .table-item-w20 {
+    width: 20%;
+}
+
+
+.table .table-item-w30 {
+    width: 30%;
+}
+
+
+.table .table-item-w40 {
+    width: 40%;
+}
+
+.table .table-item-w50 {
+    width: 50%;
+}
+
+.table .table-item-w60 {
+    width: 60%;
+}
+
+.table .table-item-w70 {
+    width: 70%;
+}
+
+.table .table-item-w80 {
+    width: 80%;
+}
+
+.table .table-item-w85 {
+    width: 85%;
+}
+
+.table .table-item-w90 {
+    width: 90%;
+}
+
+.table .table-item-w100 {
+    width: 100%;
+}
+
+/*******************/
+.control-group .control-label-inline {
+    display: block;
+}
+
+#footer {
+    padding: 10px 10px 10px !important;
+    margin-top: 0 !important;
+    background: #F5F5F5;
+    color: #AAA;
+    border-top: 1px solid #e5e5e5;
+    height: 70px;
+}
+
+#footer a {
+    color: #AAA;
+}
+
+#footer .BlogEngine-app {
+    height: 50px;
+    line-height: 50px;
+}
+
+#footer .logo-brand {
+    margin: 0 0px 0 0 !important;
+    padding: 0 !important;
+    display: block;
+    height: 50px;
+    background: url(../Content/images/logo.png) no-repeat 0 0;
+    width: 150px;
+}
+/*
+    admin-view-main
+    this class add to any page in /admin/view/*    
+*/
+.admin-view-main {
+    /* for footer sticky */
+}
+/*
+    /admin/view/dashboard.html
+*/
+.admin-view-dashboard {
+}
+/*
+    /admin/view/dashboard.html
+*/
+.admin-view-content-posts {
+}
+
+.modal-content {
+    /*for fix border-radius bottom of modal-dialog*/
+    overflow: hidden;
+}
+/*************************************************/
+
+@media screen and (max-width:767px) {
+    .navbar-brand {
+        display: block !important;
+    }
+
+    .admin-views-subnav {
+        padding-bottom: 6px !important;
+    }
+
+    .admin-views-subnav .nav-pills > li {
+        border: none !important;
+        padding: 0 !important;
+        margin-right: 3px;
+        margin-left: 0;
+        margin-bottom: 6px;
+    }
+
+    .admin-views-subnav .nav-pills > li > a,
+    .admin-views-subnav .nav-pills > li > a:hover {
+        display: inline-block;
+        padding: 3px 7px;
+        margin-bottom: 0px;
+        font-weight: normal;
+        line-height: 1.42857;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -moz-user-select: none;
+        color: rgb(51, 51, 51);
+        background-color: rgb(255, 255, 255);
+        border-color: rgb(204, 204, 204);
+    }
+
+    .admin-views-subnav .nav-pills > li.active > a,
+    .admin-views-subnav .nav-pills > li.active > a:hover,
+    .admin-views-subnav .nav-pills > li.active > a:focus {
+        padding: 3px 7px;
+        display: block !important;
+        height: 25px;
+        outline: medium none !important;
+        background-image: none;
+        color: rgb(51, 51, 51);
+        background-color: rgb(235, 235, 235);
+        border-color: rgb(173, 173, 173);
+        box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.125) inset;
+    }
+
+    /****************************/
+}
+
+@media screen and (max-width:768px) {
+    .text-ellipsis {
+        max-width: 200px;
+    }
+
+    /*[ BLOGS ]*/
+    .admin-view-blogs table tr th:nth-child(3),
+    .admin-view-blogs table tr td:nth-child(3),
+    .admin-view-blogs table tr th:last-child,
+    .admin-view-blogs table tr td:last-child,
+    /*[ POSTS ]*/
+    .admin-view-content-posts table tr th:last-child,
+    .admin-view-content-posts table tr td:last-child,
+    .admin-view-content-posts table tr th:nth-child(3),
+    .admin-view-content-posts table tr td:nth-child(3),
+    /*[ COMMENTS ]*/
+    .admin-view-content-comments table tr th:last-child,
+    .admin-view-content-comments table tr td:last-child,
+    .admin-view-content-comments table tr th:nth-child(2),
+    .admin-view-content-comments table tr td:nth-child(2),
+    /*[ PAGES ]*/
+    .admin-view-content-pages table tr th:nth-child(3),
+    .admin-view-content-pages table tr td:nth-child(3),
+    .admin-view-content-pages table tr th:nth-child(5),
+    .admin-view-content-pages table tr td:nth-child(5),
+    /*[ CATEGORIES ]*/
+    .admin-view-content-categories table tr th:nth-child(3),
+    .admin-view-content-categories table tr td:nth-child(3),
+    /*[ EXTENTIONS ]*/
+    .admin-view-custom-index table tr th:nth-child(2),
+    .admin-view-custom-index table tr td:nth-child(2),
+    .admin-view-custom-index table tr th:nth-child(4),
+    .admin-view-custom-index table tr td:nth-child(4),
+    .admin-view-custom-index table tr th:nth-child(7),
+    .admin-view-custom-index table tr td:nth-child(7),
+    .admin-view-custom-index table tr th:nth-child(5),
+    .admin-view-custom-index table tr td:nth-child(5),
+    /*[ THEMES ]*/
+    .admin-view-custom-themes table tr th:last-child,
+    .admin-view-custom-themes table tr td:last-child,
+    /*[ WIDGETS ]*/
+    .admin-view-custom-widgets table tr th:last-child,
+    .admin-view-custom-widgets table tr td:last-child {
+        display: none;
+    }
+}

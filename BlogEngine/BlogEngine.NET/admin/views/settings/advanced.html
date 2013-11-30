@@ -1,0 +1,134 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_navsettings.html'"></div>
+    <div class="container admin-view-main admin-view-settings-advanced" data-ng-controller="SettingsController">
+        <form id="form" action="">
+            <div class="page-header clearfix">
+                <h2 class="page-title pull-left">
+                    {{lbl.advanced}}
+                    <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+                </h2>
+                <button data-ng-click="save()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</button>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="well clearfix">
+                        <div class="form-group">
+                            <label class="control-label" for="txtName">{{lbl.handleWwwSubdomain}}</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="remove" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.remove}}
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.enforce}}
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.ignore}}
+                                </label>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableHttpCompression" data-ng-model="settings.EnableHttpCompression" />
+                                {{lbl.enableHttpCompression}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableOptimization" data-ng-model="settings.EnableOptimization" />
+                                {{lbl.enableOptimization}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckCompressWebResource" data-ng-model="settings.CompressWebResource" />
+                                {{lbl.compressWebResource}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableOpenSearch" data-ng-model="settings.EnableOpenSearch" />
+                                {{lbl.enableOpenSearch}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckRequireSslForMetaWeblogApi" data-ng-model="settings.RequireSslForMetaWeblogApi" />
+                                <span>{{lbl.requireSslForMetaWeblogApi}}</span>
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableErrorLogging" data-ng-model="settings.EnableErrorLogging" />
+                                {{lbl.enableErrorLogging}}
+                            </label>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label class="control-label" for="txtGalleryFeedUrl">{{lbl.galleryFeedUrl}}</label>
+                            <input class=" form-control" id="txtGalleryFeedUrl" type="text" data-ng-model="settings.GalleryFeedUrl">
+                            <p class="help-block">{{lbl.galleryFeedUrlDescription}}</p>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label class="control-label" for="txtThemeCookieName">{{lbl.themeCookieName}}</label>
+                            <input type="text" class=" form-control" id="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="well">
+                        <h4>{{lbl.securitySettings}}</h4>
+                        <hr />
+                        <div class="form-group">
+                            <label class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="ckEnablePasswordReset" data-ng-model="settings.EnablePasswordReset" />
+                                    {{lbl.enablePasswordReset}}
+                                </label>
+                            </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableSelfRegistration" data-ng-model="settings.EnableSelfRegistration" />
+                                {{lbl.enableSelfRegistration}}
+                            </label>
+
+                        </div>
+                        <div class="form-group">
+                            <select id="selCultures" class="form-control" data-ng-options="o.OptionName for o in lookups.SelfRegisterRoles" data-ng-model="selfRegistrationInitialRole"></select>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckCreateBlogOnSelfRegistration" data-ng-model="settings.CreateBlogOnSelfRegistration" />
+                                {{lbl.createBlogOnSelfRegistration}}
+                            </label>
+                        </div>
+                        <hr />
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckAllowRemoteFileDownloads" data-ng-model="settings.AllowServerToDownloadRemoteFiles" />
+                                {{lbl.allowRemoteFileDownloads}}
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="txtRemoteFileDownloadTimeout">{{lbl.remoteTimeout}}</label>
+                            <input type="text" class=" form-control" id="txtRemoteFileDownloadTimeout" name="txtRemoteFileDownloadTimeout" data-ng-model="settings.RemoteFileDownloadTimeout" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="txtRemoteMaxFileSize">{{lbl.maximumRemoteFileSize}}</label>
+                            <input type="text" class=" form-control" id="txtRemoteMaxFileSize" name="txtRemoteMaxFileSize" data-ng-model="settings.RemoteMaxFileSize" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>
