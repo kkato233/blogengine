@@ -1,0 +1,86 @@
+﻿<div id="wrap">
+    <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_navposts.html'"></div>
+    <div class="container admin-view-main admin-view-content-tags" data-ng-controller="TagsController">
+        <div id="modal-add-tag" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">{{lbl.tags}}<a class="close" data-dismiss="modal"><i class="fa fa-times"></i></a></div>
+                    <div class="modal-body">
+                        <div>
+                            <label class="control-label" for="txtTag">{{lbl.Tag}}</label>
+                            <input type="text" class="form-control" id="txtTag" data-ng-model="tag" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
+                        <button data-ng-click="save()" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{lbl.save}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-header clearfix">
+            <h2 class="page-title pull-left">
+                {{lbl.tags}}
+                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well">
+
+                    <div class="toolbar-grid clearfix">
+                        <div class="pull-left">
+                            <span data-ng-click="deleteChecked()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</span>
+                        </div>
+                        <div class="filterbar clearfix">
+                            <div class="pull-right">
+                                <input type="text" data-ng-model="query" data-ng-change="search()" class="input-sm form-control search-grid pull-right" placeholder="Search">
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" />
+                                </th>
+                                <th class="table-item-title table-item-w90">{{lbl.tags}} <a href data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                                <th class="mw-100">{{lbl.count}}</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: posts">
+                            <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+                                <td>
+                                    <input type="checkbox" id="{{item.TagName}}" data-ng-model="item.IsChecked" />
+                                </td>
+                                <td class="table-item-title">
+                                    <a title="{{item.TagName}}" href="/admin/#/content/tags?id={{item.TagName}}">{{item.TagName}}</a>
+                                    <a title="{{item.TagName}}" class="external-link pull-right" target="_new" href="/?tag=/{{item.TagName}}"><i class="fa fa-external-link"></i></a>
+                                </td>
+                                <td>{{item.TagCount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-right">
+                        <ul class="pagination">
+                            <li data-ng-class="{disabled: currentPage == 0}">
+                                <a data-ng-click="prevPage()">« Prev</a>
+                            </li>
+                            <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                                <a data-ng-bind="n + 1">1</a>
+                            </li>
+                            <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                                <a data-ng-click="nextPage()">Next »</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

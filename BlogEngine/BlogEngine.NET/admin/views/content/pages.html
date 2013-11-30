@@ -1,0 +1,73 @@
+﻿<div id="wrap">
+    <div data-ng-include="" src="'views/shared/_nav.html'"></div>
+    <div data-ng-include="" src="'views/shared/_navposts.html'"></div>
+    <div class="container admin-view-main admin-view-content-pages" data-ng-controller="PagesController">
+        <div class="page-header clearfix">
+            <h2 class="page-title pull-left">
+                {{lbl.pages}}
+                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+            </h2>
+            <a href="/admin/editor/page.cshtml" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>{{lbl.addNewPage}}</a>
+        </div>
+        <div class="well">
+            <div class="toolbar-grid clearfix">
+                <div class="pull-left">
+                    <button ng-click="deleteChecked()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
+                    <button ng-click="publishChecked(true)" class="btn btn-success btn-sm"><i class="fa fa-check"></i>Publish</button>
+                    <button ng-click="publishChecked(false)" class="btn btn-info btn-sm "><i class="fa fa-minus"></i>Unpublish</button>
+                </div>
+                <div class="filterbar clearfix">
+                    <div class="pull-right">
+                        <div class="navbar-left search-grid pull-right">
+                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="Search">
+                        </div>
+                        <div class="btn-toolbar pull-right">
+                            <div class="btn-group">
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all')">All</button>
+                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true)">Published</button>
+                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false)">Draft</button>
+                            </div>
+                        </div>
+                        <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
+                        <th class="table-item-title table-item-w50">Title <a href data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th>Parent</th>
+                        <th>Created on</th>
+                        <th>Show in list</th>
+                        <th>Published</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: posts">
+                    <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+                        <td><input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" /></td>
+                        <td class="table-item-title"> <a title="{{item.Title}}" href="/admin/editor/page.cshtml?id={{item.Id}}" ">{{item.Title}}</a> &nbsp; <a title="{{item.Title}}" target="_new" href="/page/{{item.Slug}}" class="pull-right external-link"><i class="fa fa-external-link"></i></a> </td>
+                        <td>{{item.Parent.OptionName}}</td>
+                        <td>{{item.DateCreated}}</td>
+                        <td><input type="checkbox" data-ng-model="item.ShowInList" data-ng-disabled="true"></td>
+                        <td><input type="checkbox" data-ng-model="item.IsPublished" data-ng-disabled="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class=" text-right">
+                <ul class="pagination">
+                    <li data-ng-class="{disabled: currentPage == 0}">
+                        <a data-ng-click="prevPage()">« Prev</a>
+                    </li>
+                    <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                        <a data-ng-bind="n + 1">1</a>
+                    </li>
+                    <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                        <a data-ng-click="nextPage()">Next »</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>
