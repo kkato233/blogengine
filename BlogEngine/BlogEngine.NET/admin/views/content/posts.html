@@ -38,7 +38,6 @@
                         <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
                         <th class="table-item-title table-item-w60">Title <a data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
                         <th>Author</th>
-                        <!--<th>Categories</th>-->
                         <th>Comments</th>
                         <th>Created on</th>
                         <th>Published</th>
@@ -47,9 +46,11 @@
                 <tbody>
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                         <td><input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" /></td>
-                        <td class="table-item-title"> <a title="{{item.Title}}" href="/admin/editor/post.cshtml?id={{item.Id}}" ">{{item.Title}}</a> <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="/post/{{item.Slug}}"><i class="fa fa-external-link"></i></a> </td>
+                        <td class="table-item-title"> 
+                            <a title="{{item.Title}}" href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml?id={{item.Id}}">{{item.Title}}</a> 
+                            <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}post/{{item.Slug}}"><i class="fa fa-external-link"></i></a> 
+                        </td>
                         <td><a title="{{item.Author}}" data-ng-click="postFilter('Author', item.Author)">{{item.Author}}</a></td>
-                        <!--<td> <span data-ng-repeat="cat in item.Categories">{{cat.Title}}</span> </td>-->
                         <td><div ng-if="item.Comments != null"> <span title="Spam: {{item.Comments[0]}} | Approved: {{item.Comments[1]}} | Pending: {{item.Comments[2]}}"> 24</span> </div> </td>
                         <td>{{item.DateCreated}}</td>
                         <td><input type="checkbox" data-ng-model="item.IsPublished" data-ng-disabled="true"></td>

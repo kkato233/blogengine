@@ -2,10 +2,12 @@
     $scope.data = dataService;
     $scope.items = [];
 
-    $scope.id = ($location.search()).id;
-    $scope.tag = ($location.search()).id;
+    $scope.id = {};
+    $scope.tag = {};
 
-    if ($scope.id) {
+    $scope.loadEditForm = function (id) {
+        $scope.id = id;
+        $scope.tag = id;
         $("#modal-add-tag").modal();
     }
 

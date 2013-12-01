@@ -79,8 +79,8 @@
                             <input type="checkbox" id="{{item.Slug}}" ng-model="item.IsChecked" />
                         </td>
                         <td class="table-item-title">
-                            <a href="/admin/#/content/categories/?id={{item.Id}}">{{item.Title}}</a>
-                            <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="/category/{{item.Title}}"><i class="fa fa-external-link"></i></a>
+                            <a href="{{SiteVars.RelativeWebRoot}}admin/#/content/categories/?id={{item.Id}}">{{item.Title}}</a>
+                            <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}category/{{item.Title}}"><i class="fa fa-external-link"></i></a>
                         </td>
                         <td>{{item.Description}}&nbsp;</td>
                         <td>{{item.Count}}</td>

@@ -56,8 +56,8 @@
                                     <input type="checkbox" id="{{item.TagName}}" data-ng-model="item.IsChecked" />
                                 </td>
                                 <td class="table-item-title">
-                                    <a title="{{item.TagName}}" href="/admin/#/content/tags?id={{item.TagName}}">{{item.TagName}}</a>
-                                    <a title="{{item.TagName}}" class="external-link pull-right" target="_new" href="/?tag=/{{item.TagName}}"><i class="fa fa-external-link"></i></a>
+                                    <a title="{{item.TagName}}" href ng-click="loadEditForm(item.TagName)">{{item.TagName}}</a>
+                                    <a title="{{item.TagName}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}?tag=/{{item.TagName}}"><i class="fa fa-external-link"></i></a>
                                 </td>
                                 <td>{{item.TagCount}}</td>
                             </tr>
