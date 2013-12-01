@@ -6,7 +6,7 @@
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
     var id = Request["id"];
     var returnUrl = Request["return"];
-    if (string.IsNullOrEmpty(returnUrl)) { returnUrl = "/admin/#/content"; }
+    if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
 }
 <html data-ng-app="blogEditor">
 <head>

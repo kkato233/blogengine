@@ -46,7 +46,10 @@
                 <tbody data-bind="foreach: posts">
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                         <td><input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" /></td>
-                        <td class="table-item-title"> <a title="{{item.Title}}" href="/admin/editor/page.cshtml?id={{item.Id}}" ">{{item.Title}}</a> &nbsp; <a title="{{item.Title}}" target="_new" href="/page/{{item.Slug}}" class="pull-right external-link"><i class="fa fa-external-link"></i></a> </td>
+                        <td class="table-item-title"> 
+                            <a title="{{item.Title}}" href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml?id={{item.Id}}">{{item.Title}}</a>
+                            &nbsp; 
+                            <a title="{{item.Title}}" target="_new" href="{{SiteVars.RelativeWebRoot}}page/{{item.Slug}}" class="pull-right external-link"><i class="fa fa-external-link"></i></a> </td>
                         <td>{{item.Parent.OptionName}}</td>
                         <td>{{item.DateCreated}}</td>
                         <td><input type="checkbox" data-ng-model="item.ShowInList" data-ng-disabled="true"></td>

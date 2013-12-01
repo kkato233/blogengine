@@ -51,7 +51,14 @@
                             <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren == false || item.Email == 'pingback'" />
                         </td>
                         <td class="table-item-avatar" data-ng-bind-html="item.Avatar"></td>
-                        <td class="table-item-title"> <a title=" {{item.title}}" class="pull-left"  href="/admin/#/content/comments?id={{item.Id}}"> <span class="text-ellipsis">{{item.Title}}</span> </a> <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.RelativeLink}}"><i class="fa fa-external-link"></i></a> </td>
+                        <td class="table-item-title"> 
+                            <a title=" {{item.title}}" class="pull-left" href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?id={{item.Id}}"> 
+                                <span class="text-ellipsis">{{item.Title}}</span> 
+                            </a> 
+                            <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.RelativeLink}}">
+                                <i class="fa fa-external-link"></i>
+                            </a> 
+                        </td>
                         <td>{{item.DateCreated}}</td>
                         <td>{{item.Author}}</td>
                         <td><input type="checkbox" data-ng-model="item.IsApproved" data-ng-disabled="true"></td>
