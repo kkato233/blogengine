@@ -4,7 +4,7 @@
     scope.reverse = false;
     scope.filteredItems = [];
     scope.groupedItems = [];
-    scope.itemsPerPage = 10;
+    scope.itemsPerPage = 25;
     scope.pagedItems = [];
     scope.currentPage = 0;
 
