@@ -1,8 +1,8 @@
 
 --
--- be_CustomFiles
+-- be_CustomFields
 --
-CREATE TABLE [dbo].[be_CustomFiles](
+CREATE TABLE [dbo].[be_CustomFields](
 	[CustomType] [nvarchar](100) NOT NULL,
 	[ObjectId] [nvarchar](250) NOT NULL,
 	[BlogId] [uniqueidentifier] NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[be_CustomFiles](
 )
 GO
 
-CREATE NONCLUSTERED INDEX [idx_be_CustomType_ObjectId_BlogId_Key] ON [dbo].[be_CustomFiles] 
+CREATE NONCLUSTERED INDEX [idx_be_CustomType_ObjectId_BlogId_Key] ON [dbo].[be_CustomFields] 
 (
 	[CustomType] ASC,
 	[ObjectId] ASC,
