@@ -1,0 +1,60 @@
+﻿<div id="alerts"></div>
+<div class="editor-toolbar btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+    <div class=" btn-group">
+        @*<a class="btn btn-default" data-ng-click="toggleEditor()" title="Html source"><b><i class="fa fa-code"></i></b></a>*@
+        <a class="btn btn-default btn btn-sm btn-bold" data-edit="formatBlock <h2>"><b>H2</b></a>
+        <a class="btn btn-default btn btn-sm btn-bold" data-edit="formatBlock <h3>"><b>H3</b></a>
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+        <ul class="dropdown-menu"></ul>
+    </div>
+    <div class=" btn-group">
+        <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+        <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+        <a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+        <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+        <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+        <a class="btn btn-default" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-outdent"></i></a>
+        <a class="btn btn-default" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-default" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+        <a class="btn btn-default" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+        <a class="btn btn-default" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+        <a class="btn btn-default" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+        <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-default" id="pictureBtn" title="Insert picture (or just drag & drop)"><i class="fa fa-picture-o"></i></a>
+        <input type="file" data-role="magic-overlay" data-target="#pictureBtn" onchange="angular.element(this).scope().uploadFile('image', this.files)" />
+        <a class="btn btn-default" id="videoBtn" title="Insert video"><i class="fa fa-video-camera"></i></a>
+        <input type="file" data-role="magic-overlay" data-target="#videoBtn" onchange="angular.element(this).scope().uploadFile('video', this.files)" />
+        <a class="btn btn-default" id="fileBtn" title="Attach file"><i class="fa fa-paperclip"></i></a>
+        <input type="file" data-role="magic-overlay" data-target="#fileBtn" onchange="angular.element(this).scope().uploadFile('file', this.files)" />
+        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+        <div class="dropdown-menu input-append add-url-btn clearfix">
+            <div class="pull-left">
+                <input class="form-control input-sm" placeholder="URL" type="text" data-edit="createLink" />
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary btn-sm" type="button"><i class="fa fa-plus"></i>Add</button>
+            </div>
+        </div>
+    </div>
+    @*<input type="text" data-edit="inserttext" class="btn btn-default" id="voicebtn" x-webkit-speech="">*@
+</div>
+
+<div class="editro-switch">
+    <div id="editor">
+        Type here...
+    </div>
+    @*<div id="editor" data-ng-bind-html="post.Content">
+        Type here...
+    </div>*@
+    @*<textarea class="wysiwyg-editor" style="display: none" id="editorSource" data-ng-model="post.Content"></textarea>*@
+</div>
