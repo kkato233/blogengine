@@ -76,16 +76,32 @@
         });
     }
 
-    $scope.deleteChecked = function () {
+    $scope.processChecked = function (action) {
+        spinOn();
         var i = $scope.items.length;
+        var checked = [];
         while (i--) {
-            if ($scope.items[i].IsChecked === true) {
-                $scope.items.splice(i, 1);
-                $scope.items[i].IsChecked = false;
+            var item = $scope.items[i];
+            if (item.IsChecked === true) {
+                checked.push(item);
             }
         }
-        $scope.search();
-    };
+        if (checked.length < 1) {
+            spinOff();
+            return false;
+        }
+        dataService.processChecked("/api/blogs/processchecked/" + action, $scope.items)
+        .success(function (data) {
+            $scope.load();
+            gridInit($scope, $filter, $element);
+            toastr.success("Completed");
+            spinOff();
+        })
+        .error(function () {
+            toastr.error("Failed");
+            spinOff();
+        });
+    }
 
     $scope.load();
 

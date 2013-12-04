@@ -24,6 +24,7 @@ syntax: glob
 *.lib
 *.sbr
 *.scc
+*.pubxml
 */extensions/**
 */Scripts/Combined/**
 */Styles/Combined/**

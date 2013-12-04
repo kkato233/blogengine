@@ -46,10 +46,9 @@
         if ($scope.page.Slug.toLowerCase() === "unpublished" || $scope.page.Slug.length == 0) {
             $scope.page.Slug = toSlug($scope.page.Title);
         }
-        var url = '/api/pages/';
 
         if ($scope.page.Id) {
-            dataService.updateItem(url, $scope.page)
+            dataService.updateItem('/api/pages/update/foo', $scope.page)
            .success(function (data) {
                toastr.success("Page updated");
                $("#modal-form").modal('hide');
@@ -61,7 +60,7 @@
            });
         }
         else {
-            dataService.addItem(url, $scope.page)
+            dataService.addItem('/api/pages', $scope.page)
            .success(function (data) {
                toastr.success("Page added");
                $log.log(data);

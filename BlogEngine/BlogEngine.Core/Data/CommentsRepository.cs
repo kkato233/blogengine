@@ -22,7 +22,7 @@ namespace BlogEngine.Core.Data
         /// <param name="filter">Filter expression</param>
         /// <param name="order">Sort order</param>
         /// <returns>List of comments</returns>
-        public IEnumerable<BlogEngine.Core.Data.Models.Comment> GetComments(CommentType commentType = CommentType.All, int take = 10, int skip = 0, string filter = "", string order = "")
+        public IEnumerable<BlogEngine.Core.Data.Models.CommentItem> GetComments(CommentType commentType = CommentType.All, int take = 10, int skip = 0, string filter = "", string order = "")
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewPublicComments))
                 throw new System.UnauthorizedAccessException();
@@ -32,7 +32,7 @@ namespace BlogEngine.Core.Data
 
             var items = new List<BlogEngine.Core.Comment>();
             var query = items.AsQueryable().Where(filter);
-            var comments = new List<BlogEngine.Core.Data.Models.Comment>();
+            var comments = new List<BlogEngine.Core.Data.Models.CommentItem>();
 
             foreach (var p in Post.Posts)
             {
@@ -74,7 +74,7 @@ namespace BlogEngine.Core.Data
         /// <returns>
         /// A JSON Comment
         /// </returns>
-        public BlogEngine.Core.Data.Models.Comment FindById(Guid id)
+        public BlogEngine.Core.Data.Models.CommentItem FindById(Guid id)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewPublicComments))
                 throw new System.UnauthorizedAccessException();
@@ -90,7 +90,7 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="item">Comment</param>
         /// <returns>Comment object</returns>
-        public Data.Models.Comment Add(Data.Models.Comment item)
+        public Data.Models.CommentItem Add(Data.Models.CommentItem item)
         {
             if (!Security.IsAuthorizedTo(Rights.CreateComments))
                 throw new System.UnauthorizedAccessException();
@@ -103,7 +103,7 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="item">Item to update</param>
         /// <returns>True on success</returns>
-        public bool Update(Data.Models.Comment item)
+        public bool Update(Data.Models.CommentItem item, string action)
         {
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
                 throw new System.UnauthorizedAccessException();
@@ -112,10 +112,27 @@ namespace BlogEngine.Core.Data
             {
                 foreach (var c in p.Comments.Where(c => c.Id == item.Id).ToArray())
                 {
+                    if (action == "approve")
+                    {
+                        c.IsApproved = true;
+                        c.IsSpam = false;
+                        p.DateModified = DateTime.Now;
+                        p.Save();
+                        return true;
+                    }
+
+                    if (action == "unapprove")
+                    {
+                        c.IsApproved = false;
+                        c.IsSpam = true;
+                        p.DateModified = DateTime.Now;
+                        p.Save();
+                        return true;
+                    }
+
                     c.Author = item.Author;
                     c.Email = item.Email;
                     c.Website = string.IsNullOrEmpty(item.Website) ? null : new Uri(item.Website);
-                    //c.Content = cont;
 
                     if (item.IsPending)
                     {
@@ -169,9 +186,9 @@ namespace BlogEngine.Core.Data
 
         #region Private methods
 
-        private BlogEngine.Core.Data.Models.Comment CreateJsonCommentFromComment(Comment c)
+        private BlogEngine.Core.Data.Models.CommentItem CreateJsonCommentFromComment(Comment c)
         {
-            var jc = new BlogEngine.Core.Data.Models.Comment();
+            var jc = new BlogEngine.Core.Data.Models.CommentItem();
 
             jc.Id = c.Id;
             jc.IsApproved = c.IsApproved;
@@ -192,7 +209,7 @@ namespace BlogEngine.Core.Data
             return jc;
         }
 
-        private BlogEngine.Core.Comment GetCoreFromJson(BlogEngine.Core.Data.Models.Comment c)
+        private BlogEngine.Core.Comment GetCoreFromJson(BlogEngine.Core.Data.Models.CommentItem c)
         {
             BlogEngine.Core.Comment item = (from p in Post.Posts
                 from cmn in p.AllComments where cmn.Id == c.Id select cmn).FirstOrDefault();

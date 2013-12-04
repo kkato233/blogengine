@@ -445,6 +445,9 @@
             foreach (var entry in entries)
             {
                 var result = new Result();
+                if (result.Item == null)
+                    continue;
+
                 if (!(entry.Item is Comment))
                 {
                     var titleMatches = regex.Matches(entry.Title).Count;

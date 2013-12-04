@@ -78,15 +78,31 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="detail">Post to update</param>
         /// <returns>True on success</returns>
-        public bool Update(PostDetail detail)
+        public bool Update(PostDetail detail, string action)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPosts))
                 throw new System.UnauthorizedAccessException();
 
             var post = (from p in Post.Posts.ToList() where p.Id == detail.Id select p).FirstOrDefault();
+
             if (post != null)
             {
-                Save(post, detail);
+                if (action == "publish")
+                {
+                    post.IsPublished = true;
+                    post.DateModified = DateTime.Now;
+                    post.Save();
+                }
+                else if (action == "unpublish")
+                {
+                    post.IsPublished = false;
+                    post.DateModified = DateTime.Now;
+                    post.Save();
+                }
+                else
+                {
+                    Save(post, detail);
+                }
                 return true;
             }
             return false;

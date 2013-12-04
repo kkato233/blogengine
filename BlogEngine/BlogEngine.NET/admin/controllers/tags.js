@@ -1,7 +1,6 @@
 ﻿angular.module('blogAdmin').controller('TagsController', function ($scope, $location, $filter, $element, $log, dataService) {
     $scope.data = dataService;
     $scope.items = [];
-
     $scope.id = {};
     $scope.tag = {};
 
@@ -27,29 +26,33 @@
     }
 
     $scope.load();
-
-    $scope.deleteChecked = function () {
-        spinOn();
-        var i = $scope.items.length;
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                $scope.items.splice(i, 1);
-                var url = '/api/tags';
-                dataService.deleteItem(url, { Id: item.TagName })
-                    .success(function (data) {
-                        toastr.success("Tag deleted");
-                        $scope.load();
-                        gridInit($scope, $filter);
-                    })
-                    .error(function () {
-                        toastr.error("Error deleting tag");
-                    });
-            }
-        }
-        $scope.search();
-        spinOff();
-    };
+	
+	$scope.processChecked = function (action) {
+	    spinOn();
+	    var i = $scope.items.length;
+	    var checked = [];
+	    while (i--) {
+	        var item = $scope.items[i];
+	        if (item.IsChecked === true) {
+	            checked.push(item);
+	        }
+	    }
+	    if (checked.length < 1) {
+	        spinOff();
+	        return false;
+	    }
+        dataService.processChecked("/api/tags/processchecked/" + action, $scope.items)
+        .success(function (data) {
+            $scope.load();
+            gridInit($scope, $filter, $element);
+            toastr.success("Completed");
+            spinOff();
+        })
+        .error(function () {
+            toastr.error("Failed");
+            spinOff();
+        });
+    }
 
     $scope.save = function () {
         if ($scope.tag) {

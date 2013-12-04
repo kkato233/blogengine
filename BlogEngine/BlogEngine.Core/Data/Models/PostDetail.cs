@@ -9,6 +9,10 @@ namespace BlogEngine.Core.Data.Models
     public class PostDetail
     {
         /// <summary>
+        /// If checked in the UI
+        /// </summary>
+        public bool IsChecked { get; set; }
+        /// <summary>
         /// Post ID
         /// </summary>
         public Guid Id { get; set; }

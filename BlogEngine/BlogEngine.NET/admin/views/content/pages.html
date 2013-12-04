@@ -7,14 +7,14 @@
                 {{lbl.pages}}
                 <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
             </h2>
-            <a href="/admin/editor/page.cshtml" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>{{lbl.addNewPage}}</a>
+            <a href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>{{lbl.addNewPage}}</a>
         </div>
         <div class="well">
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
-                    <button ng-click="deleteChecked()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
-                    <button ng-click="publishChecked(true)" class="btn btn-success btn-sm"><i class="fa fa-check"></i>Publish</button>
-                    <button ng-click="publishChecked(false)" class="btn btn-info btn-sm "><i class="fa fa-minus"></i>Unpublish</button>
+                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
+                    <button ng-click="processChecked('publish')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>Publish</button>
+                    <button ng-click="processChecked('unpublish')" class="btn btn-info btn-sm "><i class="fa fa-minus"></i>Unpublish</button>
                 </div>
                 <div class="filterbar clearfix">
                     <div class="pull-right">

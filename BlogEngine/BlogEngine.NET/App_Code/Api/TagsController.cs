@@ -64,6 +64,38 @@ public class TagsController : ApiController
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
     }
+	
+	[HttpPut]
+    public HttpResponseMessage ProcessChecked([FromBody]List<TagItem> items)
+    {
+        try
+        {
+            if (items == null || items.Count == 0)
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+            var action = Request.RequestUri.Segments.Length == 5 ? Request.RequestUri.Segments[4] : "";
+
+            if (action.ToLower() == "delete")
+            {
+                foreach (var item in items)
+                {
+                    if (item.IsChecked)
+                    {
+                        repository.Delete(item.TagName);
+                    }
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
 }
 
 public class TagToUpdate

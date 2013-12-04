@@ -23,53 +23,33 @@
     }
 
     $scope.load();
-
-    $scope.processChecked = function (action) {
-        spinOn();
-        var i = $scope.items.length;
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                var url = '/api/comments';
-                if (action == "delete") {
-                    $scope.items.splice(i, 1);
-                    dataService.deleteItem(url, item)
-                        .success(function (data) {
-                            toastr.success("Comment deleted");
-                            $scope.load();
-                            gridInit($scope, $filter);
-                        })
-                        .error(function () {
-                            toastr.error("Error deleting comment");
-                        });
-                }
-                else {
-                    if (action == "approve") {
-                        item.IsPending = false;
-                        item.IsApproved = true;
-                        item.IsSpam = false;
-                    }
-                    if (action == "unapprove") {
-                        item.IsPending = false;
-                        item.IsApproved = false;
-                        item.IsSpam = true;
-                    }
-                    dataService.updateItem(url, item)
-                        .success(function (data) {
-                            toastr.success("Comment Updated");
-                            $scope.load();
-                            gridInit($scope, $filter);
-                        })
-                        .error(function () {
-                            toastr.error("Error deleting comment");
-                        });
-                }
-
-            }
-        }
-        $scope.search();
-        spinOff();
-    };
+	
+	$scope.processChecked = function (action) {
+	    spinOn();
+	    var i = $scope.items.length;
+	    var checked = [];
+	    while (i--) {
+	        var item = $scope.items[i];
+	        if (item.IsChecked === true) {
+	            checked.push(item);
+	        }
+	    }
+	    if (checked.length < 1) {
+	        spinOff();
+	        return false;
+	    }
+        dataService.processChecked("/api/comments/processchecked/" + action, checked)
+        .success(function (data) {
+            $scope.load();
+            gridInit($scope, $filter, $element);
+            toastr.success("Completed");
+            spinOff();
+        })
+        .error(function () {
+            toastr.error("Failed");
+            spinOff();
+        });
+    }
 
     $scope.save = function () {
         if ($scope.tag) {

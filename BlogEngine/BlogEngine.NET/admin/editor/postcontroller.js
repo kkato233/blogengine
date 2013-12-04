@@ -87,7 +87,7 @@
         $scope.post.Categories = get_cats();
         $scope.post.Tags = get_tags();
 
-        var url = 'api/posts/';
+        var url = 'api/posts/update/foo';
 
         if ($scope.post.Id) {
             dataService.updateItem(url, $scope.post)

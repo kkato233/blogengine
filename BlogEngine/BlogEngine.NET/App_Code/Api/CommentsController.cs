@@ -15,7 +15,7 @@ public class CommentsController : ApiController
         this.repository = repository;
     }
 
-    public IEnumerable<Comment> Get(int type = 1, int take = 0, int skip = 0, string filter = "IsDeleted == false", string order = "DateCreated descending")
+    public IEnumerable<CommentItem> Get(int type = 1, int take = 0, int skip = 0, string filter = "IsDeleted == false", string order = "DateCreated descending")
     {
         try
         {
@@ -51,11 +51,11 @@ public class CommentsController : ApiController
         }
     }
 
-    public HttpResponseMessage Put([FromBody]Comment item)
+    public HttpResponseMessage Put([FromBody]CommentItem item)
     {
         try
         {
-            repository.Update(item);
+            repository.Update(item, "update");
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         catch (UnauthorizedAccessException)
@@ -75,6 +75,43 @@ public class CommentsController : ApiController
             Guid gId;
             if (Guid.TryParse(id, out gId))
                 repository.Remove(gId);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+	
+	[HttpPut]
+    public HttpResponseMessage ProcessChecked([FromBody]List<CommentItem> items)
+    {
+        try
+        {
+            if (items == null || items.Count == 0)
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+            var action = Request.RequestUri.Segments.Length == 5 ? Request.RequestUri.Segments[4] : "";
+
+            foreach (var item in items)
+            {
+                if (item.IsChecked)
+                {
+                    if (action.ToLower() == "delete")
+                    {
+                        repository.Remove(item.Id);
+                    }
+                    else
+                    {
+                        repository.Update(item, action);
+                    }
+                }
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         catch (UnauthorizedAccessException)

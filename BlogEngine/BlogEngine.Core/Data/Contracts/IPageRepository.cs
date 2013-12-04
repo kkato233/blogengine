@@ -35,7 +35,7 @@ namespace BlogEngine.Core.Data.Contracts
         /// </summary>
         /// <param name="page">Page to update</param>
         /// <returns>True on success</returns>
-        bool Update(PageDetail page);
+        bool Update(PageDetail page, string action);
         /// <summary>
         /// Delete page
         /// </summary>
