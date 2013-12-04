@@ -1244,9 +1244,6 @@
   <data name="defaultEditorsRole" xml:space="preserve">
     <value>Ruolto Predefinito per Editor</value>
   </data>
-  <data name="deleteConfirm" xml:space="preserve">
-    <value>Sicuro di cancellare questo Commento?</value>
-  </data>
   <data name="developmentMode" xml:space="preserve">
     <value>Modalità Sviluppo</value>
   </data>
@@ -2019,5 +2016,26 @@
   </data>
   <data name="youHaveNoWrittenAnyPages" xml:space="preserve">
     <value>Non hai ancora scritto una pagina. Per scrivere una nuova pagina usa il collegamento sulla destra del menu.</value>
+  </data>
+  <data name="approveSelected" xml:space="preserve">
+    <value>Approva i Selezionati</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="goToPage" xml:space="preserve">
+    <value>Go to page</value>
+  </data>
+  <data name="noPostsMatchedYourCriteria" xml:space="preserve">
+    <value>Spiacente, nessun post corrisponde ai tuoi criteri</value>
+  </data>
+  <data name="showIncludeComments" xml:space="preserve">
+    <value>Mostra le opzioni per includere i commenti</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
   </data>
 </root>

@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
-    <link href="<%# Page.ResolveUrl("~/themes/Standard/include/core.css") %>" rel="stylesheet"/>
-    <link href="<%# Page.ResolveUrl("~/themes/Standard/include/styles.min.css") %>" rel="stylesheet"/>
+    <link href="<%# Page.ResolveUrl("~/themes/Standard-28/include/core.css") %>" rel="stylesheet"/>
+    <link href="<%# Page.ResolveUrl("~/themes/Standard-28/include/styles.min.css") %>" rel="stylesheet"/>
     <link href='<%# Page.ResolveUrl("~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css") %>' rel="stylesheet" />
     <link href='<%# Page.ResolveUrl("~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css") %>' rel="stylesheet" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
