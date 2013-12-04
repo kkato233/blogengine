@@ -59,6 +59,7 @@
         $("#modal-add-cat").modal('hide');
     }
 
+	/*
     $scope.deleteChecked = function () {
         var i = $scope.items.length;
         while (i--) {
@@ -81,6 +82,34 @@
 
         $scope.search();
     };
+	*/
+	
+	$scope.processChecked = function (action) {
+	    spinOn();
+	    var i = $scope.items.length;
+	    var checked = [];
+	    while (i--) {
+	        var item = $scope.items[i];
+	        if (item.IsChecked === true) {
+	            checked.push(item);
+	        }
+	    }
+	    if (checked.length < 1) {
+	        spinOff();
+	        return false;
+	    }
+        dataService.processChecked("/api/categories/processchecked/" + action, $scope.items)
+        .success(function (data) {
+            $scope.load();
+            gridInit($scope, $filter, $element);
+            toastr.success("Completed");
+            spinOff();
+        })
+        .error(function () {
+            toastr.error("Failed");
+            spinOff();
+        });
+    }
 
     $scope.clear = function () {
         $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": "New category", "Description": "Description", "Count": 0 };

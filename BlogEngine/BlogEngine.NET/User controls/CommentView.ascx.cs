@@ -76,6 +76,26 @@
             }
         }
 
+        public bool DisplayCommentForm
+        {
+            get
+            {
+                if (BlogSettings.Instance.IsCommentsEnabled && Security.IsAuthorizedTo(Rights.CreateComments))
+                {
+                    if (Post != null && (!Post.HasCommentsEnabled || (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
+                        Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) < DateTime.Now.Date)))
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         /// <summary>
         ///     Gets or sets the post from which the comments are parsed.
         /// </summary>
@@ -599,32 +619,21 @@
                     phTrckbacks.Visible = false;
                 }
 
-                if (BlogSettings.Instance.IsCommentsEnabled && Security.IsAuthorizedTo(Rights.CreateComments))
+                if (DisplayCommentForm)
                 {
-                    if (Post != null &&
-                        (!Post.HasCommentsEnabled ||
-                         (BlogSettings.Instance.DaysCommentsAreEnabled > 0 &&
-                          Post.DateCreated.AddDays(BlogSettings.Instance.DaysCommentsAreEnabled) <
-                          DateTime.Now.Date)))
-                    {
-                        phAddComment.Visible = false;
-                        lbCommentsDisabled.Visible = true;
-                    }
-
-                    //BindCountries();
                     GetCookie();
                     recaptcha.UserUniqueIdentifier = hfCaptcha.Value = Guid.NewGuid().ToString();
 
                     phAddComment.Visible = true;
+                    lbCommentsDisabled.Visible = false;
                     LoadCommentForm();
                 }
                 else
                 {
                     phAddComment.Visible = false;
+                    lbCommentsDisabled.Visible = true;
                 }
             }
-
-            
 
             Page.ClientScript.GetCallbackEventReference(this, "arg", null, string.Empty);
         }

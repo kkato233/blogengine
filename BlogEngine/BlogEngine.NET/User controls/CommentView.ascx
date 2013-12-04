@@ -18,22 +18,23 @@
 
 <asp:PlaceHolder runat="server" ID="phTrckbacks"></asp:PlaceHolder>
 
-<div id="comment-form">
-    <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" width="24" height="24" alt="Saving the comment" style="display: none" id="ajaxLoader" />
-    <span id="status"></span>
-    <asp:PlaceHolder runat="server" ID="phCommentForm"></asp:PlaceHolder>
-    <% if (NestingSupported){ %>
-    <asp:HiddenField runat="Server" ID="hiddenReplyTo" />
-    <p id="cancelReply" style="display: none;">
-        <a href="javascript:void(0);" onclick="BlogEngine.cancelReply();"><%=Resources.labels.cancelReply %></a>
-    </p>
-    <%} %>
-    <blog:SimpleCaptchaControl ID="simplecaptcha" runat="server" />
-    <blog:RecaptchaControl ID="recaptcha" runat="server" />
-    <asp:HiddenField runat="server" ID="hfCaptcha" />
-</div>
-
 <asp:PlaceHolder runat="Server" ID="phAddComment">
+
+    <div id="comment-form">
+        <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" width="24" height="24" alt="Saving the comment" style="display: none" id="ajaxLoader" />
+        <span id="status"></span>
+        <asp:PlaceHolder runat="server" ID="phCommentForm"></asp:PlaceHolder>
+        <% if (NestingSupported){ %>
+        <asp:HiddenField runat="Server" ID="hiddenReplyTo" />
+        <p id="cancelReply" style="display: none;">
+            <a href="javascript:void(0);" onclick="BlogEngine.cancelReply();"><%=Resources.labels.cancelReply %></a>
+        </p>
+        <%} %>
+        <blog:SimpleCaptchaControl ID="simplecaptcha" runat="server" />
+        <blog:RecaptchaControl ID="recaptcha" runat="server" />
+        <asp:HiddenField runat="server" ID="hfCaptcha" />
+    </div>
+
     <script type="text/javascript">
     <!--//
     BlogEngine.comments.flagImage = BlogEngine.$("imgFlag");

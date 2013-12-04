@@ -94,7 +94,7 @@
                             </td>
                             <td>
                                 <span ng-repeat="r in item.Roles">
-                                    <a href="/admin/#/users/roles?id={{r.RoleName}}">{{r.RoleName}}</a>
+                                    <a href="{{SiteVars.RelativeWebRoot}}admin/#/users/roles?id={{r.RoleName}}">{{r.RoleName}}</a>
                                 </span>
                             </td>
                             <td>{{item.Email}}</td>

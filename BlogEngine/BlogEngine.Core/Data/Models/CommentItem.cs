@@ -7,7 +7,7 @@ namespace BlogEngine.Core.Data.Models
     /// <summary>
     /// Blog comments
     /// </summary>
-    public class Comment
+    public class CommentItem
     {
         /// <summary>
         /// If checked in the UI

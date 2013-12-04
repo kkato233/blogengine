@@ -66,6 +66,14 @@
         }
         $scope.settings.DesktopTheme = $scope.selectedDeskTheme.OptionValue;
         $scope.settings.MobileTheme = $scope.selectedMobileTheme.OptionValue;
+        $scope.settings.Culture = $scope.selectedLanguage.OptionValue;
+        if ($scope.selfRegistrationInitialRole) {
+            $scope.settings.SelfRegistrationInitialRole = $scope.selfRegistrationInitialRole.OptionValue;
+        }
+        $scope.settings.SyndicationFormat = $scope.selFeedFormat.OptionValue;
+        $scope.settings.DaysCommentsAreEnabled = $scope.selCloseDays.OptionValue;
+        $scope.settings.CommentsPerPage = $scope.selCommentsPerPage.OptionValue;
+        
         dataService.updateItem("/api/settings", $scope.settings)
         .success(function (data) {
             toastr.success("Settings updated");

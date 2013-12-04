@@ -82,12 +82,25 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="page">Page to update</param>
         /// <returns>True on success</returns>
-        public bool Update(PageDetail page)
+        public bool Update(PageDetail page, string action)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages))
                 throw new System.UnauthorizedAccessException();
 
             var corePage = (from p in Page.Pages.ToList() where p.Id == page.Id select p).FirstOrDefault();
+
+            if (action == "publish")
+            {
+                corePage.IsPublished = true;
+                corePage.Save();
+                return true;
+            }
+            if (action == "unpublish")
+            {
+                corePage.IsPublished = false;
+                corePage.Save();
+                return true;
+            }
 
             if (corePage != null && Save(corePage, page))
                 return true;
