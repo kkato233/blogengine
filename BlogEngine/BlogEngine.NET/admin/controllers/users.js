@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('UsersController', function ($scope, $filter, $element, dataService) {
+﻿angular.module('blogAdmin').controller('UsersController', function ($scope, $filter, dataService) {
     $scope.items = [];
     $scope.roles = [];
     $scope.editItem = {};
@@ -9,7 +9,7 @@
         dataService.getItems('/api/users', { take: 0, skip: 0, filter: "1 == 1", order: "UserName" })
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function () {
@@ -50,7 +50,7 @@
         dataService.getItems('/api/roles/getuserroles/' + id)
             .success(function (data) {
                 angular.copy(data, $scope.roles);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function () {
@@ -100,7 +100,7 @@
         dataService.processChecked("/api/users/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })

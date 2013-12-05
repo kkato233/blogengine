@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('RolesController', function ($scope, $filter, $element, dataService) {
+﻿angular.module('blogAdmin').controller('RolesController', function ($scope, $filter, dataService) {
     $scope.items = [];
     $scope.rights = [];
     $scope.editItem = {};
@@ -9,7 +9,7 @@
         dataService.getItems('/api/roles', { take: 0, skip: 0 })
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function () {
@@ -105,7 +105,7 @@
         dataService.processChecked("/api/roles/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })
