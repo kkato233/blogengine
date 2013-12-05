@@ -1,5 +1,5 @@
 ﻿
-angular.module('blogAdmin').controller('CustomController', function ($scope, $location, $filter, $element, dataService) {
+angular.module('blogAdmin').controller('CustomController', function ($scope, $location, $filter, dataService) {
     $scope.items = [];
     $scope.customFields = [];
     $scope.editId = "";
@@ -32,7 +32,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "Title" })
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function () {
@@ -101,7 +101,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
         dataService.processChecked("/api/packages?action=" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })

@@ -36,12 +36,12 @@
     app.config(config);
 
     var run = function ($rootScope, $log) {
+
         $rootScope.lbl = BlogAdmin.i18n;
         $rootScope.SiteVars = SiteVars;
         $rootScope.testData = true;
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';
-        $log.log("BlogEngine.NET admin started");
     };
 
     app.run(run);

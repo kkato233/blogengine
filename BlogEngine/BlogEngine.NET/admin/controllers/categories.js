@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CategoriesController', function ($scope, $location, $http, $filter, $element, dataService) {
+﻿angular.module('blogAdmin').controller('CategoriesController', function ($scope, $location, $http, $filter, dataService) {
     $scope.items = [];
     $scope.lookups = [];
     $scope.category = {};
@@ -25,7 +25,7 @@
         dataService.getItems('/api/categories')
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function () {
@@ -101,7 +101,7 @@
         dataService.processChecked("/api/categories/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })
