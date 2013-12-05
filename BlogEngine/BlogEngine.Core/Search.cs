@@ -444,9 +444,10 @@
 
             foreach (var entry in entries)
             {
-                var result = new Result();
-                if (result.Item == null)
+                if (entry.Item == null)
                     continue;
+
+                var result = new Result();
 
                 if (!(entry.Item is Comment))
                 {

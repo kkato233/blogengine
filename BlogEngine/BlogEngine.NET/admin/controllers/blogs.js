@@ -1,9 +1,11 @@
-﻿angular.module('blogAdmin').controller('BlogsController', function ($rootScope, $scope, $filter, $element, dataService) {
+﻿
+angular.module('blogAdmin').controller('BlogsController', function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.editItem = {};
     $scope.newItem = {};
     $scope.modalTitle = $rootScope.lbl.addNewBlog;
-    $scope.blogPath = $rootScope.SiteVars.AbsoluteWebRoot;
+
+    $scope.one = 1;
 
     $scope.modalNew = function () {
         $scope.modalTitle = $rootScope.lbl.addNewBlog;
@@ -26,18 +28,19 @@
         });
     }
 
-    $scope.load = function () {
+    $scope.load = function (callback) {
         spinOn();
         dataService.getItems('/api/blogs', { take: 0, skip: 0, filter: "1 == 1", order: "Name" })
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
-                spinOff();
-            })
-            .error(function () {
-                toastr.error("Error loading blogs");
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            callback;
+            spinOff();
+        })
+        .error(function () {
+            toastr.error("Error loading blogs");
+            spinOff();
+        });
     }
 
     $scope.save = function () {
@@ -93,7 +96,7 @@
         dataService.processChecked("/api/blogs/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })

@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('PagesController', function ($scope, $location, $http, $filter, $element, dataService) {
+﻿angular.module('blogAdmin').controller('PagesController', function ($scope, $location, $http, $filter, dataService) {
     $scope.data = dataService;
     $scope.items = [];
 
@@ -37,7 +37,7 @@
         dataService.processChecked("/api/pages/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })

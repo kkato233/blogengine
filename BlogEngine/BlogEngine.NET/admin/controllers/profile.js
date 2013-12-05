@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('ProfileController', function ($scope, $rootScope, $filter, $element, dataService) {
+﻿angular.module('blogAdmin').controller('ProfileController', function ($scope, $rootScope, $filter, dataService) {
     $scope.user = {};
 
     $scope.load = function () {
