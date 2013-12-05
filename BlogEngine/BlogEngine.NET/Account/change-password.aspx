@@ -5,39 +5,33 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <h2>
-        <%=Resources.labels.changePassword %></h2>
+    <div class="page-header clearfix">
+        <h3>
+            <%=Resources.labels.changePassword %></h3>
+    </div>
     <p>
         <%=String.Format(Resources.labels.requiredPasswordLength,Membership.MinRequiredPasswordLength) %>
     </p>
+    <br />
     <asp:ChangePassword ID="ChangeUserPassword" runat="server" CancelDestinationPageUrl="~/"
         EnableViewState="false" RenderOuterTable="false">
         <ChangePasswordTemplate>
-            <div class="accountInfo">
-                <div class="login">
-                    <div class="field">
-                        <asp:Label ID="CurrentPasswordLabel" runat="server" AssociatedControlID="CurrentPassword"><%=Resources.labels.oldPassword %>:</asp:Label>
-                        <div class="boxRound">
-                            <asp:TextBox ID="CurrentPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <asp:Label ID="NewPasswordLabel" runat="server" AssociatedControlID="NewPassword"><%=Resources.labels.newPassword %>:</asp:Label>
-                        <div class="boxRound">
-                            <asp:TextBox ID="NewPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <asp:Label ID="ConfirmNewPasswordLabel" runat="server" AssociatedControlID="ConfirmNewPassword"><%=Resources.labels.confirmNewPassword %>:</asp:Label>
-                        <div class="boxRound">
-                            <asp:TextBox ID="ConfirmNewPassword" runat="server" CssClass="passwordEntry" TextMode="Password"></asp:TextBox>
-                        </div>
-                    </div>
+            <div class="account-content">
+                <div class="form-group">
+                    <asp:Label ID="CurrentPasswordLabel" runat="server" AssociatedControlID="CurrentPassword"><%=Resources.labels.oldPassword %>:</asp:Label>
+                    <asp:TextBox ID="CurrentPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
                 </div>
-                <div class="submitButton">
-                    <asp:Button ID="ChangePasswordPushButton" runat="server" CommandName="ChangePassword"
-                        Text="<%$Resources:labels,changePassword %>" OnClick="ChangePasswordPushButton_Click"
-                        OnClientClick="return ValidateChangePassword();" />
+                <div class="form-group">
+                    <asp:Label ID="NewPasswordLabel" runat="server" AssociatedControlID="NewPassword"><%=Resources.labels.newPassword %>:</asp:Label>
+                    <asp:TextBox ID="NewPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
+                </div>
+                <div class="form-group">
+                    <asp:Label ID="ConfirmNewPasswordLabel" runat="server" AssociatedControlID="ConfirmNewPassword"><%=Resources.labels.confirmNewPassword %>:</asp:Label>
+                    <asp:TextBox ID="ConfirmNewPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
+                </div>
+                <hr />
+                <div class="btn-wrapper">
+                    <asp:Button ID="ChangePasswordPushButton" CssClass="btn btn-block btn-primary btn-lg" runat="server" CommandName="ChangePassword" Text="<%$Resources:labels,changePassword %>" OnClick="ChangePasswordPushButton_Click" OnClientClick="return ValidateChangePassword();" />
                 </div>
             </div>
         </ChangePasswordTemplate>

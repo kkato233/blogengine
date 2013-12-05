@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CommentsController', function ($scope, $location, $filter, $element, $log, dataService) {
+﻿angular.module('blogAdmin').controller('CommentsController', function ($scope, $location, $filter, $log, dataService) {
     $scope.items = [];
     $scope.item = {};
     $scope.id = ($location.search()).id;
@@ -13,7 +13,7 @@
         dataService.getItems('/api/comments', p)
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function (data) {
@@ -41,7 +41,7 @@
         dataService.processChecked("/api/comments/processchecked/" + action, checked)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })
@@ -57,7 +57,7 @@
            .success(function (data) {
                toastr.success("Comment updated");
                $scope.load();
-               gridInit($scope, $filter, $element);
+               gridInit($scope, $filter);
            })
            .error(function () { toastr.error("Update failed"); });
         }

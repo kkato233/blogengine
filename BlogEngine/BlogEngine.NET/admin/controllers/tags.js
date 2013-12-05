@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('TagsController', function ($scope, $location, $filter, $element, $log, dataService) {
+﻿angular.module('blogAdmin').controller('TagsController', function ($scope, $location, $filter, $log, dataService) {
     $scope.data = dataService;
     $scope.items = [];
     $scope.id = {};
@@ -16,7 +16,7 @@
         dataService.getItems('/api/tags', p)
             .success(function (data) {
                 angular.copy(data, $scope.items);
-                gridInit($scope, $filter, $element);
+                gridInit($scope, $filter);
                 spinOff();
             })
             .error(function (data) {
@@ -44,7 +44,7 @@
         dataService.processChecked("/api/tags/processchecked/" + action, $scope.items)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter, $element);
+            gridInit($scope, $filter);
             toastr.success("Completed");
             spinOff();
         })
@@ -60,7 +60,7 @@
            .success(function (data) {
                toastr.success("Tag updated");
                $scope.load();
-               gridInit($scope, $filter, $element);
+               gridInit($scope, $filter);
            })
            .error(function () { toastr.error("Update failed"); });
         }

@@ -1,4 +1,4 @@
-﻿function gridInit(scope, filter, element) {
+﻿function gridInit(scope, filter) {
     var sortingOrder = ''; // 'Title';
     scope.sortingOrder = sortingOrder;
     scope.reverse = false;
