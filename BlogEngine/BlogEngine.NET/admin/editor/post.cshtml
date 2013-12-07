@@ -58,9 +58,9 @@
             </div>
         </div>
         @RenderPage("_postmodals.cshtml")
-
+        @RenderPage("_source.cshtml")
         <div class="container editor admin-editor admin-editor-post">
-            <div class="well">
+            <div id="overlay-editor" class="well">
                 <input type="text" id="txtTitle" placeholder="Title of post..." class="form-control" data-ng-model="post.Title" />
                 @RenderPage("_editor.cshtml")
                 <div class="row footer-editor">
@@ -87,12 +87,26 @@
                 <hr />
                 <div class="text-right">
                     <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>Setting</a>
-                    <label>
+                    @*<label>
                         <input type="checkbox" name="ckEnableComments" data-ng-model="post.IsPublished" />
                         <span>{{lbl.published}}</span>
-                    </label>
+                    </label>*@
+                    <label ng-if="!post.IsPublished">Unpublished</label>
+                    <label ng-if="post.IsPublished">Published</label>
                     <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
-                    <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.save}}</a>
+                    <div class="btn-group dropup">
+                        <a href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
+                        <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">
+                            <span class="caret" style="padding: 4px 0; margin-bottom: 8px"></span>
+                        </button>
+                        <ul class="dropdown-menu edit-publish">
+                            <li ng-if="post.Id"><a href="{{SiteVars.RelativeWebRoot}}post/{{post.Slug}}" target="_new"><i class="fa fa-share"></i> Go to post</a></li>
+                            <li ng-if="post.Id" class="divider"></li>
+                            <li ng-if="post.Id && post.IsPublished"><a href="#" ng-click="publish(false)"><i class="fa fa-undo"></i> Unpublish</a></li>
+                            <li><a href="#" ng-click="save()"><i class="fa fa-save"></i> Save</a></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>

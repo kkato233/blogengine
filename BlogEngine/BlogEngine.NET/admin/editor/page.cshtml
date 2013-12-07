@@ -58,9 +58,9 @@
             </div>
         </div>
         @RenderPage("_pagemodals.cshtml")
-
+        @RenderPage("_source.cshtml")
         <div class="container editor admin-editor admin-editor-page">
-            <div class="well">
+            <div id="overlay-editor" class="well">
                 <input type="text" id="txtTitle" placeholder="Title of page..." class="form-control" data-ng-model="page.Title" />
                 @RenderPage("_editor.cshtml")
                 <hr />

@@ -5,7 +5,7 @@
     $scope.allCats = [];
     $scope.allTags = [];
     $scope.selectedAuthor = {};
-    $scope.htmlMode = true;
+    $scope.fullScreen = false;
 
     $scope.load = function () {
         dataService.getItems('/api/lookups')
@@ -87,10 +87,8 @@
         $scope.post.Categories = get_cats();
         $scope.post.Tags = get_tags();
 
-        var url = 'api/posts/update/foo';
-
         if ($scope.post.Id) {
-            dataService.updateItem(url, $scope.post)
+            dataService.updateItem('api/posts/update/foo', $scope.post)
            .success(function (data) {
                toastr.success("Post updated");
                $("#modal-form").modal('hide');
@@ -99,7 +97,7 @@
            .error(function () { toastr.error("Update failed"); spinOff(); });
         }
         else {
-            dataService.addItem(url, $scope.post)
+            dataService.addItem('api/posts', $scope.post)
            .success(function (data) {
                toastr.success("Post added");
                $log.log(data);
@@ -114,18 +112,15 @@
         }
     }
 
-    $scope.toggleEditor = function () {
-        if ($scope.htmlMode) {
-            $("#editor").fadeOut();
-            $("#editorSource").fadeIn();
-            $scope.post.Content = $("#editor").html();
-            $scope.htmlMode = false;
-        }
-        else {
-            $("#editor").fadeIn();
-            $("#editorSource").fadeOut();
-            $scope.htmlMode = true;
-        }
+    $scope.saveSource = function () {
+        $scope.post.Content = $("#editor-source").val();
+        $("#editor").html($("#editor-source").val());
+        $("#modal-source").modal('hide');
+    }
+
+    $scope.publish = function (doPublish){
+        $scope.post.IsPublished = doPublish;
+        $scope.save();
     }
 
     $scope.uploadFile = function (action, files) {
@@ -150,6 +145,32 @@
             }
         })
         .error(function () { toastr.error("Import failed"); });
+    }
+
+    $scope.toggleEditor = function (e) {
+        if ($scope.fullScreen) {
+            $scope.compress();
+            $scope.fullScreen = false;
+        }
+        else {
+            $scope.expand();
+            $scope.fullScreen = true;
+        }
+    }
+
+    $scope.expand = function () {
+        $('#overlay-editor').addClass('overlay-editor');
+        $('#editor').addClass('full-editor');
+    }
+
+    $scope.compress = function () {
+        $('#overlay-editor').removeClass('overlay-editor');
+        $('#editor').removeClass('full-editor');
+    }
+
+    $scope.source = function () {
+        $("#modal-source").modal();
+        $("#editor-source").val($("#editor").html());
     }
 
     $scope.load();

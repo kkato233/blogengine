@@ -53,6 +53,22 @@
     margin: 3px 10px;
 }
 
+.overlay-editor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    max-height: 100% !important;
+    z-index: 1000;
+}
+
+.full-editor {
+    height: 70% !important;
+    max-height: 70% !important;
+    z-index: 990;
+}
+
 div[data-role="editor-toolbar"] {
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -114,4 +130,8 @@ div[data-role="editor-toolbar"] {
     text-align: left !important;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.edit-publish li {
+    text-align: left;
 }

@@ -113,9 +113,10 @@
                     <tr>
                         <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                         <th>&nbsp;</th>
-                        <th class="table-item-title table-item-w70">{{lbl.title}} <a data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w70">{{lbl.title}} <a ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
+                        <th>Last Updated</th>
                         <th data-ng-if="pkgLocation != 'G'">Enabled</th>
                         <th data-ng-if="pkgLocation != 'G'">Priority</th>
                     </tr>
@@ -135,6 +136,7 @@
                         </td>
                         <td>{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
                         <td data-ng-bind-html="item.Authors"></td>
+                        <td>{{item.LastUpdated}}</td>
                         <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                         <td data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
                     </tr>
