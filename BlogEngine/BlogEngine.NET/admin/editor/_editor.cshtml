@@ -1,5 +1,9 @@
 ﻿<div id="alerts"></div>
 <div class="editor-toolbar btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+    <div class="btn-group">
+        <a class="btn btn-default" ng-click="toggleEditor($event)" title="Full screen"><i class="fa fa-desktop"></i></a>
+        <a class="btn btn-default" ng-click="source()" title="Source"><i class="fa fa-code"></i></a>
+    </div>
     <div class=" btn-group">
         @*<a class="btn btn-default" data-ng-click="toggleEditor()" title="Html source"><b><i class="fa fa-code"></i></b></a>*@
         <a class="btn btn-default btn btn-sm btn-bold" data-edit="formatBlock <h2>"><b>H2</b></a>
@@ -48,13 +52,6 @@
     </div>
     @*<input type="text" data-edit="inserttext" class="btn btn-default" id="voicebtn" x-webkit-speech="">*@
 </div>
-
 <div class="editro-switch">
-    <div id="editor">
-        Type here...
-    </div>
-    @*<div id="editor" data-ng-bind-html="post.Content">
-        Type here...
-    </div>*@
-    @*<textarea class="wysiwyg-editor" style="display: none" id="editorSource" data-ng-model="post.Content"></textarea>*@
+    <div id="editor"><p>Type here...</p></div>
 </div>

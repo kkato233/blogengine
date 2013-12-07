@@ -147,18 +147,16 @@ namespace BlogEngine.Core.Data
                 var core = (from c in Category.Categories.ToList() where c.Id == id select c).FirstOrDefault();
                 if(core != null)
                 {
-                    Category.Categories.Remove(core);
-
-                    // if removed category is a parent
-                    // also remove parent references
-                    foreach (var c in Category.Categories)
+                    foreach (Post post in Post.Posts)
                     {
-                        if (c.Parent == id)
+                        if (post.Categories.Contains(core))
                         {
-                            c.Parent = null;
-                            c.Save();
+                            post.Categories.Remove(core);
                         }
                     }
+                    core.Delete();
+                    core.Save();  
+                 
                     return true;
                 }
                 return false;

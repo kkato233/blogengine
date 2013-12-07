@@ -3,7 +3,7 @@
     $scope.page = newPage;
     $scope.lookups = [];
     $scope.selectedParent = {};
-    $scope.htmlMode = true;
+    $scope.fullScreen = false;
 
     $scope.load = function () {
         var lookupsUrl = '/api/lookups';
@@ -78,18 +78,10 @@
         }
     }
 
-    $scope.toggleEditor = function () {
-        if ($scope.htmlMode) {
-            $("#editor").fadeOut();
-            $("#editorSource").fadeIn();
-            $scope.page.Content = $("#editor").html();
-            $scope.htmlMode = false;
-        }
-        else {
-            $("#editor").fadeIn();
-            $("#editorSource").fadeOut();
-            $scope.htmlMode = true;
-        }
+    $scope.saveSource = function () {
+        $scope.page.Content = $("#editor-source").val();
+        $("#editor").html($("#editor-source").val());
+        $("#modal-source").modal('hide');
     }
 
     $scope.uploadFile = function (action, files) {
@@ -116,6 +108,32 @@
         .error(function () { toastr.error("Import failed"); });
     }
 
+    $scope.toggleEditor = function (e) {
+        if ($scope.fullScreen) {
+            $scope.compress();
+            $scope.fullScreen = false;
+        }
+        else {
+            $scope.expand();
+            $scope.fullScreen = true;
+        }
+    }
+
+    $scope.expand = function () {
+        $('#overlay-editor').addClass('overlay-editor');
+        $('#editor').addClass('full-editor');
+    }
+
+    $scope.compress = function () {
+        $('#overlay-editor').removeClass('overlay-editor');
+        $('#editor').removeClass('full-editor');
+    }
+
+    $scope.source = function () {
+        $("#modal-source").modal();
+        $("#editor-source").val($("#editor").html());
+    }
+
     $scope.load();
 });
 
@@ -125,5 +143,6 @@ var newPage = {
     "Content": "<p>Type here...</p>",
     "DateCreated": moment().format("MM/DD/YYYY HH:MM"),
     "Slug": "unpublished",
+    "ShowInList": true,
     "IsPublished": true
 }
