@@ -115,7 +115,7 @@ public class CategoriesController : ApiController
             if (items == null || items.Count == 0)
                 throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
 
-            var action = Request.RequestUri.Segments.Length == 5 ? Request.RequestUri.Segments[4] : "";
+            var action = Request.GetRouteData().Values["id"].ToString();
 
             if (action.ToLower() == "delete")
             {
