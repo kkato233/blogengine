@@ -533,7 +533,7 @@
     <value>Odeslat</value>
   </data>
   <data name="sendCommentEmail" xml:space="preserve">
-    <value>Upozorňovat na nové  komentáře e-mailem</value>
+    <value>Upozorit na nové  komentáře e-mailem</value>
   </data>
   <data name="separateTagsWitComma" xml:space="preserve">
     <value>Štítky oddělujte čárkou</value>
@@ -545,7 +545,7 @@
     <value>Zobrazit volbu země</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Umožňuje zobrazovat vlajky států u komentářů</value>
+    <value>Umožňuje zobrazit vlajky států u komentářů</value>
   </data>
   <data name="showEnableWebsiteInComments" xml:space="preserve">
     <value>Povolit web server v komentářích</value>
@@ -554,22 +554,22 @@
     <value>Zvolte, zdali se má web server publikovat v komentářích</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
-    <value>Zobrazovat pouze popis</value>
+    <value>Zobrazit pouze popis</value>
   </data>
   <data name="showDescriptionInPostListForPostsByTagOrCategory" xml:space="preserve">
-    <value>Zobrazovat popis příspěvků pouze pokud byly vypsány dle štitku či kategorie</value>
+    <value>Zobrazit popis příspěvků pouze pokud byly vypsány dle štitku či kategorie</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Zobrazovat jako seznam</value>
+    <value>Zobrazit jako seznam</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Zobrazovat náhled</value>
+    <value>Zobrazit náhled</value>
   </data>
   <data name="showPostNavigation" xml:space="preserve">
-    <value>Zobrazovat navigační linky v příspěvku</value>
+    <value>Zobrazit navigační linky v příspěvku</value>
   </data>
   <data name="showRelatedPosts" xml:space="preserve">
-    <value>Zobrazovat související příspěvky</value>
+    <value>Zobrazit související příspěvky</value>
   </data>
   <data name="subject" xml:space="preserve">
     <value>Předmět</value>
@@ -722,7 +722,7 @@
     <value>Požadovat SSL pro MetaWeblog API</value>
   </data>
   <data name="requireSslForMetaWeblogApiDescription" xml:space="preserve">
-    <value>Vynucovat použití SSL při komunikaci s MetaWeblog API</value>
+    <value>Vynutit použití SSL při komunikaci s MetaWeblog API</value>
   </data>
   <data name="compressWebResource" xml:space="preserve">
     <value>Komprimovat WebResource.axd</value>
@@ -752,10 +752,10 @@
     <value>Vložte URL na váš web nebo váš APML dokument</value>
   </data>
   <data name="login" xml:space="preserve">
-    <value>Přihlášení</value>
+    <value>Přihlásit</value>
   </data>
   <data name="logoff" xml:space="preserve">
-    <value>Odhlášení</value>
+    <value>Odhlásit se</value>
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
     <value>Použít raw HTML editor</value>
@@ -815,7 +815,7 @@
     <value>Neošetřené chyby budou zalogovány do libovolné extenze/komponenty určené k zápisu logů.</value>
   </data>
   <data name="commentNotificationUnsubscriptionHeader" xml:space="preserve">
-    <value>Přihlášení k notifikacím komentářů</value>
+    <value>Přihlásit k notifikacím komentářů</value>
   </data>
   <data name="commentNotificationUnsubscriptionText" xml:space="preserve">
     <value>Byl jste odhlášen z e-mail notifikací nových komentářů k tomuto příspěvku.</value>
@@ -1349,7 +1349,7 @@
     <value>Rozepsané příspěvky</value>
   </data>
   <data name="emptyTrash" xml:space="preserve">
-    <value>Vysypat koš</value>
+    <value>Vyprázdnit koš</value>
   </data>
   <data name="recentPendingComments" xml:space="preserve">
     <value>Poslední komentáře ke schválení</value>
@@ -1669,11 +1669,17 @@
   <data name="pingServiceUrl" xml:space="preserve">
     <value>URL ping služby</value>
   </data>
+  <data name="pingServiceUrlBatch" xml:space="preserve">
+    <value>URL ping služby (jedno na řádek)</value>
+  </data>
+  <data name="pingServiceNotUnique" xml:space="preserve">
+    <value>URL ping služby již existuje</value>
+  </data>
   <data name="runClickOnceApplicationToImport" xml:space="preserve">
     <value>Spusťte aplikaci na jedno kliknutí pro import obsahu uloženého jako BlogML nebo RSS 2.0 do vašeho blogu. &lt;i&gt;pouze Internet Explorer.&lt;/i&gt;</value>
   </data>
   <data name="selectSavedBlogMlFle" xml:space="preserve">
-    <value>Zvolte uložený BlogML soubor  a naimportujte do vašeho blogu. Pro jakýkoliv prohlížeč, pouze BlogML.</value>
+    <value>Zvolte uložený BlogML soubor a naimportujte do vašeho blogu. Pro jakýkoliv prohlížeč, pouze BlogML.</value>
   </data>
   <data name="toDisableSetTo0" xml:space="preserve">
     <value>Pro vypnutí nastavte "0"</value>
@@ -1725,6 +1731,9 @@
   </data>
   <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
     <value>Akceptovat jakýkoliv text před Host Name</value>
+  </data>
+  <data name="isForSiteAggregation" xml:space="preserve">
+    <value>Použít pro agregovaný web</value>
   </data>
   <data name="latestFromTheGallery" xml:space="preserve">
     <value>Nejnovější z galerie</value>
@@ -1815,5 +1824,260 @@
   </data>
   <data name="filestorage" xml:space="preserve">
     <value>Správa souborového úložiště</value>
+  </data>
+  <data name="galleryFeedUrl" xml:space="preserve">
+    <value>URL feed galerie</value>
+  </data>
+  <data name="galleryFeedUrlDescription" xml:space="preserve">
+    <value>URL k platnému feedu galerie obsahující balíčky ke stažení</value>
+  </data>
+  <data name="enableQuickNotes" xml:space="preserve">
+    <value>Zapnout Rychlé poznámky</value>
+  </data>
+  <data name="tools" xml:space="preserve">
+    <value>Nástroje</value>
+  </data>
+  <data name="youHaveNotAddedAnyUserSoFar" xml:space="preserve">
+    <value>Dosud jste nepřidal žádného uživatele. Pro přidání nového uživatele použijte odkaz v pravém horním rohu stránky.</value>
+  </data>
+  <data name="rights" xml:space="preserve">
+    <value>Oprávnění</value>
+  </data>
+  <data name="youHaveNotDefinedAnyRolesSoFar" xml:space="preserve">
+    <value>Dosud jste nedefinoval žádnou roli. Pro přidání nové role použijte odkaz v pravém horním rohu strányk.</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>Primární</value>
+  </data>
+  <data name="textBeforeHostName" xml:space="preserve">
+    <value>Text akceptovaný před Host Name</value>
+  </data>
+  <data name="noBlogsWereFound" xml:space="preserve">
+    <value>Nebyly nalezeny žádné blogy.</value>
+  </data>
+  <data name="unapprove" xml:space="preserve">
+    <value>Zrušit schválení</value>
+  </data>
+  <data name="createdOn" xml:space="preserve">
+    <value>Vytvořeno</value>
+  </data>
+  <data name="trashIsEmpty" xml:space="preserve">
+    <value>Koš je prázdný.</value>
+  </data>
+  <data name="restoreSelected" xml:space="preserve">
+    <value>Obnovit zvolené</value>
+  </data>
+  <data name="purgeSelected" xml:space="preserve">
+    <value>Odstranit zvolené</value>
+  </data>
+  <data name="purge" xml:space="preserve">
+    <value>Odstranit</value>
+  </data>
+  <data name="purgeAll" xml:space="preserve">
+    <value>Odstranit vše</value>
+  </data>
+  <data name="count" xml:space="preserve">
+    <value>Počet</value>
+  </data>
+  <data name="youHaveNoTaggedPosts" xml:space="preserve">
+    <value>Nemáte žádné příspěvky se štítky.</value>
+  </data>
+  <data name="youHaveNotWrittenAnyPosts" xml:space="preserve">
+    <value>Dosud jste nenapsal žádný příspěvek. Pro napsání nového příspěvku použijte odkaz v pravém postranním menu.</value>
+  </data>
+  <data name="youHaveNoWrittenAnyPages" xml:space="preserve">
+    <value>Dosud jste nenapsal žádnou stránku. Pro napsání nového příspěvku použijte odkaz v pravém postranním menu.</value>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>Velikost</value>
+  </data>
+  <data name="noFilesFound" xml:space="preserve">
+    <value>Nenalezeny žádné soubory.</value>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="noPackagesToDisplay" xml:space="preserve">
+    <value>Nejsou žádné balíčky k zobrazení.</value>
+  </data>
+  <data name="install" xml:space="preserve">
+    <value>Instalovat</value>
+  </data>
+  <data name="personalDetails" xml:space="preserve">
+    <value>Osobní údaje</value>
+  </data>
+  <data name="contactDetails" xml:space="preserve">
+    <value>Kontaktní údaje a adresa</value>
+  </data>
+  <data name="shortBiography" xml:space="preserve">
+    <value>Krátký životopis</value>
+  </data>
+  <data name="deleteSelected" xml:space="preserve">
+    <value>Smazat zvolené</value>
+  </data>
+  <data name="approveSelected" xml:space="preserve">
+    <value>Schválit zvolené</value>
+  </data>
+  <data name="rejectSelected" xml:space="preserve">
+    <value>Zamítnout zvolené</value>
+  </data>
+  <data name="deleteAll" xml:space="preserve">
+    <value>Smazat vše</value>
+  </data>
+  <data name="noSpamHere" xml:space="preserve">
+    <value>Hurá, žádný spam!</value>
+  </data>
+  <data name="noPendingComments" xml:space="preserve">
+    <value>Nejsou žádné komentáře ke schválení.</value>
+  </data>
+  <data name="noApprovedComments" xml:space="preserve">
+    <value>Nejsou žádné schválené komentáře.</value>
+  </data>
+  <data name="noPingbacksTrackbacks" xml:space="preserve">
+    <value>Žádné pingbacks nebo trackback. Ujistěte se, že jste zapnuli odesílání a příjem trackbacks/pingbacks v Pokročilém nastavení.</value>
+  </data>
+  <data name="thumbnailServiceProvider" xml:space="preserve">
+    <value>Poskytovatel služby náhledů</value>
+  </data>
+  <data name="thumbnailServiceProviderHelp" xml:space="preserve">
+    <value>API používané k získání náhledů, např. http://www.robothumb.com/src/?url={0}</value>
+  </data>
+  <data name="spamProtection" xml:space="preserve">
+    <value>Ochrana proti spamu</value>
+  </data>
+  <data name="hasRated" xml:space="preserve">
+    <value>Tento příspěvek jste již ohodnotil.</value>
+  </data>
+  <data name="widgets" xml:space="preserve">
+    <value>Widgety</value>
+  </data>
+  <data name="enableOptimization" xml:space="preserve">
+    <value>Zapnout optimalizaci</value>
+  </data>
+  <data name="enableOptimizationDesc" xml:space="preserve">
+    <value>Kombinovat a minimalizovat skripty a styly (doporučeno)</value>
+  </data>
+  <data name="removeExtensionsFromUrls" xml:space="preserve">
+    <value>Odstranit přípony z URL</value>
+  </data>
+  <data name="removeExtensionsFromUrlsDesc" xml:space="preserve">
+    <value>Odstranit .aspx příponu souboru v URL příspěvků či stránek</value>
+  </data>
+  <data name="redirectToRemoveFileExtension" xml:space="preserve">
+    <value>Přesměrovat k odstranění .aspx přípony z URL</value>
+  </data>
+  <data name="redirectToRemoveFileExtensionDesc" xml:space="preserve">
+    <value>Přesměruje příchozí požadavky obsahující .aspx příponu souboru na URL bez přípony.  Musí být zaškrtnuta volba Odstranit přípony z URL.</value>
+  </data>
+  <data name="anotherEmail" xml:space="preserve">
+    <value>Prosím zvolte jinou e-mailovou adresu</value>
+  </data>
+  <data name="anotherUserName" xml:space="preserve">
+    <value>Prosím zvolte jiné uživatelské jméno</value>
+  </data>
+  <data name="emailNotExist" xml:space="preserve">
+    <value>Tento e-mail v našem systému neexistuje</value>
+  </data>
+  <data name="loginFailed" xml:space="preserve">
+    <value>Přihlášení nebylo úspěšné</value>
+  </data>
+  <data name="passwordNotChanged" xml:space="preserve">
+    <value>Heslo nebylo změněno</value>
+  </data>
+  <data name="passwordSent" xml:space="preserve">
+    <value>Heslo bylo odesláno</value>
+  </data>
+  <data name="AllPostsTagged" xml:space="preserve">
+    <value> Všechny příspěvky se štítky </value>
+  </data>
+  <data name="fileManager" xml:space="preserve">
+    <value>Souborový správce</value>
+  </data>
+  <data name="emptyLog" xml:space="preserve">
+    <value>Vyprázdnit log soubor</value>
+  </data>
+  <data name="LangDirection" xml:space="preserve">
+    <value>zleva doprava</value>
+  </data>
+  <data name="apmlDescription" xml:space="preserve">
+    <value>Vložte URL vašeho webu nebo APML dokumentu</value>
+  </data>
+  <data name="createBlogOnSelfRegistration" xml:space="preserve">
+    <value>Vytvořit nový blog pro samo-registrovaného uživatele</value>
+  </data>
+  <data name="AllPostsBy" xml:space="preserve">
+    <value>Všechny příspěvky dle</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Chyba</value>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>Stránka nenalezena</value>
+  </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>Tento seznam je prázdný. Můžete přidat novou položku z menu výše.</value>
+  </data>
+  <data name="authorDispalyCount" xml:space="preserve">
+    <value>Maximum autorů v seznamu</value>
+  </data>
+  <data name="authorDisplayPattern" xml:space="preserve">
+    <value>Vzor zobrazení (autor, počet příspěvků)</value>
+  </data>
+  <data name="authorDisplayPatternAggregated" xml:space="preserve">
+    <value>Vzor zobrazení v agregovaném blogu (autor, blog, počet příspěvků)</value>
+  </data>
+  <data name="noPostsMatchedYourCriteria" xml:space="preserve">
+    <value>Lituji, zadaným podmínkám neodpovídá žádný příspěvek</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Štítek</value>
+  </data>
+  <data name="showIncludeComments" xml:space="preserve">
+    <value>Zobrazit volbu zahrnutí komentářů</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>Obsah</value>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>Publikované příspěvky</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>Publikované stránky</value>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>Spam komentáře</value>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>Nejnovější komentáře</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Logy</value>
+  </data>
+  <data name="loggedMessages" xml:space="preserve">
+    <value>Zprávy v logu</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>Předch.</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Násl.</value>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>Zrušit publikaci</value>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>Systémová role</value>
+  </data>
+  <data name="pingbacks" xml:space="preserve">
+    <value>Pingbacks</value>
+  </data>
+  <data name="lastUpdated" xml:space="preserve">
+    <value>Poslední aktualizace</value>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>Import export</value>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>Prohlížet můj blog</value>
   </data>
 </root>

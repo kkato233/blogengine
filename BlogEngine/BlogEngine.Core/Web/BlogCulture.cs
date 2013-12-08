@@ -429,15 +429,19 @@ namespace BlogEngine.Core.Web
             AddResource("language");
             AddResource("languageCode");
             AddResource("lastName");
+            AddResource("lastUpdated");
+            AddResource("latestComments");
             AddResource("latestFromTheGallery");
             AddResource("latitude");
             AddResource("link");
             AddResource("ListIsEmpty");
             AddResource("livePreview");
+            AddResource("loggedMessages");
             AddResource("login");
             AddResource("loginFailed");
             AddResource("loginNow");
             AddResource("logoff");
+            AddResource("logs");
             AddResource("longtitude");
             AddResource("makeDonation");
             AddResource("manual");
@@ -464,6 +468,7 @@ namespace BlogEngine.Core.Web
             AddResource("newPassword");
             AddResource("newPasswordIsRequired");
             AddResource("newUserRoles");
+            AddResource("next");
             AddResource("nextPost");
             AddResource("nextPosts");
             AddResource("noApprovedComments");
@@ -521,6 +526,7 @@ namespace BlogEngine.Core.Web
             AddResource("phoneMain");
             AddResource("phoneMobile");
             AddResource("photoURL");
+            AddResource("pingbacks");
             AddResource("pingbacksAndTrackbacks");
             AddResource("pingService");
             AddResource("pingServiceNotUnique");
@@ -534,6 +540,7 @@ namespace BlogEngine.Core.Web
             AddResource("postPerPage");
             AddResource("posts");
             AddResource("postsPerFeed");
+            AddResource("prev");
             AddResource("preview");
             AddResource("previousPost");
             AddResource("previousPosts");
@@ -544,6 +551,8 @@ namespace BlogEngine.Core.Web
             AddResource("profileUpdated");
             AddResource("publish");
             AddResource("published");
+            AddResource("publishedPages");
+            AddResource("publishedPosts");
             AddResource("purge");
             AddResource("purgeAll");
             AddResource("purgeSelected");
@@ -650,6 +659,7 @@ namespace BlogEngine.Core.Web
             AddResource("source");
             AddResource("sourceViewer");
             AddResource("spam");
+            AddResource("spamComments");
             AddResource("spamProtection");
             AddResource("specifyPingService");
             AddResource("stats");
@@ -657,6 +667,7 @@ namespace BlogEngine.Core.Web
             AddResource("storageContainerName");
             AddResource("subject");
             AddResource("subscribe");
+            AddResource("systemRole");
             AddResource("switchUserProfile");
             AddResource("Tag");
             AddResource("tagChangedFromTo");
@@ -697,6 +708,7 @@ namespace BlogEngine.Core.Web
             AddResource("unapprovedcomments");
             AddResource("uncategorized");
             AddResource("unmoderated");
+            AddResource("unpublish");
             AddResource("up");
             AddResource("update");
             AddResource("updateFrequenzy");

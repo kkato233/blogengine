@@ -32,19 +32,19 @@
         <div class="row clearfix">
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Stats</div>
+                    <div class="panel-heading">{{lbl.stats}}</div>
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=pub">Published posts<span class="badge pull-right active">{{stats.PublishedPostsCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages?fltr=pub">Published pages <span class="badge pull-right">{{stats.PublishedPagesCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=dft">Draft posts <span class="badge pull-right">{{stats.DraftPostsCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages?fltr=dft">Draft pages <span class="badge pull-right">{{stats.DraftPagesCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=apr">Approved comments <span class="badge pull-right">{{stats.PublishedCommentsCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=pnd">Unapproved comments <span class="badge pull-right">{{stats.UnapprovedCommentsCount}}</span></a></li>
-                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=spm">Spam comments<span class="badge pull-right">{{stats.SpamCommentsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=pub">{{lbl.publishedPosts}} <span class="badge pull-right active">{{stats.PublishedPostsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages?fltr=pub">{{lbl.publishedPages}} <span class="badge pull-right">{{stats.PublishedPagesCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=dft">{{lbl.draftPosts}} <span class="badge pull-right">{{stats.DraftPostsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages?fltr=dft">{{lbl.draftPages}} <span class="badge pull-right">{{stats.DraftPagesCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=apr">{{lbl.approvedComments}} <span class="badge pull-right">{{stats.PublishedCommentsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=pnd">{{lbl.unapprovedcomments}} <span class="badge pull-right">{{stats.UnapprovedCommentsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=spm">{{lbl.spamComments}}<span class="badge pull-right">{{stats.SpamCommentsCount}}</span></a></li>
                     </ul>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Latest comments</div>
+                    <div class="panel-heading">{{lbl.latestComments}}</div>
                     <ul class="list-group" data-ng-repeat="comment in recentcomments">
                         <li class="list-group-item">
                             <span><a href="{{comment.RelativeLink}}">{{comment.Title}}</a></span>
@@ -54,7 +54,7 @@
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Draft posts</div>
+                    <div class="panel-heading">{{lbl.draftPosts}}</div>
                     <ul class="list-group" data-ng-repeat="post in draftposts">
                         <li class="list-group-item">
                             <span><a href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml?id={{post.Id}}&returnUrl={{SiteVars.RelativeWebRoot}}admin/#/">{{post.Title}}</a></span>
@@ -63,7 +63,7 @@
                     </ul>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Draft pages</div>
+                    <div class="panel-heading">{{lbl.draftPages}}</div>
                     <ul class="list-group" data-ng-repeat="page in draftpages">
                         <li class="list-group-item">
                             <span><a href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml?id={{page.Id}}&returnUrl={{SiteVars.RelativeWebRoot}}admin/#/">{{page.Title}}</a></span>
@@ -77,13 +77,13 @@
                         <li class="list-group-item">
                             <a href="{{t.RelativeUrl}}">{{t.Title}}</a>
                             <span class="pull-right">
-                                <a title="{{lbl.restore}}" href="" data-ng-click="restore(t.Id)">Restore</a>
-                                <a title="{{lbl.purge}}" href="" data-ng-click="purge(t.Id)">Purge</a>
+                                <a title="{{lbl.restore}}" href="" data-ng-click="restore(t.Id)">{{lbl.restore}}</a>
+                                <a title="{{lbl.purge}}" href="" data-ng-click="purge(t.Id)">{{lbl.purge}}</a>
                             </span>
                         </li>
                     </ul>
                     <div ng-if="trash.length > 0" class="list-group-item">
-                        <a href data-ng-click="purgeAll()">Purge all</a>
+                        <a href data-ng-click="purgeAll()">{{lbl.purgeAll}}</a>
                         <span class="badge pull-right">{{trash.length}}</span>
                     </div>
                     <!--<span ng-if="trash.length == 0" class="list-group-item">Empty</span>-->
@@ -92,7 +92,7 @@
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Latest from the gallery
+                        {{lbl.latestFromTheGallery}}
                         <span id="gal-spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small'></i></span>
                     </div>
                     <ul class="list-group" data-ng-repeat="pkg in packages">
@@ -106,10 +106,10 @@
                     </ul>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Logs</div>
+                    <div class="panel-heading">{{lbl.logs}}</div>
                     <ul class="list-group">
                         <li data-ng-if="logItems.length > 0" class="list-group-item">
-                            <a href="" data-ng-click="openLogFile()">Logged messages</a>
+                            <a href="" data-ng-click="openLogFile()">{{lbl.loggedMessages}}</a>
                         </li>
                     </ul>
                 </div>
