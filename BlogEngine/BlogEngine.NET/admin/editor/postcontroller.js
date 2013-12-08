@@ -2,21 +2,13 @@
     $scope.id = editVars.id;
     $scope.post = newPost;
     $scope.lookups = [];
-    $scope.allCats = [];
     $scope.allTags = [];
     $scope.selectedAuthor = {};
-    $scope.fullScreen = false;
 
     $scope.load = function () {
         dataService.getItems('/api/lookups')
         .success(function (data) {
             angular.copy(data, $scope.lookups);
-            $scope.allCats = [];
-            if (data != null && data.CategoryList != null) {
-                for (var i = 0; i < data.CategoryList.length; i++) {
-                    $scope.allCats[i] = (data.CategoryList[i].OptionName);
-                }
-            }
             $scope.loadTags();
         })
         .error(function () {
@@ -37,7 +29,6 @@
                 $scope.loadPost();
             }
             else {
-                load_cats([], $scope.allCats);
                 load_tags([], $scope.allTags);
                 $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, SiteVars.UserName);
             }
@@ -53,13 +44,17 @@
         dataService.getItems(url)
         .success(function (data) {
             angular.copy(data, $scope.post);
-            existingCategories = [];
-            existingTags = [];
+            // check post categories in the list
             if ($scope.post.Categories != null) {
                 for (var i = 0; i < $scope.post.Categories.length; i++) {
-                    existingCategories[i] = ($scope.post.Categories[i].Title);
+                    for (var j = 0; j < $scope.lookups.CategoryList.length; j++) {
+                        if ($scope.post.Categories[i].Id === $scope.lookups.CategoryList[j].OptionValue) {
+                            $scope.lookups.CategoryList[j].IsSelected = true;
+                        }
+                    }
                 }
             }
+            var existingTags = [];
             if ($scope.post.Tags != null) {
                 for (var i = 0; i < $scope.post.Tags.length; i++) {
                     existingTags[i] = ($scope.post.Tags[i].TagName);
@@ -67,7 +62,6 @@
             }
             $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, $scope.post.Author);
             load_tags(existingTags, $scope.allTags);
-            load_cats(existingCategories, $scope.allCats);
             $("#editor").html($scope.post.Content);
             spinOff();
         })
@@ -84,7 +78,17 @@
         if ($scope.post.Slug.toLowerCase() === "unpublished" || $scope.post.Slug.length == 0) {
             $scope.post.Slug = toSlug($scope.post.Title);
         }
-        $scope.post.Categories = get_cats();
+        // get selected categories
+        $scope.post.Categories = [];
+        if ($scope.lookups.CategoryList != null) {
+            for (var i = 0; i < $scope.lookups.CategoryList.length; i++) {
+                var cat = $scope.lookups.CategoryList[i];
+                if (cat.IsSelected) {
+                    var catAdd = { "IsChecked": false, "Id": cat.OptionValue, "Title": cat.OptionName };
+                    $scope.post.Categories.push(catAdd);
+                }
+            }
+        }
         $scope.post.Tags = get_tags();
 
         if ($scope.post.Id) {
@@ -100,7 +104,6 @@
             dataService.addItem('api/posts', $scope.post)
            .success(function (data) {
                toastr.success("Post added");
-               $log.log(data);
                if (data.Id) {
                    angular.copy(data, $scope.post);
                    var x = $scope.post.Id;
@@ -173,6 +176,17 @@
         $("#editor-source").val($("#editor").html());
     }
 
+    $scope.status = function () {
+        // 0 - unpublished; 1 - saved; 2 - published;
+        if ($scope.post && $scope.post.Id && $scope.post.IsPublished) {
+            return 2;
+        }
+        if ($scope.post && $scope.post.Id && !$scope.post.IsPublished) {
+            return 1;
+        }
+        return 0;
+    }; 
+
     $scope.load();
 });
 
@@ -187,5 +201,5 @@ var newPost = {
     "Tags": "",
     "Comments": "",
     "HasCommentsEnabled": true,
-    "IsPublished": true
+    "IsPublished": false
 }

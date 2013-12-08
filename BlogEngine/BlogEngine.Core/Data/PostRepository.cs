@@ -185,7 +185,7 @@ namespace BlogEngine.Core.Data
             post.DateCreated = DateTime.ParseExact(detail.DateCreated, "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
 
             UpdatePostCategories(post, detail.Categories);
-            UpdatePostTags(post, detail.Tags);
+            UpdatePostTags(post, FilterTags(detail.Tags));
 
             post.Save();
         }
@@ -271,6 +271,19 @@ namespace BlogEngine.Core.Data
             {
                 post.Tags.Add(t.TagName);
             }
+        }
+
+        static List<TagItem> FilterTags(List<TagItem> tags)
+        {
+            var uniqueTags = new List<TagItem>();
+            foreach (var t in tags)
+            {
+                if (!uniqueTags.Any(u => u.TagName == t.TagName))
+                {
+                    uniqueTags.Add(t);
+                }
+            }
+            return uniqueTags;
         }
 
         #endregion

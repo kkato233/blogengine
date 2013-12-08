@@ -4,6 +4,7 @@
 
 #editor {
     max-height: 50%;
+    min-height: 300px;
     height: 40%;
     background-color: white;
     border-collapse: separate;
@@ -134,4 +135,22 @@ div[data-role="editor-toolbar"] {
 
 .edit-publish li {
     text-align: left;
+}
+
+.caret-publish {
+    min-height: 12px;
+    margin-bottom: 8px;
+}
+
+.edit-categories li {
+    padding: 2px 5px;
+}
+
+#postTags { 
+    line-height: 20px; 
+    height: 30px;
+}
+
+.text-tag { 
+    margin-top: 3px;
 }
