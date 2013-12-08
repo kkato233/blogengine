@@ -64,49 +64,51 @@
                 <input type="text" id="txtTitle" placeholder="Title of post..." class="form-control" data-ng-model="post.Title" />
                 @RenderPage("_editor.cshtml")
                 <div class="row footer-editor">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="input-group input-group-sm post-tags-selector">
                             <span class="input-group-addon">
                                 <i class="fa fa-tag fa-sm"></i>
                                 {{lbl.tags}}
                             </span>
-                            <textarea id="postTags" class=" form-control" rows="1" style=" height:30px; width: 100% !important"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="input-group input-group-sm post-cats-selector">
-                            <span class="input-group-addon">
-                                <i class="fa fa-folder fa-sm"></i>
-                                {{lbl.category}}
-                            </span>
-                            <textarea id="postCategories" class="form-control" rows="1" style=" height:30px; width: 100% !important"></textarea>
+                            <textarea id="postTags" class=" form-control" rows="1"></textarea>
                         </div>
                     </div>
                 </div>
                 <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-lg'></i></span>
                 <hr />
+                <div class="pull-left">
+                    <div class="btn-group dropup">
+                        <a href="#" data-ng-click="publish(true)" class="btn btn-default"><i class="fa fa-folder"></i>{{lbl.categories}}</a>
+                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                            <span class="caret caret-publish"></span>
+                        </button>
+                        <ul class="dropdown-menu edit-categories">
+                            <li ng-repeat="cat in lookups.CategoryList">
+                                <input type="checkbox" id="cat-{{cat.OptionValue}}" data-ng-model="cat.IsSelected" />
+                                <label for="cat-{{cat.OptionValue}}">{{cat.OptionName}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default"><i class="fa fa-cog"></i>Setting</a>
+                </div>
                 <div class="text-right">
-                    <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>Setting</a>
-                    @*<label>
-                        <input type="checkbox" name="ckEnableComments" data-ng-model="post.IsPublished" />
-                        <span>{{lbl.published}}</span>
-                    </label>*@
+                    {{status()}}
                     <label ng-if="!post.IsPublished">Unpublished</label>
-                    <label ng-if="post.IsPublished">Published</label>
+                    <label ng-if="post.IsPublished">Published on {{post.DateCreated}}</label>
                     <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
                     <div class="btn-group dropup">
-                        <a href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
+                        <a ng-if="status() < 2" href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
+                        <a ng-if="status() == 2" href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
                         <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">
-                            <span class="caret" style="padding: 4px 0; margin-bottom: 8px"></span>
+                            <span class="caret caret-publish"></span>
                         </button>
                         <ul class="dropdown-menu edit-publish">
                             <li ng-if="post.Id"><a href="{{SiteVars.RelativeWebRoot}}post/{{post.Slug}}" target="_new"><i class="fa fa-share"></i> Go to post</a></li>
                             <li ng-if="post.Id" class="divider"></li>
                             <li ng-if="post.Id && post.IsPublished"><a href="#" ng-click="publish(false)"><i class="fa fa-undo"></i> Unpublish</a></li>
-                            <li><a href="#" ng-click="save()"><i class="fa fa-save"></i> Save</a></li>
+                            <li ng-if="status() < 2"><a href="#" ng-click="save()"><i class="fa fa-save"></i> Save</a></li>
                         </ul>
                     </div>
-
                 </div>
             </div>
         </div>

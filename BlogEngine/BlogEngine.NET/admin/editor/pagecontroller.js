@@ -144,5 +144,5 @@ var newPage = {
     "DateCreated": moment().format("MM/DD/YYYY HH:MM"),
     "Slug": "unpublished",
     "ShowInList": true,
-    "IsPublished": true
+    "IsPublished": false
 }

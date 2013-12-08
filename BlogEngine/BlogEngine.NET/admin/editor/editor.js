@@ -16,24 +16,6 @@
     });
 }
 
-function load_cats(postCats, allCats) {
-    $('#postCategories')
-    .textext({
-        plugins: 'tags autocomplete',
-        tagsItems: postCats
-    })
-    .bind('getSuggestions', function (e, data) {
-        var list = allCats,
-            textext = $(e.target).textext()[0],
-            query = (data ? data.query : '') || '';
-
-        $(this).trigger(
-            'setSuggestions',
-            { result: textext.itemManager().filter(list, query) }
-        );
-    });
-}
-
 function get_tags() {
     var tags = [];
     var tagList = [];
@@ -42,16 +24,6 @@ function get_tags() {
         tagList[i] = { TagCount: 0, TagName: tags[i] };
     }
     return tagList;
-}
-
-function get_cats() {
-    var cats = [];
-    var catList = [];
-    $('.post-cats-selector .text-tags .text-label').each(function () { cats.push($(this).text()) });
-    for (var i = 0; i < cats.length; i++) {
-        catList[i] = { Count: 0, Title: cats[i], Description: "" };
-    }
-    return catList;
 }
 
 $(function () {
@@ -66,7 +38,9 @@ $(function () {
         $('a[title]').tooltip({ container: 'body' });
         $('.dropdown-menu input').click(function () { return false; })
             .change(function () { $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle'); })
-        .keydown('esc', function () { this.value = ''; $(this).change(); });
+            .keydown('esc', function () {
+            this.value = ''; $(this).change();
+        });
 
         $('[data-role=magic-overlay]').each(function () {
             var overlay = $(this), target = $(overlay.data('target'));
