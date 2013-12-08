@@ -1,0 +1,85 @@
+﻿<div id="wrap">
+    <div data-ng-include="" src="'views/shared/_nav.html'"></div>
+    <div data-ng-include="" src="'views/shared/_navposts.html'"></div>
+    <div class="container admin-view-main admin-view-content-comments" data-ng-controller="CommentsController">
+        <div class="page-header clearfix">
+            <h2 class="page-title pull-left">
+                {{lbl.comments}}
+                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+            </h2>
+        </div>
+        <div class="well">
+            <div class="toolbar-grid clearfix">
+                <div class="pull-left">
+                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                    <button ng-click="processChecked('approve')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.approve}}</button>
+                    <button ng-click="processChecked('unapprove')" class="btn btn-info btn-sm "><i class="fa fa-minus"></i>{{lbl.unapprove}}</button>
+                </div>
+                <div class="filterbar clearfix">
+                    <div class="pull-right">
+                        <div class="navbar-left search-grid pull-right">
+                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="Search">
+                        </div>
+                        <div class="btn-toolbar pull-right">
+                            <div class="btn-group">
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsApproved','all','all')">{{lbl.all}}</button>
+                                <button id="fltr-pnd" class="btn btn-default btn-sm" ng-click="gridFilter('IsPending',true,'pnd')">{{lbl.pending}}</button>
+                                <button id="fltr-apr" class="btn btn-default btn-sm" ng-click="gridFilter('IsApproved',true,'apr')">{{lbl.approved}}</button>
+                                <button id="fltr-spm" class="btn btn-default btn-sm" ng-click="gridFilter('IsSpam',true,'spm')">{{lbl.spam}}</button>
+                                <button id="fltr-png" class="btn btn-default btn-sm" ng-click="gridFilter('Email','pingback','png')">Pingbacks</button>
+                            </div>
+                        </div>
+                        <span class="btn pull-rigth btn-sm" disabled="disabled">Show:</span>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
+                        <th>&nbsp;</th>
+                        <th class="table-item-title table-item-w50">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                        <th>Created on</th>
+                        <th>{{lbl.author}} <a href="" data-ng-click="sort_by('Author',$event)"><i class="fa fa-sort"></i></a></th>
+                        <th>{{lbl.approved}}</th>
+                        <th>{{lbl.spam}}</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: items">
+                    <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+                        <td>
+                            <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren == false || item.Email == 'pingback'" />
+                        </td>
+                        <td class="table-item-avatar" data-ng-bind-html="item.Avatar"></td>
+                        <td class="table-item-title"> 
+                            <a title=" {{item.title}}" class="pull-left" href="{{item.RelativeLink}}">
+                                <span class="text-ellipsis">{{item.Title}}</span>
+                            </a> 
+                            <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.RelativeLink}}">
+                                <i class="fa fa-external-link"></i>
+                            </a> 
+                        </td>
+                        <td>{{item.DateCreated}}</td>
+                        <td>{{item.Author}}</td>
+                        <td><input type="checkbox" data-ng-model="item.IsApproved" data-ng-disabled="true"></td>
+                        <td><input type="checkbox" data-ng-model="item.IsSpam" data-ng-disabled="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right">
+                <ul class="pagination">
+                    <li data-ng-class="{disabled: currentPage == 0}">
+                        <a data-ng-click="prevPage()">« Prev</a>
+                    </li>
+                    <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                        <a data-ng-bind="n + 1">1</a>
+                    </li>
+                    <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                        <a data-ng-click="nextPage()">Next »</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

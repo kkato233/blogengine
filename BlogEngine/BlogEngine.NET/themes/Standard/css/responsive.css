@@ -1,0 +1,7 @@
+﻿@media screen and (max-width:640px) {
+    .widgets-footer .widget  {
+        margin:0;
+        float:none;
+        width:100%;
+    }
+}

@@ -1,0 +1,56 @@
+﻿body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.container {
+    max-width: 460px;
+}
+
+.account-header {
+    margin-bottom: 20px;
+    position: relative;
+    top: 5px;
+    opacity: 0;
+}
+
+.account-header .returnblog {
+    position: relative;
+    top: 20px;
+}
+.account {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 6% 7% 6%;
+    margin: 0;
+        position: relative;
+    top: -5px;
+    opacity: 0;
+}
+.account table{
+    width:100%;
+}
+
+.account .page-header {
+    margin: 0 0 20px;
+    padding-bottom: 25px;
+}
+
+.account .page-header h3 {
+    margin: 0;
+}
+
+.warning {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+     color: rgb(185, 74, 72);
+    background-color: rgb(242, 222, 222);
+    border-color: rgb(235, 204, 209);
+    margin-top:15px;
+}
+.warning  a {
+    color:rgb(174, 19, 16)
+}
