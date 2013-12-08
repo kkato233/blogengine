@@ -1,6 +1,6 @@
 ﻿angular.module('blogAdmin').controller('PagesController', function ($scope, $location, $http, $filter, dataService) {
-    $scope.data = dataService;
     $scope.items = [];
+    $scope.filter = ($location.search()).fltr;
 
     $scope.load = function () {
         spinOn();
@@ -10,6 +10,9 @@
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
+            if ($scope.filter) {
+                $scope.setFilter($scope.filter);
+            }
             spinOff();
         })
         .error(function () {
@@ -47,16 +50,13 @@
         });
     }
 
-    $scope.pageFilter = function (fld, prm) {
-        var url = '/api/posts';
-        var p = { page: 1, size: 0, filter: fld + ' == "' + prm + '"' }
-        dataService.getItems(url, p)
-        .success(function (data) {
-            angular.copy(data, $scope.items);
-            gridInit($scope, $filter);
-        })
-        .error(function () {
-            toastr.error("Error filtering posts");
-        });
-    }
+	$scope.setFilter = function (filter) {
+	    if ($scope.filter === 'pub') {
+	        $scope.gridFilter('IsPublished', true, 'pub');
+	    }
+	    if ($scope.filter === 'dft') {
+	        $scope.gridFilter('IsPublished', false, 'dft');
+	    }
+	}
+
 });
