@@ -23,9 +23,9 @@
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all')">All</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true)">Published</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false)">Draft</button>
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all','all')">All</button>
+                                <button id="fltr-pub" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true,'pub')">Published</button>
+                                <button id="fltr-dft" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false,'dft')">Draft</button>
                             </div>
                         </div>
                         <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
@@ -36,7 +36,7 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
-                        <th class="table-item-title table-item-w50">Title <a href data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w50">Title <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>Parent</th>
                         <th>Created on</th>
                         <th>Show in list</th>

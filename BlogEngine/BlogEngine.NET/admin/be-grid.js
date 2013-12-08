@@ -76,30 +76,40 @@
         clearChecks();
     };
 
-    scope.sort_by = function (newSortingOrder) {
+    scope.sort_by = function (newSortingOrder, e) {
         if (scope.sortingOrder == newSortingOrder)
             scope.reverse = !scope.reverse;
 
         scope.sortingOrder = newSortingOrder;
 
         $('th i').each(function () {
-            $(this).removeClass().addClass('icon-sort');
+            $(this).removeClass('fa-sort-asc').removeClass('fa-sort-desc').addClass('fa-sort');
         });
+
         if (scope.reverse)
-            $('th.' + new_sorting_order + ' i').removeClass().addClass('icon-chevron-up');
+            $(e.target).removeClass('fa-sort').addClass('fa-sort-asc');
         else
-            $('th.' + new_sorting_order + ' i').removeClass().addClass('icon-chevron-down');
+            $(e.target).removeClass('fa-sort').addClass('fa-sort-desc');
     };
 
-    scope.gridFilter = function (field, value) {
+    scope.gridFilter = function (field, value, fltr) {
+        $("#fltr-all").removeClass('active');
+        $("#fltr-apr").removeClass('active');
+        $("#fltr-pnd").removeClass('active');
+        $("#fltr-spm").removeClass('active');
+        $("#fltr-png").removeClass('active');
+        $("#fltr-pub").removeClass('active');
+        $("#fltr-dft").removeClass('active');
+
+        $("#fltr-loc").removeClass("active");
+        $("#fltr-gal").removeClass("active");
+
+        $("#fltr-" + fltr).addClass('active');
+
         scope.filteredItems = filter('filter')(scope.items, function (item) {
             if (value == 'all') {
                 return true;
-            }
-            else {
-                $("#fltr-all").removeClass("active");
-            }
-                
+            }             
             return item[field] === value;
         });
         if (scope.sortingOrder !== '') {
@@ -107,6 +117,7 @@
         }
         scope.currentPage = 0;
         scope.groupToPages();
+        return false;
     };
 
     scope.checkAll = function (e) {

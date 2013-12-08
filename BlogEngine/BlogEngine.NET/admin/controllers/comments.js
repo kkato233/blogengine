@@ -2,6 +2,7 @@
     $scope.items = [];
     $scope.item = {};
     $scope.id = ($location.search()).id;
+    $scope.filter = ($location.search()).fltr;
 
     if ($scope.id) {
         $("#modal-add-item").modal();
@@ -11,15 +12,30 @@
         spinOn();
         var p = { type: 5, take: 0, skip: 0, filter: "", order: "" };
         dataService.getItems('/api/comments', p)
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter);
-                spinOff();
-            })
-            .error(function (data) {
-                toastr.success("Error getting tags");
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            if ($scope.filter) {
+                $scope.setFilter($scope.filter);
+            }
+            spinOff();
+        })
+        .error(function (data) {
+            toastr.success("Error getting tags");
+            spinOff();
+        });
+    }
+
+    $scope.setFilter = function (filter) {
+        if ($scope.filter === 'pnd') {
+            $scope.gridFilter('IsPending', true, 'pnd');
+        }
+        if ($scope.filter === 'apr') {
+            $scope.gridFilter('IsApproved', true, 'apr');
+        }
+        if ($scope.filter === 'spm') {
+            $scope.gridFilter('IsSpam', true, 'spm');
+        }
     }
 
     $scope.load();

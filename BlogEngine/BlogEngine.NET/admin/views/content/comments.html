@@ -22,11 +22,11 @@
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsApproved','all')">{{lbl.all}}</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPending',true)">{{lbl.pending}}</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsApproved',true)">{{lbl.approved}}</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsSpam',true)">{{lbl.spam}}</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('Email','pingback')">Pingbacks</button>
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsApproved','all','all')">{{lbl.all}}</button>
+                                <button id="fltr-pnd" class="btn btn-default btn-sm" ng-click="gridFilter('IsPending',true,'pnd')">{{lbl.pending}}</button>
+                                <button id="fltr-apr" class="btn btn-default btn-sm" ng-click="gridFilter('IsApproved',true,'apr')">{{lbl.approved}}</button>
+                                <button id="fltr-spm" class="btn btn-default btn-sm" ng-click="gridFilter('IsSpam',true,'spm')">{{lbl.spam}}</button>
+                                <button id="fltr-png" class="btn btn-default btn-sm" ng-click="gridFilter('Email','pingback','png')">Pingbacks</button>
                             </div>
                         </div>
                         <span class="btn pull-rigth btn-sm" disabled="disabled">Show:</span>
@@ -38,9 +38,9 @@
                     <tr>
                         <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                         <th>&nbsp;</th>
-                        <th class="table-item-title table-item-w50">{{lbl.title}} <a data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w50">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>Created on</th>
-                        <th>{{lbl.author}}</th>
+                        <th>{{lbl.author}} <a href="" data-ng-click="sort_by('Author',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.approved}}</th>
                         <th>{{lbl.spam}}</th>
                     </tr>

@@ -99,8 +99,8 @@
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button id="fltr-local" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                                <button class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
+                                <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
+                                <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
                             </div>
                         </div>
                         <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
@@ -113,7 +113,7 @@
                     <tr>
                         <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                         <th>&nbsp;</th>
-                        <th class="table-item-title table-item-w70">{{lbl.title}} <a ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w70">{{lbl.title}} <a href="" ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
                         <th>Last Updated</th>

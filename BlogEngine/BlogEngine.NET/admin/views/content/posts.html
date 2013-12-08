@@ -23,9 +23,9 @@
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all')">All</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true)">Published</button>
-                                <button class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false)">Draft</button>
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all','all')">All</button>
+                                <button id="fltr-pub" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true,'pub')">Published</button>
+                                <button id="fltr-dft" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false,'dft')">Draft</button>
                             </div>
                         </div>
                         <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
@@ -36,7 +36,7 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
-                        <th class="table-item-title table-item-w60">Title <a data-ng-click="sort_by('Title')"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w60">Title <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>Author</th>
                         <th>Comments</th>
                         <th>Created on</th>
@@ -50,8 +50,20 @@
                             <a title="{{item.Title}}" href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml?id={{item.Id}}">{{item.Title}}</a> 
                             <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}post/{{item.Slug}}"><i class="fa fa-external-link"></i></a> 
                         </td>
-                        <td><a title="{{item.Author}}" data-ng-click="postFilter('Author', item.Author)">{{item.Author}}</a></td>
-                        <td><div ng-if="item.Comments != null"> <span title="Spam: {{item.Comments[0]}} | Approved: {{item.Comments[1]}} | Pending: {{item.Comments[2]}}"> 24</span> </div> </td>
+                        <td><a href="" title="{{item.Author}}" ng-click="gridFilter('Author',item.Author,'')">{{item.Author}}</a></td>
+                        <td>
+                            <div ng-if="item.Comments"> 
+                                <span title="Spam: {{item.Comments[0]}}">
+                                    <a class="badge" href="#/content/comments?fltr=spm">{{item.Comments[0]}}</a>
+                                </span> 
+                                <span title="Approved: {{item.Comments[1]}}">
+                                    <a class="badge" href="#/content/comments?fltr=apr">{{item.Comments[1]}}</a>
+                                </span> 
+                                <span title="Pending: {{item.Comments[2]}}">
+                                    <a class="badge" href="#/content/comments?fltr=pnd">{{item.Comments[2]}}</a>
+                                </span> 
+                            </div> 
+                        </td>
                         <td>{{item.DateCreated}}</td>
                         <td><input type="checkbox" data-ng-model="item.IsPublished" data-ng-disabled="true"></td>
                     </tr>

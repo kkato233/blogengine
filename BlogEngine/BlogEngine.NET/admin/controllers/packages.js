@@ -65,9 +65,8 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
 
     $scope.relocate = function (loc) {
         $scope.pkgLocation = loc;
-        if (loc != 'L') {
-            $("#fltr-local").removeClass("active");
-        }
+        $("#fltr-loc").removeClass("active");
+        $("#fltr-gal").removeClass("active");
         $scope.load();
     }
 
