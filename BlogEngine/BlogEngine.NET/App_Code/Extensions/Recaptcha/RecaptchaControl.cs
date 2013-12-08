@@ -555,7 +555,7 @@ namespace App_Code.Controls
         protected override void RenderContents(HtmlTextWriter output)
         {
             output.AddAttribute("type", "text/javascript");
-            output.AddAttribute("src", "http://api.recaptcha.net/js/recaptcha_ajax.js");
+            output.AddAttribute("src", "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
             output.RenderBeginTag("script");
             output.RenderEndTag();
 
