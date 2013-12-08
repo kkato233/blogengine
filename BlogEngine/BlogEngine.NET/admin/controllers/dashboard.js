@@ -78,6 +78,8 @@
     $scope.load = function () {
         spinOn();
 
+        $scope.loadPackages();
+
         dataService.getItems('/api/stats')
             .success(function (data) { angular.copy(data, $scope.stats); })
             .error(function (data) { toastr.success("Error getting stats"); });
@@ -94,11 +96,11 @@
             .success(function (data) { angular.copy(data, $scope.recentcomments); })
             .error(function () { toastr.error("Error loading recent comments"); });
 
+        dataService.getItems('/api/logs/getlog/file')
+            .success(function (data) { angular.copy(data, $scope.logItems); })
+            .error(function (data) { toastr.error("Error getting log file"); });
+
         $scope.loadTrash();
-
-        $scope.loadPackages();
-
-        //spinOff();
     }
 
     $scope.loadPackages = function () {

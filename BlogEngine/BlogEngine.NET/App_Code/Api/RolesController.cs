@@ -119,7 +119,8 @@ public class RolesController : ApiController
 
         try
         {
-            var action = Request.RequestUri.Segments.Length == 5 ? Request.RequestUri.Segments[4] : "";
+            var action = Request.GetRouteData().Values["id"].ToString();
+
             if (action.ToLower() == "delete")
             {
                 foreach (var item in items)
