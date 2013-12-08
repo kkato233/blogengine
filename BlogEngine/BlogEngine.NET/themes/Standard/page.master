@@ -40,7 +40,7 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="<%=Utils.AbsoluteWebRoot %>"><%=Resources.labels.home %></a></li>
                             <li><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
-                            <li><a href="<%=Utils.AbsoluteWebRoot %>contact">Contact</a></li>
+                            <li><a href="<%=Utils.AbsoluteWebRoot %>contact"><%=Resources.labels.home %></a></li>
                             <li><a href="<%=Utils.FeedUrl %>"><%=Resources.labels.subscribe %></a></li>
                             <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
                               { %>

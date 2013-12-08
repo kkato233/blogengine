@@ -14,7 +14,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
-                        <button data-ng-click="save()" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{lbl.save}}</button>
+                        <button data-ng-click="save()" class="btn btn-primary" type="submit"><i class="fa fa-save"></i>{{lbl.save}}</button>
                     </div>
                 </div>
             </div>
@@ -31,11 +31,11 @@
 
                     <div class="toolbar-grid clearfix">
                         <div class="pull-left">
-                            <span data-ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</span>
+                            <span data-ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
                         </div>
                         <div class="filterbar clearfix">
                             <div class="pull-right">
-                                <input type="text" data-ng-model="query" data-ng-change="search()" class="input-sm form-control search-grid pull-right" placeholder="Search">
+                                <input type="text" data-ng-model="query" data-ng-change="search()" class="input-sm form-control search-grid pull-right" placeholder="{{lbl.search}}">
                             </div>
                         </div>
                     </div>
@@ -63,17 +63,17 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    
                     <div class="text-right">
                         <ul class="pagination">
                             <li data-ng-class="{disabled: currentPage == 0}">
-                                <a data-ng-click="prevPage()">« Prev</a>
+                                <a data-ng-click="prevPage()">« {{lbl.prev}} </a>
                             </li>
                             <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
                                 <a data-ng-bind="n + 1">1</a>
                             </li>
                             <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                                <a data-ng-click="nextPage()">Next »</a>
+                                <a data-ng-click="nextPage()">{{lbl.next}} »</a>
                             </li>
                         </ul>
                     </div>

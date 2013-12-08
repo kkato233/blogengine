@@ -12,23 +12,23 @@
         <div class="well">
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
-                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>Delete</button>
-                    <button ng-click="processChecked('publish')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>Publish</button>
-                    <button ng-click="processChecked('unpublish')" class="btn btn-info btn-sm "><i class="fa fa-minus"></i>Unpublish</button>
+                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                    <button ng-click="processChecked('publish')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.publish}}</button>
+                    <button ng-click="processChecked('unpublish')" class="btn btn-info btn-sm"><i class="fa fa-minus"></i>{{lbl.unpublish}}</button>
                 </div>
                 <div class="filterbar clearfix">
                     <div class="pull-right">
                         <div class="navbar-left search-grid pull-right">
-                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="Search">
+                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all','all')">All</button>
-                                <button id="fltr-pub" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true,'pub')">Published</button>
-                                <button id="fltr-dft" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false,'dft')">Draft</button>
+                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsPublished','all','all')">{{lbl.all}}</button>
+                                <button id="fltr-pub" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',true,'pub')">{{lbl.published}}</button>
+                                <button id="fltr-dft" class="btn btn-default btn-sm" ng-click="gridFilter('IsPublished',false,'dft')">{{lbl.drafts}}</button>
                             </div>
                         </div>
-                        <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
+                        <span class="btn pull-rigth  btn-sm" disabled="disabled">{{lbl.show}}:</span>
                     </div>
                 </div>
             </div>
@@ -36,11 +36,11 @@
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
-                        <th class="table-item-title table-item-w50">Title <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
-                        <th>Parent</th>
-                        <th>Created on</th>
-                        <th>Show in list</th>
-                        <th>Published</th>
+                        <th class="table-item-title table-item-w50">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                        <th>{{lbl.parent}}</th>
+                        <th>{{lbl.createdOn}}</th>
+                        <th>{{lbl.showInList}}</th>
+                        <th>{{lbl.published}}</th>
                     </tr>
                 </thead>
                 <tbody data-bind="foreach: posts">
@@ -60,13 +60,13 @@
             <div class=" text-right">
                 <ul class="pagination">
                     <li data-ng-class="{disabled: currentPage == 0}">
-                        <a data-ng-click="prevPage()">« Prev</a>
+                        <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
                     </li>
                     <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
                         <a data-ng-bind="n + 1">1</a>
                     </li>
                     <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                        <a data-ng-click="nextPage()">Next »</a>
+                        <a data-ng-click="nextPage()">{{lbl.next}} »</a>
                     </li>
                 </ul>
             </div>

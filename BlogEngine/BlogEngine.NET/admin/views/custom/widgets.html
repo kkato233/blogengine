@@ -75,7 +75,7 @@
                 <div class="filterbar clearfix">
                     <div class="pull-right">
                         <div class="navbar-left search-grid pull-right">
-                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="Search">
+                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
                         </div>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
@@ -83,7 +83,7 @@
                                 <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
                             </div>
                         </div>
-                        <span class="btn pull-rigth  btn-sm" disabled="disabled">Show:</span>
+                        <span class="btn pull-rigth  btn-sm" disabled="disabled">{{lbl.show}}:</span>
                     </div>
                 </div>
             </div>
@@ -116,13 +116,13 @@
                         <div class="text-right">
                 <ul class="pagination">
                     <li data-ng-class="{disabled: currentPage == 0}">
-                        <a data-ng-click="prevPage()">« Prev</a>
+                        <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
                     </li>
                     <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
                         <a data-ng-bind="n + 1">1</a>
                     </li>
                     <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                        <a data-ng-click="nextPage()">Next »</a>
+                        <a data-ng-click="nextPage()">{{lbl.next}} »</a>
                     </li>
                 </ul>
             </div>
