@@ -124,10 +124,10 @@
         <div class="well">
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
-                    <span ng-click="deleteChecked()" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>Delete</span>
+                    <span ng-click="deleteChecked()" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
                 </div>
                 <div class="pull-right">
-                    <input type="text" ng-model="query" ng-change="search()" class="form-control input-sm pull-right" placeholder="Search">
+                    <input type="text" ng-model="query" ng-change="search()" class="form-control input-sm pull-right" placeholder="{{lbl.search}}">
                 </div>
             </div>
             <table class="table table-bordered table-striped table-hover table-responsive">
@@ -159,13 +159,13 @@
             <div class="text-right">
                 <ul class="pagination">
                     <li data-ng-class="{disabled: currentPage == 0}">
-                        <a data-ng-click="prevPage()">« Prev</a>
+                        <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
                     </li>
                     <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
                         <a data-ng-bind="n + 1">1</a>
                     </li>
                     <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                        <a data-ng-click="nextPage()">Next »</a>
+                        <a data-ng-click="nextPage()">{{lbl.next}} »</a>
                     </li>
                 </ul>
             </div>

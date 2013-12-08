@@ -291,6 +291,7 @@ htmlHeadSection
 idArgumentNull
 ignore
 import
+importExport
 importFromBlogML
 importFromFile
 importWithClickOnce
@@ -319,15 +320,19 @@ LangDirection
 language
 languageCode
 lastName
+lastUpdated
+latestComments
 latestFromTheGallery
 latitude
 link
 ListIsEmpty
 livePreview
+loggedMessages
 login
 loginFailed
 loginNow
 logoff
+logs
 longtitude
 makeDonation
 manual
@@ -354,6 +359,7 @@ newest
 newPassword
 newPasswordIsRequired
 newUserRoles
+next
 nextPost
 nextPosts
 noApprovedComments
@@ -411,6 +417,7 @@ phoneFax
 phoneMain
 phoneMobile
 photoURL
+pingbacks
 pingbacksAndTrackbacks
 pingService
 pingServiceNotUnique
@@ -424,6 +431,7 @@ postDeleted
 postPerPage
 posts
 postsPerFeed
+prev
 preview
 previousPost
 previousPosts
@@ -434,6 +442,8 @@ profiles
 profileUpdated
 publish
 published
+publishedPages
+publishedPosts
 purge
 purgeAll
 purgeSelected
@@ -540,6 +550,7 @@ smtpServer
 source
 sourceViewer
 spam
+spamComments
 spamProtection
 specifyPingService
 stats
@@ -547,6 +558,7 @@ status
 storageContainerName
 subject
 subscribe
+systemRole
 switchUserProfile
 Tag
 tagChangedFromTo
@@ -587,6 +599,7 @@ unapproved
 unapprovedcomments
 uncategorized
 unmoderated
+unpublish
 up
 update
 updateFrequenzy
@@ -614,6 +627,7 @@ version
 view
 viewAll
 viewLargeCalendar
+viewMyBlog
 viewSource
 virtualPath
 visitorHi

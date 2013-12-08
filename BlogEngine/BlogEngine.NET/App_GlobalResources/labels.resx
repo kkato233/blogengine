@@ -2003,7 +2003,7 @@
     <value>Enter the URL to your website or to your APML document</value>
   </data>
   <data name="createBlogOnSelfRegistration" xml:space="preserve">
-    <value>Create new blog for self-regitered user</value>
+    <value>Create new blog for self-registered user</value>
   </data>
   <data name="AllPostsBy" xml:space="preserve">
     <value>All posts by</value>
@@ -2037,5 +2037,47 @@
   </data>
   <data name="content" xml:space="preserve">
     <value>Content</value>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>Published posts</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>Published pages</value>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>Spam comments</value>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>Latest comments</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Logs</value>
+  </data>
+  <data name="loggedMessages" xml:space="preserve">
+    <value>Logged messages</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>Prev</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>Unpublish</value>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>System role</value>
+  </data>
+  <data name="pingbacks" xml:space="preserve">
+    <value>Pingbacks</value>
+  </data>
+  <data name="lastUpdated" xml:space="preserve">
+    <value>Last Updated</value>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>Import export</value>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>View my blog</value>
   </data>
 </root>
