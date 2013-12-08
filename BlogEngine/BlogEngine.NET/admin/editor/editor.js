@@ -83,7 +83,29 @@ function selectedOption(arr, val) {
     }
 }
 
+function stripVowelAccent(str)
+{
+var s=str;
+
+var rExps=[ /[\u00C0-\u00C5]/g, /[\u00E0-\u00E5]/g,
+/[\u00C8-\u00CB]/g, /[\u00E8-\u00EB]/g,
+/[\u00CC-\u00CE]/g, /[\u00EC-\u00EF]/g,
+/[\u00D2-\u00D6]/g, /[\u00DD]/g, /[\u00F2-\u00F6]/g,
+/[\u00DA-\u00DC]/g, /[\u00F9-\u00FC]/g, /[\u00FD]/g,
+/[\u010C]/g, /[\u010D]/g, /[\u010E]/g, /[\u010C]/g, /[\u011A]/g, /[\u011B]/g,
+/[\u0147]/g, /[\u010C]/g, /[\u0158]/g, /[\u0159]/g, /[\u0160]/g, /[\u0161]/g,
+/[\u0164]/g, /[\u0165]/g, /[\u016E]/g, /[\u016F]/g, /[\u017D]/g, /[\u017E]/g];
+
+var repChar=['A','a','E','e','I','i','O','Y','o','U','u','y','C','c','D','d','E','e','N','n','R','r','S','s','T','t','U','u','Z','z'];
+
+for(var i=0; i<rExps.length; i++)
+s=s.replace(rExps[i],repChar[i]);
+
+return s;
+}
+
 function toSlug(title) {
+    title = stripVowelAccent(title)
     return title
     .toLowerCase()
     .replace(/[^\w ]+/g, '')
