@@ -560,7 +560,7 @@
     <value>Zobrazit popis příspěvků pouze pokud byly vypsány dle štitku či kategorie</value>
   </data>
   <data name="showInList" xml:space="preserve">
-    <value>Zobrazit jako seznam</value>
+    <value>Zobrazit v seznamu</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
     <value>Zobrazit náhled</value>
