@@ -15,14 +15,18 @@
                                 <label class="control-label" for="txtRoleName">{{lbl.name}}</label>
                                 <input type="text" id="txtRoleName" name="txtRoleName" class="form-control" data-ng-model="editItem.RoleName" />
                             </div>
-                            <div class="form-horizontal clearfix">
-                                <div data-ng-repeat="item in rights | orderBy:Title">
-                                    <h4>{{item.Title}}</h4>
-                                    <hr />
-                                    <div class="form-group" data-ng-repeat="p in item.Permissions">
-                                        <label class="control-label  col-md-6">{{p.Title}}</label>
-                                        <div class="col-md-6">
-                                            <input type="checkbox" data-ng-model="p.IsChecked" />
+
+                            <div data-ng-repeat="item in rights | orderBy:Title">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <span>{{item.Title}}</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-md-6" data-ng-repeat="p in item.Permissions">
+                                            <label>
+                                                <input type="checkbox" data-ng-model="p.IsChecked" />
+                                                {{p.Title}}
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -30,7 +34,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
-                            <button data-ng-click="save()" class="btn btn-primary pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                            <button data-ng-click="save()" class="btn btn-primary"><i class="fa fa-save"></i>{{lbl.save}}</button>
                         </div>
                     </div>
                 </div>

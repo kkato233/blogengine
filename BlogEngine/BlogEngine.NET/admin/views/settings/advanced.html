@@ -14,59 +14,74 @@
                 <div class="col-md-6">
                     <div class="well clearfix">
                         <div class="form-group">
-                            <label class="control-label" for="txtName">{{lbl.handleWwwSubdomain}}</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" value="remove" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.remove}}
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.enforce}}
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.ignore}}
-                                </label>
+                            <label class="control-label" for="txtName"><strong>{{lbl.handleWwwSubdomain}}</strong></label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="radio ">
+                                        <label>
+                                            <input type="radio" value="remove" data-ng-model="settings.HandleWwwSubdomain" />
+                                            {{lbl.remove}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="radio ">
+                                        <label>
+                                            <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.enforce}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="radio ">
+                                        <label>
+                                            <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.ignore}}
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <hr />
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckEnableHttpCompression" data-ng-model="settings.EnableHttpCompression" />
-                                {{lbl.enableHttpCompression}}
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckEnableOptimization" data-ng-model="settings.EnableOptimization" />
-                                {{lbl.enableOptimization}}
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckCompressWebResource" data-ng-model="settings.CompressWebResource" />
-                                {{lbl.compressWebResource}}
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckEnableOpenSearch" data-ng-model="settings.EnableOpenSearch" />
-                                {{lbl.enableOpenSearch}}
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckRequireSslForMetaWeblogApi" data-ng-model="settings.RequireSslForMetaWeblogApi" />
-                                <span>{{lbl.requireSslForMetaWeblogApi}}</span>
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="ckEnableErrorLogging" data-ng-model="settings.EnableErrorLogging" />
-                                {{lbl.enableErrorLogging}}
-                            </label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableHttpCompression" data-ng-model="settings.EnableHttpCompression" />
+                                        {{lbl.enableHttpCompression}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableOptimization" data-ng-model="settings.EnableOptimization" />
+                                        {{lbl.enableOptimization}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckCompressWebResource" data-ng-model="settings.CompressWebResource" />
+                                        {{lbl.compressWebResource}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableOpenSearch" data-ng-model="settings.EnableOpenSearch" />
+                                        {{lbl.enableOpenSearch}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckRequireSslForMetaWeblogApi" data-ng-model="settings.RequireSslForMetaWeblogApi" />
+                                        {{lbl.requireSslForMetaWeblogApi}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableErrorLogging" data-ng-model="settings.EnableErrorLogging" />
+                                        {{lbl.enableErrorLogging}}
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <hr />
                         <div class="form-group">
@@ -93,7 +108,6 @@
                                 </label>
                             </label>
                         </div>
-
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="ckEnableSelfRegistration" data-ng-model="settings.EnableSelfRegistration" />

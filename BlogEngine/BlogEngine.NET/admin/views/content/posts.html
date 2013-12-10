@@ -53,14 +53,14 @@
                         <td><a href="" title="{{item.Author}}" ng-click="gridFilter('Author',item.Author,'')">{{item.Author}}</a></td>
                         <td>
                             <div ng-if="item.Comments"> 
-                                <span title="{{lbl.spam}}: {{item.Comments[0]}}">
-                                    <a class="badge" href="#/content/comments?fltr=spm">{{item.Comments[0]}}</a>
+                                <span ng-if="item.Comments[0] != 0" title="{{lbl.spam}}: {{item.Comments[0]}}">
+                                    <a class="badge" href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[0]}}</a>
                                 </span> 
-                                <span title="{{lbl.approved}}: {{item.Comments[1]}}">
-                                    <a class="badge" href="#/content/comments?fltr=apr">{{item.Comments[1]}}</a>
+                                <span ng-if="item.Comments[1] != 0" title="{{lbl.approved}}: {{item.Comments[1]}}">
+                                    <a class="badge" href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[1]}}</a>
                                 </span> 
-                                <span title="{{lbl.pending}}: {{item.Comments[2]}}">
-                                    <a class="badge" href="#/content/comments?fltr=pnd">{{item.Comments[2]}}</a>
+                                <span ng-if="item.Comments[2] != 0" title="{{lbl.pending}}: {{item.Comments[2]}}">
+                                    <a class="badge" href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[2]}}</a>
                                 </span> 
                             </div> 
                         </td>

@@ -30,10 +30,14 @@
             </h2>
         </div>
         <div class="row clearfix">
-            <div class="col-md-4">
+            <div class="col-md-4" id="accordion">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{lbl.stats}}</div>
-                    <ul class="list-group">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">{{lbl.stats}}</a>
+                        </h4>
+                    </div>
+                    <ul class="list-group panel-collapse collapse in" id="collapseOne">
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=pub">{{lbl.publishedPosts}} <span class="badge pull-right active">{{stats.PublishedPostsCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages?fltr=pub">{{lbl.publishedPages}} <span class="badge pull-right">{{stats.PublishedPagesCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content?fltr=dft">{{lbl.draftPosts}} <span class="badge pull-right">{{stats.DraftPostsCount}}</span></a></li>
@@ -47,7 +51,7 @@
                     <div class="panel-heading">{{lbl.latestComments}}</div>
                     <ul class="list-group" data-ng-repeat="comment in recentcomments">
                         <li class="list-group-item">
-                            <span><a href="{{comment.RelativeLink}}">{{comment.Title}}</a></span>
+                            <span><a href="{{comment.RelativeLink}}" target="_new">{{comment.Title}}</a></span>
                         </li>
                     </ul>
                 </div>
