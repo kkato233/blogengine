@@ -45,29 +45,35 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4" for="selCultures">{{lbl.setAsCurrentTheme}}</label>
+                                <label class="control-label col-md-4" for="selDesktopTheme">{{lbl.setAsCurrentTheme}}</label>
                                 <div class="col-md-8">
                                     <select id="selDesktopTheme" class="form-control" data-ng-options="o.OptionName for o in lookups.InstalledThemes" data-ng-model="selectedDeskTheme"></select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4" for="selCultures">{{lbl.setAsMobileTheme}}</label>
+                                <label class="control-label col-md-4" for="selMobileTheme">{{lbl.setAsMobileTheme}}</label>
                                 <div class="col-md-8">
                                     <select id="selMobileTheme" class="form-control" data-ng-options="o.OptionName for o in lookups.InstalledThemes" data-ng-model="selectedMobileTheme"></select>
                                 </div>
                             </div>
                             <div class="col-md-offset-4 col-md-8">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckShowRelatedPosts" data-ng-model="settings.EnableRelatedPosts" />
-                                    <span>{{lbl.showRelatedPosts}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckShowRelatedPosts" data-ng-model="settings.EnableRelatedPosts" />
+                                        <span>{{lbl.showRelatedPosts}}</span>
+                                    </label>
                                 </div>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckShowPostNavigation" data-ng-model="settings.ShowPostNavigation" />
-                                    <span>{{lbl.showPostNavigation}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckShowPostNavigation" data-ng-model="settings.ShowPostNavigation" />
+                                        <span>{{lbl.showPostNavigation}}</span>
+                                    </label>
                                 </div>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckUseBlogNameInPageTitles" data-ng-model="settings.UseBlogNameInPageTitles" />
-                                    <span>{{lbl.useBlogNameInPageTitles}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckUseBlogNameInPageTitles" data-ng-model="settings.UseBlogNameInPageTitles" />
+                                        <span>{{lbl.useBlogNameInPageTitles}}</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -79,11 +85,13 @@
 
                             <div class="col-md-offset-4 col-md-8">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckDescInPostList" data-ng-model="settings.ShowDescriptionInPostList" />
-                                    <span>{{lbl.showDescriptionInPostList}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckDescInPostList" data-ng-model="settings.ShowDescriptionInPostList" />
+                                        <span>{{lbl.showDescriptionInPostList}}</span>
+                                    </label>
                                 </div>
+                                <br />
                             </div>
-
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtDescriptionCharacters">{{lbl.numberOfCharacters}}</label>
                                 <div class="col-md-8">
@@ -93,9 +101,11 @@
                             <hr />
                             <div class="col-md-offset-4 col-md-8">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckDescInPostList" data-ng-model="settings.ShowDescriptionInPostListForPostsByTagOrCategory" />
-                                    <span>{{lbl.showDescriptionInPostListForPostsByTagOrCategory}}</span>
-                                </div>
+                                    <label>
+                                        <input type="checkbox" name="ckDescInPostList" data-ng-model="settings.ShowDescriptionInPostListForPostsByTagOrCategory" />
+                                        <span>{{lbl.showDescriptionInPostListForPostsByTagOrCategory}}</span>
+                                    </label>
+                                </div><br />
                             </div>
                             <div class="form-group clearifx">
                                 <label class="control-label col-md-4" for="txtDescriptionCharactersForPosts">{{lbl.numberOfCharacters}}</label>
@@ -106,22 +116,28 @@
                             <hr />
                             <div class="col-md-offset-4 col-md-8">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckRemoveExtensionsFromUrls" data-ng-model="settings.RemoveExtensionsFromUrls" />
-                                    <span>{{lbl.removeExtensionsFromUrls}}</span>
-                                </div>
-
-
-                                <div class="checkbox">
-                                    <input type="checkbox" name="ckRedirectToRemoveFileExtension" data-ng-model="settings.RedirectToRemoveFileExtension" />
-                                    <span>{{lbl.redirectToRemoveFileExtension}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckRemoveExtensionsFromUrls" data-ng-model="settings.RemoveExtensionsFromUrls" />
+                                        <span>{{lbl.removeExtensionsFromUrls}}</span>
+                                    </label>
                                 </div>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckEnableRating" data-ng-model="settings.EnableRating" />
-                                    <span>{{lbl.enableRating}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckRedirectToRemoveFileExtension" data-ng-model="settings.RedirectToRemoveFileExtension" />
+                                        <span>{{lbl.redirectToRemoveFileExtension}}</span>
+                                    </label>
                                 </div>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="ckTimeStampPostLinks" data-ng-model="settings.TimeStampPostLinks" />
-                                    <span>{{lbl.timeStampPostLinks}}</span>
+                                    <label>
+                                        <input type="checkbox" name="ckEnableRating" data-ng-model="settings.EnableRating" />
+                                        <span>{{lbl.enableRating}}</span>
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckTimeStampPostLinks" data-ng-model="settings.TimeStampPostLinks" />
+                                        <span>{{lbl.timeStampPostLinks}}</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
