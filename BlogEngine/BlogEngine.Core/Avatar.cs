@@ -230,12 +230,14 @@ namespace BlogEngine.Core
         static string ProfileImg(string email)
         {
             var pf = AuthorProfile.GetProfileByEmail(email) ?? new AuthorProfile();
-
+            
             if (string.IsNullOrEmpty(pf.PhotoUrl))
                 return "";
 
-            return pf.PhotoUrl.StartsWith("http://") || pf.PhotoUrl.StartsWith("https://") ? pf.PhotoUrl :
-                Utils.ApplicationRelativeWebRoot + "image.axd?picture=/avatars/" + pf.PhotoUrl;
+            var img = pf.PhotoUrl.Replace("\"", "");
+
+            return img.StartsWith("http://") || img.StartsWith("https://") ? img :
+                Utils.ApplicationRelativeWebRoot + "image.axd?picture=/avatars/" + img;
         }
 
         static Avatar SiteThumb(string email, Uri website, string description, int width, int height)

@@ -33,7 +33,7 @@
     <comment id="82c3783e-5ea4-4a6e-b5b2-55d53da0a6c6" parentid="00000000-0000-0000-0000-000000000000" approved="True" spam="False" deleted="False">
       <date>2012-01-03 17:58:00</date>
       <author>Visitor 1</author>
-      <email>post@example.com</email>
+      <email>one@example.com</email>
       <country>be</country>
       <ip>127.0.0.1</ip>
       <content>comment 1</content>
@@ -41,7 +41,7 @@
     <comment id="20574909-b777-4246-9b15-d70a3a795fcc" parentid="00000000-0000-0000-0000-000000000000" approved="True" spam="False" deleted="False">
       <date>2012-01-15 17:01:59</date>
       <author>Visitor 2</author>
-      <email>post@example.com</email>
+      <email>two@example.com</email>
       <country />
       <ip>127.0.0.1</ip>
       <content>comment 2</content>

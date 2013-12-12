@@ -119,7 +119,8 @@ namespace Admin
 
                         // "<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
                         var startIndx = adminNode.Url.LastIndexOf("/admin/") > 0 ? adminNode.Url.LastIndexOf("/admin/") : 0;
-                        var endIndx = adminNode.Url.LastIndexOf(".") > 0 ? adminNode.Url.LastIndexOf(".") : adminNode.Url.Length;
+                        var endIndx = adminNode.Url.LastIndexOf(".") > 0 && adminNode.Url.LastIndexOf(".") > startIndx ? 
+                            adminNode.Url.LastIndexOf(".") : adminNode.Url.Length;
                         var nodeDir = adminNode.Url.Substring(startIndx, endIndx - startIndx);
 
                         if (Request.RawUrl.IndexOf(nodeDir, StringComparison.OrdinalIgnoreCase) != -1)

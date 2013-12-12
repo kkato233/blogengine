@@ -90,6 +90,24 @@ public class UsersController : ApiController
     }
 
     [HttpPut]
+    public HttpResponseMessage SaveProfile([FromBody]BlogUser item)
+    {
+        try
+        {
+            repository.SaveProfile(item);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    [HttpPut]
     public HttpResponseMessage ProcessChecked([FromBody]List<BlogUser> items)
     {
         try

@@ -31,6 +31,18 @@
             {
                 AuthorProfile.Profiles.Remove(profile);
             }
+
+            // remove profile picture
+            var dir = BlogService.GetDirectory("/avatars");
+            foreach (var f in dir.Files)
+            {
+                var dot = f.Name.IndexOf(".");
+                var img = dot > 0 ? f.Name.Substring(0, dot) : f.Name;
+                if (profile.UserName == img)
+                {
+                    f.Delete();
+                }
+            }
         }
 
         /// <summary>

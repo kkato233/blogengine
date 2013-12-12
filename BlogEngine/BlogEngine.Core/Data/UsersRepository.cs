@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
+using System.Web;
 using System.Web.Security;
 
 namespace BlogEngine.Core.Data
@@ -144,6 +145,16 @@ namespace BlogEngine.Core.Data
         }
 
         /// <summary>
+        /// Save user profile
+        /// </summary>
+        /// <param name="user">Blog user</param>
+        /// <returns>True on success</returns>
+        public bool SaveProfile(BlogUser user)
+        {
+            return UpdateUserProfile(user);
+        }
+
+        /// <summary>
         /// Delete user
         /// </summary>
         /// <param name="id">User ID</param>
@@ -225,7 +236,7 @@ namespace BlogEngine.Core.Data
                     pf.Private = true;
                     pf.Save();
                 }
-
+                
                 return new Profile { 
                     AboutMe = string.IsNullOrEmpty(pf.AboutMe) ? "" : pf.AboutMe,
                     Birthday = pf.Birthday.ToShortDateString(),
@@ -240,7 +251,7 @@ namespace BlogEngine.Core.Data
                     MiddleName = string.IsNullOrEmpty(pf.MiddleName) ? "" : pf.MiddleName,
                     PhoneMobile = string.IsNullOrEmpty(pf.PhoneMobile) ? "" : pf.PhoneMobile,
                     PhoneMain = string.IsNullOrEmpty(pf.PhoneMain) ? "" : pf.PhoneMain,
-                    PhotoUrl = string.IsNullOrEmpty(pf.PhotoUrl) ? "" : pf.PhotoUrl,
+                    PhotoUrl = string.IsNullOrEmpty(pf.PhotoUrl) ? "" : pf.PhotoUrl.Replace("\"", ""),
                     RegionState = string.IsNullOrEmpty(pf.RegionState) ? "" : pf.RegionState
                 };
             }
@@ -300,6 +311,7 @@ namespace BlogEngine.Core.Data
                 pf.AboutMe = user.Profile.AboutMe;
 
                 pf.Save();
+                UpdateProfileImage(pf);
             }
             catch (Exception ex)
             {
@@ -333,6 +345,42 @@ namespace BlogEngine.Core.Data
             {
                 Utils.Log("Error updating user roles", ex);
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Remove any existing profile images
+        /// </summary>
+        /// <param name="profile">User profile</param>
+        static void UpdateProfileImage(AuthorProfile profile)
+        {
+            var dir = BlogEngine.Core.Providers.BlogService.GetDirectory("/avatars");
+
+            if(string.IsNullOrEmpty(profile.PhotoUrl))
+            {
+                foreach (var f in dir.Files)
+                {
+                    var dot = f.Name.IndexOf(".");
+                    var img = dot > 0 ? f.Name.Substring(0, dot) : f.Name;
+                    if (profile.UserName == img)
+                    {
+                        f.Delete();
+                    }
+                }
+            }
+            else
+            {
+                foreach (var f in dir.Files)
+                {
+                    var dot = f.Name.IndexOf(".");
+                    var img = dot > 0 ? f.Name.Substring(0, dot) : f.Name;
+                    // delete old profile image saved with different name
+                    // for example was admin.jpg and now admin.png
+                    if (profile.UserName == img && f.Name != profile.PhotoUrl.Replace("\"", ""))
+                    {
+                        f.Delete();
+                    }
+                }
             }
         }
 
