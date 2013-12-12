@@ -16,5 +16,5 @@
   <PhoneMain />
   <PhoneMobile />
   <PhoneFax />
-  <IsPrivate>True</IsPrivate>
+  <IsPrivate>False</IsPrivate>
 </profileData>

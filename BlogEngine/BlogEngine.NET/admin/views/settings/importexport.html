@@ -14,11 +14,11 @@
                     <h4>{{lbl.import}}</h4>
                     <form>
                         <label class="control-label">{{lbl.selectSavedBlogMlFle}}</label>
-                        <input type="file" accept="xml" name=" file" onchange="angular.element(this).scope().uploadFile(this.files)" />
-                        <!--<input id="upload" accept="xml" class="input-file" name="upload" type="file" data-bind="fileUpload: { property: 'filename', url: '/api/upload?action=importBlogML' }" />-->
-                        <!--<div style="padding-top: 10px">
-                            <input type="submit" ng-bind="lbl.importFromFile" class="btn btn-primary" />
-                        </div>-->
+                        <!--<input type="file" accept="xml" name=" file" onchange="angular.element(this).scope().uploadFile(this.files)" />-->
+                        <div>
+                            <a class="btn btn-primary" id="importBtn" title="{{lbl.import}}">{{lbl.import}}</a>
+                            <input type="file" data-role="magic-overlay" data-target="#importBtn" onchange="angular.element(this).scope().uploadFile(this.files)" />
+                        </div>
                     </form>
                     <label style="font-weight: bold; font-variant: small-caps" class="control-label">{{lbl.or}}</label>
                     <label class="control-label" ng-bind-html="lbl.runClickOnceApplicationToImport"></label>
@@ -37,4 +37,10 @@
         </div>
     </div>
 </div>
+<script>
+    $('[data-role=magic-overlay]').each(function () {
+        var overlay = $(this), target = $(overlay.data('target'));
+        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+    });
+</script>
 <div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

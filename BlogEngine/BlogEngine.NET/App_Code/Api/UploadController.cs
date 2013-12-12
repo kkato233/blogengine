@@ -3,6 +3,7 @@ using BlogEngine.Core;
 using BlogEngine.Core.API.BlogML;
 using BlogEngine.Core.Providers;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -15,9 +16,6 @@ public class UploadController : ApiController
     {
         WebUtils.CheckRightsForAdminPostPages(false);
 
-        if (action == "importBlogML")
-            return ImportBlogML();
-
         HttpPostedFile file = HttpContext.Current.Request.Files[0];
         if (file != null && file.ContentLength > 0)
         {
@@ -25,6 +23,25 @@ public class UploadController : ApiController
             var dir = BlogService.GetDirectory(dirName);
             var retUrl = "";
 
+            if (action == "import")
+            {
+                return ImportBlogML();
+            } 
+            if (action == "profile")
+            {
+                // upload profile image
+                dir = BlogService.GetDirectory("/avatars");
+                var dot = file.FileName.IndexOf(".");
+                var ext = dot > 0 ? file.FileName.Substring(dot) : "";
+                var fileName = User.Identity.Name + ext;
+
+                var imgPath = HttpContext.Current.Server.MapPath(dir.FullPath + "/" + fileName);
+                var image = Image.FromStream(file.InputStream);
+                Image thumb = image.GetThumbnailImage(80, 80, () => false, IntPtr.Zero);
+                thumb.Save(imgPath);
+
+                return Request.CreateResponse(HttpStatusCode.Created, fileName);
+            }
             if (action == "image")
             {
                 var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);

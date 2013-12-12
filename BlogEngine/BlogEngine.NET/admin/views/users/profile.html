@@ -4,7 +4,7 @@
     <div class="container admin-view-main admin-view-users-profile" data-ng-controller="ProfileController">
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
-                My Profile
+                {{lbl.myProfile}}
                 <span id="spinner" class="loaded"><i class='icon-spinner icon-spin icon-small' style="font-size: 0.7em"></i></span>
             </h2>
             <a href="" data-ng-click="save()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</a>
@@ -12,10 +12,14 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="pull-left avatar-user">
-                    <img src="{{SiteVars.RelativeWebRoot}}pics/noavatar.jpg" class="pull-left" title="Avatar" />
+                    <img ng-if="!user.Profile.PhotoUrl && user.Profile.PhotoUrl === ''" src="{{SiteVars.RelativeWebRoot}}pics/noavatar.jpg" class="pull-left" title="Avatar" />
+                    <img ng-if="user.Profile.PhotoUrl && user.Profile.PhotoUrl != ''" src="{{SiteVars.RelativeWebRoot}}image.axd?picture=/avatars/{{user.Profile.PhotoUrl}}&{{timeStamp}}" width="80" class="pull-left" title="Avatar" />
                     <div class="avatar-control">
                         <a href="" data-ng-click="removePicture()" title="Remove Picture" type="button"><i class="fa fa-times-circle"></i></a>
-                        <a href="" data-ng-click="changePicture()" title="Change Picture" type="button"><i class="fa fa-picture-o"></i></a>
+                        <span>
+                            <a href="" id="picChange" data-ng-click="changePicture()" type="button"><i class="fa fa-picture-o"></i></a>
+                            <input type="file" title="Change Picture" data-role="magic-overlay" data-target="#picChange" onchange="angular.element(this).scope().changePicture(this.files)" />
+                        </span>
                     </div>
                 </div>
                 <div class="pull-left user-info" >
@@ -118,4 +122,10 @@
 
     </div>
 </div>
+<script>
+    $('[data-role=magic-overlay]').each(function () {
+        var overlay = $(this), target = $(overlay.data('target'));
+        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+    });
+</script>
 <div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>

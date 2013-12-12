@@ -204,7 +204,7 @@ namespace BlogEngine.Core.Data
             jc.DateCreated = c.DateCreated.ToString("MM/dd/yyyy HH:mm");
             jc.RelativeLink = c.RelativeLink;
             jc.HasChildren = c.ParentId == Guid.Empty || c.ParentId == null;
-            jc.Avatar = GetAvatar(c.Website, c.Email, c.Author);
+            jc.Avatar = Gravatar(c);
 
             return jc;
         }
@@ -237,18 +237,11 @@ namespace BlogEngine.Core.Data
             return item;
         }
 
-        private static string GetAvatar(Uri website, string email, string author)
+        private string Gravatar(Comment comment)
         {
-            Avatar avatar = Core.Avatar.GetAvatar(32, email, website, null, author);
-
-            if (avatar.HasNoImage || string.IsNullOrEmpty(email) || !email.Contains("@"))
-            {
-                // <img> tag pointing to noavatar.jpg, or no image if Avatar setting is "none".
-                return avatar.ImageTag ?? string.Empty;
-            }
-
-            const string linkWithImage = "<a href=\"mailto:{2}\" alt=\"{0}\" title=\"{0}\">{1}</a>";
-            return string.Format(CultureInfo.InvariantCulture, linkWithImage, author, avatar.ImageTag, email);
+            return Avatar.GetAvatarImageTag(32, comment.Email, comment.Website, comment.Avatar, comment.Author);
+            //var a = Avatar.GetAvatar(32, comment.Email, comment.Website, comment.Avatar, "");
+            //return a.Url.ToString();
         }
         
         #endregion

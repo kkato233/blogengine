@@ -37,6 +37,12 @@ namespace BlogEngine.Core.Data.Contracts
         /// <returns>True on success</returns>
         bool Update(BlogUser user);
         /// <summary>
+        /// Save user profile
+        /// </summary>
+        /// <param name="user">Blog user</param>
+        /// <returns>True on success</returns>
+        bool SaveProfile(BlogUser user);
+        /// <summary>
         /// Delete user
         /// </summary>
         /// <param name="id">User ID</param>

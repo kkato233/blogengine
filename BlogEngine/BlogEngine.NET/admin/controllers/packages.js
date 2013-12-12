@@ -42,25 +42,22 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
     }
 
     $scope.loadCustomFields = function (id) {
-        spinOn();
         $scope.editId = id;
         $scope.extEditSrc = SiteVars.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext=" + id + "&enb=False";
         $scope.customFields = [];
 
         dataService.getItems('/api/packages', { Id: id })
-            .success(function (data) { angular.copy(data, $scope.package); })
-            .error(function () { toastr.error("Error loading package"); });
+        .success(function (data) { angular.copy(data, $scope.package); })
+        .error(function () { toastr.error("Error loading package"); });
 
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
-            .success(function (data) {
-                angular.copy(data, $scope.customFields);
-                $("#modal-theme-edit").modal();
-                spinOff();
-            })
-            .error(function () {
-                toastr.error("Error loading custom fields");
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.customFields);
+            $("#modal-theme-edit").modal();
+        })
+        .error(function () {
+            toastr.error("Error loading custom fields");
+        });
     }
 
     $scope.relocate = function (loc) {
