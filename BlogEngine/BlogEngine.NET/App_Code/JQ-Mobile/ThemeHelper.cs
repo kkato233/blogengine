@@ -261,7 +261,7 @@ namespace Raisr.BE
         /// <returns></returns>
         public static string GetAvatarImageUrl(int size, Comment comment)
         {
-            string avatarImageTag = Avatar.GetAvatarImageTag(size, comment.Email, comment.Website, comment.Avatar, comment.Author);
+            string avatarImageTag = BlogEngine.Core.Data.Services.Avatar.GetSrc(comment.Email, comment.Website.ToString());
             return GetFirstImageSource(avatarImageTag, false);
         }
 

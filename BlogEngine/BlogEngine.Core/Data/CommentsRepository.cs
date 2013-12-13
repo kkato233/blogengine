@@ -102,6 +102,7 @@ namespace BlogEngine.Core.Data
         /// Update item
         /// </summary>
         /// <param name="item">Item to update</param>
+        /// <param name="action">Action</param>
         /// <returns>True on success</returns>
         public bool Update(Data.Models.CommentItem item, string action)
         {
@@ -239,9 +240,8 @@ namespace BlogEngine.Core.Data
 
         private string Gravatar(Comment comment)
         {
-            return Avatar.GetAvatarImageTag(32, comment.Email, comment.Website, comment.Avatar, comment.Author);
-            //var a = Avatar.GetAvatar(32, comment.Email, comment.Website, comment.Avatar, "");
-            //return a.Url.ToString();
+            var website = comment.Website == null ? "" : comment.Website.ToString();
+            return Services.Avatar.GetSrc(comment.Email, website);
         }
         
         #endregion

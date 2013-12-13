@@ -142,8 +142,8 @@ namespace Widgets.VisitorInfo
                 name = name.Substring(0, name.IndexOf(" "));
             }
 
-            var avatar = Avatar.GetAvatar(16, email, null, null, name);
-            var avatarLink = avatar == null || avatar.Url == null ? string.Empty : avatar.Url.ToString();
+            var avatar = BlogEngine.Core.Data.Services.Avatar.GetSrc(email);
+            var avatarLink = avatar == null || avatar == null ? string.Empty : avatar;
             Title = string.Format(
                 String.Concat("<img src=\"{0}\" alt=\"{1}\" align=\"top\" /> ", Resources.labels.visitorHi, " {1}"), avatarLink, Server.HtmlEncode(name));
             pName.InnerHtml = "<strong>" + Resources.labels.welcomeBack + "</strong>";

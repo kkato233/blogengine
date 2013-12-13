@@ -207,14 +207,16 @@
         /// Displays the Gravatar image that matches the specified email.
         /// </summary>
         /// <param name="size">
-        /// The image size.
+        /// The image size
         /// </param>
         /// <returns>
         /// The gravatar.
         /// </returns>
         public string Gravatar(int size)
         {
-            return Avatar.GetAvatarImageTag(size, this.Comment.Email, this.Comment.Website, this.Comment.Avatar, this.Comment.Author);
+            var website = this.Comment.Website == null ? "" : this.Comment.Website.ToString();
+            var src = BlogEngine.Core.Data.Services.Avatar.GetSrc(this.Comment.Email, website);
+            return string.Format("<img src='{0}' width='{1}' />", src, size);
         }
 
         /// <summary>

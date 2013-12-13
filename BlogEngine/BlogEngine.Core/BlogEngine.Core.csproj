@@ -129,7 +129,6 @@
     <Compile Include="API\MetaWeblog\MWAUserInfo.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCRequest.cs" />
     <Compile Include="API\MetaWeblog\XMLRPCResponse.cs" />
-    <Compile Include="Avatar.cs" />
     <Compile Include="Blog.cs" />
     <Compile Include="BlogConfig.cs" />
     <Compile Include="BlogGenerator.cs" />
@@ -193,6 +192,7 @@
     <Compile Include="Data\PageRepository.cs" />
     <Compile Include="Data\PostRepository.cs" />
     <Compile Include="Data\RolesRepository.cs" />
+    <Compile Include="Data\Services\Avatar.cs" />
     <Compile Include="Data\Services\CustomFieldsParser.cs" />
     <Compile Include="Data\SettingsRepository.cs" />
     <Compile Include="Data\StatsRepository.cs" />
