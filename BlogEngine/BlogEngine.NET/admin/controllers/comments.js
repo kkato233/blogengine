@@ -21,7 +21,7 @@
             spinOff();
         })
         .error(function (data) {
-            toastr.success("Error getting tags");
+            toastr.error("Error getting tags");
             spinOff();
         });
     }

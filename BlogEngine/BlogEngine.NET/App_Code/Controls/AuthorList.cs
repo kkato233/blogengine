@@ -13,6 +13,7 @@ namespace App_Code.Controls
     using System.Web.UI.HtmlControls;
     using System.Collections.Generic;
     using BlogEngine.Core;
+    using BlogEngine.Core.Data.Services;
 
     using Resources;
 
@@ -243,11 +244,9 @@ namespace App_Code.Controls
 
                 if (ShowAuthorImg)
                 {
-                    var avatar = Avatar.GetAvatar(user.Email);
-
                     var img = new HtmlImage
                     {
-                        Src = avatar.Url.ToString(),
+                        Src = Avatar.GetSrc(user.Email),
                         Alt = "",
                         Width = authorImgSize,
                         Height = authorImgSize

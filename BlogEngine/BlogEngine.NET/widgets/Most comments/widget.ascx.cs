@@ -314,7 +314,7 @@ namespace Widgets.MostComments
             var number = (Literal)e.Item.FindControl("litNumber");
             var litCountry = (Literal)e.Item.FindControl("litCountry");
 
-            imgAvatar.ImageUrl = Avatar.GetAvatar(this.avatarSize, visitor.Email, null, null, null).Url.ToString();
+            imgAvatar.ImageUrl = BlogEngine.Core.Data.Services.Avatar.GetSrc(visitor.Email);
             imgAvatar.AlternateText = visitor.Name;
             imgAvatar.Width = Unit.Pixel(this.avatarSize);
 
