@@ -17,6 +17,8 @@ public class UploadController : ApiController
         WebUtils.CheckRightsForAdminPostPages(false);
 
         HttpPostedFile file = HttpContext.Current.Request.Files[0];
+        action = action.ToLower();
+
         if (file != null && file.ContentLength > 0)
         {
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));

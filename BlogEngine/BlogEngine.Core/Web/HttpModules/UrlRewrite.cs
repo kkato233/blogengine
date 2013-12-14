@@ -54,6 +54,13 @@
             path = path.Replace(".ASPX.CS", string.Empty);
             url = url.Replace(".ASPX.CS", string.Empty);
 
+            // skip url rewrite for web api calls
+            if (url.ToLower().StartsWith(string.Format("{0}api/", Utils.ApplicationRelativeWebRoot)))
+            {
+                context.RewritePath(UrlRules.GetUrlWithQueryString(context));
+                return;
+            }
+
             // to prevent XSS
             url = HttpUtility.HtmlEncode(url);
 
