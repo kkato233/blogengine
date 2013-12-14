@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CategoriesController', function ($scope, $location, $http, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('CategoriesController', function ($rootScope, $scope, $location, $http, $filter, dataService) {
     $scope.items = [];
     $scope.lookups = [];
     $scope.category = {};
@@ -7,7 +7,7 @@
     if ($scope.id) {
         dataService.getItems('/api/categories', { Id: $scope.id })
             .success(function (data) { angular.copy(data, $scope.category); })
-            .error(function () { toastr.error("Error loading category"); });
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingCategory); });
         $("#modal-add-cat").modal();
     }
 
@@ -29,7 +29,7 @@
                 spinOff();
             })
             .error(function () {
-                toastr.error("Error loading categories");
+                toastr.error($rootScope.lbl.errorLoadingCategories);
                 spinOff();
             });
     }
@@ -40,21 +40,21 @@
         if ($scope.category.Id) {
             dataService.updateItem("/api/categories", $scope.category)
            .success(function (data) {
-               toastr.success("Category updated");
+               toastr.success($rootScope.lbl.categoryUpdated);
                $scope.load();
            })
-           .error(function () { toastr.error("Update failed"); });
+           .error(function () { toastr.error($rootScope.lbl.updateFailed); });
         }
         else {
             dataService.addItem("/api/categories", $scope.category)
            .success(function (data) {
-               toastr.success("Category added");
+               toastr.success($rootScope.lbl.categoryAdded);
                if (data.Id) {
                    angular.copy(data, $scope.category);
                    $scope.load();
                }
            })
-           .error(function () { toastr.error("Failed adding new category"); });
+           .error(function () { toastr.error($rootScope.lbl.failedAddingNewCategory); });
         }
         $("#modal-add-cat").modal('hide');
     }
@@ -69,13 +69,13 @@
                 var url = '/api/categories';
                 dataService.deleteItem(url, item)
                     .success(function (data) {
-                        toastr.success("Category deleted");
+                        toastr.success($rootScope.lbl.categoryDeleted);
                         $scope.clear();
                         $scope.load();
                         gridInit($scope, $filter);
                     })
                     .error(function () {
-                        toastr.error("Error loading categories");
+                        toastr.error($rootScope.lbl.errorLoadingCategories);
                     });
             }
         }
@@ -102,17 +102,17 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }
 
     $scope.clear = function () {
-        $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": "New category", "Description": "Description", "Count": 0 };
+        $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": $rootScope.lbl.newCategory, "Description": $rootScope.lbl.description, "Count": 0 };
         $scope.id = null;
     }
 });

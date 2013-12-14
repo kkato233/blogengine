@@ -27,7 +27,7 @@
                                 <label class="control-label col-md-4" for="selAuthors">{{lbl.parent}}</label>
                                 <div class="col-md-8">
                                     <select id="selAuthors" class="form-control" data-ng-options="o.OptionValue as o.OptionName for o in lookups.CategoryList" data-ng-model="category.Parent.OptionValue">
-                                        <option value="">-- select --</option>
+                                        <option value="">-- {{lbl.select.toLowerCase()}} --</option>
                                     </select>
                                 </div>
                             </div>

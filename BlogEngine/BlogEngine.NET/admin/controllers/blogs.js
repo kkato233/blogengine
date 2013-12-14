@@ -14,7 +14,7 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
     }
 
     $scope.modalEdit = function (id) {
-        $scope.modalTitle = "Edit blog";
+        $scope.modalTitle = $rootScope.lbl.editExistingBlog;
         spinOn();
         dataService.getItems('/api/blogs/' + id)
         .success(function (data) {
@@ -23,7 +23,7 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading blog");
+            toastr.error($rootScope.lbl.errorLoadingBlog);
             spinOff();
         });
     }
@@ -38,7 +38,7 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading blogs");
+            toastr.error($rootScope.lbl.errorLoadingBlogs);
             spinOff();
         });
     }
@@ -47,13 +47,13 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
         spinOn();
         dataService.updateItem("/api/blogs", $scope.editItem)
         .success(function (data) {
-            toastr.success("Blog saved");
+            toastr.success($rootScope.lbl.blogSaved);
             $scope.load();
             spinOff();
             $("#modal-edit").modal('hide');
         })
         .error(function () {
-            toastr.error("Failed adding new role");
+            toastr.error($rootScope.lbl.failedAddingNewRole);
             spinOff();
             $("#modal-edit").modal('hide');
         });
@@ -66,14 +66,14 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
         spinOn();
         dataService.addItem("/api/blogs", $scope.newItem)
         .success(function (data) {
-            toastr.success("Blog added");
+            toastr.success($rootScope.lbl.blogAddedShort);
             $scope.newItem = {};
             $scope.load();
             spinOff();
             $("#modal-add").modal('hide');
         })
         .error(function () {
-            toastr.error("Failed adding new role");
+            toastr.error($rootScope.lbl.failedAddingNewRole);
             spinOff();
             $("#modal-add").modal('hide');
         });
@@ -97,11 +97,11 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }

@@ -13,7 +13,7 @@
                 spinOff();
             })
             .error(function () {
-                toastr.error("Error loading users");
+                toastr.error($rootScope.lbl.errorLoadingUsers);
                 spinOff();
             });
     }
@@ -37,7 +37,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading user");
+            toastr.error($rootScope.lbl.errorLoadingUser);
             spinOff();
         });
     }
@@ -54,7 +54,7 @@
                 spinOff();
             })
             .error(function () {
-                toastr.error("Error loading roles");
+                toastr.error($rootScope.lbl.errorLoadingRoles);
                 spinOff();
             });
     }
@@ -68,13 +68,13 @@
         if ($scope.isNewItem) {
             dataService.addItem("/api/users", $scope.editItem)
             .success(function (data) {
-                toastr.success("User added");
+                toastr.success($rootScope.lbl.userAdded);
                 $scope.load();
                 spinOff();
                 $("#modal-user-edit").modal('hide');
             })
             .error(function () {
-                toastr.error("Error adding new user");
+                toastr.error($rootScope.lbl.errorAddingNewUser);
                 spinOff();
                 $("#modal-user-edit").modal('hide');
             });
@@ -82,13 +82,13 @@
         else {
             dataService.updateItem("/api/users/update/item", $scope.editItem)
             .success(function (data) {
-                toastr.success("User updated");
+                toastr.success($rootScope.lbl.userUpdatedShort);
                 $scope.load();
                 spinOff();
                 $("#modal-user-edit").modal('hide');
             })
             .error(function () {
-                toastr.error("Update failed");
+                toastr.error($rootScope.lbl.updateFailed);
                 spinOff();
                 $("#modal-user-edit").modal('hide');
             });
@@ -101,11 +101,11 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }
