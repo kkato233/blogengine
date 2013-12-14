@@ -87,7 +87,7 @@
                     <tbody>
                         <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                             <td>
-                                <input type="checkbox" id="{{item.UserName}}" data-ng-model="item.IsChecked" />
+                                <input type="checkbox" id="cb-{{item.UserName}}" data-ng-model="item.IsChecked" />
                             </td>
                             <td class="table-item-title">
                                 <a title="{{item.UserName}}" href ng-click="loadEditForm(item.UserName)">{{item.UserName}}</a>

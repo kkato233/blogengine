@@ -30,7 +30,7 @@
             $scope.isNewItem = false;
         }
         spinOn();
-        dataService.getItems('/api/users/' + id)
+        dataService.getItems('/api/users?id=' + id)
         .success(function (data) {
             angular.copy(data, $scope.editItem);
             $("#modal-user-edit").modal();
