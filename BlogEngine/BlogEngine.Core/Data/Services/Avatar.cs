@@ -93,7 +93,7 @@ namespace BlogEngine.Core.Data.Services
             var img = pf.PhotoUrl.Replace("\"", "");
 
             return img.StartsWith("http://") || img.StartsWith("https://") ? img :
-                Utils.ApplicationRelativeWebRoot + "image.axd?picture=/avatars/" + img;
+                Utils.RelativeWebRoot + "image.axd?picture=/avatars/" + img;
         }
 
         static string Thumb(string website)

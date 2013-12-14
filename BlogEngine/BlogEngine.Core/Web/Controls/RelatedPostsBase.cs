@@ -42,20 +42,29 @@ namespace BlogEngine.Core.Web.Controls
         /// </summary>
         public List<RelatedPost> RelatedPostList
         {
-            get {
-                var CacheKey = _cacheKey + PostItem.Id.ToString();
-                if (Blog.CurrentInstance.Cache[CacheKey] == null)
+            get
+            {
+                try
                 {
-                    Blog.CurrentInstance.Cache.Add(
-                        CacheKey,
-                        FindRelated(),
-                        null,
-                        Cache.NoAbsoluteExpiration,
-                        new TimeSpan(0, 15, 0),
-                        CacheItemPriority.Low,
-                        null);
+                    var CacheKey = _cacheKey + PostItem.Id.ToString();
+                    if (Blog.CurrentInstance.Cache[CacheKey] == null)
+                    {
+                        Blog.CurrentInstance.Cache.Add(
+                            CacheKey,
+                            FindRelated(),
+                            null,
+                            Cache.NoAbsoluteExpiration,
+                            new TimeSpan(0, 15, 0),
+                            CacheItemPriority.Low,
+                            null);
+                    }
+                    return (List<RelatedPost>)Blog.CurrentInstance.Cache[CacheKey];
                 }
-                return (List<RelatedPost>)Blog.CurrentInstance.Cache[CacheKey];
+                catch (Exception ex)
+                {
+                    Utils.Log("Error getting related posts", ex);
+                    return new List<RelatedPost>();
+                }
             }
         }
 

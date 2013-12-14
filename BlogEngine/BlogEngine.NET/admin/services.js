@@ -65,7 +65,7 @@
                 method: 'POST',
                 data: file,
                 withCredentials: true,
-                headers: { 'Content-Type': undefined },
+                headers: { 'Content-Type': undefined, 'x-blog-instance': SiteVars.BlogInstanceId },
                 transformRequest: angular.identity
             });
         }
