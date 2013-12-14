@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('DashboardController', function ($scope, $location, $log, dataService) {
+﻿angular.module('blogAdmin').controller('DashboardController', function ($rootScope, $scope, $location, $log, dataService) {
     $scope.stats = {};
     $scope.draftposts = [];
     $scope.draftpages = [];
@@ -16,7 +16,7 @@
             return false;
         })
         .error(function (data) {
-            toastr.error("Error getting log file");
+            toastr.error($rootScope.lbl.errorGettingLogFile);
         });
     }
 
@@ -25,11 +25,11 @@
         .success(function (data) {
             $scope.logItems = [];
             $("#modal-log-file").modal('hide');
-            toastr.success("Purged");
+            toastr.success($rootScope.lbl.purged);
             return false;
         })
         .error(function (data) {
-            toastr.error("Error purging");
+            toastr.error($rootScope.lbl.errorPurging);
         });
     }
 
@@ -40,11 +40,11 @@
         dataService.updateItem('/api/trash/purge/' + id, $scope.itemToPurge)
         .success(function (data) {
             $scope.loadTrash();
-            toastr.success("Purged");
+            toastr.success($rootScope.lbl.purged);
             return false;
         })
         .error(function (data) {
-            toastr.error("Error purging");
+            toastr.error($rootScope.lbl.errorPurging);
         });
     }
 
@@ -52,11 +52,11 @@
         dataService.updateItem('/api/trash/purgeall/all')
         .success(function (data) {
             $scope.loadTrash();
-            toastr.success("Purged");
+            toastr.success($rootScope.lbl.purged);
             return false;
         })
         .error(function (data) {
-            toastr.error("Error purging");
+            toastr.error($rootScope.lbl.errorPurging);
         });
     }
 
@@ -67,11 +67,11 @@
         dataService.updateItem('/api/trash/restore/' + id, $scope.itemToPurge)
         .success(function (data) {
             $scope.loadTrash();
-            toastr.success("Restored");
+            toastr.success($rootScope.lbl.restored);
             return false;
         })
         .error(function (data) {
-            toastr.error("Error restoring");
+            toastr.error($rootScope.lbl.errorRestoring);
         });
     }
 
@@ -82,23 +82,23 @@
 
         dataService.getItems('/api/stats')
             .success(function (data) { angular.copy(data, $scope.stats); })
-            .error(function (data) { toastr.success("Error getting stats"); });
+            .error(function (data) { toastr.success($rootScope.lbl.errorGettingStats); });
 
         dataService.getItems('/api/posts', { take: 3, skip: 0, filter: "IsPublished == false" })
             .success(function (data) { angular.copy(data, $scope.draftposts); })
-            .error(function () { toastr.error("Error loading draft posts"); });
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingDraftPosts); });
 
         dataService.getItems('/api/pages', { take: 3, skip: 0, filter: "IsPublished == false" })
             .success(function (data) { angular.copy(data, $scope.draftpages); })
-            .error(function () { toastr.error("Error loading draft pages"); });
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingDraftPages); });
 
         dataService.getItems('/api/comments', { type: 5, take: 5, skip: 0, filter: "IsDeleted == false", order: "DateCreated descending" })
             .success(function (data) { angular.copy(data, $scope.recentcomments); })
-            .error(function () { toastr.error("Error loading recent comments"); });
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingRecentComments); });
 
         dataService.getItems('/api/logs/getlog/file')
             .success(function (data) { angular.copy(data, $scope.logItems); })
-            .error(function (data) { toastr.error("Error getting log file"); });
+            .error(function (data) { toastr.error($rootScope.lbl.errorGettingLogFile); });
 
         $scope.loadTrash();
     }
@@ -111,7 +111,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading packages");
+            toastr.error($rootScope.lbl.errorLoadingPackages);
             spinOff();
         });
     }
@@ -119,7 +119,7 @@
     $scope.loadTrash = function () {
         dataService.getItems('/api/trash', { type: 0, take: 5, skip: 0 })
             .success(function (data) { angular.copy(data, $scope.trash); })
-            .error(function () { toastr.error("Error loading trash"); });
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingTrash); });
     }
 
     $scope.load();

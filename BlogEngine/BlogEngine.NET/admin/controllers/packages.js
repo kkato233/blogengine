@@ -36,7 +36,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
                 spinOff();
             })
             .error(function () {
-                toastr.error("Error loading packages");
+                toastr.error($rootScope.lbl.errorLoadingPackages);
                 spinOff();
             });
     }
@@ -48,7 +48,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
 
         dataService.getItems('/api/packages', { Id: id })
         .success(function (data) { angular.copy(data, $scope.package); })
-        .error(function () { toastr.error("Error loading package"); });
+        .error(function () { toastr.error($rootScope.lbl.errorLoadingPackage); });
 
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
         .success(function (data) {
@@ -56,7 +56,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
             $("#modal-theme-edit").modal();
         })
         .error(function () {
-            toastr.error("Error loading custom fields");
+            toastr.error($rootScope.lbl.errorLoadingCustomFields);
         });
     }
 
@@ -72,21 +72,21 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
 
         dataService.updateItem("/api/packages/update/foo", $scope.package)
         .success(function (data) {
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
         });
 
         dataService.updateItem("/api/customfields", $scope.customFields)
         .success(function (data) {
-            toastr.success("Custom fields updated");
+            toastr.success($rootScope.lbl.customFieldsUpdated);
             $scope.load();
             spinOff();
             $("#modal-theme-edit").modal('hide');
         })
         .error(function () {
-            toastr.error("Update failed");
+            toastr.error($rootScope.lbl.updateFailed);
             spinOff();
             $("#modal-theme-edit").modal('hide');
         });
@@ -98,11 +98,11 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }

@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('ProfileController', function ($scope, $rootScope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('ProfileController', function ($rootScope, $scope, $rootScope, $filter, dataService) {
     $scope.user = {};
     $scope.timeStamp = Math.round(new Date().getTime() / 1000);
 
@@ -11,7 +11,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading user");
+            toastr.error($rootScope.lbl.errorLoadingUser);
             spinOff();
         });
     }
@@ -20,12 +20,12 @@
         spinOn();
         dataService.updateItem("/api/users/saveprofile/item", $scope.user)
         .success(function (data) {
-            toastr.success("User updated");
+            toastr.success($rootScope.lbl.userUpdatedShort);
             $scope.load();
             spinOff();
         })
         .error(function () {
-            toastr.error("Update failed");
+            toastr.error($rootScope.lbl.updateFailed);
             spinOff();
         });
     }
@@ -44,7 +44,7 @@
             $scope.user.Profile.PhotoUrl = data;
             $scope.save();
         })
-        .error(function () { toastr.error("Failed"); });
+        .error(function () { toastr.error($rootScope.lbl.failed); });
     }
 
     $scope.load();

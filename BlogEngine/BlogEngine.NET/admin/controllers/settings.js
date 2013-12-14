@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('SettingsController', function ($scope, $location, $log, $http, dataService) {
+﻿angular.module('blogAdmin').controller('SettingsController', function ($rootScope, $scope, $location, $log, $http, dataService) {
     $scope.settings = {};
     $scope.lookups = {};
     $scope.feedOptions = [
@@ -36,7 +36,7 @@
             $scope.loadSettings();
         })
         .error(function () {
-            toastr.error("Error loading settings");
+            toastr.error($rootScope.lbl.errorLoadingSettings);
             spinOff();
         });
     }
@@ -55,7 +55,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading settings");
+            toastr.error($rootScope.lbl.errorLoadingSettings);
             spinOff();
         });
     }
@@ -76,10 +76,10 @@
         
         dataService.updateItem("/api/settings", $scope.settings)
         .success(function (data) {
-            toastr.success("Settings updated");
+            toastr.success($rootScope.lbl.settingsUpdated);
             $scope.load();
         })
-        .error(function () { toastr.error("Update failed"); });
+        .error(function () { toastr.error($rootScope.lbl.updateFailed); });
     }
 
     $scope.exportToXml = function() {
@@ -120,9 +120,9 @@
 
         dataService.uploadFile("/api/upload?action=import", fd)
         .success(function (data) {
-            toastr.success("Imported from BlogML");
+            toastr.success($rootScope.lbl.importedFromBlogML);
         })
-        .error(function () { toastr.error("Import failed"); });
+        .error(function () { toastr.error($rootScope.lbl.importFailed); });
     }
 
     $scope.load();

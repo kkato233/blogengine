@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('PostsController', function ($scope, $location, $http, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('PostsController', function ($rootScope, $scope, $location, $http, $filter, dataService) {
     $scope.items = [];
     $scope.filter = ($location.search()).fltr;
 
@@ -16,7 +16,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading posts");
+            toastr.error($rootScope.lbl.errorLoadingPosts);
             spinOff();
         });
     }
@@ -41,11 +41,11 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }

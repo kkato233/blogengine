@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PostEditorController', function ($scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogEditor').controller('PostEditorController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.post = newPost;
     $scope.lookups = [];
@@ -34,7 +34,7 @@
             }
         })
         .error(function () {
-            toastr.error("Error loading tags");
+            toastr.error($rootScope.lbl.errorLoadingTags);
         });
     }
 
@@ -66,7 +66,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading posts");
+            toastr.error($rootScope.lbl.errorLoadingPosts);
             spinOff();
         });
     }
@@ -94,16 +94,16 @@
         if ($scope.post.Id) {
             dataService.updateItem('api/posts/update/foo', $scope.post)
            .success(function (data) {
-               toastr.success("Post updated");
+               toastr.success($rootScope.lbl.postUpdated);
                $("#modal-form").modal('hide');
                spinOff();
            })
-           .error(function () { toastr.error("Update failed"); spinOff(); });
+           .error(function () { toastr.error($rootScope.lbl.updateFailed); spinOff(); });
         }
         else {
             dataService.addItem('api/posts', $scope.post)
            .success(function (data) {
-               toastr.success("Post added");
+               toastr.success($rootScope.lbl.postAdded);
                if (data.Id) {
                    angular.copy(data, $scope.post);
                    var x = $scope.post.Id;
@@ -111,7 +111,7 @@
                $("#modal-form").modal('hide');
                spinOff();
            })
-           .error(function () { toastr.error("Failed adding new post"); spinOff(); });
+           .error(function () { toastr.error($rootScope.lbl.failedAddingNewPost); spinOff(); });
         }
     }
 
@@ -132,7 +132,7 @@
 
         dataService.uploadFile("/api/upload?action=" + action, fd)
         .success(function (data) {
-            toastr.success("Uploaded");
+            toastr.success($rootScope.lbl.uploaded);
             var editorHtml = $("#editor").html();
             if (action === "image") {
                 $("#editor").html(editorHtml + '<img src=' + data + ' />');
@@ -147,7 +147,7 @@
                 }
             }
         })
-        .error(function () { toastr.error("Import failed"); });
+        .error(function () { toastr.error($rootScope.lbl.importFailed); });
     }
 
     $scope.toggleEditor = function (e) {
@@ -192,9 +192,9 @@
 
 var newPost = {
     "Id": "",
-    "Title": "Unpublished",
+    "Title": BlogAdmin.i18n.unpublishedPost,
     "Author": "Admin",
-    "Content": "<p>Type here...</p>",
+    "Content": "<p>" + BlogAdmin.i18n.typeHere + "...</p>",
     "DateCreated": moment().format("MM/DD/YYYY HH:MM"),
     "Slug": "unpublished",
     "Categories": "",

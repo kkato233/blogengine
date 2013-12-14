@@ -21,7 +21,7 @@
             spinOff();
         })
         .error(function (data) {
-            toastr.error("Error getting tags");
+            toastr.error($rootScope.lbl.errorGettingTags);
             spinOff();
         });
     }
@@ -58,11 +58,11 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }
@@ -71,11 +71,11 @@
         if ($scope.tag) {
             dataService.updateItem("/api/comments", { item: $scope.item })
            .success(function (data) {
-               toastr.success("Comment updated");
+               toastr.success($rootScope.lbl.commentUpdated);
                $scope.load();
                gridInit($scope, $filter);
            })
-           .error(function () { toastr.error("Update failed"); });
+           .error(function () { toastr.error($rootScope.lbl.updateFailed); });
         }
         $("#modal-add-item").modal('hide');
     }

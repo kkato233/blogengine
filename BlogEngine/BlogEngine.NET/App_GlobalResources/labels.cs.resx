@@ -1979,7 +1979,7 @@
     <value>Tento e-mail v našem systému neexistuje</value>
   </data>
   <data name="loginFailed" xml:space="preserve">
-    <value>Přihlášení nebylo úspěšné</value>
+    <value>Přihlášení se nezdařilo</value>
   </data>
   <data name="passwordNotChanged" xml:space="preserve">
     <value>Heslo nebylo změněno</value>
@@ -2082,5 +2082,266 @@
   </data>
   <data name="blogName" xml:space="preserve">
     <value>Název blogu</value>
+  </data>
+  <data name="fullScreen" xml:space="preserve">
+    <value>Celá obrazovka</value>
+  </data>
+  <data name="font" xml:space="preserve">
+    <value>Písmo</value>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>Tučné</value>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>Kurzíva</value>
+  </data>
+  <data name="strikethrough" xml:space="preserve">
+    <value>Přeškrtnuté</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>Podtržené</value>
+  </data>
+  <data name="bulletList" xml:space="preserve">
+    <value>Odrážkový seznam</value>
+  </data>
+  <data name="numberList" xml:space="preserve">
+    <value>Číselný seznam</value>
+  </data>
+  <data name="reduceIndent" xml:space="preserve">
+    <value>Zmenšit odsazení</value>
+  </data>
+  <data name="indent" xml:space="preserve">
+    <value>Odsadit</value>
+  </data>
+  <data name="alignLeft" xml:space="preserve">
+    <value>Zarovnat doleva</value>
+  </data>
+  <data name="center" xml:space="preserve">
+    <value>Zarovnat na střed</value>
+  </data>
+  <data name="alignRight" xml:space="preserve">
+    <value>Zarovnat doprava</value>
+  </data>
+  <data name="justify" xml:space="preserve">
+    <value>Zarovnat oboustranně</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>Krok vzad</value>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>Krok vpřed</value>
+  </data>
+  <data name="hyperlink" xml:space="preserve">
+    <value>Odkaz</value>
+  </data>
+  <data name="typeHere" xml:space="preserve">
+    <value>Pište zde</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>Meta příspěvku</value>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>Publikováno dne</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>Nepublikováno</value>
+  </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>Publikováno</value>
+  </data>
+  <data name="pageMeta" xml:space="preserve">
+    <value>Meta stránky</value>
+  </data>
+  <data name="newCategory" xml:space="preserve">
+    <value>Nová kategorie</value>
+  </data>
+  <data name="errorLoadingCategory" xml:space="preserve">
+    <value>Chyba při nahrávání kategorie</value>
+  </data>
+  <data name="errorLoadingCategories" xml:space="preserve">
+    <value>Chyba při nahrávání kategorií</value>
+  </data>
+  <data name="categoryUpdated" xml:space="preserve">
+    <value>Kategorie aktualizována</value>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>Aktualizace se nezdařila</value>
+  </data>
+  <data name="categoryAdded" xml:space="preserve">
+    <value>Kategorie přidána</value>
+  </data>
+  <data name="failedAddingNewCategory" xml:space="preserve">
+    <value>Přidání nové kategorie se nezdařilo</value>
+  </data>
+  <data name="categoryDeleted" xml:space="preserve">
+    <value>Kategorie smazána</value>
+  </data>
+  <data name="completed" xml:space="preserve">
+    <value>Dokončeno</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Nezdařilo se</value>
+  </data>
+  <data name="errorGettingTags" xml:space="preserve">
+    <value>Chyba při zpracování štítků</value>
+  </data>
+  <data name="tagUpdated" xml:space="preserve">
+    <value>Štítek aktualizován</value>
+  </data>
+  <data name="errorLoadingUsers" xml:space="preserve">
+    <value>Chyba při nahrávání uživatelů</value>
+  </data>
+  <data name="errorLoadingUser" xml:space="preserve">
+    <value>Chyba při nahrávání uživatele</value>
+  </data>
+  <data name="errorLoadingRoles" xml:space="preserve">
+    <value>Chyba při nahrávání rolí</value>
+  </data>
+  <data name="userAdded" xml:space="preserve">
+    <value>Uživatel přidán</value>
+  </data>
+  <data name="errorAddingNewUser" xml:space="preserve">
+    <value>Chyba při přidávání nového uživatele</value>
+  </data>
+  <data name="userUpdatedShort" xml:space="preserve">
+    <value>Uživatel aktualizován</value>
+  </data>
+  <data name="errorLoadingSettings" xml:space="preserve">
+    <value>Chyba při nahrávání nastavení</value>
+  </data>
+  <data name="settingsUpdated" xml:space="preserve">
+    <value>Nastavení aktualizována</value>
+  </data>
+  <data name="importedFromBlogML" xml:space="preserve">
+    <value>Naimportováno z BlogML</value>
+  </data>
+  <data name="importFailed" xml:space="preserve">
+    <value>Import se nezdařil</value>
+  </data>
+  <data name="errorLoadingRights" xml:space="preserve">
+    <value>Chyba při nahrávání práv</value>
+  </data>
+  <data name="errorLoadingRole" xml:space="preserve">
+    <value>Chyba při nahrávání role</value>
+  </data>
+  <data name="roleAdded" xml:space="preserve">
+    <value>Role přidána</value>
+  </data>
+  <data name="failedAddingNewRole" xml:space="preserve">
+    <value>Přidání nové role se nezdařilo</value>
+  </data>
+  <data name="rightsSaved" xml:space="preserve">
+    <value>Práva uložena</value>
+  </data>
+  <data name="failedToSaveRights" xml:space="preserve">
+    <value>Uložení práv se nezdařilo</value>
+  </data>
+  <data name="rolesItem" xml:space="preserve">
+    <value>Položka&nbsp;</value>
+  </data>
+  <data name="rolesItemDeleted" xml:space="preserve">
+    <value>&nbsp;smazána</value>
+  </data>
+  <data name="couldNotDeleteItem" xml:space="preserve">
+    <value>Nelze smazat položku </value>
+  </data>
+  <data name="errorLoadingPosts" xml:space="preserve">
+    <value>Chyba při nahrávání příspěvků</value>
+  </data>
+  <data name="errorLoadingPages" xml:space="preserve">
+    <value>Chyba při nahrávání stránek</value>
+  </data>
+  <data name="errorLoadingPackages" xml:space="preserve">
+    <value>Chyba při nahrávání balíčků</value>
+  </data>
+  <data name="errorLoadingPackage" xml:space="preserve">
+    <value>Chyba při nahrávání balíčku</value>
+  </data>
+  <data name="errorLoadingCustomFields" xml:space="preserve">
+    <value>Chyba při nahrávní uživatelských položek</value>
+  </data>
+  <data name="customFieldsUpdated" xml:space="preserve">
+    <value>Uživatelské položky aktualizovány</value>
+  </data>
+  <data name="commentUpdated" xml:space="preserve">
+    <value>Komentář aktualizován</value>
+  </data>
+  <data name="errorLoadingBlogs" xml:space="preserve">
+    <value>Chyba při nahrávání blogů</value>
+  </data>
+  <data name="errorLoadingBlog" xml:space="preserve">
+    <value>Chyba při nahrávání blogu</value>
+  </data>
+  <data name="blogSaved" xml:space="preserve">
+    <value>Blog uložen</value>
+  </data>
+  <data name="blogAddedShort" xml:space="preserve">
+    <value>Blog přidán</value>
+  </data>
+  <data name="errorGettingLogFile" xml:space="preserve">
+    <value>Chyba při nahrávání log souboru</value>
+  </data>
+  <data name="purged" xml:space="preserve">
+    <value>Odstraněno</value>
+  </data>
+  <data name="errorPurging" xml:space="preserve">
+    <value>Chyba při odstraňování</value>
+  </data>
+  <data name="restored" xml:space="preserve">
+    <value>Obnoveno</value>
+  </data>
+  <data name="errorRestoring" xml:space="preserve">
+    <value>Chyba při obnovování</value>
+  </data>
+  <data name="errorGettingStats" xml:space="preserve">
+    <value>Chyba při získávání statistik</value>
+  </data>
+  <data name="errorLoadingDraftPosts" xml:space="preserve">
+    <value>Chyba při nahrávání konceptů příspěvků</value>
+  </data>
+  <data name="errorLoadingDraftPages" xml:space="preserve">
+    <value>Chyba při nahrávání konceptů stránek</value>
+  </data>
+  <data name="errorLoadingRecentComments" xml:space="preserve">
+    <value>Chyba při nahrávání posledních komentářů</value>
+  </data>
+  <data name="errorLoadingTrash" xml:space="preserve">
+    <value>Chyba při nahrávání koše</value>
+  </data>
+  <data name="errorLoadingPage" xml:space="preserve">
+    <value>Chyba při nahrávání stránek</value>
+  </data>
+  <data name="pageUpdated" xml:space="preserve">
+    <value>Stránka aktualizována</value>
+  </data>
+  <data name="pageAdded" xml:space="preserve">
+    <value>Stránka přidána</value>
+  </data>
+  <data name="failedAddingNewPage" xml:space="preserve">
+    <value>Přidání nové stránky se nezdařilo</value>
+  </data>
+  <data name="uploaded" xml:space="preserve">
+    <value>Odesláno</value>
+  </data>
+  <data name="unpublishedPage" xml:space="preserve">
+    <value>Nepublikovaná stránka</value>
+  </data>
+  <data name="postUpdated" xml:space="preserve">
+    <value>Příspěvek aktualizován</value>
+  </data>
+  <data name="postAdded" xml:space="preserve">
+    <value>Příspěvek přidán</value>
+  </data>
+  <data name="failedAddingNewPost" xml:space="preserve">
+    <value>Přidání nového příspěvku se nezdařilo</value>
+  </data>
+  <data name="unpublishedPost" xml:space="preserve">
+    <value>Nepublikovaný příspěvek</value>
+  </data>
+  <data name="logFile" xml:space="preserve">
+    <value>Log soubor</value>
   </data>
 </root>
