@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('RolesController', function ($scope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('RolesController', function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.rights = [];
     $scope.editItem = {};
@@ -13,7 +13,7 @@
                 spinOff();
             })
             .error(function () {
-                toastr.error("Error loading roles");
+                toastr.error($rootScope.lbl.errorLoadingRoles);
                 spinOff();
             });
     }
@@ -36,7 +36,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading rights");
+            toastr.error($rootScope.lbl.errorLoadingRights);
             spinOff();
         });
     }
@@ -50,7 +50,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading role");
+            toastr.error($rootScope.lbl.errorLoadingRole);
             spinOff();
         });
     }
@@ -72,13 +72,13 @@
         spinOn();
         dataService.addItem("/api/roles", $scope.editItem)
         .success(function (data) {
-            toastr.success("Role added");
+            toastr.success($rootScope.lbl.roleAdded);
             $scope.load();
             spinOff();
             $("#modal-edit").modal('hide');
         })
         .error(function () {
-            toastr.error("Failed adding new role");
+            toastr.error($rootScope.lbl.failedAddingNewRole);
             spinOff();
             $("#modal-edit").modal('hide');
         });
@@ -88,13 +88,13 @@
         spinOn();
         dataService.updateItem("/api/roles/saverights/" + $scope.editItem.RoleName, $scope.rights)
         .success(function (data) {
-            toastr.success("Rights saved");
+            toastr.success($rootScope.lbl.rightsSaved);
             $scope.load();
             spinOff();
             $("#modal-edit").modal('hide');
         })
         .error(function () {
-            toastr.error("Failed to save rights");
+            toastr.error($rootScope.lbl.failedToSaveRights);
             spinOff();
             $("#modal-edit").modal('hide');
         });
@@ -106,11 +106,11 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }
@@ -119,11 +119,11 @@
         spinOn();
         dataService.deleteById("/api/roles", id)
         .success(function (data) {
-            toastr.success("Item " + id + " deleted");
+            toastr.success($rootScope.lbl.rolesItem + id + $rootScope.lbl.rolesItemDeleted);
             spinOff();
         })
         .error(function () {
-            toastr.error("Could not delete item " + id);
+            toastr.error($rootScope.lbl.couldNotDeleteItem + id);
             spinOff();
         });
     }

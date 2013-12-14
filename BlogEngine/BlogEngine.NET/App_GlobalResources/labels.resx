@@ -2083,4 +2083,265 @@
   <data name="blogName" xml:space="preserve">
     <value>Blog name</value>
   </data>
+  <data name="fullScreen" xml:space="preserve">
+    <value>Full screen</value>
+  </data>
+  <data name="font" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="strikethrough" xml:space="preserve">
+    <value>Strikethrough</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="bulletList" xml:space="preserve">
+    <value>Bullet list</value>
+  </data>
+  <data name="numberList" xml:space="preserve">
+    <value>Number list</value>
+  </data>
+  <data name="reduceIndent" xml:space="preserve">
+    <value>Reduce indent</value>
+  </data>
+  <data name="indent" xml:space="preserve">
+    <value>Indent</value>
+  </data>
+  <data name="alignLeft" xml:space="preserve">
+    <value>Align Left</value>
+  </data>
+  <data name="center" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="alignRight" xml:space="preserve">
+    <value>Align Right</value>
+  </data>
+  <data name="justify" xml:space="preserve">
+    <value>Justify</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="hyperlink" xml:space="preserve">
+    <value>Hyperlink</value>
+  </data>
+  <data name="typeHere" xml:space="preserve">
+    <value>Type here</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>Post Meta</value>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>Date published</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>Unpublished</value>
+  </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>Published on</value>
+  </data>
+  <data name="pageMeta" xml:space="preserve">
+    <value>Page Meta</value>
+  </data>
+  <data name="newCategory" xml:space="preserve">
+    <value>New category</value>
+  </data>
+  <data name="errorLoadingCategory" xml:space="preserve">
+    <value>Error loading category</value>
+  </data>
+  <data name="errorLoadingCategories" xml:space="preserve">
+    <value>Error loading categories</value>
+  </data>
+  <data name="categoryUpdated" xml:space="preserve">
+    <value>Category updated</value>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>Update failed</value>
+  </data>
+  <data name="categoryAdded" xml:space="preserve">
+    <value>Category added</value>
+  </data>
+  <data name="failedAddingNewCategory" xml:space="preserve">
+    <value>Failed adding new category</value>
+  </data>
+  <data name="categoryDeleted" xml:space="preserve">
+    <value>Category deleted</value>
+  </data>
+  <data name="completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Failed</value>
+  </data>
+  <data name="errorGettingTags" xml:space="preserve">
+    <value>Error getting tags</value>
+  </data>
+  <data name="tagUpdated" xml:space="preserve">
+    <value>Tag updated</value>
+  </data>
+  <data name="errorLoadingUsers" xml:space="preserve">
+    <value>Error loading users</value>
+  </data>
+  <data name="errorLoadingUser" xml:space="preserve">
+    <value>Error loading user</value>
+  </data>
+  <data name="errorLoadingRoles" xml:space="preserve">
+    <value>Error loading roles</value>
+  </data>
+  <data name="userAdded" xml:space="preserve">
+    <value>User added</value>
+  </data>
+  <data name="errorAddingNewUser" xml:space="preserve">
+    <value>Error adding new user</value>
+  </data>
+  <data name="userUpdatedShort" xml:space="preserve">
+    <value>User updated</value>
+  </data>
+  <data name="errorLoadingSettings" xml:space="preserve">
+    <value>Error loading settings</value>
+  </data>
+  <data name="settingsUpdated" xml:space="preserve">
+    <value>Settings updated</value>
+  </data>
+  <data name="importedFromBlogML" xml:space="preserve">
+    <value>Imported from BlogML</value>
+  </data>
+  <data name="importFailed" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="errorLoadingRights" xml:space="preserve">
+    <value>Error loading rights</value>
+  </data>
+  <data name="errorLoadingRole" xml:space="preserve">
+    <value>Error loading role</value>
+  </data>
+  <data name="roleAdded" xml:space="preserve">
+    <value>Role added</value>
+  </data>
+  <data name="failedAddingNewRole" xml:space="preserve">
+    <value>Failed adding new role</value>
+  </data>
+  <data name="rightsSaved" xml:space="preserve">
+    <value>Rights saved</value>
+  </data>
+  <data name="failedToSaveRights" xml:space="preserve">
+    <value>Failed to save rights</value>
+  </data>
+  <data name="rolesItem" xml:space="preserve">
+    <value>Item&nbsp;</value>
+  </data>
+  <data name="rolesItemDeleted" xml:space="preserve">
+    <value>&nbsp;deleted</value>
+  </data>
+  <data name="couldNotDeleteItem" xml:space="preserve">
+    <value>Could not delete item </value>
+  </data>
+  <data name="errorLoadingPosts" xml:space="preserve">
+    <value>Error loading posts</value>
+  </data>
+  <data name="errorLoadingPages" xml:space="preserve">
+    <value>Error loading pages</value>
+  </data>
+  <data name="errorLoadingPackages" xml:space="preserve">
+    <value>Error loading packages</value>
+  </data>
+  <data name="errorLoadingPackage" xml:space="preserve">
+    <value>Error loading package</value>
+  </data>
+  <data name="errorLoadingCustomFields" xml:space="preserve">
+    <value>Error loading custom fields</value>
+  </data>
+  <data name="customFieldsUpdated" xml:space="preserve">
+    <value>Custom fields updated</value>
+  </data>
+  <data name="commentUpdated" xml:space="preserve">
+    <value>Comment updated</value>
+  </data>
+  <data name="errorLoadingBlogs" xml:space="preserve">
+    <value>Error loading blogs</value>
+  </data>
+  <data name="errorLoadingBlog" xml:space="preserve">
+    <value>Error loading blog</value>
+  </data>
+  <data name="blogSaved" xml:space="preserve">
+    <value>Blog saved</value>
+  </data>
+  <data name="blogAddedShort" xml:space="preserve">
+    <value>Blog added</value>
+  </data>
+  <data name="errorGettingLogFile" xml:space="preserve">
+    <value>Error getting log file</value>
+  </data>
+  <data name="purged" xml:space="preserve">
+    <value>Purged</value>
+  </data>
+  <data name="errorPurging" xml:space="preserve">
+    <value>Error purging</value>
+  </data>
+  <data name="restored" xml:space="preserve">
+    <value>Restored</value>
+  </data>
+  <data name="errorRestoring" xml:space="preserve">
+    <value>Error restoring</value>
+  </data>
+  <data name="errorGettingStats" xml:space="preserve">
+    <value>Error getting stats</value>
+  </data>
+  <data name="errorLoadingDraftPosts" xml:space="preserve">
+    <value>Error loading draft posts</value>
+  </data>
+  <data name="errorLoadingDraftPages" xml:space="preserve">
+    <value>Error loading draft pages</value>
+  </data>
+  <data name="errorLoadingRecentComments" xml:space="preserve">
+    <value>Error loading recent comments</value>
+  </data>
+  <data name="errorLoadingTrash" xml:space="preserve">
+    <value>Error loading trash</value>
+  </data>
+  <data name="errorLoadingPage" xml:space="preserve">
+    <value>Error loading page</value>
+  </data>
+  <data name="pageUpdated" xml:space="preserve">
+    <value>Page updated</value>
+  </data>
+  <data name="pageAdded" xml:space="preserve">
+    <value>Page added</value>
+  </data>
+  <data name="failedAddingNewPage" xml:space="preserve">
+    <value>Failed adding new page</value>
+  </data>
+  <data name="uploaded" xml:space="preserve">
+    <value>Uploaded</value>
+  </data>
+  <data name="unpublishedPage" xml:space="preserve">
+    <value>Unpublished page</value>
+  </data>
+  <data name="postUpdated" xml:space="preserve">
+    <value>Post updated</value>
+  </data>
+  <data name="postAdded" xml:space="preserve">
+    <value>Post added</value>
+  </data>
+  <data name="failedAddingNewPost" xml:space="preserve">
+    <value>Failed adding new post</value>
+  </data>
+  <data name="unpublishedPost" xml:space="preserve">
+    <value>Unpublished post</value>
+  </data>
+  <data name="logFile" xml:space="preserve">
+    <value>Log file</value>
+  </data>
 </root>

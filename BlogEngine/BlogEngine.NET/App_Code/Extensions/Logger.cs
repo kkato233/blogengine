@@ -127,7 +127,7 @@ namespace App_Code.Extensions
                     using (var sw = new StreamWriter(fs))
                     {
                         sw.WriteLine(@"*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-                        sw.WriteLine("Date: {0}", DateTime.Now);
+                        sw.WriteLine("{0}: {1}", Resources.labels.date, DateTime.Now);
                         sw.WriteLine(logMsg);
                     }
                 }

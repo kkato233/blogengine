@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('TagsController', function ($scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('TagsController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.data = dataService;
     $scope.items = [];
     $scope.id = {};
@@ -20,7 +20,7 @@
                 spinOff();
             })
             .error(function (data) {
-                toastr.success("Error getting tags");
+                toastr.success($rootScope.lbl.errorGettingTags);
                 spinOff();
             });
     }
@@ -45,11 +45,11 @@
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);
-            toastr.success("Completed");
+            toastr.success($rootScope.lbl.completed);
             spinOff();
         })
         .error(function () {
-            toastr.error("Failed");
+            toastr.error($rootScope.lbl.failed);
             spinOff();
         });
     }
@@ -58,11 +58,11 @@
         if ($scope.tag) {
             dataService.updateItem("/api/tags", { OldTag: $scope.id, NewTag: $scope.tag })
            .success(function (data) {
-               toastr.success("Tag updated");
+               toastr.success($rootScope.lbl.tagUpdated);
                $scope.load();
                gridInit($scope, $filter);
            })
-           .error(function () { toastr.error("Update failed"); });
+           .error(function () { toastr.error($rootScope.lbl.updateFailed); });
         }
         $("#modal-add-tag").modal('hide');
     }

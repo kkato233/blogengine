@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PageEditorController', function ($scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogEditor').controller('PageEditorController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.page = newPage;
     $scope.lookups = [];
@@ -33,7 +33,7 @@
             spinOff();
         })
         .error(function () {
-            toastr.error("Error loading page");
+            toastr.error($rootScope.lbl.errorLoadingPage);
             spinOff();
         });
     }
@@ -139,8 +139,8 @@
 
 var newPage = {
     "Id": "",
-    "Title": "Unpublished page",
-    "Content": "<p>Type here...</p>",
+    "Title": BlogAdmin.i18n.unpublishedPage,
+    "Content": "<p>" + BlogAdmin.i18n.typeHere + "...</p>",
     "DateCreated": moment().format("MM/DD/YYYY HH:MM"),
     "Slug": "unpublished",
     "ShowInList": true,
