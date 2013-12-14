@@ -14,7 +14,7 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
     }
 
     $scope.modalEdit = function (id) {
-        $scope.modalTitle = "Edit blog";
+        $scope.modalTitle = $rootScope.lbl.editExistingBlog;
         spinOn();
         dataService.getItems('/api/blogs/' + id)
         .success(function (data) {

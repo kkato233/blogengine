@@ -126,7 +126,25 @@ namespace BlogEngine.Core.Web
         // resources not in the app_data folder
         void AddJavaScriptResources()
         {
-            AddResource("addToPages");
+	    AddResource("aboutMe");
+	    AddResource("acceptAnyTextBeforeHostname");
+	    AddResource("accuracy");
+	    AddResource("action");
+	    AddResource("active");
+	    AddResource("activeThemes");
+	    AddResource("add");
+	    AddResource("add_Entry");
+	    AddResource("addComment");
+	    AddResource("addCommentsToPages");
+	    AddResource("addCustomCodeToHeader");
+	    AddResource("addEditPost");
+	    AddResource("addFilter");
+	    AddResource("addNewBlog");
+	    AddResource("addNewCategory");
+	    AddResource("addNewPage");
+	    AddResource("addNewRole");
+	    AddResource("addNewUser");
+	    AddResource("addToPages");
             AddResource("addToWhiteList");
             AddResource("admin");
             AddResource("administrationPanel");
@@ -401,6 +419,7 @@ namespace BlogEngine.Core.Web
             AddResource("idArgumentNull");
             AddResource("ignore");
             AddResource("import");
+	    AddResource("importExport");
             AddResource("importFromBlogML");
             AddResource("importFromFile");
             AddResource("importWithClickOnce");
@@ -736,6 +755,7 @@ namespace BlogEngine.Core.Web
             AddResource("view");
             AddResource("viewAll");
             AddResource("viewLargeCalendar");
+	    AddResource("viewMyBlog");
             AddResource("viewSource");
             AddResource("virtualPath");
             AddResource("visitorHi");

@@ -2080,4 +2080,7 @@
   <data name="viewMyBlog" xml:space="preserve">
     <value>View my blog</value>
   </data>
+  <data name="blogName" xml:space="preserve">
+    <value>Blog name</value>
+  </data>
 </root>

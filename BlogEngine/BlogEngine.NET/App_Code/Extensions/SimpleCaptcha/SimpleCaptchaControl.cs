@@ -195,6 +195,7 @@ namespace App_Code.Controls
         {
             output.RenderBeginTag(HtmlTextWriterTag.P);
             output.AddAttribute(HtmlTextWriterAttribute.For, SimpleCaptchaAnswerField);
+            output.AddAttribute(HtmlTextWriterAttribute.Style, "margin-right: 5px;");
             output.RenderBeginTag(HtmlTextWriterTag.Label);
             output.Write(this.simpleCaptchaLabel);
             output.RenderEndTag();
