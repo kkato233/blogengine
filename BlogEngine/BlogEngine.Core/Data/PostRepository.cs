@@ -26,12 +26,15 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewPublicPosts))
                 throw new System.UnauthorizedAccessException();
 
-            if (take == 0) take = Post.ApplicablePosts.Count;
+            var posts = new List<PostItem>();
+
+            var postList = Post.ApplicablePosts.Where(p => p.IsVisible).ToList();
+
+            if (take == 0) take = postList.Count;
             if (string.IsNullOrEmpty(filter)) filter = "1==1";
             if (string.IsNullOrEmpty(order)) order = "DateCreated desc";
 
-            var posts = new List<PostItem>();
-            var query = Post.ApplicablePosts.AsQueryable().Where(filter);
+            var query = postList.AsQueryable().Where(filter);
 
             foreach (var item in query.OrderBy(order).Skip(skip).Take(take))
                 posts.Add(ToJson((BlogEngine.Core.Post)item));

@@ -38,7 +38,7 @@
 
     $scope.save = function () {
         if ($scope.category.Id) {
-            dataService.updateItem("/api/categories", $scope.category)
+            dataService.updateItem("/api/categories/update/" + $scope.category.Id, $scope.category)
            .success(function (data) {
                toastr.success($rootScope.lbl.categoryUpdated);
                $scope.load();
@@ -59,31 +59,8 @@
         $("#modal-add-cat").modal('hide');
     }
 
-	/*
-    $scope.deleteChecked = function () {
-        var i = $scope.items.length;
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                $scope.items.splice(i, 1);
-                var url = '/api/categories';
-                dataService.deleteItem(url, item)
-                    .success(function (data) {
                         toastr.success($rootScope.lbl.categoryDeleted);
-                        $scope.clear();
-                        $scope.load();
-                        gridInit($scope, $filter);
-                    })
-                    .error(function () {
                         toastr.error($rootScope.lbl.errorLoadingCategories);
-                    });
-            }
-        }
-
-        $scope.search();
-    };
-	*/
-	
 	$scope.processChecked = function (action) {
 	    spinOn();
 	    var i = $scope.items.length;
