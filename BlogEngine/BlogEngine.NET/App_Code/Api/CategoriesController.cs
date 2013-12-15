@@ -71,7 +71,8 @@ public class CategoriesController : ApiController
         }
     }
 
-    public HttpResponseMessage Put([FromBody]CategoryItem item)
+    [HttpPut]
+    public HttpResponseMessage Update([FromBody]CategoryItem item)
     {
         try
         {

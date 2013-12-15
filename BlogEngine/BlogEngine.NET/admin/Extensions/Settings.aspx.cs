@@ -38,16 +38,18 @@
             var extname = Request.QueryString["ext"];
             var extension = ExtensionList().Where(x => x.Name == extname).FirstOrDefault();
 
-            foreach (var s in extension.BlogSettings)
+            if (extension != null && extension.BlogSettings.Count > 0)
             {
-                if (!string.IsNullOrEmpty(s.Name) && !s.Hidden)
+                foreach (var s in extension.BlogSettings)
                 {
-                    var uc = (UserControlSettings)Page.LoadControl("Settings.ascx");
-                    uc.ID = s.Name;
-                    ucPlaceHolder.Controls.Add(uc);
+                    if (!string.IsNullOrEmpty(s.Name) && !s.Hidden)
+                    {
+                        var uc = (UserControlSettings)Page.LoadControl("Settings.ascx");
+                        uc.ID = s.Name;
+                        ucPlaceHolder.Controls.Add(uc);
+                    }
                 }
             }
-
             base.OnInit(e);
         }
     }

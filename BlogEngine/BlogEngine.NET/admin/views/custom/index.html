@@ -43,7 +43,7 @@
 
                                     </div>
                                 </div>
-                                <div data-ng-if="pkgLocation != 'G'" class="form-group">
+                                <div ng-if="canEditExensions" data-ng-if="pkgLocation != 'G'" class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.priority}}</span>
                                     </div>
@@ -51,7 +51,7 @@
                                         <input type="text" class="form-control" id="txtPriority" data-ng-model="package.Priority" />
                                     </div>
                                 </div>
-                                <div data-ng-if="pkgLocation != 'G'" class="form-group">
+                                <div data-ng-if="pkgLocation != 'G' && canEditExensions" class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.enabled}}</span>
                                     </div>
@@ -100,7 +100,7 @@
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
                                 <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                                <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
+                                <button id="fltr-gal" class="btn btn-default btn-sm" ng-if="canInstallPackages" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
                             </div>
                         </div>
                         <span class="btn pull-rigth  btn-sm" disabled="disabled">{{lbl.show}}:</span>

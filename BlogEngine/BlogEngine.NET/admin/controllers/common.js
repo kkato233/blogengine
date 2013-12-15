@@ -3,12 +3,18 @@
         return viewLocation === $location.path() || $location.path().startsWith(viewLocation + "/");
     };
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary;
+    $scope.showBlogsTab = canManageBlogs();
+    $scope.showUsersTab = canManageUsers();
+    $scope.showSettingsTab = canManageSettings();
 });
 
 angular.module('blogAdmin').controller('SubNavController', function ($scope, $location) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
+    $scope.showRolesTab = canManageRoles();
+    $scope.showUsersTab = canManageUsers();
+    $scope.showWidgetsTab = canManageWidgets();
 });
 
 if (typeof String.prototype.startsWith != 'function') {
@@ -48,4 +54,25 @@ function webRoot(url) {
     else {
         return result + url;
     }
+}
+
+function canManageRoles() {
+    return SiteVars.UserRights.indexOf("ViewRoles") > -1 ? true : false;
+}
+
+function canManageUsers() {
+    return SiteVars.UserRights.indexOf("EditOtherUsers") > -1 ? true : false;
+}
+
+function canManageSettings() {
+    return SiteVars.UserRights.indexOf("AccessAdminSettingsPages") > -1 ? true : false;
+}
+
+function canManageWidgets() {
+    return SiteVars.UserRights.indexOf("ManageWidgets") > -1 ? true : false;
+}
+
+// need add rights to manage blog
+function canManageBlogs() {
+    return SiteVars.UserRights.indexOf("EditOtherUsersRoles") > -1 && SiteVars.IsPrimary ? true : false;
 }
