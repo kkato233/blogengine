@@ -223,7 +223,7 @@
     <value>Crea Nuovo Utente</value>
   </data>
   <data name="currentlyRated" xml:space="preserve">
-    <value>Voto {0} espresso da {1} persone. Assegna il tuo voto:</value>
+    <value>Voto {0} espresso da {1} persone.</value>
   </data>
   <data name="date" xml:space="preserve">
     <value>Data</value>
@@ -2037,5 +2037,308 @@
   </data>
   <data name="Tag" xml:space="preserve">
     <value>Tag</value>
+  </data>
+  <data name="alignLeft" xml:space="preserve">
+    <value>Allineamento Sinistro</value>
+  </data>
+  <data name="alignRight" xml:space="preserve">
+    <value>Allineamento Destro</value>
+  </data>
+  <data name="blogAddedShort" xml:space="preserve">
+    <value>Blog aggiunto</value>
+  </data>
+  <data name="blogName" xml:space="preserve">
+    <value>Nome del Blog</value>
+  </data>
+  <data name="blogSaved" xml:space="preserve">
+    <value>Blog salvato</value>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>Grassetto</value>
+  </data>
+  <data name="bulletList" xml:space="preserve">
+    <value>Lista elenco</value>
+  </data>
+  <data name="categoryAdded" xml:space="preserve">
+    <value>Categoria aggiunta</value>
+  </data>
+  <data name="categoryDeleted" xml:space="preserve">
+    <value>Categoria cancellata</value>
+  </data>
+  <data name="categoryUpdated" xml:space="preserve">
+    <value>Categoria aggiornata</value>
+  </data>
+  <data name="center" xml:space="preserve">
+    <value>Centro</value>
+  </data>
+  <data name="commentUpdated" xml:space="preserve">
+    <value>Commento aggiornato</value>
+  </data>
+  <data name="completed" xml:space="preserve">
+    <value>Completato</value>
+  </data>
+  <data name="couldNotDeleteItem" xml:space="preserve">
+    <value>Impossibile cancellare questo elemento</value>
+  </data>
+  <data name="customFieldsUpdated" xml:space="preserve">
+    <value>Aggiornato il campo personalizzato</value>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>Pubblicato in data</value>
+  </data>
+  <data name="errorAddingNewUser" xml:space="preserve">
+    <value>Errore di aggiunta di un nuovo utente</value>
+  </data>
+  <data name="errorGettingLogFile" xml:space="preserve">
+    <value>Errore di ricezione del file di registro</value>
+  </data>
+  <data name="errorGettingStats" xml:space="preserve">
+    <value>Errore di ricezione delle statistiche</value>
+  </data>
+  <data name="errorGettingTags" xml:space="preserve">
+    <value>Errore di ricezione delle etichette</value>
+  </data>
+  <data name="errorLoadingBlog" xml:space="preserve">
+    <value>Errore di caricamento del blog</value>
+  </data>
+  <data name="errorLoadingBlogs" xml:space="preserve">
+    <value>Errore di caricamento dei blog</value>
+  </data>
+  <data name="errorLoadingCategories" xml:space="preserve">
+    <value>Errore di caricamento delle categorie</value>
+  </data>
+  <data name="errorLoadingCategory" xml:space="preserve">
+    <value>Errore di caricamento categoria</value>
+  </data>
+  <data name="errorLoadingCustomFields" xml:space="preserve">
+    <value>Errore di caricamento dei campi personalizzati</value>
+  </data>
+  <data name="errorLoadingDraftPages" xml:space="preserve">
+    <value>Errore di caricamento delle pagine bozze</value>
+  </data>
+  <data name="errorLoadingDraftPosts" xml:space="preserve">
+    <value>Errore di caricamento dei post bozze</value>
+  </data>
+  <data name="errorLoadingPackage" xml:space="preserve">
+    <value>Errore di caricamento del pacchetto</value>
+  </data>
+  <data name="errorLoadingPackages" xml:space="preserve">
+    <value>Errore di caricamento dei pacchetti</value>
+  </data>
+  <data name="errorLoadingPage" xml:space="preserve">
+    <value>Errore di caricamento della pagina</value>
+  </data>
+  <data name="errorLoadingPages" xml:space="preserve">
+    <value>Errore di caricamento delle pagine</value>
+  </data>
+  <data name="errorLoadingPosts" xml:space="preserve">
+    <value>Errore di caricamento dei post</value>
+  </data>
+  <data name="errorLoadingRecentComments" xml:space="preserve">
+    <value>Errore di caricamento dei commenti recenti</value>
+  </data>
+  <data name="errorLoadingRights" xml:space="preserve">
+    <value>Errore di caricamento dei diritti</value>
+  </data>
+  <data name="errorLoadingRole" xml:space="preserve">
+    <value>Errore di caricamento del ruolo</value>
+  </data>
+  <data name="errorLoadingRoles" xml:space="preserve">
+    <value>Errore di caricamento dei ruoli</value>
+  </data>
+  <data name="errorLoadingSettings" xml:space="preserve">
+    <value>Errore di caricamento delle impostazioni</value>
+  </data>
+  <data name="errorLoadingTrash" xml:space="preserve">
+    <value>Errore di caricamento del cestino</value>
+  </data>
+  <data name="errorLoadingUser" xml:space="preserve">
+    <value>Errore di caricamento dell'utente</value>
+  </data>
+  <data name="errorLoadingUsers" xml:space="preserve">
+    <value>Errore di caricamento degli utenti</value>
+  </data>
+  <data name="errorPurging" xml:space="preserve">
+    <value>Errore in fase di pulizia</value>
+  </data>
+  <data name="errorRestoring" xml:space="preserve">
+    <value>Errore di ripristino</value>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>Fallito</value>
+  </data>
+  <data name="failedAddingNewCategory" xml:space="preserve">
+    <value>Fallita l'aggiunta di una nuova categoria</value>
+  </data>
+  <data name="failedAddingNewPage" xml:space="preserve">
+    <value>Fallita l'aggiunta di una nuova pagina</value>
+  </data>
+  <data name="failedAddingNewPost" xml:space="preserve">
+    <value>Fallita l'aggiunta di un nuovo post</value>
+  </data>
+  <data name="failedAddingNewRole" xml:space="preserve">
+    <value>Fallita l'aggiunta di un nuovo ruolo</value>
+  </data>
+  <data name="failedToSaveRights" xml:space="preserve">
+    <value>Fallito il salvataggo di un nuovo ruolo</value>
+  </data>
+  <data name="font" xml:space="preserve">
+    <value>Carattere</value>
+  </data>
+  <data name="hyperlink" xml:space="preserve">
+    <value>Collegamento Ipertestuale</value>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>Importa exporta</value>
+  </data>
+  <data name="importFailed" xml:space="preserve">
+    <value>Importazione fallita</value>
+  </data>
+  <data name="indent" xml:space="preserve">
+    <value>Rientro</value>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>Corsivo</value>
+  </data>
+  <data name="justify" xml:space="preserve">
+    <value>Giustificato</value>
+  </data>
+  <data name="lastUpdated" xml:space="preserve">
+    <value>Ultimo aggiornamento</value>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>Ultimi commenti</value>
+  </data>
+  <data name="logFile" xml:space="preserve">
+    <value>File di registro</value>
+  </data>
+  <data name="loggedMessages" xml:space="preserve">
+    <value>Messaggi registrati</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>Registri</value>
+  </data>
+  <data name="newCategory" xml:space="preserve">
+    <value>Nuova categoria</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>Prossimo</value>
+  </data>
+  <data name="numberList" xml:space="preserve">
+    <value>Lista numerata</value>
+  </data>
+  <data name="pageAdded" xml:space="preserve">
+    <value>Pagina aggiunta</value>
+  </data>
+  <data name="pageMeta" xml:space="preserve">
+    <value>Metatag della Pagina</value>
+  </data>
+  <data name="pageUpdated" xml:space="preserve">
+    <value>Pagina aggiornata</value>
+  </data>
+  <data name="pingbacks" xml:space="preserve">
+    <value>Pingbacks</value>
+  </data>
+  <data name="postAdded" xml:space="preserve">
+    <value>Post aggiunto</value>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>Metatag del Post</value>
+  </data>
+  <data name="postUpdated" xml:space="preserve">
+    <value>Post aggiornato</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>Precedente</value>
+  </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>Pubblicato il</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>Pagine pubblicate</value>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>Post pubblicati</value>
+  </data>
+  <data name="purged" xml:space="preserve">
+    <value>Ripulito</value>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="reduceIndent" xml:space="preserve">
+    <value>Riduci il rientro</value>
+  </data>
+  <data name="restored" xml:space="preserve">
+    <value>Ripristinato</value>
+  </data>
+  <data name="rightsSaved" xml:space="preserve">
+    <value>Diritti salvati</value>
+  </data>
+  <data name="roleAdded" xml:space="preserve">
+    <value>Ruolo aggiunto</value>
+  </data>
+  <data name="rolesItem" xml:space="preserve">
+    <value />
+  </data>
+  <data name="rolesItemDeleted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsUpdated" xml:space="preserve">
+    <value>Impostazioni aggiornate</value>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>Commenti Spam</value>
+  </data>
+  <data name="strikethrough" xml:space="preserve">
+    <value>Barrato</value>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>Ruolo di sistema</value>
+  </data>
+  <data name="tags1" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="tagUpdated" xml:space="preserve">
+    <value>Tag aggiornato</value>
+  </data>
+  <data name="typeHere" xml:space="preserve">
+    <value>Scrivi qui</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>Sottolineato</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>Non pubblicare</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>Non pubblicato</value>
+  </data>
+  <data name="unpublishedPage" xml:space="preserve">
+    <value>Pagina non pubblicata</value>
+  </data>
+  <data name="unpublishedPost" xml:space="preserve">
+    <value>Post non pubblicato</value>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>Aggiornamento fallito</value>
+  </data>
+  <data name="uploaded" xml:space="preserve">
+    <value>Caricato</value>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="userAdded" xml:space="preserve">
+    <value>Utente aggiunto</value>
+  </data>
+  <data name="userUpdatedShort" xml:space="preserve">
+    <value>Utente aggiornato</value>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>Vedi il mio blog</value>
   </data>
 </root>
