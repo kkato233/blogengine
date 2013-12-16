@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('UsersController', function ($scope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('UsersController', function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.roles = [];
     $scope.editItem = {};

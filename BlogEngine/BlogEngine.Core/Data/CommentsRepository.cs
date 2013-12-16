@@ -202,7 +202,7 @@ namespace BlogEngine.Core.Data
             jc.Website = c.Website == null ? "" : c.Website.ToString();
             jc.AuthorAvatar = c.Avatar;
             jc.Ip = c.IP;
-            jc.DateCreated = c.DateCreated.ToString("MM/dd/yyyy HH:mm");
+            jc.DateCreated = c.DateCreated.ToString("yyyy-MM-dd HH:mm");
             jc.RelativeLink = c.RelativeLink;
             jc.HasChildren = c.ParentId == Guid.Empty || c.ParentId == null;
             jc.Avatar = Gravatar(c);

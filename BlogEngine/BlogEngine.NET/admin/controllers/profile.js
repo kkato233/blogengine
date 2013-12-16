@@ -1,13 +1,14 @@
-﻿angular.module('blogAdmin').controller('ProfileController', function ($rootScope, $scope, $rootScope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('ProfileController', function ($rootScope, $scope, $filter, dataService) {
     $scope.user = {};
-    $scope.timeStamp = Math.round(new Date().getTime() / 1000);
+    $scope.noAvatar = SiteVars.ApplicationRelativeWebRoot + "pics/noavatar.jpg";
+    $scope.photo = $scope.noAvatar;
 
     $scope.load = function () {
         spinOn();
         dataService.getItems('/api/users/' + SiteVars.UserName)
         .success(function (data) {
             angular.copy(data, $scope.user);
-            $scope.timeStamp = Math.round(new Date().getTime() / 1000);
+            $scope.setPhoto();
             spinOff();
         })
         .error(function () {
@@ -45,6 +46,16 @@
             $scope.save();
         })
         .error(function () { toastr.error($rootScope.lbl.failed); });
+    }
+
+    $scope.setPhoto = function () {
+        if ($scope.user.Profile.PhotoUrl) {
+            $scope.photo = SiteVars.RelativeWebRoot + "image.axd?picture=/avatars/" +
+                $scope.user.Profile.PhotoUrl + "&" + new Date().getTime();
+        }
+        else {
+            $scope.photo = $scope.noAvatar;
+        }
     }
 
     $scope.load();

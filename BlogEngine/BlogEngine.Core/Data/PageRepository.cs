@@ -135,7 +135,7 @@ namespace BlogEngine.Core.Data
         static bool Save(Page page, PageDetail detail)
         {
             page.Title = detail.Title;
-            page.DateCreated = DateTime.ParseExact(detail.DateCreated, "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
+            page.DateCreated = DateTime.ParseExact(detail.DateCreated, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
             page.IsPublished = detail.IsPublished;
             page.ShowInList = detail.ShowInList;
             page.IsDeleted = detail.IsDeleted;
@@ -178,7 +178,7 @@ namespace BlogEngine.Core.Data
                 Slug = page.Slug,
                 Parent = parentOption,
                 Keywords = page.Keywords,
-                DateCreated = page.DateCreated.ToString("MM/dd/yyyy HH:mm"),
+                DateCreated = page.DateCreated.ToString("yyyy-MM-dd HH:mm"),
                 HasChildren = page.HasChildPages,
                 IsPublished = page.IsPublished,
                 IsFrontPage = page.IsFrontPage,
@@ -205,7 +205,7 @@ namespace BlogEngine.Core.Data
                 Parent = parentOption,
                 Description = page.Description,
                 Keywords = page.Keywords,
-                DateCreated = page.DateCreated.ToString("MM/dd/yyyy HH:mm"),
+                DateCreated = page.DateCreated.ToString("yyyy-MM-dd HH:mm"),
                 HasChildren = page.HasChildPages,
                 IsPublished = page.IsPublished,
                 IsFrontPage = page.IsFrontPage,

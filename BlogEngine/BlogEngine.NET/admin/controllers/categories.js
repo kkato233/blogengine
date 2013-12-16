@@ -59,8 +59,6 @@
         $("#modal-add-cat").modal('hide');
     }
 
-                        toastr.success($rootScope.lbl.categoryDeleted);
-                        toastr.error($rootScope.lbl.errorLoadingCategories);
 	$scope.processChecked = function (action) {
 	    spinOn();
 	    var i = $scope.items.length;

@@ -298,7 +298,7 @@ namespace BlogEngine.Core.Data
                 if (DateTime.TryParse(user.Profile.Birthday, out date))
                     pf.Birthday = date;
 
-                pf.PhotoUrl = user.Profile.PhotoUrl;
+                pf.PhotoUrl = user.Profile.PhotoUrl.Replace("\"", "");
                 pf.Private = user.Profile.Private;
 
                 pf.PhoneMobile = user.Profile.PhoneMobile;
