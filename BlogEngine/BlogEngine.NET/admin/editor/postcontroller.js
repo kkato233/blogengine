@@ -195,7 +195,7 @@ var newPost = {
     "Title": BlogAdmin.i18n.unpublishedPost,
     "Author": "Admin",
     "Content": "<p>" + BlogAdmin.i18n.typeHere + "...</p>",
-    "DateCreated": moment().format("MM/DD/YYYY HH:MM"),
+    "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
     "Slug": "unpublished",
     "Categories": "",
     "Tags": "",
