@@ -28,20 +28,20 @@
 </head>
 <body>
     <script type="text/javascript">
-    var SiteVars = {
-        ApplicationRelativeWebRoot: '@Utils.ApplicationRelativeWebRoot',
-        RelativeWebRoot: '@Utils.RelativeWebRoot',
-        BlogInstanceId: '@Blog.CurrentInstance.Id',
-        UserName: '@User.Identity.Name',
-        UserRights: ['@Html.Raw(string.Join("', '", userRights))'],
-        AbsoluteWebRoot: '@Utils.AbsoluteWebRoot',
-        Version: 'BlogEngine.NET ' + '@BlogSettings.Instance.Version()',
-        IsPrimary: '@Blog.CurrentInstance.IsPrimary',
-        IsAdmin: '@Security.IsAdministrator',
-        AppRoot: function (url) { window.location = '@Utils.ApplicationRelativeWebRoot' + url; return false; },
-        BlogRoot: function (url) { window.location = '@Utils.RelativeWebRoot' + url; }
-    };
-</script>
+        var SiteVars = {
+            ApplicationRelativeWebRoot: '@Utils.ApplicationRelativeWebRoot',
+            RelativeWebRoot: '@Utils.RelativeWebRoot',
+            BlogInstanceId: '@Blog.CurrentInstance.Id',
+            UserName: '@User.Identity.Name',
+            UserRights: ['@Html.Raw(string.Join("', '", userRights))'],
+            AbsoluteWebRoot: '@Utils.AbsoluteWebRoot',
+            Version: 'BlogEngine.NET ' + '@BlogSettings.Instance.Version()',
+            IsPrimary: '@Blog.CurrentInstance.IsPrimary',
+            IsAdmin: '@Security.IsAdministrator',
+            AppRoot: function (url) { window.location = '@Utils.ApplicationRelativeWebRoot' + url; return false; },
+            BlogRoot: function (url) { window.location = '@Utils.RelativeWebRoot' + url; }
+        };
+    </script>
     <script type="text/javascript" src="admin.res.axd"></script>
     <div id="container" class="app-wrapper @Resources.labels.LangDirection">
         <div data-ng-app="blogAdmin" data-ng-view="" id="ng-view"></div>

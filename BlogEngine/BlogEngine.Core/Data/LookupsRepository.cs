@@ -96,14 +96,22 @@ namespace BlogEngine.Core.Data
         void LoadAuthors()
         {
             var items = new List<SelectOption>();
-            IEnumerable<MembershipUser> users = Membership.GetAllUsers()
+
+            if (!Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
+            {
+                items.Add(new SelectOption { OptionName = Security.CurrentUser.Identity.Name, OptionValue = Security.CurrentUser.Identity.Name });
+            }
+            else
+            {
+                IEnumerable<MembershipUser> users = Membership.GetAllUsers()
                 .Cast<MembershipUser>()
                 .ToList()
                 .OrderBy(a => a.UserName);
 
-            foreach (MembershipUser user in users)
-            {
-                items.Add(new SelectOption { OptionName = user.UserName, OptionValue = user.UserName });
+                foreach (MembershipUser user in users)
+                {
+                    items.Add(new SelectOption { OptionName = user.UserName, OptionValue = user.UserName });
+                }
             }
             lookups.AuthorList = items;
         }

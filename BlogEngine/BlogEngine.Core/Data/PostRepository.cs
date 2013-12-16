@@ -30,6 +30,9 @@ namespace BlogEngine.Core.Data
 
             var postList = Post.ApplicablePosts.Where(p => p.IsVisible).ToList();
 
+            if (!Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
+                postList = postList.Where(p => p.Author.ToLower() == Security.CurrentUser.Identity.Name.ToLower()).ToList();
+
             if (take == 0) take = postList.Count;
             if (string.IsNullOrEmpty(filter)) filter = "1==1";
             if (string.IsNullOrEmpty(order)) order = "DateCreated desc";
@@ -80,6 +83,7 @@ namespace BlogEngine.Core.Data
         /// Update post
         /// </summary>
         /// <param name="detail">Post to update</param>
+        /// <param name="action">Action</param>
         /// <returns>True on success</returns>
         public bool Update(PostDetail detail, string action)
         {
@@ -144,7 +148,7 @@ namespace BlogEngine.Core.Data
                 Title = post.Title,
                 Slug = post.Slug,
                 RelativeLink = post.RelativeLink,
-                DateCreated = post.DateCreated.ToString("MM/dd/yyyy HH:mm"),
+                DateCreated = post.DateCreated.ToString("yyyy-MM-dd HH:mm"),
                 Categories = GetCategories(post.Categories),
                 Tags = GetTags(post.Tags),
                 Comments = GetComments(post),
@@ -163,7 +167,7 @@ namespace BlogEngine.Core.Data
                 Description = post.Description,
                 RelativeLink = post.RelativeLink,
                 Content = post.Content,
-                DateCreated = post.DateCreated.ToString("MM/dd/yyyy HH:mm"),
+                DateCreated = post.DateCreated.ToString("yyyy-MM-dd HH:mm"),
                 Categories = GetCategories(post.Categories),
                 Tags = GetTags(post.Tags),
                 Comments = GetComments(post),
@@ -185,7 +189,7 @@ namespace BlogEngine.Core.Data
             post.IsPublished = detail.IsPublished;
             post.HasCommentsEnabled = detail.HasCommentsEnabled;
             post.IsDeleted = detail.IsDeleted;
-            post.DateCreated = DateTime.ParseExact(detail.DateCreated, "M/d/yyyy HH:mm", CultureInfo.InvariantCulture);
+            post.DateCreated = DateTime.ParseExact(detail.DateCreated, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
             UpdatePostCategories(post, detail.Categories);
             UpdatePostTags(post, FilterTags(detail.Tags));

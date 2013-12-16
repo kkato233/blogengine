@@ -27,57 +27,72 @@ public class UploadController : ApiController
 
             if (action == "import")
             {
-                return ImportBlogML();
+                if (Security.IsAdministrator)
+                {
+                    return ImportBlogML();
+                }
             } 
             if (action == "profile")
             {
-                // upload profile image
-                dir = BlogService.GetDirectory("/avatars");
-                var dot = file.FileName.IndexOf(".");
-                var ext = dot > 0 ? file.FileName.Substring(dot) : "";
-                var fileName = User.Identity.Name + ext;
+                if (Security.IsAuthorizedTo(Rights.EditOwnUser))
+                {
+                    // upload profile image
+                    dir = BlogService.GetDirectory("/avatars");
+                    var dot = file.FileName.IndexOf(".");
+                    var ext = dot > 0 ? file.FileName.Substring(dot) : "";
+                    var fileName = User.Identity.Name + ext;
 
-                var imgPath = HttpContext.Current.Server.MapPath(dir.FullPath + "/" + fileName);
-                var image = Image.FromStream(file.InputStream);
-                Image thumb = image.GetThumbnailImage(80, 80, () => false, IntPtr.Zero);
-                thumb.Save(imgPath);
+                    var imgPath = HttpContext.Current.Server.MapPath(dir.FullPath + "/" + fileName);
+                    var image = Image.FromStream(file.InputStream);
+                    Image thumb = image.GetThumbnailImage(80, 80, () => false, IntPtr.Zero);
+                    thumb.Save(imgPath);
 
-                return Request.CreateResponse(HttpStatusCode.Created, fileName);
+                    return Request.CreateResponse(HttpStatusCode.Created, fileName);
+                }
             }
             if (action == "image")
             {
-                var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                retUrl = uploaded.FileDownloadPath.Replace("\"", "");
-                if (retUrl.StartsWith("/"))
-                    retUrl = retUrl.Substring(1);
-                retUrl = Utils.RelativeWebRoot + retUrl;
-                return Request.CreateResponse(HttpStatusCode.Created, retUrl);
+                if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
+                {
+                    var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
+                    retUrl = uploaded.FileDownloadPath.Replace("\"", "");
+                    if (retUrl.StartsWith("/"))
+                        retUrl = retUrl.Substring(1);
+                    retUrl = Utils.RelativeWebRoot + retUrl;
+                    return Request.CreateResponse(HttpStatusCode.Created, retUrl);
+                }
             }
             if (action == "file")
             {
-                var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                retUrl = uploaded.FileDownloadPath + "|" + file.FileName + " (" + BytesToString(uploaded.FileSize) + ")";
-                retUrl = retUrl.Replace("\"", "");
-                if (retUrl.StartsWith("/"))
-                    retUrl = retUrl.Substring(1);
-                retUrl = Utils.RelativeWebRoot + retUrl;
-                return Request.CreateResponse(HttpStatusCode.Created, retUrl);
+                if (Security.IsAuthorizedTo(Rights.EditOwnPosts)) 
+                {
+                    var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
+                    retUrl = uploaded.FileDownloadPath + "|" + file.FileName + " (" + BytesToString(uploaded.FileSize) + ")";
+                    retUrl = retUrl.Replace("\"", "");
+                    if (retUrl.StartsWith("/"))
+                        retUrl = retUrl.Substring(1);
+                    retUrl = Utils.RelativeWebRoot + retUrl;
+                    return Request.CreateResponse(HttpStatusCode.Created, retUrl);
+                }
             }
             if (action == "video")
             {
-                // default media folder
-                var mediaFolder = "media";
+                if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
+                {
+                    // default media folder
+                    var mediaFolder = "media";
 
-                // get the mediaplayer extension and use it's folder
-                var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");
-                mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
+                    // get the mediaplayer extension and use it's folder
+                    var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");
+                    mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
 
-                var folder = Utils.ApplicationRelativeWebRoot + mediaFolder + "/";
-                var fileName = file.FileName;
+                    var folder = Utils.ApplicationRelativeWebRoot + mediaFolder + "/";
+                    var fileName = file.FileName;
 
-                UploadVideo(folder, file, fileName);
+                    UploadVideo(folder, file, fileName);
 
-                return Request.CreateResponse(HttpStatusCode.Created, fileName);
+                    return Request.CreateResponse(HttpStatusCode.Created, fileName);
+                }
             }
         }
         return Request.CreateResponse(HttpStatusCode.BadRequest);

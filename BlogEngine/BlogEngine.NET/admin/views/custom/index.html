@@ -116,7 +116,6 @@
                         <th class="table-item-title table-item-w70">{{lbl.title}} <a href="" ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
-                        <th>{{lbl.lastUpdated}}</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
                     </tr>
@@ -136,7 +135,6 @@
                         </td>
                         <td>{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
                         <td data-ng-bind-html="item.Authors"></td>
-                        <td>{{item.LastUpdated}}</td>
                         <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                         <td data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
                     </tr>

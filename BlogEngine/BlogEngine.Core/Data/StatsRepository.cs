@@ -20,8 +20,14 @@ namespace BlogEngine.Core.Data
 
             var stats = new Stats();
 
-            stats.PublishedPostsCount = Post.Posts.Where(p => p.IsPublished == true && p.IsDeleted == false).Count();
-            stats.DraftPostsCount = Post.Posts.Where(p => p.IsPublished == false && p.IsDeleted == false).Count();
+            var postList = Post.ApplicablePosts.Where(p => p.IsVisible).ToList();
+
+            if (!Security.IsAuthorizedTo(Rights.EditOtherUsersPosts))
+                postList = postList.Where(p => p.Author.ToLower() == Security.CurrentUser.Identity.Name.ToLower()).ToList();
+
+            stats.PublishedPostsCount = postList.Where(p => p.IsPublished == true).Count();
+            stats.DraftPostsCount = postList.Where(p => p.IsPublished == false).Count();
+
             stats.PublishedPagesCount = Page.Pages.Where(p => p.IsPublished == true && p.IsDeleted == false).Count();
             stats.DraftPagesCount = Page.Pages.Where(p => p.IsPublished == false && p.IsDeleted == false).Count();
 
