@@ -941,7 +941,7 @@
     <value>بروز رسانی</value>
   </data>
   <data name="widget" xml:space="preserve">
-    <value>ویجت (Widget)</value>
+    <value>ویجت </value>
   </data>
   <data name="configuration" xml:space="preserve">
     <value>تنظیمات</value>
@@ -962,7 +962,7 @@
     <value>مدیریت و اداره خودکار</value>
   </data>
   <data name="custom" xml:space="preserve">
-    <value>Custom</value>
+    <value>ظاهر</value>
   </data>
   <data name="extensions" xml:space="preserve">
     <value>افزونه ها</value>
@@ -1197,7 +1197,7 @@
     <value>اسکریپت Tracking</value>
   </data>
   <data name="trackingScriptDescription" xml:space="preserve">
-    <value>اسکریپت ردیابی بازدیدکنندگان&lt;br /&gt;&lt;br /&gt;کد جاوا اسکریپت مربوط به Google.&lt;br/&gt;&lt;br/&gt;  به پایین تمامی صفحات، بدون توجه به تم مورد استفاده اضافه خواهد شد&lt;br /&gt;&lt;br /&gt;(به خاطر داشته باشید که تگ های  &amp;lt;script&amp;gt;  را اضافه کنید)</value>
+    <value>اسکریپت ردیابی بازدیدکنندگان&lt;br /&gt;&lt;br /&gt;کد جاوا اسکریپت مربوط به Google.&lt;br/&gt;&lt;br/&gt;  به پایین تمامی صفحات، بدون توجه به پوسته مورد استفاده اضافه خواهد شد&lt;br /&gt;&lt;br /&gt;(به خاطر داشته باشید که تگ های  &amp;lt;script&amp;gt;  را اضافه کنید)</value>
   </data>
   <data name="upload" xml:space="preserve">
     <value>آپلود</value>
@@ -1660,7 +1660,7 @@
     <value>فعال</value>
   </data>
   <data name="activeThemes" xml:space="preserve">
-    <value>تم های فعال</value>
+    <value>پوسته های فعال</value>
   </data>
   <data name="allowMobileTheme" xml:space="preserve">
     <value>سایت موبایل</value>
@@ -1687,7 +1687,7 @@
     <value>خطا در حذف بلاگ: {0}</value>
   </data>
   <data name="currentTheme" xml:space="preserve">
-    <value>تم فعلی</value>
+    <value>پوسته فعلی</value>
   </data>
   <data name="downloads" xml:space="preserve">
     <value>دانلودها</value>
@@ -1729,10 +1729,10 @@
     <value>ذخیره شده توسط{0} در {1}</value>
   </data>
   <data name="setAsCurrentTheme" xml:space="preserve">
-    <value>ذخیره به عنوان تم فعلی</value>
+    <value>ذخیره به عنوان پوسته فعلی</value>
   </data>
   <data name="setAsMobileTheme" xml:space="preserve">
-    <value>ذخیره به عنوان تم موبایل</value>
+    <value>ذخیره به عنوان پوسته موبایل</value>
   </data>
   <data name="showEnableWebsiteInComments" xml:space="preserve">
     <value>اجازه درج وبسایت در نظرات</value>
@@ -1744,7 +1744,7 @@
     <value>نام مکان ذخیره سازی</value>
   </data>
   <data name="themes" xml:space="preserve">
-    <value>تمها</value>
+    <value>پوسته ها</value>
   </data>
   <data name="virtualPath" xml:space="preserve">
     <value>مسیر مجازی</value>
@@ -1817,5 +1817,14 @@
   </data>
   <data name="youHaveNoTaggedPosts" xml:space="preserve">
     <value>شما هیچ برچسبی در پست ها ندارید</value>
+  </data>
+  <data name="createBlog" xml:space="preserve">
+    <value>ایجاد وبلاگ</value>
+  </data>
+  <data name="widgets" xml:space="preserve">
+    <value>ویجت ها</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>محتوا</value>
   </data>
 </root>

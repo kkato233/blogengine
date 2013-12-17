@@ -12,7 +12,7 @@
     <script type="text/javascript" src="account.js"></script>
     <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body>
+<body class="<%=Resources.labels.LangDirection %>">
     <form id="Form1" runat="server">
         <div class="container">
             <div class="account-header clearfix">

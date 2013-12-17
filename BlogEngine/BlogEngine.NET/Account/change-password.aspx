@@ -19,15 +19,15 @@
             <div class="account-content">
                 <div class="form-group">
                     <asp:Label ID="CurrentPasswordLabel" runat="server" AssociatedControlID="CurrentPassword"><%=Resources.labels.oldPassword %>:</asp:Label>
-                    <asp:TextBox ID="CurrentPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="CurrentPassword" runat="server" CssClass="passwordEntry form-control ltr-dir" TextMode="Password"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <asp:Label ID="NewPasswordLabel" runat="server" AssociatedControlID="NewPassword"><%=Resources.labels.newPassword %>:</asp:Label>
-                    <asp:TextBox ID="NewPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="NewPassword" runat="server" CssClass="passwordEntry form-control ltr-dir" TextMode="Password"></asp:TextBox>
                 </div>
                 <div class="form-group">
                     <asp:Label ID="ConfirmNewPasswordLabel" runat="server" AssociatedControlID="ConfirmNewPassword"><%=Resources.labels.confirmNewPassword %>:</asp:Label>
-                    <asp:TextBox ID="ConfirmNewPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="ConfirmNewPassword" runat="server" CssClass="passwordEntry form-control ltr-dir" TextMode="Password"></asp:TextBox>
                 </div>
                 <hr />
                 <div class="btn-wrapper">
