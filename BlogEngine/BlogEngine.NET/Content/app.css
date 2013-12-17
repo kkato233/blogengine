@@ -1,13 +1,11 @@
 ﻿/*
     Description:
-        BlogEngine.NET UI - Version 1.0 (11/8/‎2013)
+        BlogEngine.NET UI - Version 1.1 (11/16/‎2013)
         http://dotnetblogengine.net/
 
         Designed and Implementation by Farzin Seyfolahi (@Seyfolahi)
         http://seyfolahi.net/
 */
-
-@import url(http://fonts.googleapis.com/css?family=Lato:400,900);
 
 html,
 body {
@@ -17,7 +15,6 @@ body {
 body {
     cursor: default;
     overflow-y: scroll;
-    font-family: "Lato";
     font-size: 14px;
 }
 
@@ -205,6 +202,22 @@ body {
 }
 
 /*[ Fixed ]*/
+.ltr-dir {
+    direction: ltr;
+}
+
+.form-control.error {
+    border-color: #d53e2e;
+    border-color: rgb(233, 102, 102);
+    outline: 0px none;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgb(233, 102, 102);
+}
+
+
+.modal {
+    overflow-y: auto;
+}
+
 .page-header {
     margin-top: 0;
 }
@@ -251,9 +264,8 @@ a i {
 }
 
 .page-header h2.page-title {
-    font-family: 'Lato', sans-serif;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 700;
     font-size: 22px;
     -webkit-text-shadow: 0 0 1px rgba(0,0,0,0.5);
     text-shadow: 0 0 1px rgba(0,0,0,0.5);
@@ -314,16 +326,14 @@ a i {
 
 .table thead {
     color: #444;
-    font-size: 14px;
+    font-size: 13px;
     text-align: center;
-    font-family: "Lato";
 }
 
 .table thead tr th {
     border-color: #CCC;
     background-color: #e5e5e5;
     border-bottom-width: 1px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .table .table-item-title {
@@ -737,4 +747,11 @@ a i {
 .rtl .btn-toolbar > .btn-group + .btn-group {
     margin-left: 0;
     margin-right: 4px !important;
+}
+
+/*[]*/
+.rtl .panel-title > a {
+    font-family: Tahoma;
+    font-weight: bold;
+    font-size: 12px;
 }

@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
+
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
@@ -27,22 +28,24 @@
 <body class="<%=Resources.labels.LangDirection %>">
     <form runat="Server">
         <header class="header">
-            <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                 <div class="container">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
+                        <a class="navbar-brand hidden" href="#"><%=BlogSettings.Instance.Name %></a>
                     </div>
                     <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="<%=Utils.AbsoluteWebRoot %>"><%=Resources.labels.home %></a></li>
+                        <ul class="nav navbar-nav ">
+                            <li><a href="<%=Utils.AbsoluteWebRoot %>"><%=Resources.labels.home %></a></li>
                             <li><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
-                            <li><a href="<%=Utils.AbsoluteWebRoot %>contact"><%=Resources.labels.contact %></a></li>
+                            <li><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
                             <li><a href="<%=Utils.FeedUrl %>"><%=Resources.labels.subscribe %></a></li>
-                            <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
+                             <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
                               { %>
                             <li>
                                 <a href="<%=parentPage.RelativeLink %>" class="dropdown-toggle"><%=parentPage.Title%> </a>
@@ -59,15 +62,18 @@
                             <% if (Utils.IsMobile)
                                { %>
                             <li>
-                                <blog:MobileThemeSwitch ID="MobileThemeSwitch1" runat="server" />
+                                <blog:MobileThemeSwitch ID="MobileThemeSwitch2" runat="server" />
                             </li>
                             <% } %>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a runat="server" id="aLogin"></a></li>
+                        </ul>
                     </div>
-                    <!--/.navbar-collapse -->
+                    <!--/.nav-collapse -->
                 </div>
             </div>
-            <div class="jumbotron">
+            <div class="title-wrapper">
                 <div class="container">
                     <img src="<%=Utils.RelativeOrAbsoluteWebRoot %>themes/Standard/images/logo.png" class="pull-left logo" alt="<%=BlogSettings.Instance.Name %>" />
                     <hgroup class="pull-left">
@@ -113,10 +119,10 @@
                 </div>
             </div>
             <div class="end-line text-center">
-                <p class="text-muted credit">Copyright &copy; <%=DateTime.Now.Year %> <a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - <a runat="server" id="aLogin"></a></p>
+                <p class="text-muted credit">Copyright &copy; <%=DateTime.Now.Year %> <a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Design by <a href="http://seyfolahi.net/" title="Farzin Seyfolahi - UI/UX Designer at BlogEngine.NET" target="_blank">FS</a> </p>
             </div>
         </footer>
-        
+
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="<%=Utils.AbsoluteWebRoot %>themes/Standard/js/bootstrap.min.js"></script>
     </form>

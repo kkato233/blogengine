@@ -2344,4 +2344,8 @@
   <data name="logFile" xml:space="preserve">
     <value>Log file</value>
   </data>
+  <data name="createBlog" xml:space="preserve">
+    <value>Create new blog</value>
+  </data>
+
 </root>

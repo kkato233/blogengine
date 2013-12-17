@@ -12,10 +12,10 @@
             </div>
             <div class="account-content">
                 <div class="form-group">
-                    <asp:TextBox ID="UserName" runat="server" AutoCompleteType="None" placeholder="username" CssClass="form-control input-lg textEntry"></asp:TextBox>
+                    <asp:TextBox ID="UserName" runat="server" AutoCompleteType="None" placeholder="username" CssClass="form-control input-lg textEntry ltr-dir"></asp:TextBox>
                 </div>
                 <div class="form-group">
-                    <asp:TextBox ID="Password" runat="server" placeholder="*******" CssClass="form-control input-lg passwordEntry" TextMode="Password"></asp:TextBox>
+                    <asp:TextBox ID="Password" runat="server" placeholder="*******" CssClass="form-control input-lg passwordEntry  ltr-dir" TextMode="Password"></asp:TextBox>
                 </div>
                 <div class="checkbox">
                     <asp:CheckBox ID="RememberMe" runat="server" />
