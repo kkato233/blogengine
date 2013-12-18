@@ -2347,5 +2347,13 @@
   <data name="createBlog" xml:space="preserve">
     <value>Create new blog</value>
   </data>
-
+  <data name="previewComment" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="amp" xml:space="preserve">
+    <value>&amp;amp;</value>
+  </data>
+  <data name="disqusWebsiteName" xml:space="preserve">
+    <value>Disqus Website Name</value>
+  </data>
 </root>

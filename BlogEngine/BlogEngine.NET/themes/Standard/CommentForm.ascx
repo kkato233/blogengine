@@ -3,7 +3,6 @@
 <div class="comment-form well-global">
     <div class="well-global-title clearfix">
         <h3 class="pull-left" id="addcomment"><%=Resources.labels.addComment %></h3>
-
         <div id="commentMenu" class="btn-group pull-right comment-menu">
             <a class="btn-1 btn btn-default btn-sm active">
                 <span style="display: block; height: 100%;" id="compose" class="selected" onclick="return BlogEngine.composeComment()"><%=Resources.labels.comment%></span>
@@ -15,44 +14,43 @@
     </div>
     <div class="form-horizontal">
         <div class="form-group">
-            <label for="txtName" class="col-sm-2 control-label"><%=Resources.labels.name %> *</label>
-            <div class="col-sm-10">
+            <label for="txtName" class="col-md-2 control-label"><%=Resources.labels.name %> *</label>
+            <div class="col-md-10">
                 <input type="text" class="form-control" name="txtName" id="txtName" />
             </div>
         </div>
         <div class="form-group">
-            <label for="txtEmail" class="col-sm-2 control-label"><%=Resources.labels.email %> *</label>
-            <div class="col-sm-10">
+            <label for="txtEmail" class="col-md-2 control-label"><%=Resources.labels.email %> *</label>
+            <div class="col-md-10">
                 <input type="text" class="form-control" id="txtEmail" />
                 <span id="gravatarmsg"></span>
             </div>
         </div>
         <div class="form-group">
-            <label for="txtWebsite" class="col-sm-2 control-label"><%=Resources.labels.website%></label>
-            <div class="col-sm-10">
+            <label for="txtWebsite" class="col-md-2 control-label"><%=Resources.labels.website%></label>
+            <div class="col-md-10">
                 <input type="text" class="form-control" id="txtWebsite" />
             </div>
         </div>
         <div class="form-group" id="commentCompose">
-            <label for="txtContent" class="col-sm-2 control-label"><%=Resources.labels.comment%> *</label>
-            <div class="col-sm-10">
+            <label for="txtContent" class="col-md-2 control-label"><%=Resources.labels.comment%> *</label>
+            <div class="col-md-10">
                 <textarea class="form-control" id="txtContent" cols="50" rows="6" name="txtContent"></textarea>
             </div>
         </div>
         <div class="form-group preview-box">
-            <label class="col-sm-2 control-label" style="height:auto;">Preview</label>
-            <div class="col-sm-10">
-                <div id="commentPreview" class="form-control comment-preview" >
+            <label class="col-md-2 control-label" style="height: auto;"><%=Resources.labels.previewComment %></label>
+            <div class="col-md-10">
+                <div id="commentPreview" class="form-control comment-preview">
                     <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" style="display: none" alt="Loading" />
                 </div>
             </div>
         </div>
-
         <div class="form-group">
-            <label class="col-sm-7 control-label">
+            <label class="col-md-7 control-label">
                 <input type="checkbox" id="cbNotify" class="cmnt-frm-notify" />
                 <%=Resources.labels.notifyOnNewComments %></label>
-            <div class="col-sm-5 text-right">
+            <div class="col-md-5 text-right">
                 <input type="button" id="btnSaveAjax" value="<%=Resources.labels.saveComment %>" class="btn btn-primary" onclick="return BlogEngine.validateAndSubmitCommentForm()" />
             </div>
         </div>

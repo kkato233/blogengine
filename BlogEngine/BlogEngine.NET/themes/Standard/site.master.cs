@@ -15,7 +15,7 @@ public partial class StandardSite : System.Web.UI.MasterPage
         // for supported of RTL languages
         if (Resources.labels.LangDirection.Equals("rtl", StringComparison.OrdinalIgnoreCase))
         {
-            var lc = new LiteralControl("<link href=\"/themes/standard/include/rtl.css\" rel=\"stylesheet\" />");
+            var lc = new LiteralControl("<link href=\"/themes/standard/css/rtl.css\" rel=\"stylesheet\" />");
             HeadContent.Controls.Add(lc);
         }
 

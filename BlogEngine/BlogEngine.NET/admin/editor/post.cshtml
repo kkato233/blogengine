@@ -62,60 +62,71 @@
         @RenderPage("_postmodals.cshtml")
         @RenderPage("_source.cshtml")
         <div class="container editor admin-editor admin-editor-post">
-            <div id="overlay-editor" class="well">
-                <input type="text" id="txtTitle" placeholder="Title of post..." class="form-control" data-ng-model="post.Title" />
-                @RenderPage("_editor.cshtml")
-                <div class="row footer-editor">
-                    <div class="col-sm-12">
-                        <div class="input-group input-group-sm post-tags-selector">
-                            <span class="input-group-addon">
+            <div id="overlay-editor">
+                <div class="row clearfix">
+                    <div class="col-md-9">
+                        <div class="well">
+                            <input type="text" id="txtTitle" placeholder="Title of post..." class="form-control" data-ng-model="post.Title" />
+                            @RenderPage("_editor.cshtml")
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-folder"></i> {{lbl.categories}}
+                            </div>
+                            <ul class="list-group categories-list">
+                                <li class="list-group-item" ng-repeat="cat in lookups.CategoryList">
+                                    <label>
+                                        <input type="checkbox" id="cat-{{cat.OptionValue}}" data-ng-model="cat.IsSelected" />
+                                        {{cat.OptionName}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
                                 <i class="fa fa-tag fa-sm"></i>
                                 {{lbl.tags}}
-                            </span>
-                            <textarea id="postTags" class=" form-control" rows="1"></textarea>
+                            </div>
+                            <div class="tags-list">
+                                <textarea id="postTags" class="form-control" placeholder="Type and enter..." rows="1"></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-lg'></i></span>
-                <hr />
-                <div class="pull-left">
-                    <div class="btn-group dropup">
-                        <a href="#" data-ng-click="publish(true)" class="btn btn-default"><i class="fa fa-folder"></i>{{lbl.categories}}</a>
-                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
-                            <span class="caret caret-publish"></span>
-                        </button>
-                        <ul class="dropdown-menu edit-categories">
-                            <li ng-repeat="cat in lookups.CategoryList">
-                                <input type="checkbox" id="cat-{{cat.OptionValue}}" data-ng-model="cat.IsSelected" />
-                                <label for="cat-{{cat.OptionValue}}">{{cat.OptionName}}</label>
-                            </li>
-                        </ul>
+                <div class="btn-wrapper clearfix">
+                    <div class="pull-left">
+                        <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
+                        <span class="btn ">
+                            <i class="fa fa-info-circle"></i><span ng-if="!post.IsPublished">{{lbl.unpublished}}</span><span ng-if="post.IsPublished">{{lbl.publishedOn}} {{post.DateCreated}}</span>
+                            
+                        </span>
                     </div>
-                    <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
-                </div>
-                <div class="text-right">
-                    <label ng-if="!post.IsPublished">{{lbl.unpublished}}</label>
-                    <label ng-if="post.IsPublished">{{lbl.publishedOn}} {{post.DateCreated}}</label>
-                    <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
-                    <div class="btn-group dropup">
-                        <a ng-if="status() < 2" href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
-                        <a ng-if="status() == 2" href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
-                        <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">
-                            <span class="caret caret-publish"></span>
-                        </button>
-                        <ul class="dropdown-menu edit-publish">
-                            <li ng-if="post.Id"><a href="{{SiteVars.RelativeWebRoot}}post/{{post.Slug}}" target="_new"><i class="fa fa-share"></i> {{lbl.goToPost}}</a></li>
-                            <li ng-if="post.Id" class="divider"></li>
-                            <li ng-if="post.Id && post.IsPublished"><a href="#" ng-click="publish(false)"><i class="fa fa-undo"></i> {{lbl.unpublish}}</a></li>
-                            <li ng-if="status() < 2"><a href="#" ng-click="save()"><i class="fa fa-save"></i> {{lbl.save}}</a></li>
-                        </ul>
+                    <div class="pull-right">
+                        <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-lg'></i></span>
+                        <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
+                        <div class="btn-group dropup">
+                            <a ng-if="status() < 2" href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
+                            <a ng-if="status() == 2" href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
+                            <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">
+                                <span class="caret caret-publish"></span>
+                            </button>
+                            <ul class="dropdown-menu edit-publish">
+                                <li ng-if="post.Id"><a href="{{SiteVars.RelativeWebRoot}}post/{{post.Slug}}" target="_new"><i class="fa fa-share"></i> {{lbl.goToPost}}</a></li>
+                                <li ng-if="post.Id" class="divider"></li>
+                                <li ng-if="post.Id && post.IsPublished"><a href="#" ng-click="publish(false)"><i class="fa fa-undo"></i> {{lbl.unpublish}}</a></li>
+                                <li ng-if="status() < 2"><a href="#" ng-click="save()"><i class="fa fa-save"></i> {{lbl.save}}</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
-    <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>     
-
+    </div>
+    <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>
     @Scripts.Render("~/scripts/wysiwyg")
 </body>
 </html>
