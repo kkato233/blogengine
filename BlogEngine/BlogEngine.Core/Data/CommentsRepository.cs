@@ -185,6 +185,44 @@ namespace BlogEngine.Core.Data
             return false;
         }
 
+        /// <summary>
+        /// Delete all comments
+        /// </summary>
+        /// <param name="commentType">Pending or spam</param>
+        /// <returns>True on success</returns>
+        public bool DeleteAll(string commentType)
+        {
+            if (!Security.IsAuthorizedTo(Rights.ModerateComments))
+                throw new System.UnauthorizedAccessException();
+
+            foreach (var p in Post.ApplicablePosts.ToArray())
+            {
+                foreach (var c in p.AllComments)
+                {
+                    if (commentType == "pending")
+                    {
+                        if (!c.IsApproved && !c.IsSpam)
+                        {
+                            p.RemoveComment(c);
+                            p.DateModified = DateTime.Now;
+                            p.Save();
+                        }
+                    }
+                    if (commentType == "spam")
+                    {
+                        if (c.IsSpam)
+                        {
+                            p.RemoveComment(c);
+                            p.DateModified = DateTime.Now;
+                            p.Save();
+                        }
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+
         #region Private methods
 
         private BlogEngine.Core.Data.Models.CommentItem CreateJsonCommentFromComment(Comment c)

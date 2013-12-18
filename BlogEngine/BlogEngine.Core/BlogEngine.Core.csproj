@@ -188,6 +188,7 @@
     <Compile Include="Data\Models\BlogUser.cs" />
     <Compile Include="Data\Models\TagItem.cs" />
     <Compile Include="Data\Models\TrashItem.cs" />
+    <Compile Include="Data\Models\TrashVM.cs" />
     <Compile Include="Data\PackageRepository.cs" />
     <Compile Include="Data\PageRepository.cs" />
     <Compile Include="Data\PostRepository.cs" />

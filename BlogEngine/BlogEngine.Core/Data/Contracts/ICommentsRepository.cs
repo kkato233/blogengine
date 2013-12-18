@@ -48,5 +48,11 @@ namespace BlogEngine.Core.Data.Contracts
         /// <param name="id">Item ID</param>
         /// <returns>True on success</returns>
         bool Remove(Guid id);
+        /// <summary>
+        /// Delete all comments
+        /// </summary>
+        /// <param name="commentType">Pending or spam</param>
+        /// <returns>True on success</returns>
+        bool DeleteAll(string commentType);
     }
 }

@@ -35,7 +35,7 @@
 
     $scope.purge = function (id) {
         if (id) {
-            $scope.itemToPurge = findInArray($scope.trash, "Id", id);
+            $scope.itemToPurge = findInArray($scope.trash.Items, "Id", id);
         }
         dataService.updateItem('/api/trash/purge/' + id, $scope.itemToPurge)
         .success(function (data) {
@@ -62,7 +62,7 @@
 
     $scope.restore = function (id) {
         if (id) {
-            $scope.itemToPurge = findInArray($scope.trash, "Id", id);
+            $scope.itemToPurge = findInArray($scope.trash.Items, "Id", id);
         }
         dataService.updateItem('/api/trash/restore/' + id, $scope.itemToPurge)
         .success(function (data) {

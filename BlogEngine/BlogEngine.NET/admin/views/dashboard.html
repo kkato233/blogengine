@@ -103,16 +103,16 @@
                         </h4>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseFive">
-                        <li class="list-group-item" data-ng-repeat="t in trash">
+                        <li class="list-group-item" data-ng-repeat="t in trash.Items">
                             <a href="{{t.RelativeUrl}}">{{t.Title}}</a>
                             <span class="pull-right">
                                 <a title="{{lbl.restore}}" href="" data-ng-click="restore(t.Id)"><i class="fa fa-refresh text-success"></i></a>
                                 <a title="{{lbl.purge}}" href="" data-ng-click="purge(t.Id)"><i class="fa fa-times text-danger"></i></a>
                             </span>
                         </li>
-                        <li ng-if="trash.length > 0" class="list-group-item">
+                        <li ng-if="trash.TotalCount > 0" class="list-group-item">
                             <a href data-ng-click="purgeAll()">{{lbl.purgeAll}}</a>
-                            <span class="badge pull-right">{{trash.length}}</span>
+                            <span class="badge pull-right">{{trash.TotalCount}}</span>
                         </li>
                     </ul>
 
