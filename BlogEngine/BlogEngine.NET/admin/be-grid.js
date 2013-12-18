@@ -106,6 +106,8 @@
 
         $("#fltr-" + fltr).addClass('active');
 
+        scope.filter = fltr;
+
         scope.filteredItems = filter('filter')(scope.items, function (item) {
             if (value == 'all') {
                 return true;

@@ -124,4 +124,27 @@ public class CommentsController : ApiController
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
     }
+
+    [HttpPut]
+    public HttpResponseMessage DeleteAll([FromBody]CommentItem item)
+    {
+        try
+        {
+            var action = Request.GetRouteData().Values["id"].ToString();
+
+            if (action.ToLower() == "pending" || action.ToLower() == "spam")
+            {
+                repository.DeleteAll(action);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
 }

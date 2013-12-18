@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CommentsController', function ($scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('CommentsController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.items = [];
     $scope.item = {};
     $scope.id = ($location.search()).id;
@@ -16,7 +16,7 @@
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             if ($scope.filter) {
-                $scope.setFilter($scope.filter);
+                $scope.setFilter();
             }
             spinOff();
         })
@@ -26,7 +26,7 @@
         });
     }
 
-    $scope.setFilter = function (filter) {
+    $scope.setFilter = function () {
         if ($scope.filter === 'pnd') {
             $scope.gridFilter('IsPending', true, 'pnd');
         }
@@ -51,13 +51,11 @@
 	        }
 	    }
 	    if (checked.length < 1) {
-	        spinOff();
 	        return false;
 	    }
         dataService.processChecked("/api/comments/processchecked/" + action, checked)
         .success(function (data) {
             $scope.load();
-            gridInit($scope, $filter);
             toastr.success($rootScope.lbl.completed);
             spinOff();
         })
@@ -65,7 +63,23 @@
             toastr.error($rootScope.lbl.failed);
             spinOff();
         });
-    }
+	}
+
+	$scope.deleteAll = function () {
+	    if ($scope.filter) {
+	        var url = "/api/comments/DeleteAll/spam";
+
+	        if ($scope.filter === "pnd") {
+	            url = "/api/comments/DeleteAll/pending";
+	        }
+	        dataService.updateItem(url, { item: $scope.item })
+            .success(function (data) {
+                toastr.success($rootScope.lbl.commentsDeleted);
+                $scope.load();
+            })
+            .error(function () { toastr.error($rootScope.lbl.failed); });
+	    }
+	}
 
     $scope.save = function () {
         if ($scope.tag) {
@@ -73,7 +87,6 @@
            .success(function (data) {
                toastr.success($rootScope.lbl.commentUpdated);
                $scope.load();
-               gridInit($scope, $filter);
            })
            .error(function () { toastr.error($rootScope.lbl.updateFailed); });
         }

@@ -15,7 +15,7 @@ public class TrashController : ApiController
         this.repository = repository;
     }
 
-    public IEnumerable<TrashItem> Get(int type = 1, int take = 10, int skip = 0, string filter = "1==1", string order = "DateCreated descending")
+    public TrashVM Get(int type = 1, int take = 10, int skip = 0, string filter = "1==1", string order = "DateCreated descending")
     {
         try
         {
