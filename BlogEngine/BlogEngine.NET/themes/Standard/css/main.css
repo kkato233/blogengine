@@ -1,6 +1,6 @@
 ﻿/*
     Description:
-        Standard Theme - Version 1.1 (11/16/‎2013)
+        Standard Theme - Version 1.2 (11/18/‎2013)
         http://dotnetblogengine.net/
 
         Designed and Implementation by Farzin Seyfolahi (@Seyfolahi)
@@ -20,18 +20,7 @@ body {
     font-weight: 300;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.h1,
-.h2,
-.h3,
-.h4,
-.h5,
-.h6 {
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: "Lato","Helvetica Neue", Helvetica, Arial, sans-serif !important;
     font-weight: 700;
 }
@@ -98,11 +87,12 @@ table {
 /*[ HEADER ]*/
 .header {
 }
-.container > .navbar-header, .container > .navbar-collapse 
-{
-    margin-right:-15px !important;
-    margin-left:-15px !important;
+
+.container > .navbar-header, .container > .navbar-collapse {
+    margin-right: -15px !important;
+    margin-left: -15px !important;
 }
+
 .header .logo {
     margin-right: 10px;
 }
@@ -120,7 +110,8 @@ table {
 
 .header .title-wrapper hgroup h1 {
     font-size: 40px;
-    margin: 4px 0;
+    line-height: 40px;
+    margin: 4px 0 8px;
     font-weight: 700;
 }
 
@@ -130,7 +121,8 @@ table {
 }
 
 .header .title-wrapper hgroup h3 {
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: normal;
     margin: 0;
     color: #666666;
 }
@@ -150,7 +142,7 @@ table {
     padding: 4%;
     margin-bottom: 20px;
     border-radius: 6px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .well-global .well-global-title {
@@ -171,7 +163,7 @@ table {
     padding: 4% !important;
     margin-bottom: 20px !important;
     border-radius: 6px !important;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 
@@ -330,8 +322,6 @@ table {
     display: none;
 }
 
-
-
 /*[ RELATED POSTS ]*/
 .related-posts h3 {
 }
@@ -353,9 +343,9 @@ table {
 #PostPager {
     display: block;
     text-align: center;
-    margin: 0 0 10px ;
+    margin: 0 0 10px;
     background-color: #ffffff;
-    padding:4%;
+    padding: 4%;
     margin-bottom: 20px;
     border-radius: 6px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -381,7 +371,7 @@ table {
     color: #fff;
     padding: 5px 14px;
     background-color: #0681ea !important;
-    border:1px solid #0861ea !important;
+    border: 1px solid #0861ea !important;
 }
 
 #PostPager .PagerLinkCurrent li {
@@ -399,7 +389,6 @@ table {
     border: 0;
     padding: 2px;
 }
-
 
 /*[ NAVIGATION POSTS ]*/
 .navigation-posts a {
@@ -772,11 +761,12 @@ table {
     text-align: center;
 }
 
-
-
-
 /*[ CONTACT PAGE ]*/
 .contact-page {
+}
+
+.contact-page .required-field[style="visibility:hidden;"] {
+    display: none;
 }
 
 /*[ SEARCH PAGE ]*/
@@ -868,6 +858,32 @@ table {
     color: #FFF;
 }
 
+/*[syntaxhighlighter]*/
+.syntaxhighlighter {
+    padding: 15px 3px;
+    direction: ltr !important;
+}
+
+.syntaxhighlighter .alt1 {
+    background: #d6ebff !important;
+}
+
+.syntaxhighlighter .line {
+    font-size: 13px !important;
+    line-height: 20px !important;
+    background: #CCC !important;
+}
+
+.syntaxhighlighter .container textarea {
+    font-size: 13px !important;
+    line-height: 20px !important;
+}
+
+.syntaxhighlighter table td.code .container {
+    top: -15px !important;
+}
+
+
 /*[ FOOTER ]*/
 .footer {
     background-color: #222;
@@ -901,7 +917,6 @@ table {
 .widgets-footer .widget:last-child {
     margin: 0;
 }
-
 
 .footer .end-line {
     min-height: 50px;

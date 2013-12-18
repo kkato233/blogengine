@@ -325,7 +325,7 @@
     <value>لطفاً آدرس اینترنتی معتبری را وارد کنید</value>
   </data>
   <data name="export" xml:space="preserve">
-    <value>ایجاد خروجی</value>
+    <value>استخراج کردن</value>
   </data>
   <data name="formMessage" xml:space="preserve">
     <value>پیغام فرم</value>
@@ -1826,5 +1826,84 @@
   </data>
   <data name="content" xml:space="preserve">
     <value>محتوا</value>
+  </data>
+  <data name="previewComment" xml:space="preserve">
+    <value>پیش نمایش</value>
+  </data>
+  <data name="amp" xml:space="preserve">
+    <value>&amp;amp;</value>
+  </data>
+  <data name="blogName" xml:space="preserve">
+    <value>نام بلاگ</value>
+    <comment>ا</comment>
+  </data>
+  <data name="contactDetails" xml:space="preserve">
+    <value>اطلاعات تماس</value>
+  </data>
+  <data name="createBlogOnSelfRegistration" xml:space="preserve">
+    <value>ایجاد وبلاگ جدید برای کاربرانی که ثبت نام می کنند</value>
+  </data>
+  <data name="disqusWebsiteName" xml:space="preserve">
+    <value>نام وب سایت</value>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>وارد کردن و استخراج کردن</value>
+  </data>
+  <data name="isForSiteAggregation" xml:space="preserve">
+    <value>ادغام سایت</value>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>آخرین نظرات</value>
+  </data>
+  <data name="logFile" xml:space="preserve">
+    <value>فایل گزارشات</value>
+  </data>
+  <data name="loggedMessages" xml:space="preserve">
+    <value>پیام های گزارشات</value>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>گزارشات</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>بعدی</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>قبلی</value>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>اصلی</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>صفحات منتشر شده</value>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>پست های منتشر شده</value>
+  </data>
+  <data name="purge" xml:space="preserve">
+    <value>پاکسازی</value>
+  </data>
+  <data name="purgeAll" xml:space="preserve">
+    <value>پاکسازی همه</value>
+  </data>
+  <data name="showIncludeComments" xml:space="preserve">
+    <value>نمایش امکان جستجو در نظرات</value>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>نظرات اسپم</value>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>نقش سیستم</value>
+  </data>
+  <data name="thumbnailServiceProvider" xml:space="preserve">
+    <value>ارائه دهنده خدمات تصاویر کوچک</value>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>آرشیو</value>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>نمایش وبلاگ من</value>
+  </data>
+  <data name="typeHere" xml:space="preserve">
+    <value>اینجا بنویسید</value>
   </data>
 </root>

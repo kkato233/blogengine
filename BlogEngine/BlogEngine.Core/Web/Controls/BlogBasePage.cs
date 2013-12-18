@@ -258,7 +258,14 @@
                     return path;
             }
 
-            if (Request.FilePath.Contains("page.aspx", StringComparison.InvariantCultureIgnoreCase))
+            // if page.master exists, use it for all common pages
+            // and site.master only for post list
+            if (Request.FilePath.Contains("page.aspx", StringComparison.InvariantCultureIgnoreCase) ||
+                Request.FilePath.Contains("archive.aspx", StringComparison.InvariantCultureIgnoreCase) ||
+                Request.FilePath.Contains("contact.aspx", StringComparison.InvariantCultureIgnoreCase) ||
+                Request.FilePath.Contains("error.aspx", StringComparison.InvariantCultureIgnoreCase) ||
+                Request.FilePath.Contains("error404.aspx", StringComparison.InvariantCultureIgnoreCase) ||
+                Request.FilePath.Contains("search.aspx", StringComparison.InvariantCultureIgnoreCase))
             {
                 string path = string.Format("{0}themes/{1}/page.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
                 if (System.IO.File.Exists(Server.MapPath(path)))
