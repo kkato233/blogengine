@@ -13,13 +13,7 @@ public class LogsController : ApiController
     [HttpGet]
     public IEnumerable<SelectOption> GetLog()
     {
-        var segments = Request.RequestUri.Segments;
-        string action = "";
-
-        if (segments.Length == 5)
-        {
-            action = segments[4];
-        }
+        var action = Request.GetRouteData().Values["id"].ToString();
 
         switch (action)
         {

@@ -4,7 +4,7 @@
     scope.reverse = false;
     scope.filteredItems = [];
     scope.groupedItems = [];
-    scope.itemsPerPage = 25;
+    scope.itemsPerPage = 20;
     scope.pagedItems = [];
     scope.currentPage = 0;
 
@@ -123,8 +123,24 @@
     };
 
     scope.checkAll = function (e) {
-        for (var i = 0; i < scope.pagedItems[scope.currentPage].length; i++)
-            scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+        for (var i = 0; i < scope.pagedItems[scope.currentPage].length; i++) {
+            // for packages, do not check local packages
+            if (scope.pagedItems[scope.currentPage][i].Location) {
+                if (scope.pagedItems[scope.currentPage][i].Location != "L") {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
+            // for comments, do not check if comment has children
+            else if (scope.commentsPage) {
+                if (scope.pagedItems[scope.currentPage][i].HasChildren === false) {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
+            else {
+                // for others toggle all
+                scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+            }
+        }  
     };
 
     function clearChecks() {

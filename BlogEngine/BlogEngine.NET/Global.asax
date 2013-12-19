@@ -56,9 +56,10 @@
     void Application_Start(object sender, EventArgs e)
     {
         // intentionally not using Application_Start.  instead application
-        // start code is below in FirstRequestInitialization.  this is to
+        // start code is below in FirstRequestInitialization. this is to
         // workaround IIS7 integrated mode issue where HttpContext.Request
         // is not available during Application_Start.
+        Utils.Log("BlogEngine.NET application started");
     }
 
     void Application_BeginRequest(object source, EventArgs e)

@@ -52,42 +52,37 @@ public class PackagesController : ApiController
         }
     }
 
-    public void Put([FromBody]List<Package> items)
+    [HttpPut]
+    public void ProcessChecked([FromBody]List<Package> items)
     {
+        if (items == null || items.Count == 0)
+            throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+        var action = Request.GetRouteData().Values["id"].ToString();
+
         if (items != null && items.Count > 0)
         {
-            var q = Request.RequestUri.Query;
-            if (!string.IsNullOrEmpty(q) && q.StartsWith("?action="))
+            try
             {
-                q = q.Replace("?action=", "");
-                try
+                if (action == "install")
                 {
-                    if (q == "install")
+                    foreach (var item in items)
                     {
-                        foreach (var item in items)
-                        {
-                            if (item.IsChecked)
-                            {
-                                repository.Install(item.Id);
-                            }
-                        }
-                    }
-                    if (q == "uninstall")
-                    {
-                        foreach (var item in items)
-                        {
-                            if (item.IsChecked)
-                            {
-                                repository.Uninstall(item.Id);
-                            }
-                        }
+                        repository.Install(item.Id);
                     }
                 }
-                catch (System.Exception ex)
+                if (action == "uninstall")
                 {
-                    BlogEngine.Core.Utils.Log("Error processing package", ex);
-                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                    foreach (var item in items)
+                    {
+                        repository.Uninstall(item.Id);
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                BlogEngine.Core.Utils.Log("Error processing package", ex);
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
     }

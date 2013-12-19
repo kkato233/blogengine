@@ -75,7 +75,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
-                        <button data-ng-if="pkgLocation != 'G'" data-ng-click="saveCustomFields()" class="btn btn-primary"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                        <button data-ng-if="pkgLocation != 'G'" data-ng-click="save()" class="btn btn-primary"><i class="fa fa-save"></i>{{lbl.save}}</button>
                     </div>
                 </div>
             </div>
@@ -116,6 +116,7 @@
                         <th class="table-item-title table-item-w70">{{lbl.title}} <a href="" ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
+                        <th>Last updated</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
                     </tr>
@@ -123,7 +124,7 @@
                 <tbody data-bind="foreach: items">
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                         <td>
-                            <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren == false || item.Email == 'pingback'" />
+                            <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" />
                         </td>
                         <td class="table-item-avatar"><img src="{{item.IconUrl}}" /></td>
                         <td class="table-item-title ">
@@ -135,6 +136,7 @@
                         </td>
                         <td>{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
                         <td data-ng-bind-html="item.Authors"></td>
+                        <td>{{item.LastUpdated}}</td>
                         <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                         <td data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
                     </tr>

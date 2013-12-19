@@ -22,7 +22,7 @@ namespace BlogEngine.Core.Data
         /// <param name="filter">Filter expression</param>
         /// <param name="order">Sort order</param>
         /// <returns>List of comments</returns>
-        public IEnumerable<BlogEngine.Core.Data.Models.CommentItem> GetComments(CommentType commentType = CommentType.All, int take = 10, int skip = 0, string filter = "", string order = "")
+        public IEnumerable<CommentItem> GetComments(CommentType commentType = CommentType.All, int take = 10, int skip = 0, string filter = "", string order = "")
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewPublicComments))
                 throw new System.UnauthorizedAccessException();
@@ -30,37 +30,46 @@ namespace BlogEngine.Core.Data
             if (string.IsNullOrEmpty(filter)) filter = "1==1";
             if (string.IsNullOrEmpty(order)) order = "DateCreated desc";
 
-            var items = new List<BlogEngine.Core.Comment>();
+            var items = new List<Comment>();
             var query = items.AsQueryable().Where(filter);
-            var comments = new List<BlogEngine.Core.Data.Models.CommentItem>();
+            var comments = new List<CommentItem>();
+
+            var all = Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts);
 
             foreach (var p in Post.Posts)
             {
-                switch (commentType)
+                if (all || p.Author.ToLower() == Security.CurrentUser.Identity.Name.ToLower())
                 {
-                    case CommentType.Pending:
-                        items.AddRange(p.NotApprovedComments);
-                        break;
-                    case CommentType.Pingback:
-                        items.AddRange(p.Pingbacks);
-                        break;
-                    case CommentType.Spam:
-                        items.AddRange(p.SpamComments);
-                        break;
-                    case CommentType.Approved:
-                        items.AddRange(p.ApprovedComments);
-                        break;
-                    default:
-                        items.AddRange(p.Comments);
-                        break;
+                    switch (commentType)
+                    {
+                        case CommentType.Pending:
+                            items.AddRange(p.NotApprovedComments);
+                            break;
+                        case CommentType.Pingback:
+                            items.AddRange(p.Pingbacks);
+                            break;
+                        case CommentType.Spam:
+                            items.AddRange(p.SpamComments);
+                            break;
+                        case CommentType.Approved:
+                            items.AddRange(p.ApprovedComments);
+                            break;
+                        default:
+                            items.AddRange(p.Comments);
+                            break;
+                    }
                 }
             }
 
             // if take passed in as 0, return all
             if (take == 0) take = items.Count;        
 
-            foreach (var item in query.OrderBy(order).Skip(skip).Take(take))
-                comments.Add(CreateJsonCommentFromComment(item));
+            var itemList = query.OrderBy(order).Skip(skip).Take(take).ToList();
+
+            foreach (var item in itemList)
+            {
+                comments.Add(CreateJsonCommentFromComment(item, itemList));               
+            }
 
             return comments;
         }
@@ -74,7 +83,7 @@ namespace BlogEngine.Core.Data
         /// <returns>
         /// A JSON Comment
         /// </returns>
-        public BlogEngine.Core.Data.Models.CommentItem FindById(Guid id)
+        public CommentItem FindById(Guid id)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewPublicComments))
                 throw new System.UnauthorizedAccessException();
@@ -82,7 +91,7 @@ namespace BlogEngine.Core.Data
             return (from p in Post.Posts
                     from c in p.AllComments
                     where c.Id == id
-                    select CreateJsonCommentFromComment(c)).FirstOrDefault();
+                    select CreateJsonCommentFromComment(c, p.AllComments)).FirstOrDefault();
         }
 
         /// <summary>
@@ -90,7 +99,7 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="item">Comment</param>
         /// <returns>Comment object</returns>
-        public Data.Models.CommentItem Add(Data.Models.CommentItem item)
+        public CommentItem Add(Data.Models.CommentItem item)
         {
             if (!Security.IsAuthorizedTo(Rights.CreateComments))
                 throw new System.UnauthorizedAccessException();
@@ -104,7 +113,7 @@ namespace BlogEngine.Core.Data
         /// <param name="item">Item to update</param>
         /// <param name="action">Action</param>
         /// <returns>True on success</returns>
-        public bool Update(Data.Models.CommentItem item, string action)
+        public bool Update(CommentItem item, string action)
         {
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
                 throw new System.UnauthorizedAccessException();
@@ -225,15 +234,14 @@ namespace BlogEngine.Core.Data
 
         #region Private methods
 
-        private BlogEngine.Core.Data.Models.CommentItem CreateJsonCommentFromComment(Comment c)
+        private CommentItem CreateJsonCommentFromComment(Comment c, List<Comment> postComments)
         {
-            var jc = new BlogEngine.Core.Data.Models.CommentItem();
+            var jc = new CommentItem();
 
             jc.Id = c.Id;
             jc.IsApproved = c.IsApproved;
             jc.IsSpam = c.IsSpam;
             jc.IsPending = !c.IsApproved && !c.IsSpam;
-            // set both pingbacks and trackbacks to just pingbacks for UI filtering
             jc.Email = c.Email == "trackback" ? "pingback" : c.Email; 
             jc.Author = c.Author;
             jc.Title = c.Teaser;
@@ -242,15 +250,15 @@ namespace BlogEngine.Core.Data
             jc.Ip = c.IP;
             jc.DateCreated = c.DateCreated.ToString("yyyy-MM-dd HH:mm");
             jc.RelativeLink = c.RelativeLink;
-            jc.HasChildren = c.ParentId == Guid.Empty || c.ParentId == null;
+            jc.HasChildren = postComments.Where(pc => pc.ParentId == c.Id).FirstOrDefault() != null;
             jc.Avatar = Gravatar(c);
 
             return jc;
         }
 
-        private BlogEngine.Core.Comment GetCoreFromJson(BlogEngine.Core.Data.Models.CommentItem c)
+        private Comment GetCoreFromJson(BlogEngine.Core.Data.Models.CommentItem c)
         {
-            BlogEngine.Core.Comment item = (from p in Post.Posts
+            Comment item = (from p in Post.Posts
                 from cmn in p.AllComments where cmn.Id == c.Id select cmn).FirstOrDefault();
 
             if (c.IsPending)
