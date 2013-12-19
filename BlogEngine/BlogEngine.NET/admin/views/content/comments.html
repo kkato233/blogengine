@@ -49,7 +49,7 @@
                 <tbody data-bind="foreach: items">
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                         <td>
-                            <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren == false || item.Email == 'pingback'" />
+                            <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren || item.Email === 'pingback'" />
                         </td>
                         <td class="table-item-avatar"><img src="{{item.Avatar}}"/></td>
                         <td class="table-item-title"> 
@@ -72,7 +72,7 @@
                     <li data-ng-class="{disabled: currentPage == 0}">
                         <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
                     </li>
-                    <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                    <li ng-if="showPage(n, currentPage, pagedItems.length)" data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
                         <a data-ng-bind="n + 1">1</a>
                     </li>
                     <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">

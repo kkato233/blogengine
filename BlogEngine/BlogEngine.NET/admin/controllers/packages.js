@@ -1,5 +1,5 @@
 ﻿
-angular.module('blogAdmin').controller('CustomController', function ($scope, $location, $filter, dataService) {
+angular.module('blogAdmin').controller('CustomController', function ($rootScope, $scope, $location, $filter, dataService) {
     $scope.items = [];
     $scope.customFields = [];
     $scope.editId = "";
@@ -31,7 +31,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
         var loc = $scope.pkgLocation == 'G' ? ' == "G"' : ' != "G"';
         $scope.fltr = 'PackageType == "' + $scope.pkgType + '" and Location ' + loc;
 
-        dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "Title" })
+        dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
             .success(function (data) {
                 angular.copy(data, $scope.items);
                 gridInit($scope, $filter);
@@ -69,7 +69,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
         $scope.load();
     }
 
-    $scope.saveCustomFields = function () {
+    $scope.save = function () {
         spinOn();
 
         dataService.updateItem("/api/packages/update/foo", $scope.package)
@@ -82,7 +82,7 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
 
         dataService.updateItem("/api/customfields", $scope.customFields)
         .success(function (data) {
-            toastr.success($rootScope.lbl.customFieldsUpdated);
+            //toastr.success($rootScope.lbl.customFieldsUpdated);
             $scope.load();
             spinOff();
             $("#modal-theme-edit").modal('hide');
@@ -96,7 +96,18 @@ angular.module('blogAdmin').controller('CustomController', function ($scope, $lo
 
     $scope.processChecked = function (action) {
         spinOn();
-        dataService.processChecked("/api/packages?action=" + action, $scope.items)
+        var i = $scope.items.length;
+        var checked = [];
+        while (i--) {
+            var item = $scope.items[i];
+            if (item.IsChecked === true) {
+                checked.push(item);
+            }
+        }
+        if (checked.length < 1) {
+            return false;
+        }
+        dataService.processChecked("/api/packages/processchecked/" + action, checked)
         .success(function (data) {
             $scope.load();
             gridInit($scope, $filter);

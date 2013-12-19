@@ -3,7 +3,7 @@
   <displayratingsonrecentposts>True</displayratingsonrecentposts>
   <enablecontactattachments>True</enablecontactattachments>
   <showpostnavigation>True</showpostnavigation>
-  <mobiletheme>JQ-Mobile</mobiletheme>
+  <mobiletheme>Standard</mobiletheme>
   <enablehttpcompression>False</enablehttpcompression>
   <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <htmlheader />

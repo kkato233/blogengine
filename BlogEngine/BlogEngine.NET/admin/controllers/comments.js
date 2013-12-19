@@ -3,6 +3,7 @@
     $scope.item = {};
     $scope.id = ($location.search()).id;
     $scope.filter = ($location.search()).fltr;
+    $scope.commentsPage = true;
 
     if ($scope.id) {
         $("#modal-add-item").modal();
@@ -67,6 +68,7 @@
 
 	$scope.deleteAll = function () {
 	    if ($scope.filter) {
+	        spinOn();
 	        var url = "/api/comments/DeleteAll/spam";
 
 	        if ($scope.filter === "pnd") {
@@ -76,9 +78,26 @@
             .success(function (data) {
                 toastr.success($rootScope.lbl.commentsDeleted);
                 $scope.load();
+                spinOff();
             })
-            .error(function () { toastr.error($rootScope.lbl.failed); });
+            .error(function () { toastr.error($rootScope.lbl.failed); spinOff(); });
 	    }
+	}
+
+	$scope.showPage = function (n, current, total) {
+	    if (!current) {
+	        current = 0;
+	    }
+	    if (n === 0 || n - 1 === current || n - 2 === current || n - 3 === current) {
+	        return true;
+	    }
+	    if (n === current || n + 1 === current || n + 2 === current || n + 3 === current) {
+	        return true;
+	    }
+	    if (n + 1 === total) {
+	        return true;
+	    }
+	    return false;
 	}
 
     $scope.save = function () {

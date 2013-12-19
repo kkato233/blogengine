@@ -104,7 +104,6 @@ public class CommentsController : ApiController
                     if (action.ToLower() == "delete")
                     {
                         repository.Remove(item.Id);
-                        BlogEngine.Core.Utils.Log("removing comment: " + item.Id);
                     }
                     else
                     {
