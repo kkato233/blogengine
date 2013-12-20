@@ -16,22 +16,22 @@
                     <button ng-if="filter != 'apr' && filter != 'png'" ng-click="processChecked('approve')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.approve}}</button>
                     <button ng-if="filter != 'spm' && filter != 'png'" ng-click="processChecked('unapprove')" class="btn btn-info btn-sm"><i class="fa fa-minus"></i>{{lbl.unapprove}}</button>
                 </div>
-                <div class="filterbar clearfix">
-                    <div class="pull-right">
-                        <div class="navbar-left search-grid pull-right">
-                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
-                        </div>
-                        <div class="btn-toolbar pull-right">
-                            <div class="btn-group">
-                                <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsApproved','all','all')">{{lbl.all}}</button>
-                                <button id="fltr-pnd" class="btn btn-default btn-sm" ng-click="gridFilter('IsPending',true,'pnd')">{{lbl.pending}}</button>
-                                <button id="fltr-apr" class="btn btn-default btn-sm" ng-click="gridFilter('IsApproved',true,'apr')">{{lbl.approved}}</button>
-                                <button id="fltr-spm" class="btn btn-default btn-sm" ng-click="gridFilter('IsSpam',true,'spm')">{{lbl.spam}}</button>
-                                <button id="fltr-png" class="btn btn-default btn-sm" ng-click="gridFilter('Email','pingback','png')">{{lbl.pingbacks}}</button>
-                            </div>
-                        </div>
-                        <span class="btn pull-rigth btn-sm" disabled="disabled">{{lbl.show}}:</span>
+                <div class="pull-right btn-flt-r hide-767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i>{{lbl.filter}}</button></div>
+                <div class="pull-right filterbar flt-r clearfix">
+                    <div class="active-flt-r"></div>
+                    <div class="navbar-left search-grid pull-right">
+                        <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
                     </div>
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group">
+                            <button id="fltr-all" class="btn btn-default btn-sm active" ng-click="gridFilter('IsApproved','all','all')">{{lbl.all}}</button>
+                            <button id="fltr-pnd" class="btn btn-default btn-sm" ng-click="gridFilter('IsPending',true,'pnd')">{{lbl.pending}}</button>
+                            <button id="fltr-apr" class="btn btn-default btn-sm" ng-click="gridFilter('IsApproved',true,'apr')">{{lbl.approved}}</button>
+                            <button id="fltr-spm" class="btn btn-default btn-sm" ng-click="gridFilter('IsSpam',true,'spm')">{{lbl.spam}}</button>
+                            <button id="fltr-png" class="btn btn-default btn-sm" ng-click="gridFilter('Email','pingback','png')">{{lbl.pingbacks}}</button>
+                        </div>
+                    </div>
+                    <span class="btn pull-right btn-sm" disabled="disabled">{{lbl.show}}:</span>
                 </div>
             </div>
             <table class="table table-bordered table-striped table-hover table-responsive">
@@ -51,14 +51,14 @@
                         <td>
                             <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren || item.Email === 'pingback'" />
                         </td>
-                        <td class="table-item-avatar"><img src="{{item.Avatar}}"/></td>
-                        <td class="table-item-title"> 
+                        <td class="table-item-avatar"><img src="{{item.Avatar}}" /></td>
+                        <td class="table-item-title">
                             <a title=" {{item.title}}" class="pull-left" href="{{item.RelativeLink}}">
                                 <span class="text-ellipsis">{{item.Title}}</span>
-                            </a> 
+                            </a>
                             <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.RelativeLink}}">
                                 <i class="fa fa-external-link"></i>
-                            </a> 
+                            </a>
                         </td>
                         <td>{{item.DateCreated}}</td>
                         <td>{{item.Author}}</td>

@@ -1,6 +1,6 @@
 ﻿/*
     Description:
-        BlogEngine.NET UI - Version 1.2 (11/18/‎2013)
+        BlogEngine.NET UI - Version 1.3 (11/20/‎2013)
         http://dotnetblogengine.net/
 
         Designed and Implementation by Farzin Seyfolahi (@Seyfolahi)
@@ -104,7 +104,7 @@ body {
 
 .admin-views-subnav {
     background: #F1F1F1;
-    padding: 6px 0 9px !important;
+    padding: 6px 0 7px !important;
     box-shadow: 0 -1px 1px #DDD inset;
 }
 
@@ -114,12 +114,13 @@ body {
 
 .admin-views-subnav .nav-pills > li {
     border-left: 1px solid #DDD !important;
-    padding: 0 4px 0 6px;
+    padding: 0 4px 0 5px;
     height: 23px;
 }
 
 .admin-views-subnav .nav-pills > li > a {
     padding: 3px 15px;
+    font-size:12px;
     color: #888;
     outline: none !important;
     border-radius: 3px;
@@ -139,10 +140,11 @@ body {
 .admin-views-subnav .nav-pills > li.active > a:hover,
 .admin-views-subnav .nav-pills > li.active > a:focus {
     color: #000;
-    background: url(../Content/images/selected-nav.png) no-repeat center 22px;
+    background: url(../Content/images/selected-nav.png) no-repeat center 20px;
     padding: 3px 15px;
+    font-size:12px;
     display: block !important;
-    height: 33px;
+    height: 30px !important;
     outline: none !important;
 }
 /*[admin-view-users-profile]*/
@@ -202,6 +204,13 @@ body {
 }
 
 /*[ Fixed ]*/
+.img-gallery {
+    margin-right: 10px; margin-top:4px; width: 32px; height:32px;
+}
+.panel-title > a {
+    outline: none;
+}
+
 .ltr-dir {
     direction: ltr;
 }
@@ -215,6 +224,10 @@ body {
 
 label.error {
     color: #c22818;
+}
+
+.show-important {
+    display: block !important;
 }
 
 
@@ -301,6 +314,11 @@ a i {
     overflow: hidden;
 }
 
+.admin-view-content-posts .item-comment-post .label {
+    padding: 3px 7px;
+    border-radius: 100px !important;
+}
+
 /*[ Table ]*/
 .table-item-avatar {
     padding: 0 !important;
@@ -338,6 +356,13 @@ a i {
     border-color: #CCC;
     background-color: #e5e5e5;
     border-bottom-width: 1px;
+}
+
+.table tr th:first-child,
+.table tr td:first-child {
+    min-width: 15px !important;
+    max-width: 15px !important;
+    width: 15px !important;
 }
 
 .table .table-item-title {
@@ -388,6 +413,21 @@ a i {
     width: 100%;
 }
 
+/*[toolbar for tables]*/
+.active-flt-r {
+    display: inline-block;
+    width: 21px;
+    height: 11px;
+    background: url(images/active-filterbar.png) no-repeat 0 0;
+    position: absolute;
+    top: -11px;
+    right: 23px;
+}
+
+.btn-flt-r .btn {
+    outline: none !important;
+}
+
 /*[ Footer ]*/
 #footer {
     padding: 10px 10px 10px !important;
@@ -432,15 +472,83 @@ a i {
 }
 
 
+/*[ if > 787 = hidden ]*/
+
+@media screen and (min-width:768px) {
+    .hide-767 {
+        display: none;
+    }
+}
+
+@media screen and (max-width:768px) {
+
+    .text-ellipsis {
+        max-width: 200px;
+    }
+    /*[ BLOGS ]*/
+    .admin-view-blogs table tr th:nth-child(3),
+    .admin-view-blogs table tr td:nth-child(3),
+    .admin-view-blogs table tr th:last-child,
+    .admin-view-blogs table tr td:last-child,
+    /*[ POSTS ]*/
+    .admin-view-content-posts table tr th:nth-child(3),
+    .admin-view-content-posts table tr td:nth-child(3),
+    .admin-view-content-posts table tr th:nth-child(5),
+    .admin-view-content-posts table tr td:nth-child(5),
+    /*[ COMMENTS ]*/
+    .admin-view-content-comments table tr th:last-child,
+    .admin-view-content-comments table tr td:last-child,
+    .admin-view-content-comments table tr th:nth-child(2),
+    .admin-view-content-comments table tr td:nth-child(2),
+    .admin-view-content-comments table tr th:nth-child(5),
+    .admin-view-content-comments table tr td:nth-child(5),
+    /*[ PAGES ]*/
+    .admin-view-content-pages table tr th:nth-child(3),
+    .admin-view-content-pages table tr td:nth-child(3),
+    .admin-view-content-pages table tr th:nth-child(5),
+    .admin-view-content-pages table tr td:nth-child(5),
+    /*[ CATEGORIES ]*/
+    .admin-view-content-categories table tr th:nth-child(3),
+    .admin-view-content-categories table tr td:nth-child(3),
+    /*[ EXTENTIONS ]*/
+    .admin-view-custom-index table tr th:nth-child(2),
+    .admin-view-custom-index table tr td:nth-child(2),
+    .admin-view-custom-index table tr th:nth-child(4),
+    .admin-view-custom-index table tr td:nth-child(4),
+    .admin-view-custom-index table tr th:nth-child(5),
+    .admin-view-custom-index table tr td:nth-child(5),
+    /*[ THEMES ]*/
+    .admin-view-custom-themes table tr th:last-child,
+    .admin-view-custom-themes table tr td:last-child,
+    /*[ WIDGETS ]*/
+    .admin-view-custom-widgets table tr th:last-child,
+    .admin-view-custom-widgets table tr td:last-child {
+        display: none;
+    }
+}
+
 
 /*[ Responsive ]*/
 @media screen and (max-width:767px) {
+    .flt-r {
+        display: none;
+        float: none !important;
+        clear: both;
+        opacity: 1;
+        position: relative;
+        top: 15px;
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 3px;
+        border: 1px solid #DDD;
+        background-color: #fff;
+    }
+
     .navbar-brand {
         display: block !important;
     }
-
     .admin-views-subnav {
-        padding-bottom: 6px !important;
+        padding-bottom: 2px !important;
     }
 
     .admin-views-subnav .nav-pills > li {
@@ -475,7 +583,7 @@ a i {
     .admin-views-subnav .nav-pills > li.active > a:focus {
         padding: 3px 7px;
         display: block !important;
-        height: 25px;
+        height: 25px !important;
         outline: medium none !important;
         background-image: none;
         color: rgb(51, 51, 51);
@@ -483,9 +591,7 @@ a i {
         border-color: rgb(173, 173, 173);
         box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.125) inset;
     }
-}
 
-@media screen and (max-width:768px) {
     .admin-views-nav .dropdown-menu > li > a {
         color: #ffc6c1 !important;
     }
@@ -493,48 +599,53 @@ a i {
     .admin-views-nav .dropdown-menu > li > a:hover {
         color: #fff !important;
     }
+}
 
-    .text-ellipsis {
-        max-width: 200px;
+@media screen and (max-width:479px) {
+    #footer .pull-left {
+        float: none !important;
+        text-align: center;
     }
-    /*[ BLOGS ]*/
-    .admin-view-blogs table tr th:nth-child(3),
-    .admin-view-blogs table tr td:nth-child(3),
-    .admin-view-blogs table tr th:last-child,
-    .admin-view-blogs table tr td:last-child,
-    /*[ POSTS ]*/
-    .admin-view-content-posts table tr th:last-child,
-    .admin-view-content-posts table tr td:last-child,
-    .admin-view-content-posts table tr th:nth-child(3),
-    .admin-view-content-posts table tr td:nth-child(3),
-    /*[ COMMENTS ]*/
-    .admin-view-content-comments table tr th:last-child,
-    .admin-view-content-comments table tr td:last-child,
-    .admin-view-content-comments table tr th:nth-child(2),
-    .admin-view-content-comments table tr td:nth-child(2),
-    /*[ PAGES ]*/
-    .admin-view-content-pages table tr th:nth-child(3),
-    .admin-view-content-pages table tr td:nth-child(3),
-    .admin-view-content-pages table tr th:nth-child(5),
-    .admin-view-content-pages table tr td:nth-child(5),
-    /*[ CATEGORIES ]*/
-    .admin-view-content-categories table tr th:nth-child(3),
-    .admin-view-content-categories table tr td:nth-child(3),
-    /*[ EXTENTIONS ]*/
-    .admin-view-custom-index table tr th:nth-child(2),
-    .admin-view-custom-index table tr td:nth-child(2),
-    .admin-view-custom-index table tr th:nth-child(4),
-    .admin-view-custom-index table tr td:nth-child(4),
-    .admin-view-custom-index table tr th:nth-child(7),
-    .admin-view-custom-index table tr td:nth-child(7),
-    .admin-view-custom-index table tr th:nth-child(5),
-    .admin-view-custom-index table tr td:nth-child(5),
-    /*[ THEMES ]*/
-    .admin-view-custom-themes table tr th:last-child,
-    .admin-view-custom-themes table tr td:last-child,
-    /*[ WIDGETS ]*/
-    .admin-view-custom-widgets table tr th:last-child,
-    .admin-view-custom-widgets table tr td:last-child {
+
+    #footer .logo-brand {
+        display: none;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .table-item-title .fa-external-link {
+        display: none;
+    }
+
+    .filterbar .btn.pull-right.btn-sm[disabled=disabled] {
+        display: none;
+    }
+
+    .admin-view-content-comments .toolbar-grid .btn {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .admin-view-content-comments .filterbar .search-grid input[type=text] {
+        width: 100% !important;
+    }
+
+    .admin-view-content-comments .filterbar .search-grid {
+        float: none !important;
+        margin: 0;
+        height: 38px;
+    }
+
+    /*Extention*/
+    .admin-view-custom-index .item-description {
+        display: none;
+    }
+
+    .admin-view-custom-widgets .item-description {
+        display: none;
+    }
+
+    .admin-view-custom-themes .item-description {
         display: none;
     }
 }

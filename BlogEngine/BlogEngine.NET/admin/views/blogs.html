@@ -11,8 +11,8 @@
                     <div class="modal-body">
                         <div class="form-horizontal clearfix">
                             <div class="form-group">
-                                <label class="control-label col-md-6" for="txtName">{{lbl.blogName}}</label>
-                                <div class="col-md-6">
+                                <label class="control-label col-md-4" for="txtName">{{lbl.blogName}}</label>
+                                <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtName" data-ng-model="editItem.Name" ng-disabled="true" />
                                 </div>
                             </div>
@@ -23,28 +23,29 @@
                                 </div>
                             </div>-->
                             <div class="form-group">
-                                <label class="control-label  col-md-6" for="txtVirtualPath">{{lbl.virtualPath}}</label>
-                                <div class="col-md-6">
+                                <label class="control-label  col-md-4" for="txtVirtualPath">{{lbl.virtualPath}}</label>
+                                <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtVirtualPath" data-ng-model="editItem.VirtualPath" ng-disabled="true" />
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-6" for="cbTextEccepted">{{lbl.acceptAnyTextBeforeHostname}}</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" id="cbTextEccepted" data-ng-model="editItem.IsAnyTextBeforeHostnameAccepted" />
+                            <div class="col-md-offset-4 col-md-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="cbTextEccepted" data-ng-model="editItem.IsAnyTextBeforeHostnameAccepted" />
+                                        {{lbl.acceptAnyTextBeforeHostname}}
+                                    </label>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label  col-md-6" for="cbActive">{{lbl.active}}</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" id="cbActive" data-ng-model="editItem.IsActive" />
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="cbActive" data-ng-model="editItem.IsActive" />
+                                        {{lbl.active}}
+                                    </label>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label  col-md-6" for="cbAggregation">{{lbl.isForSiteAggregation}}</label>
-                                <div class="col-md-6">
-                                    <input type="checkbox" id="cbAggregation" data-ng-model="editItem.IsSiteAggregation" />
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="cbAggregation" data-ng-model="editItem.IsSiteAggregation" />
+                                        {{lbl.isForSiteAggregation}}
+                                    </label>
                                 </div>
                             </div>
                         </div>

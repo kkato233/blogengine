@@ -72,19 +72,20 @@
                     <span data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</span>
                     <span data-ng-if="pkgLocation != 'G'" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
                 </div>
-                <div class="filterbar clearfix">
-                    <div class="pull-right">
-                        <div class="navbar-left search-grid pull-right">
-                            <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
-                        </div>
-                        <div class="btn-toolbar pull-right">
-                            <div class="btn-group">
-                                <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                                <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
-                            </div>
-                        </div>
-                        <span class="btn pull-rigth  btn-sm" disabled="disabled">{{lbl.show}}:</span>
+                <div class="pull-right btn-flt-r hide-767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i>{{lbl.filter}}</button></div>
+                <div class="pull-right filterbar flt-r clearfix">
+                    <div class="active-flt-r"></div>
+                    <div class="navbar-left search-grid pull-right">
+                        <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}">
                     </div>
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group">
+                            <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
+                            <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
+                        </div>
+                    </div>
+                    <span class="btn pull-right btn-sm" disabled="disabled">{{lbl.show}}:</span>
+
                 </div>
             </div>
             <table class="table table-bordered table-striped table-hover table-responsive">
@@ -92,7 +93,7 @@
                     <tr>
                         <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                         <th>&nbsp;</th>
-                        <th class="table-item-title table-item-w80">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w70">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
                     </tr>
@@ -104,16 +105,18 @@
                         </td>
                         <td class="table-item-avatar"><img src="{{item.IconUrl}}" /></td>
                         <td class="table-item-title">
-                            <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
+                            <div class="text-ellipsis pull-left">
+                                <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
+                                <span class="item-description">{{item.Description}}</span>
+                            </div>
                             <a data-ng-if="item.Location != 'L'" title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
-                            <span>{{item.Description}}</span>
                         </td>
                         <td>{{pkgLocation == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
                         <td>{{item.Authors}}</td>
                     </tr>
                 </tbody>
             </table>
-                        <div class="text-right">
+            <div class="text-right">
                 <ul class="pagination">
                     <li data-ng-class="{disabled: currentPage == 0}">
                         <a data-ng-click="prevPage()">« {{lbl.prev}}</a>

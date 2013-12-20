@@ -61,8 +61,8 @@
                     </div>
 
                     <ul class="list-group panel-collapse collaps in " id="collapseTwo">
-                        <li class="list-group-item" data-ng-repeat="comment in recentcomments">
-                            <span><a href="{{comment.RelativeLink}}" target="_new">{{comment.Title}}</a></span>
+                        <li class="list-group-item" data-ng-repeat="comment in recentcomments ">
+                            <span><a href="{{comment.RelativeLink}}" target="_new" class="text-ellipsis">{{comment.Title}}</a></span>
                         </li>
                     </ul>
                 </div>
@@ -130,12 +130,14 @@
                         <span id="gal-spinner" class="loaded pull-left"><i class='fa fa-spinner fa-spin fa-small'></i></span>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseSix">
-                        <li class="list-group-item" data-ng-repeat="pkg in packages">
-                            <a href="{{pkg.PackageUrl}}">
-                                <img style="margin-right: 10px; width: 32px; height: 32px" src="{{pkg.IconUrl}}" />
-                                <span>{{pkg.Title}}</span>
-                            </a>
-                            <span>{{pkg.Description}}</span>
+                        <li class="list-group-item clearfix" data-ng-repeat="pkg in packages">
+                            <div class="pull-left">
+                                <a href="{{pkg.PackageUrl}}" target="_blank">   <img class="img-gallery" src="{{pkg.IconUrl}}" /></a>
+                            </div>
+                            <div class="pull-left" style="width:80%;">
+                                <a href="{{pkg.PackageUrl}}" target="_blank">{{pkg.Title}}</a>
+                                <span class="text-ellipsis">{{pkg.Description}}</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
