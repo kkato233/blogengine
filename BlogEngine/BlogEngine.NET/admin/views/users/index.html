@@ -36,13 +36,15 @@
                                         <input type="password" class="form-control ltr-dir" id="txtConfirmPassword" name="txtConfirmPassword" />
                                     </div>
                                 </div>
-
+                                <br />
                                 <h4>{{lbl.roles}}</h4>
                                 <hr />
-                                <div class="form-group" data-ng-repeat="role in roles">
-                                    <label class="control-label  col-md-4">{{role.RoleName}}</label>
-                                    <div class="col-md-8">
-                                        <input type="checkbox" data-ng-model="role.IsChecked" />
+                                <div class="col-md-offset-4 col-md-8">
+                                    <div class="checkbox" data-ng-repeat="role in roles">
+                                        <label>
+                                            <input type="checkbox" data-ng-model="role.IsChecked" />
+                                            {{role.RoleName}}
+                                        </label>
                                     </div>
                                 </div>
                             </div>
