@@ -2351,9 +2351,12 @@
     <value>Preview</value>
   </data>
   <data name="amp" xml:space="preserve">
-    <value>&amp;amp;</value>
+    <value>&amp;</value>
   </data>
   <data name="disqusWebsiteName" xml:space="preserve">
     <value>Disqus Website Name</value>
+  </data>
+  <data name="lastUpdate" xml:space="preserve">
+    <value>Last Update</value>
   </data>
 </root>

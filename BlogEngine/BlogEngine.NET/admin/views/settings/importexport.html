@@ -5,13 +5,14 @@
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
                 {{lbl.import}} {{lbl.amp}} {{lbl.export}}
-                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+                <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
             </h2>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="well">
                     <h4>{{lbl.import}}</h4>
+                    <hr />
                     <form>
                         <label class="control-label">{{lbl.selectSavedBlogMlFle}}</label>
                         <!--<input type="file" accept="xml" name=" file" onchange="angular.element(this).scope().uploadFile(this.files)" />-->
@@ -28,6 +29,7 @@
             <div class="col-md-6">
                 <div class="well">
                     <h4>{{lbl.export}}</h4>
+                    <hr />
                     <label class="control-label">{{lbl.exportIntoBlogML}}</label>
                     <div>
                         <button class="btn btn-primary" data-ng-click="exportToXml()" type="button">{{lbl.export}}</button>

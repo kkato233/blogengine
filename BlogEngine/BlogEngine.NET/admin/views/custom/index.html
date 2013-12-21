@@ -60,13 +60,12 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div ng-if="package.SettingsUrl">
                                 <iframe ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
                             </div>
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">
-                                <label class="control-label  col-md-4" for="txtSlug">{{item.Key}}</label>
+                                <label class="control-label col-md-4" for="txtSlug">{{item.Key}}</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtSlug" data-ng-model="item.Value" />
                                 </div>
@@ -83,10 +82,10 @@
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
                 {{lbl.extensions}}
-                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+                <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
             </h2>
         </div>
-        <div class="well">
+        <div>
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
                     <span data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</span>
@@ -113,10 +112,10 @@
                     <tr>
                         <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                         <th>&nbsp;</th>
-                        <th class="table-item-title table-item-w70">{{lbl.title}} <a href="" ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                        <th class="table-item-title table-item-w50">{{lbl.title}} <a href="" ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                         <th>{{lbl.version}}</th>
                         <th>{{lbl.author}}</th>
-                        <th>Last updated</th>
+                        <th>{{lbl.lastUpdate}}</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                         <th data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
                     </tr>

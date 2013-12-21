@@ -115,14 +115,11 @@
                 </div>
             </div>
         </div>
-
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">{{lbl.blogs}}</h2>
             <a href="" data-ng-click="modalNew()" class="btn btn-success btn-header pull-right"><i class="fa fa-plus"></i>{{lbl.addNewBlog}}</a>
         </div>
-
-
-        <div class="well">
+        <div>
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
                     <span ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
@@ -156,7 +153,6 @@
                     </tr>
                 </tbody>
             </table>
-
             <div class="text-right">
                 <ul class="pagination">
                     <li data-ng-class="{disabled: currentPage == 0}">
