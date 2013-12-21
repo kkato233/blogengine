@@ -15,7 +15,6 @@
                                 <label class="control-label" for="txtRoleName">{{lbl.name}}</label>
                                 <input type="text" id="txtRoleName" name="txtRoleName" class="form-control" data-ng-model="editItem.RoleName" />
                             </div>
-
                             <div data-ng-repeat="item in rights | orderBy:Title">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -42,21 +41,20 @@
             <div class="page-header clearfix">
                 <h2 class="page-title pull-left">
                     {{lbl.roles}}
-                    <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-small' style="font-size: 0.7em"></i></span>
+                    <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
                 </h2>
                 <a href="" data-ng-click="loadRightsForm()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-plus"></i>{{lbl.addNewRole}}</a>
             </div>
-            <div class="well">
+            <div>
                 <div class="toolbar-grid clearfix">
                     <div class="pull-left">
                         <span data-ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
                     </div>
-                    <div class="filterbar clearfix">
-                        <div class="pull-right">
-                            <input type="text" data-ng-model="query" data-ng-change="search()" class="input-sm form-control search-grid pull-right" placeholder="{{lbl.search}}">
-                        </div>
+                    <div class="filterbar pull-right clearfix">
+                        <input type="text" data-ng-model="query" data-ng-change="search()" class="input-sm form-control search-grid pull-right" placeholder="{{lbl.search}}">
                     </div>
                 </div>
+
                 <table class="table table-bordered table-striped table-hover table-responsive">
                     <thead>
                         <tr>

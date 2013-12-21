@@ -21,14 +21,14 @@
                         </span>
                     </div>
                 </div>
-                <div class="pull-left user-info" >
+                <div class="pull-left user-info">
                     <span class="user-name">{{user.Profile.DisplayName}}</span>
                     <br />
                     <div class="role-control">
-                        <span data-ng-repeat="role in user.Roles" class="label label-default" >{{role.RoleName}} </span>
+                        <span data-ng-repeat="role in user.Roles" class="label label-default">{{role.RoleName}} </span>
                     </div>
-                    <label for="cbPrivate" class="control-label">{{lbl.isPrivate}}</label>
                     <input id="cbPrivate" type="checkbox" name="ckEnabled" data-ng-model="user.Profile.Private" />
+                    <label for="cbPrivate" class="control-label">{{lbl.isPrivate}}</label>
                 </div>
             </div>
             <div class="col-md-6">
