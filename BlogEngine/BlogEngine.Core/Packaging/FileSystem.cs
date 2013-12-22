@@ -2,10 +2,12 @@
 using BlogEngine.Core.Providers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Hosting;
 using System.Xml;
 
 namespace BlogEngine.Core.Packaging
@@ -368,6 +370,34 @@ namespace BlogEngine.Core.Packaging
             StreamWriter writer = new StreamWriter(filePath);
             writer.Write(content);
             writer.Close();
+        }
+
+        /// <summary>
+        /// Pulls extension ID to package ID mappings (when different)
+        /// </summary>
+        /// <returns>Mapping collection</returns>
+        public static Dictionary<string, string> ExtansionMap()
+        {
+            var map = new Dictionary<string, string>();
+            string fileLocation = HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "extensionmap.txt"));
+
+            if (File.Exists(fileLocation))
+            {
+                using (var sw = new StreamReader(fileLocation))
+                {
+                    string line;
+                    while ((line = sw.ReadLine()) != null)
+                    {
+                        string[] ar = line.Trim().Split('=');
+                        if (ar.Length == 2)
+                        {
+                            map.Add(ar[0], ar[1]);
+                        }
+                    }
+                    sw.Close();
+                }
+            }
+            return map;
         }
 
         #endregion

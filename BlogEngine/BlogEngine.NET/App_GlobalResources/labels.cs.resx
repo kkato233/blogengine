@@ -1149,7 +1149,7 @@
     <value>Stáhnout</value>
   </data>
   <data name="enableEnclosures" xml:space="preserve">
-    <value>Enable Enclosures</value>
+    <value>Povolit přílohy</value>
   </data>
   <data name="enableSelfRegistration" xml:space="preserve">
     <value>Zapnout samoregistraci</value>
@@ -1607,7 +1607,7 @@
     <value>Ke schválení</value>
   </data>
   <data name="pingbacksAndTrackbacks" xml:space="preserve">
-    <value>Pingbacks &amp;amp; Trackbacks</value>
+    <value>Pingbacks &amp; Trackbacks</value>
   </data>
   <data name="viewSource" xml:space="preserve">
     <value>Zobrazit zdroj</value>
@@ -2343,5 +2343,20 @@
   </data>
   <data name="logFile" xml:space="preserve">
     <value>Log soubor</value>
+  </data>
+  <data name="createBlog" xml:space="preserve">
+    <value>Vytvořit nový blog</value>
+  </data>
+  <data name="previewComment" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="amp" xml:space="preserve">
+    <value>&amp;</value>
+  </data>
+  <data name="disqusWebsiteName" xml:space="preserve">
+    <value>Název Disqus web serveru</value>
+  </data>
+  <data name="lastUpdate" xml:space="preserve">
+    <value>Poslední aktualizace</value>
   </data>
 </root>

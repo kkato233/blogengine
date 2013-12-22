@@ -13,6 +13,9 @@ public class LogsController : ApiController
     [HttpGet]
     public IEnumerable<SelectOption> GetLog()
     {
+        if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
+            throw new System.UnauthorizedAccessException();
+
         var action = Request.GetRouteData().Values["id"].ToString();
 
         switch (action)
@@ -28,6 +31,9 @@ public class LogsController : ApiController
     [HttpPut]
     public HttpResponseMessage PurgeLog()
     {
+        if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
+            throw new System.UnauthorizedAccessException();
+
         string fileLocation = HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "logger.txt"));
         try
         {

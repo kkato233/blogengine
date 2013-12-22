@@ -47,7 +47,7 @@
                 <tbody data-bind="foreach: posts">
                     <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                         <td>
-                            <input type="checkbox" id="{{item.TagName}}" data-ng-model="item.IsChecked" />
+                            <input type="checkbox" ng-model="item.IsChecked" />
                         </td>
                         <td class="table-item-title">
                             <a title="{{item.TagName}}" href ng-click="loadEditForm(item.TagName)">{{item.TagName}}</a>

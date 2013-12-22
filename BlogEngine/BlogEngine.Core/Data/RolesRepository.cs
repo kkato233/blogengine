@@ -144,6 +144,9 @@ namespace BlogEngine.Core.Data
         /// <returns>Collection of rights</returns>
         public IEnumerable<Group> GetRoleRights(string role)
         {
+            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ViewRoles))
+                throw new System.UnauthorizedAccessException();
+
             var groups = new List<Group>();
 
             // store the category for each Rights.

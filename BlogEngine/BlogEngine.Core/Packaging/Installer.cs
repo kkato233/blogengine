@@ -57,15 +57,8 @@ namespace BlogEngine.Core.Packaging
             catch (Exception ex)
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage(" + pkgId + ")", ex);
-                try
-                {
-                    UninstallPackage(pkgId);
-                }
-                catch (Exception)
-                {
-                    // just trying to clean up if package did not installed properly
-                }
-                return new JsonResponse { Success = false, Message = "Error installing package, see logs for details" };
+                UninstallPackage(pkgId);
+                throw;
             }
 
             return new JsonResponse { Success = true, Message = "Package successfully installed" };
