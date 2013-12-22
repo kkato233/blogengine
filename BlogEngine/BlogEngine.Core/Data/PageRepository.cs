@@ -81,6 +81,7 @@ namespace BlogEngine.Core.Data
         /// Update page
         /// </summary>
         /// <param name="page">Page to update</param>
+        /// <param name="action">Action to execute</param>
         /// <returns>True on success</returns>
         public bool Update(PageDetail page, string action)
         {

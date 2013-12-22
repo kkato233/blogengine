@@ -204,32 +204,36 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
                 throw new System.UnauthorizedAccessException();
 
-            foreach (var p in Post.ApplicablePosts.ToArray())
+            var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
+
+            foreach (var p in posts.ToArray())
             {
-                foreach (var c in p.AllComments)
+                if (commentType == "pending")
                 {
-                    if (commentType == "pending")
+                    foreach (var c in p.NotApprovedComments)
                     {
-                        if (!c.IsApproved && !c.IsSpam)
+                        if (!c.IsSpam && !c.IsDeleted)
                         {
                             p.RemoveComment(c);
                             p.DateModified = DateTime.Now;
                             p.Save();
                         }
-                    }
-                    if (commentType == "spam")
-                    {
-                        if (c.IsSpam)
-                        {
-                            p.RemoveComment(c);
-                            p.DateModified = DateTime.Now;
-                            p.Save();
-                        }
-                    }
+                    }  
                 }
-                return true;
+                if (commentType == "spam")
+                {
+                    foreach (var c in p.SpamComments)
+                    {
+                        if (!c.IsDeleted)
+                        {
+                            p.RemoveComment(c);
+                            p.DateModified = DateTime.Now;
+                            p.Save();
+                        }
+                    } 
+                }
             }
-            return false;
+            return true;
         }
 
         #region Private methods

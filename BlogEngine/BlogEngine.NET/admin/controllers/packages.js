@@ -82,7 +82,6 @@ angular.module('blogAdmin').controller('CustomController', function ($rootScope,
 
         dataService.updateItem("/api/customfields", $scope.customFields)
         .success(function (data) {
-            //toastr.success($rootScope.lbl.customFieldsUpdated);
             $scope.load();
             spinOff();
             $("#modal-theme-edit").modal('hide');
@@ -105,6 +104,7 @@ angular.module('blogAdmin').controller('CustomController', function ($rootScope,
             }
         }
         if (checked.length < 1) {
+            spinOff();
             return false;
         }
         dataService.processChecked("/api/packages/processchecked/" + action, checked)
