@@ -194,36 +194,6 @@ namespace BlogEngine.Core
         [RightDetails(Category = RightCategory.Pages)]
         EditOwnPages,
 
-        /// <summary>
-        /// A user can edit pages other users have created.
-        /// </summary>
-        [RightDetails(Category = RightCategory.Pages)]
-        EditOtherUsersPages,
-
-        /// <summary>
-        /// A user can delete pages they've created.
-        /// </summary>
-        [RightDetails(Category = RightCategory.Pages)]
-        DeleteOwnPages,
-
-        /// <summary>
-        /// A user can delete pages other users have created.
-        /// </summary>
-        [RightDetails(Category = RightCategory.Pages)]
-        DeleteOtherUsersPages,
-
-        /// <summary>
-        /// A user can set whether or not their own pages are published.
-        /// </summary>
-        [RightDetails(Category = RightCategory.Pages)]
-        PublishOwnPages,
-
-        /// <summary>
-        /// A user can set whether or not another user's pages are published.
-        /// </summary>
-        [RightDetails(Category = RightCategory.Pages)]
-        PublishOtherUsersPages,
-
         #endregion
 
         #region "Ratings"

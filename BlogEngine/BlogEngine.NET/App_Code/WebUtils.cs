@@ -72,10 +72,7 @@
             Rights[] rights =
             {
                 Rights.CreateNewPages,
-                Rights.EditOwnPages,
-                Rights.EditOtherUsersPages,
-                Rights.PublishOwnPages,
-                Rights.PublishOtherUsersPages
+                Rights.EditOwnPages
             };
 
             if (checkOnly)

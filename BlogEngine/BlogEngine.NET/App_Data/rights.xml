@@ -83,23 +83,6 @@
     <role name="Administrators" />
     <role name="Editors" />
   </right>
-  <right name="EditOtherUsersPages">
-    <role name="Administrators" />
-  </right>
-  <right name="DeleteOwnPages">
-    <role name="Administrators" />
-    <role name="Editors" />
-  </right>
-  <right name="DeleteOtherUsersPages">
-    <role name="Administrators" />
-  </right>
-  <right name="PublishOwnPages">
-    <role name="Administrators" />
-    <role name="Editors" />
-  </right>
-  <right name="PublishOtherUsersPages">
-    <role name="Administrators" />
-  </right>
   <right name="ViewRatingsOnPosts">
     <role name="Administrators" />
     <role name="Anonymous" />

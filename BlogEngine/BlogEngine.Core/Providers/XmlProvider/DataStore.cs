@@ -120,8 +120,7 @@ namespace BlogEngine.Core.Providers
             switch (extensionType)
             {
                 case ExtensionType.Extension:
-                    Blog blog = Blog.Blogs.FirstOrDefault(b => b.IsPrimary);
-                    result = Path.Combine(blog.StorageLocation, "datastore", "extensions");
+                    result = Path.Combine(Blog.CurrentInstance.StorageLocation, "datastore", "extensions");
                     break;
                 case ExtensionType.Widget:
                     result = Path.Combine(Blog.CurrentInstance.StorageLocation, "datastore", "widgets");
@@ -137,10 +136,8 @@ namespace BlogEngine.Core.Providers
             if (string.IsNullOrEmpty(mappedResult) && result.StartsWith(BlogConfig.DefaultStorageLocation))
             {
                 // this can only happen in Mono. We'll try again with AppDomain but it will only work if BlogConfig.StorageLocation == "~/App_Data/" (which is the default value)
-
 				string appDataPhysical = AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
 				mappedResult = Path.Combine(appDataPhysical, result.Substring(BlogConfig.DefaultStorageLocation.Length));
-
             }
 
             if (string.IsNullOrEmpty(mappedResult))

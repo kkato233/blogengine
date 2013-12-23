@@ -468,15 +468,9 @@
         {
             get
             {
-                // Because we are not storing an author name for each page, and
-                // Author name (IPublishable.Author) is the name that comes from
-                // the feed settings, this is unreliable.  For now, consider all
-                // authenticated users to be owners.
-
-                return Security.IsAuthenticated;
-
-                // this is more ideal, if Author was stored.
-                //return Security.CurrentUser.Identity.Name.Equals(((IPublishable)this).Author, StringComparison.OrdinalIgnoreCase);
+                // Because we are not storing an author name for each page,
+                // any user that have edit page access is an owner
+                return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages);
             }
         }
 
@@ -488,12 +482,7 @@
         {
             get
             {
-                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOwnPages))
-                    return true;
-                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.DeleteOtherUsersPages))
-                    return true;
-
-                return false;
+                return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages);
             }
         }
 
@@ -505,12 +494,7 @@
         {
             get
             {
-                if (CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOwnPages))
-                    return true;
-                else if (!CurrentUserOwns && Security.IsAuthorizedTo(Rights.EditOtherUsersPages))
-                    return true;
-
-                return false;
+                return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages);
             }
         }
 
@@ -543,18 +527,7 @@
         /// <returns></returns>
         public bool CanPublish()
         {
-            bool isOwnPage = true; // author is not stored with a Page, so assuming the user is the author.
-
-            if (isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOwnPages))
-            {
-                return false;
-            }
-            else if (!isOwnPage && !Security.IsAuthorizedTo(Rights.PublishOtherUsersPages))
-            {
-                return false;
-            }
-
-            return true;
+            return Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages);
         }
 
         /// <summary>

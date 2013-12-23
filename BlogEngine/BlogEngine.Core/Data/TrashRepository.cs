@@ -40,8 +40,13 @@ namespace BlogEngine.Core.Data
             // comments
             if (trashType == TrashType.All || trashType == TrashType.Comment)
             {
+
                 foreach (var p in Post.Posts)
                 {
+                    if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts))
+                        if (p.Author.ToLower() != Security.CurrentUser.Identity.Name.ToLower())
+                            continue;
+
                     comments.AddRange(p.DeletedComments);
                 }
             }
@@ -73,6 +78,10 @@ namespace BlogEngine.Core.Data
             {
                 foreach (var p in posts)
                 {
+                    if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts))
+                        if (p.Author.ToLower() != Security.CurrentUser.Identity.Name.ToLower())
+                            continue;
+
                     TrashItem t2 = new TrashItem
                     {
                         Id = p.Id,
@@ -205,6 +214,10 @@ namespace BlogEngine.Core.Data
             // remove deleted comments
             foreach (var p in Post.Posts.ToArray())
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts))
+                    if (p.Author.ToLower() != Security.CurrentUser.Identity.Name.ToLower())
+                        continue;
+
                 foreach (var c in p.DeletedComments.ToArray())
                 {
                     p.PurgeComment(c);
@@ -214,6 +227,10 @@ namespace BlogEngine.Core.Data
             // remove deleted posts
             foreach (var p in Post.DeletedPosts.ToArray())
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts))
+                    if (p.Author.ToLower() != Security.CurrentUser.Identity.Name.ToLower())
+                        continue;
+
                 p.Purge();
             }
 
