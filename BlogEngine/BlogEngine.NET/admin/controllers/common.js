@@ -72,7 +72,10 @@ function canManageWidgets() {
     return SiteVars.UserRights.indexOf("ManageWidgets") > -1 ? true : false;
 }
 
-// need add rights to manage blog
+function canManagePages() {
+    return SiteVars.UserRights.indexOf("EditOwnPages") > -1 ? true : false;
+}
+
 function canManageBlogs() {
-    return SiteVars.UserRights.indexOf("EditOtherUsersRoles") > -1 && SiteVars.IsPrimary ? true : false;
+    return SiteVars.IsPrimary === true && SiteVars.IsAdmin === true;
 }

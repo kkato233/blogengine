@@ -708,8 +708,7 @@
                     Rights.CreateNewPages,
                     Rights.EditOwnPosts,
                     Rights.EditOwnPages,
-                    Rights.EditOtherUsersPosts,
-                    Rights.EditOtherUsersPages
+                    Rights.EditOtherUsersPosts
                 }))
             {
                 throw new MetaWeblogException("11", "User authentication failed");

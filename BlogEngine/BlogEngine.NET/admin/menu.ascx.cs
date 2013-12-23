@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <summary>
-//   The Menu control.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Admin
+﻿namespace Admin
 {
     using System;
     using System.Linq;
@@ -36,6 +30,8 @@ namespace Admin
         {
             var a = new HtmlAnchor { InnerHtml = string.Format("<span>{0}</span>", text), HRef = url };
 
+            System.Diagnostics.Debug.WriteLine("AddItem: " + a.HRef.ToString());
+
             var li = new HtmlGenericControl("li");
             li.Controls.Add(a);
             ulMenu.Controls.Add(li);
@@ -62,31 +58,6 @@ namespace Admin
         }
 
         /// <summary>
-        /// Gets the sub URL.
-        /// </summary>
-        /// <param name="url">
-        /// The URL string.
-        /// </param>
-        /// <returns>
-        /// The sub-url.
-        /// </returns>
-        private static string SubUrl(string url, bool isFromCurrentHttpRequest)
-        {
-            if (isFromCurrentHttpRequest && Blog.CurrentInstance.IsSubfolderOfApplicationWebRoot)
-            {
-                if(url.Length > Blog.CurrentInstance.RelativeWebRoot.Length)
-                    url = url.Substring(Blog.CurrentInstance.RelativeWebRoot.Length);
-
-                if(!url.StartsWith(Utils.ApplicationRelativeWebRoot))
-                    url = Utils.ApplicationRelativeWebRoot + url;
-            }
-
-            var i = url.LastIndexOf("/");
-
-            return (i > 0) ? url.Substring(0, i) : string.Empty;
-        }
-
-        /// <summary>
         /// The bind menu.
         /// </summary>
         private void BindMenu()
@@ -100,48 +71,23 @@ namespace Admin
                 if (root != null)
                 {
                     foreach (
-                        var adminNode in
-                            root.ChildNodes.Cast<SiteMapNode>().Where(
-                                adminNode => adminNode.IsAccessibleToUser(HttpContext.Current)).Where(
-                                    adminNode =>
-                                    Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/") ||
-                                    (!adminNode.Url.Contains("xmanager") && !adminNode.Url.Contains("PingServices"))))
+                        var adminNode in root.ChildNodes.Cast<SiteMapNode>().Where(
+                            adminNode => adminNode.IsAccessibleToUser(HttpContext.Current)).Where(
+                            adminNode => Security.IsAuthenticated ))
                     {
+                        if (adminNode.Url.EndsWith("#/blogs") && !Blog.CurrentInstance.IsPrimary)
+                            continue;
+
+                        if (adminNode.Url.EndsWith("#/blogs") && !Security.IsAdministrator)
+                            continue;
 
                         var a = new HtmlAnchor
-                            {
-                                // replace the RelativeWebRoot in adminNode.Url with the RelativeWebRoot of the current
-                                // blog instance.  So a URL like /admin/Dashboard.aspx becomes /blog/admin/Dashboard.aspx.
-                                HRef = Utils.RelativeWebRoot + adminNode.Url.Substring(Utils.ApplicationRelativeWebRoot.Length), 
-                                InnerHtml =
-                                    string.Format("<span>{0}</span>", Utils.Translate(adminNode.Title, adminNode.Title))
-                            };
-
-                        // "<span>" + Utils.Translate(info.Name.Replace(".aspx", string.Empty)) + "</span>";
-                        var startIndx = adminNode.Url.LastIndexOf("/admin/") > 0 ? adminNode.Url.LastIndexOf("/admin/") : 0;
-                        var endIndx = adminNode.Url.LastIndexOf(".") > 0 && adminNode.Url.LastIndexOf(".") > startIndx ? 
-                            adminNode.Url.LastIndexOf(".") : adminNode.Url.Length;
-                        var nodeDir = adminNode.Url.Substring(startIndx, endIndx - startIndx);
-
-                        if (Request.RawUrl.IndexOf(nodeDir, StringComparison.OrdinalIgnoreCase) != -1)
                         {
-                            a.Attributes["class"] = "current";
-                        }
-
-                        // select "plugins" tab for extensions with custom admin pages
-                        if (Request.RawUrl.IndexOf("User controls", StringComparison.OrdinalIgnoreCase) != -1)
-                        {
-                            if (nodeDir == "/admin/Extensions/default")
-                                a.Attributes["class"] = "current";
-                        }
-
-                        // if "page" has its own subfolder (comments, extensions) should 
-                        // select parent tab when navigating through child tabs
-                        if (!SubUrl(Request.RawUrl, true).Equals(adminRootFolder, StringComparison.OrdinalIgnoreCase) &&
-                            SubUrl(Request.RawUrl, true) == SubUrl(adminNode.Url, false))
-                        {
-                            a.Attributes["class"] = "current";
-                        }
+                            // replace the RelativeWebRoot in adminNode.Url with the RelativeWebRoot of the current
+                            // blog instance.  So a URL like /admin/Dashboard.aspx becomes /blog/admin/Dashboard.aspx.
+                            HRef = Utils.RelativeWebRoot + adminNode.Url.Substring(Utils.ApplicationRelativeWebRoot.Length), 
+                            InnerHtml = string.Format("<span>{0}</span>", Utils.Translate(adminNode.Title, adminNode.Title))
+                        };
 
                         var li = new HtmlGenericControl("li");
                         li.Controls.Add(a);
@@ -150,13 +96,10 @@ namespace Admin
                 }
             }
 
-            if (!Request.RawUrl.ToUpperInvariant().Contains("/ADMIN/"))
+            if (Security.IsAuthenticated)
             {
-                AddItem(
-                    labels.myProfile, string.Format("{0}admin/#/users/profile", Utils.RelativeWebRoot));
-
-                AddItem(
-                    labels.changePassword, string.Format("{0}Account/change-password.aspx", Utils.RelativeWebRoot));
+                AddItem(labels.myProfile, string.Format("{0}admin/#/users/profile", Utils.RelativeWebRoot));
+                AddItem(labels.changePassword, string.Format("{0}Account/change-password.aspx", Utils.RelativeWebRoot));
             }
         }
 

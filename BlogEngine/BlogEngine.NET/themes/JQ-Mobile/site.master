@@ -1,5 +1,4 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="MichaelJBaird.Themes.JQMobile.Master" %>
-<%@ Register Src="~/admin/menu.ascx" TagName="menu" TagPrefix="uc1" %>
 <%@ Register Src="~/themes/JQ-Mobile/controls/MainHeader.ascx" TagName="MainHeader" TagPrefix="jqm" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 

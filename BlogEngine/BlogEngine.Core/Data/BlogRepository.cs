@@ -25,7 +25,7 @@ namespace BlogEngine.Core.Data
         public IEnumerable<BlogEngine.Core.Data.Models.Blog> Find(int take = 10, int skip = 0, string filter = "", string order = "")
         {
             // sub-blogs not allowed to see other blogs
-            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)))
+            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAdministrator))
                 throw new System.UnauthorizedAccessException();
 
             if (take == 0) take = Blog.Blogs.Count;
@@ -49,7 +49,7 @@ namespace BlogEngine.Core.Data
         public BlogEngine.Core.Data.Models.Blog FindById(Guid id)
         {
             // sub-blogs not allowed to see other blogs
-            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)))
+            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAdministrator))
                 throw new System.UnauthorizedAccessException();
 
             var blog = Blog.Blogs.Where(b => b.Id == id).FirstOrDefault();
@@ -63,8 +63,9 @@ namespace BlogEngine.Core.Data
         /// <returns>Saved blog with new ID</returns>
         public BlogEngine.Core.Data.Models.Blog Add(BlogItem item)
         {
-            // sub-blogs not allowed to see other blogs
-            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)))
+            // has to be on primary blog and be an admin
+            // or blog allows create new on self registration
+            if (!(Blog.CurrentInstance.IsPrimary && (Security.IsAdministrator || BlogSettings.Instance.CreateBlogOnSelfRegistration)))
                 throw new System.UnauthorizedAccessException();
 
             string message;
@@ -87,7 +88,7 @@ namespace BlogEngine.Core.Data
         public bool Update(BlogEngine.Core.Data.Models.Blog blog)
         {
             // sub-blogs not allowed to see other blogs
-            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)))
+            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAdministrator))
                 throw new System.UnauthorizedAccessException();
             try
             {
@@ -108,7 +109,7 @@ namespace BlogEngine.Core.Data
         public bool Remove(Guid id)
         {
             // sub-blogs not allowed to see other blogs
-            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)))
+            if (!(Blog.CurrentInstance.IsPrimary && Security.IsAdministrator))
                 throw new System.UnauthorizedAccessException();
             try
             {

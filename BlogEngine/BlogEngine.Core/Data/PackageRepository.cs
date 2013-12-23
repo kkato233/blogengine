@@ -64,7 +64,7 @@ namespace BlogEngine.Core.Data
         /// <returns>True if success</returns>
         public bool Update(Package item)
         {
-            if (!Security.IsAdministrator || !Blog.CurrentInstance.IsPrimary)
+            if (!Security.IsAdministrator)
                 throw new System.UnauthorizedAccessException();
 
             if (item == null)

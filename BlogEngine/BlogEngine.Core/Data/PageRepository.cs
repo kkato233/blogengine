@@ -85,7 +85,8 @@ namespace BlogEngine.Core.Data
         /// <returns>True on success</returns>
         public bool Update(PageDetail page, string action)
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages))
+            // pages do not have authors and only managed by admin
+            if (!Security.IsAdministrator)
                 throw new System.UnauthorizedAccessException();
 
             var corePage = (from p in Page.Pages.ToList() where p.Id == page.Id select p).FirstOrDefault();
@@ -116,7 +117,8 @@ namespace BlogEngine.Core.Data
         /// <returns>True on success</returns>
         public bool Remove(Guid id)
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.DeleteOwnPages))
+            // pages do not have authors and only managed by admin
+            if (!Security.IsAdministrator)
                 throw new System.UnauthorizedAccessException();
             try
             {

@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div ng-if="package.SettingsUrl">
+                            <div ng-if="package.SettingsUrl && SiteVars.IsAdmin">
                                 <iframe ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
                             </div>
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>

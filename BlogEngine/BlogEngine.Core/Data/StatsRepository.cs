@@ -47,6 +47,10 @@ namespace BlogEngine.Core.Data
 
             foreach (var post in Post.Posts)
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOtherUsersPosts))
+                    if (post.Author.ToLower() != Security.CurrentUser.Identity.Name.ToLower())
+                        continue;
+
                 stats.PublishedCommentsCount += post.Comments.Where(c => c.IsPublished == true && c.IsDeleted == false).Count();
                 stats.UnapprovedCommentsCount += post.Comments.Where(c => c.IsPublished == false && c.IsSpam == false && c.IsDeleted == false).Count();
                 stats.SpamCommentsCount += post.Comments.Where(c => c.IsPublished == false && c.IsSpam == true && c.IsDeleted == false).Count();
