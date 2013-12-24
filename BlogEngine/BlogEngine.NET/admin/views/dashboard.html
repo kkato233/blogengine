@@ -1,6 +1,6 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
-    <div class="container admin-view-main admin-view-dashboard" data-ng-controller="DashboardController">
+    <div class="container admin-views-main admin-views-dashboard" data-ng-controller="DashboardController">
         <div id="modal-log-file" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -8,7 +8,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                         <h4 class="modal-title">{{lbl.logFile}}</h4>
                     </div>
-                    <div class="modal-body" style="height: 400px; overflow: auto;">
+                    <div class="modal-body" style="height:400px;overflow-y:auto;">
                         <div class="form-horizontal clearfix">
                             <div class="col-md-12" data-ng-repeat="log in logItems">
                                 <div ng-bind-html="log.OptionValue"></div>
@@ -23,13 +23,8 @@
                 </div>
             </div>
         </div>
-        <div class="page-header clearfix">
-            <h2 class="page-title pull-left">
-                {{lbl.dashboard}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-small"></i></span>
-            </h2>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row view-dashboard">
+            <div class="col-xs-6 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -52,7 +47,6 @@
                             <a data-toggle="collapse" href="#collapseTwo">{{lbl.latestComments}}</a>
                         </h4>
                     </div>
-
                     <ul class="list-group panel-collapse collaps in " id="collapseTwo">
                         <li class="list-group-item" data-ng-repeat="comment in recentcomments ">
                             <span><a href="{{comment.RelativeLink}}" target="_new" class="text-ellipsis">{{comment.Title}}</a></span>
@@ -60,7 +54,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-xs-6 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -109,7 +103,8 @@
                     <!--<span ng-if="trash.length == 0" class="list-group-item">Empty</span>-->
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="clearfix visible-xs"></div>
+            <div class="col-xs-6 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">

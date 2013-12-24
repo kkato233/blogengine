@@ -78,5 +78,10 @@ function canManagePages() {
 }
 
 function canManageBlogs() {
-    return SiteVars.IsPrimary === true && SiteVars.IsAdmin === true;
+    if (SiteVars.IsPrimary) {
+        if (SiteVars.IsAdmin) {
+            return true;
+        }
+    }
+    return false;
 }
