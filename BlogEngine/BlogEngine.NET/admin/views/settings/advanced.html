@@ -1,23 +1,22 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div data-ng-include src="'views/shared/_navsettings.html'"></div>
-    <div class="container admin-view-main admin-view-settings-advanced" data-ng-controller="SettingsController">
+    <div class="container admin-views-main admin-views-settings-advanced" data-ng-controller="SettingsController">
         <form id="form" action="">
             <div class="page-header clearfix">
                 <h2 class="page-title pull-left">
-                    {{lbl.advanced}}
-                    <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                    {{lbl.advanced}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
                 </h2>
                 <button data-ng-click="save()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</button>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <div class="well clearfix">
                         <div class="form-group">
                             <label class="control-label" for="txtName"><strong>{{lbl.handleWwwSubdomain}}</strong></label>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div class="radio ">
+                                    <div class="radio">
                                         <label>
                                             <input type="radio" value="remove" data-ng-model="settings.HandleWwwSubdomain" />
                                             {{lbl.remove}}
@@ -25,16 +24,18 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="radio ">
+                                    <div class="radio">
                                         <label>
-                                            <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.enforce}}
+                                            <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />
+                                            {{lbl.enforce}}
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="radio ">
+                                    <div class="radio">
                                         <label>
-                                            <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />{{lbl.ignore}}
+                                            <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />
+                                            {{lbl.ignore}}
                                         </label>
                                     </div>
                                 </div>
@@ -81,25 +82,23 @@
                         <div class="form-group">
                             <label class="control-label" for="txtGalleryFeedUrl">{{lbl.galleryFeedUrl}}</label>
                             <input class=" form-control ltr-dir" id="txtGalleryFeedUrl" type="text" data-ng-model="settings.GalleryFeedUrl">
-                            <p class="help-block">{{lbl.galleryFeedUrlDescription}}</p>
+                            <small class="help-block">{{lbl.galleryFeedUrlDescription}}</small>
                         </div>
                         <hr />
                         <div class="form-group">
                             <label class="control-label" for="txtThemeCookieName">{{lbl.themeCookieName}}</label>
-                            <input type="text" class=" form-control  ltr-dir" id="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
+                            <input type="text" class="form-control ltr-dir" id="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <div class="well">
                         <h4>{{lbl.securitySettings}}</h4>
                         <hr />
-                        <div class="form-group">
-                            <label class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="ckEnablePasswordReset" data-ng-model="settings.EnablePasswordReset" />
-                                    {{lbl.enablePasswordReset}}
-                                </label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnablePasswordReset" data-ng-model="settings.EnablePasswordReset" />
+                                {{lbl.enablePasswordReset}}
                             </label>
                         </div>
                         <div class="checkbox">
@@ -107,7 +106,6 @@
                                 <input type="checkbox" name="ckEnableSelfRegistration" data-ng-model="settings.EnableSelfRegistration" />
                                 {{lbl.enableSelfRegistration}}
                             </label>
-
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="selCultures">{{lbl.selfRegistrationInitialRole}}</label>

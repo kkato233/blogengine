@@ -1,6 +1,6 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
-    <div class="container admin-view-main admin-view-blogs" data-ng-controller="BlogsController">
+    <div class="container admin-views-main admin-views-blogs" data-ng-controller="BlogsController">
         <div id="modal-edit" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -17,13 +17,13 @@
                                 </div>
                             </div>
                             <!--<div class="form-group">
-                                <label class="control-label  col-md-6" for="txtHost">{{lbl.hostName}}</label>
+                                <label class="control-label col-md-6" for="txtHost">{{lbl.hostName}}</label>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control" id="txtHost" data-ng-model="editItem.Hostname" />
                                 </div>
                             </div>-->
                             <div class="form-group">
-                                <label class="control-label  col-md-4" for="txtVirtualPath">{{lbl.virtualPath}}</label>
+                                <label class="control-label col-md-4" for="txtVirtualPath">{{lbl.virtualPath}}</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtVirtualPath" data-ng-model="editItem.VirtualPath" ng-disabled="true" />
                                 </div>
@@ -50,9 +50,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer ">
+                        <button data-ng-click="save()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
-                        <button data-ng-click="save()" class="btn btn-primary"><i class="fa fa-save"></i>{{lbl.save}}</button>
                     </div>
                 </div>
             </div>
@@ -74,12 +74,11 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label  col-md-4" for="txtBlogName">{{lbl.blogName}}</label>
+                                    <label class="control-label col-md-4" for="txtBlogName">{{lbl.blogName}}</label>
                                     <div class="col-md-8">
                                         <input type="text" class="form-control ltr-dir" id="txtBlogName" name="txtBlogName" data-ng-model="newItem.Name" />
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="txtUserName" class="control-label  col-md-4">{{lbl.admin}}</label>
                                     <div class="col-md-8">
@@ -87,85 +86,82 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label  col-md-4" for="txtEmail">{{lbl.email}}</label>
+                                    <label class="control-label col-md-4" for="txtEmail">{{lbl.email}}</label>
                                     <div class="col-md-8">
                                         <input type="text" id="txtEmail" name="txtEmail" class="form-control ltr-dir" data-ng-model="newItem.Email" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label  col-md-4" for="txtPassword">{{lbl.password}}</label>
+                                    <label class="control-label col-md-4" for="txtPassword">{{lbl.password}}</label>
                                     <div class="col-md-8">
                                         <input type="password" class="form-control ltr-dir" id="txtPassword" name="txtPassword" data-ng-model="newItem.Password" />
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label  col-md-4" for="txtConfirmPassword">{{lbl.confirmPassword}}</label>
+                                    <label class="control-label col-md-4" for="txtConfirmPassword">{{lbl.confirmPassword}}</label>
                                     <div class="col-md-8">
                                         <input type="password" class="form-control ltr-dir" id="txtConfirmPassword" name="txtConfirmPassword" data-ng-model="newItem.ConfirmPassword" />
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </form>
                     <div class="modal-footer">
+                        <button data-ng-click="saveNew()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
-                        <button data-ng-click="saveNew()" class="btn btn-primary"><i class="fa fa-save"></i>{{lbl.save}}</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">{{lbl.blogs}}</h2>
-            <a href="" data-ng-click="modalNew()" class="btn btn-success btn-header pull-right"><i class="fa fa-plus"></i>{{lbl.addNewBlog}}</a>
+            <button data-ng-click="modalNew()" class="btn btn-success btn-header pull-right"><i class="fa fa-plus"></i>{{lbl.addNewBlog}}</button>
         </div>
-        <div>
-            <div class="toolbar-grid clearfix">
-                <div class="pull-left">
-                    <span ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</span>
-                </div>
-                <div class="pull-right">
-                    <input type="text" ng-model="query" ng-change="search()" class="form-control input-sm pull-right" placeholder="{{lbl.search}}">
-                </div>
+        <div class="toolbar-grid clearfix">
+            <div class="pull-left">
+                <button ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
-            <table class="table table-bordered table-striped table-hover table-responsive">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
-                        <th class="table-item-title table-item-w60">{{lbl.title}} <a href="" data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
-                        <th>{{lbl.virtualPath}}</th>
-                        <th>{{lbl.primary}}</th>
-                        <th>{{lbl.active}}</th>
-                        <th>{{lbl.isForSiteAggregation}}</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: posts">
-                    <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                        <td><input type="checkbox" id="{{item.Slug}}" ng-model="item.IsChecked" /></td>
-                        <td class="table-item-title">
-                            <a title="{{item.Name}}" href="" ng-click="modalEdit(item.Id)">{{item.Name}}</a>
-                            <a title="{{item.Name}}" class="external-link pull-right" target="_new" href="{{item.RelativeWebRoot}}"><i class="fa fa-external-link"></i></a>
-                        </td>
-                        <td class="ltr-dir">{{item.VirtualPath}}</td>
-                        <td><input type="checkbox" ng-model="item.IsPrimary" data-ng-disabled="true" /></td>
-                        <td><input type="checkbox" ng-model="item.IsActive" data-ng-disabled="true" /></td>
-                        <td><input type="checkbox" data-ng-model="item.IsSiteAggregation" data-ng-disabled="true"></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="text-right">
-                <ul class="pagination">
-                    <li data-ng-class="{disabled: currentPage == 0}">
-                        <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
-                    </li>
-                    <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
-                        <a data-ng-bind="n + 1">1</a>
-                    </li>
-                    <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
-                        <a data-ng-click="nextPage()">{{lbl.next}} »</a>
-                    </li>
-                </ul>
+            <div class="pull-right">
+                <input type="text" ng-model="query" ng-change="search()" class="form-control input-sm pull-right" placeholder="{{lbl.search}}">
             </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="chkAll" ng-click="checkAll($event)" /></th>
+                    <th class="table-item-title table-item-w60">{{lbl.title}} <a data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th class="hmax768">{{lbl.virtualPath}}</th>
+                    <th>{{lbl.primary}}</th>
+                    <th>{{lbl.active}}</th>
+                    <th class="hmax768">{{lbl.isForSiteAggregation}}</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: posts">
+                <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+                    <td><input type="checkbox" id="{{item.Slug}}" ng-model="item.IsChecked" /></td>
+                    <td class="table-item-title">
+                        <a title="{{item.Name}}" href="" ng-click="modalEdit(item.Id)">{{item.Name}}</a>
+                        <a title="{{item.Name}}" class="external-link pull-right" target="_new" href="{{item.RelativeWebRoot}}"><i class="fa fa-external-link"></i></a>
+                    </td>
+                    <td class="ltr-dir hmax768">{{item.VirtualPath}}</td>
+                    <td><input type="checkbox" ng-model="item.IsPrimary" data-ng-disabled="true" /></td>
+                    <td><input type="checkbox" ng-model="item.IsActive" data-ng-disabled="true" /></td>
+                    <td class="hmax768"><input type="checkbox" data-ng-model="item.IsSiteAggregation" data-ng-disabled="true"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <ul class="pagination pagination-sm">
+                <li data-ng-class="{disabled: currentPage == 0}">
+                    <a data-ng-click="prevPage()">« {{lbl.prev}}</a>
+                </li>
+                <li data-ng-repeat="n in range(pagedItems.length)" data-ng-class="{active: n == currentPage}" data-ng-click="setPage()">
+                    <a data-ng-bind="n + 1">1</a>
+                </li>
+                <li data-ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                    <a data-ng-click="nextPage()">{{lbl.next}} »</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
