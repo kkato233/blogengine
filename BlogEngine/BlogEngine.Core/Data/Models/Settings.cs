@@ -97,10 +97,6 @@
         /// </summary>
         public bool EnableHttpCompression { get; set; }
         /// <summary>
-        /// Enable optimization
-        /// </summary>
-        public bool EnableOptimization { get; set; }
-        /// <summary>
         /// Compress web resources
         /// </summary>
         public bool CompressWebResource { get; set; }

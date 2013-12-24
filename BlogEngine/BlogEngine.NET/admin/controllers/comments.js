@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CommentsController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('CommentsController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.items = [];
     $scope.item = {};
     $scope.id = ($location.search()).id;
@@ -111,4 +111,4 @@
         }
         $("#modal-add-item").modal('hide');
     }
-});
+}]);

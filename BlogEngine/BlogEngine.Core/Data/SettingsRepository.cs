@@ -44,7 +44,6 @@ namespace BlogEngine.Core.Data
             // advanced
             ns.HandleWwwSubdomain = bs.HandleWwwSubdomain;
             ns.EnableHttpCompression = bs.EnableHttpCompression;
-            ns.EnableOptimization = bs.EnableOptimization;
             ns.CompressWebResource = bs.CompressWebResource;
             ns.EnableOpenSearch = bs.EnableOpenSearch;
             ns.RequireSslForMetaWeblogApi = bs.RequireSslMetaWeblogApi;
@@ -158,7 +157,6 @@ namespace BlogEngine.Core.Data
             // advanced
             bs.HandleWwwSubdomain = ns.HandleWwwSubdomain;
             bs.EnableHttpCompression = ns.EnableHttpCompression;
-            bs.EnableOptimization = ns.EnableOptimization;
             bs.CompressWebResource = ns.CompressWebResource;
             bs.EnableOpenSearch = ns.EnableOpenSearch;
             bs.RequireSslMetaWeblogApi = ns.RequireSslForMetaWeblogApi;

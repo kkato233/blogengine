@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('SettingsController', function ($rootScope, $scope, $location, $log, $http, dataService) {
+﻿angular.module('blogAdmin').controller('SettingsController', ["$rootScope", "$scope", "$location", "$log", "$http", "dataService", function ($rootScope, $scope, $location, $log, $http, dataService) {
     $scope.settings = {};
     $scope.lookups = {};
     $scope.feedOptions = [
@@ -126,4 +126,4 @@
     }
 
     $scope.load();
-});
+}]);

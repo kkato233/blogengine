@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('UsersController', function ($rootScope, $scope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('UsersController', ["$rootScope", "$scope", "$filter", "dataService", function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.roles = [];
     $scope.editItem = {};
@@ -122,4 +122,4 @@
             }
         });
     });
-});
+}]);

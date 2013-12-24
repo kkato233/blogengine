@@ -1,9 +1,7 @@
-﻿// application starting point
-(function () {
-
+﻿(function () {
     var app = angular.module("blogAdmin", ['ngRoute', 'ngAnimate', 'ngSanitize']);
 
-    var config = function ($routeProvider) {
+    var config = ["$routeProvider", function ($routeProvider) {
         $routeProvider
         .when("/", { templateUrl: "views/dashboard.html" })
         .when("/blogs", { templateUrl: "views/blogs.html" })
@@ -32,17 +30,17 @@
 		.when("/settings/pingservices", { templateUrl: "views/settings/pingservices.html" })
 		.when("/settings/importexport", { templateUrl: "views/settings/importexport.html" })
         .otherwise({ redirectTo: "/" });
-    };
+    }];
     app.config(config);
 
-    var run = function ($rootScope, $log) {
+    var run = ["$rootScope", "$log", function ($rootScope, $log) {
 
         $rootScope.lbl = BlogAdmin.i18n;
         $rootScope.SiteVars = SiteVars;
         $rootScope.testData = true;
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';
-    };
+    }];
 
     app.run(run);
 })();

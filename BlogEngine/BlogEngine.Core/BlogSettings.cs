@@ -488,27 +488,6 @@
 
         #endregion
 
-        #region RemoveWhitespaceInStyleSheets
-
-        /// <summary>
-        ///     DO NOT USE: 
-        ///     This setting is depricated, EnableOptimization includes both bundling and minification
-        /// </summary>
-        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-        public bool RemoveWhitespaceInStyleSheets { get; set; }
-
-        #endregion
-
-        #region EnableOptimization
-
-        /// <summary>
-        ///     Gets or sets a value indicating if scripts and styles should be bundled and minified
-        /// </summary>
-        /// <value><b>true</b> if whitespace is removed, otherwise returns <b>false</b>.</value>
-        public bool EnableOptimization { get; set; }
-
-        #endregion
-
         #region CompressWebResource
 
         /// <summary>
@@ -1379,11 +1358,6 @@
                         {
                             string value = (string)entry.Value;
                             var propType = property.PropertyType;
-                            // Optimizations not working under Mono dirty fix
-                            if (property.Name == "EnableOptimization" && Utils.IsMono)
-                            {
-                                value = "false";
-                            }
                             if (propType.IsEnum)
                             {
                                 property.SetValue(this, Enum.Parse(propType, value), null);

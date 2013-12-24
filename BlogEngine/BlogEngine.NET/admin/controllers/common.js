@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('NavController', function ($scope, $location, $rootScope) {
+﻿angular.module('blogAdmin').controller('NavController', ["$scope", "$location", "$rootScope", function ($scope, $location, $rootScope) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path() || $location.path().startsWith(viewLocation + "/");
     };
@@ -6,16 +6,17 @@
     $scope.showBlogsTab = canManageBlogs();
     $scope.showUsersTab = canManageUsers();
     $scope.showSettingsTab = canManageSettings();
-});
+}]);
 
-angular.module('blogAdmin').controller('SubNavController', function ($scope, $location) {
+angular.module('blogAdmin').controller('SubNavController', ["$scope", "$location", function ($scope, $location) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
     $scope.showRolesTab = canManageRoles();
     $scope.showUsersTab = canManageUsers();
     $scope.showWidgetsTab = canManageWidgets();
-});
+    $scope.showContentPages = canManagePages();
+}]);
 
 if (typeof String.prototype.startsWith != 'function') {
     String.prototype.startsWith = function (str) {

@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('RolesController', function ($rootScope, $scope, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('RolesController', ["$rootScope", "$scope", "$filter", "dataService", function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.rights = [];
     $scope.editItem = {};
@@ -137,4 +137,4 @@
             }
         });
     });
-});
+}]);
