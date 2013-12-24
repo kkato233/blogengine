@@ -1,5 +1,5 @@
 ﻿
-angular.module('blogAdmin').controller('BlogsController', function ($rootScope, $scope, $filter, dataService) {
+angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope", "$filter", "dataService", function ($rootScope, $scope, $filter, dataService) {
     $scope.items = [];
     $scope.editItem = {};
     $scope.newItem = {};
@@ -119,4 +119,4 @@ angular.module('blogAdmin').controller('BlogsController', function ($rootScope, 
             }
         });
     });
-});
+}]);

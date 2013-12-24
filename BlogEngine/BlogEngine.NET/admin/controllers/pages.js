@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('PagesController', function ($scope, $location, $http, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('PagesController', ["$scope", "$location", "$http", "$filter", "dataService", function ($scope, $location, $http, $filter, dataService) {
     $scope.items = [];
     $scope.filter = ($location.search()).fltr;
 
@@ -59,4 +59,4 @@
 	    }
 	}
 
-});
+}]);

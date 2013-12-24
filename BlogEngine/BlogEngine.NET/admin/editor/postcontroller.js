@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PostEditorController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogEditor').controller('PostEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.post = newPost;
     $scope.lookups = [];
@@ -188,7 +188,7 @@
     }; 
 
     $scope.load();
-});
+}]);
 
 var newPost = {
     "Id": "",

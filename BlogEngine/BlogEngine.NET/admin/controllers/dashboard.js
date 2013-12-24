@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('DashboardController', function ($rootScope, $scope, $location, $log, dataService) {
+﻿angular.module('blogAdmin').controller('DashboardController', ["$rootScope", "$scope", "$location", "$log", "dataService", function ($rootScope, $scope, $location, $log, dataService) {
     $scope.stats = {};
     $scope.draftposts = [];
     $scope.draftpages = [];
@@ -123,4 +123,4 @@
     }
 
     $scope.load();
-});
+}]);

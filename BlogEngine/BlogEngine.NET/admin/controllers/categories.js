@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('CategoriesController', function ($rootScope, $scope, $location, $http, $filter, dataService) {
+﻿angular.module('blogAdmin').controller('CategoriesController', ["$rootScope", "$scope", "$location", "$http", "$filter", "dataService", function ($rootScope, $scope, $location, $http, $filter, dataService) {
     $scope.items = [];
     $scope.lookups = [];
     $scope.category = {};
@@ -90,4 +90,4 @@
         $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": $rootScope.lbl.newCategory, "Description": $rootScope.lbl.description, "Count": 0 };
         $scope.id = null;
     }
-});
+}]);

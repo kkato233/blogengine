@@ -1,5 +1,5 @@
 ﻿
-angular.module('blogAdmin').controller('CustomController', function ($rootScope, $scope, $location, $filter, dataService) {
+angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scope", "$location", "$filter", "dataService", function ($rootScope, $scope, $location, $filter, dataService) {
     $scope.items = [];
     $scope.customFields = [];
     $scope.editId = "";
@@ -121,4 +121,4 @@ angular.module('blogAdmin').controller('CustomController', function ($rootScope,
     }
 
     $scope.load();
-});
+}]);

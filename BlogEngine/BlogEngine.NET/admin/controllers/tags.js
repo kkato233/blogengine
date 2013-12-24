@@ -1,4 +1,4 @@
-﻿angular.module('blogAdmin').controller('TagsController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('TagsController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.data = dataService;
     $scope.items = [];
     $scope.id = {};
@@ -66,4 +66,4 @@
         }
         $("#modal-add-tag").modal('hide');
     }
-});
+}]);

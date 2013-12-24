@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PageEditorController', function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogEditor').controller('PageEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.page = newPage;
     $scope.lookups = [];
@@ -135,7 +135,7 @@
     }
 
     $scope.load();
-});
+}]);
 
 var newPage = {
     "Id": "",
