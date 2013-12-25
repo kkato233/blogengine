@@ -38,44 +38,35 @@ public class SettingsController : ApiController
         }
     }
 
-    public void Put([FromBody]Settings settings, string action = "")
+    public HttpResponseMessage Put([FromBody]Settings settings, string action = "")
     {
-        if (action == "testEmail")
+        try
         {
-            try
+            if (action == "testEmail")
             {
-                TestEmail(settings);
-            }
-            catch (Exception ex)
-            {
-                var msg = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                var retMsg = TestEmail(settings);
+                if (!string.IsNullOrEmpty(retMsg))
                 {
-                    Content = new StringContent(ex.Message),
-                    ReasonPhrase = "Email failed"
-                };
-                throw new HttpResponseException(msg);
+                    return Request.CreateResponse(HttpStatusCode.OK, retMsg);
+                }
             }
-        }
-        else
-        {
-            try
+            else
             {
                 repository.Update(settings);
             }
-            catch (Exception ex)
-            {
-                var msg = new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                {
-                    Content = new StringContent(ex.Message),
-                    ReasonPhrase = "Failed to save settings"
-                };
-                throw new HttpResponseException(msg);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
     }
 
-    void TestEmail(Settings settings)
+    string TestEmail(Settings settings)
     {
         string email = settings.Email;
         string smtpServer = settings.SmtpServer;
@@ -105,8 +96,6 @@ public class SettingsController : ApiController
         body.Append("</div>");
         mail.Body = body.ToString();
 
-        string error = Utils.SendMailMessage(mail, smtpServer, smtpServerPort, smtpUserName, smtpPassword, enableSsl.ToString());
-        if (!string.IsNullOrEmpty(error))
-            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        return Utils.SendMailMessage(mail, smtpServer, smtpServerPort, smtpUserName, smtpPassword, enableSsl.ToString());
     }
 }

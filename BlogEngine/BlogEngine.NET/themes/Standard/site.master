@@ -79,22 +79,20 @@
                         <h1><a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a></h1>
                         <h3><%=BlogSettings.Instance.Description %></h3>
                     </hgroup>
-                    [CUSTOMBLOCK|Social icons]
                     <div class="pull-right social-icon">
-                        <a href="http://facebook.com/[CUSTOMFIELD|THEME|Standard|Facebook account|your facebook account/]">
+                        <a href="http://facebook.com/[CUSTOMFIELD|THEME|Standard|Facebook account|BlogEngine.NET/]">
                             <img src="~/themes/Standard/images/facebook.png" runat="server" />
                         </a>
-                        <a href="http://twitter.com/[CUSTOMFIELD|THEME|Standard|Twitter account|your twitter account/]">
+                        <a href="http://twitter.com/[CUSTOMFIELD|THEME|Standard|Twitter account|blogenginenet/]">
                             <img src="~/themes/Standard/images/twitter.png" runat="server" />
                         </a>
-                        <a href="https://plus.google.com/[CUSTOMFIELD|THEME|Standard|Google plus|your google account/]">
+                        <a href="https://plus.google.com/[CUSTOMFIELD|THEME|Standard|Google plus|u/0/]">
                             <img src="~/themes/Standard/images/googleplus.png" runat="server" />
                         </a>
-                        <a href="[CUSTOMFIELD|THEME|Standard|Your RSS|http://yoursite.com/syndicaton.axd/]">
+                        <a href="[CUSTOMFIELD|THEME|Standard|Your RSS|syndicaton.axd/]">
                             <img src="~/themes/Standard/images/rss.png" runat="server" />
                         </a>
                     </div>
-                    [/CUSTOMBLOCK]
                 </div>
             </div>
         </header>

@@ -42,7 +42,7 @@
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" data-ng-model="page.IsFrontPage" name="cbFrontPage" />
-                                    <span>{{lbl.isFrontPage}}</span>
+                                    {{lbl.isFrontPage}}
                                 </label>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" data-ng-model="page.ShowInList" name="cbShowInList" />
-                                    <span>{{lbl.showInList}}</span>
+                                   {{lbl.showInList}}
                                 </label>
                             </div>
                         </div>
@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button data-ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="fa fa-ban"></i> {{lbl.cancel}}</button>
-                <button data-ng-click="save()" class="btn btn-primary pull-right">{{lbl.save}}</button>
             </div>
         </div>
     </div>

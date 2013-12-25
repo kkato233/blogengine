@@ -64,6 +64,7 @@ namespace BlogEngine.Core.Data
             try
             {
                 BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
+                CustomFieldsParser.ClearCache();
                 return item;
             }
             catch (Exception ex)
@@ -85,6 +86,7 @@ namespace BlogEngine.Core.Data
             try
             {
                 BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
+                CustomFieldsParser.ClearCache();
                 return true;
             }
             catch (Exception ex)
@@ -116,6 +118,7 @@ namespace BlogEngine.Core.Data
                 };
 
                 BlogEngine.Core.Providers.BlogService.DeleteCustomField(item);
+                CustomFieldsParser.ClearCache();
                 return true;
             }
             catch (Exception ex)

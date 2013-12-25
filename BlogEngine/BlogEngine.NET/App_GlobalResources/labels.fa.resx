@@ -1909,4 +1909,13 @@
   <data name="lastUpdate" xml:space="preserve">
     <value>آخرین آپدیت ها</value>
   </data>
+  <data name="deleteAll" xml:space="preserve">
+    <value>حذف همه</value>
+  </data>
+  <data name="install" xml:space="preserve">
+    <value>نصب</value>
+  </data>
+  <data name="pageSource" xml:space="preserve">
+    <value>منبع</value>
+  </data>
 </root>
