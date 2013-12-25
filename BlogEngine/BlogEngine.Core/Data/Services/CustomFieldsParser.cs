@@ -79,6 +79,11 @@ namespace BlogEngine.Core.Data.Services
             }
         }
 
+        public static void ClearCache()
+        {
+            Blog.CurrentInstance.Cache.Remove(_cacheKey);
+        }
+
         #region Private methods
 
         static string RemoveCustomBlocks(string html)

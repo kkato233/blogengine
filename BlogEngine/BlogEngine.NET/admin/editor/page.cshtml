@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/Content/css")
     <script type="text/javascript">
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
@@ -65,14 +65,13 @@
             <div id="overlay-editor" class="well">
                 <input type="text" id="txtTitle" placeholder="Title of page..." class="form-control" data-ng-model="page.Title" />
                 @RenderPage("_editor.cshtml")
-                <hr />
-                <div class="text-right">
-                    <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-large'></i></span>
-                    <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
-                    <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
-                    <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;{{lbl.save}}</a>
-
-                </div>
+            </div>
+            <hr />
+            <div class="text-right">
+                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-large'></i></span>
+                <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
+                <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
+                <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
             </div>
         </div>
     </div>

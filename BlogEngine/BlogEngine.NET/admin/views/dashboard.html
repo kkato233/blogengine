@@ -8,7 +8,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                         <h4 class="modal-title">{{lbl.logFile}}</h4>
                     </div>
-                    <div class="modal-body" style="height:400px;overflow-y:auto;">
+                    <div class="modal-body modal-logfile">
                         <div class="form-horizontal clearfix">
                             <div class="col-md-12" data-ng-repeat="log in logItems">
                                 <div ng-bind-html="log.OptionValue"></div>
@@ -108,16 +108,15 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseSix">{{lbl.latestFromTheGallery}}</a>
+                            <a data-toggle="collapse" href="#collapseSix">{{lbl.latestFromTheGallery}} <span id="gal-spinner" class="loaded pull-left"><i class='fa fa-spinner fa-spin fa-small'></i></span></a>
                         </h4>
-                        <span id="gal-spinner" class="loaded pull-left"><i class='fa fa-spinner fa-spin fa-small'></i></span>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseSix">
                         <li class="list-group-item clearfix" data-ng-repeat="pkg in packages">
                             <div class="pull-left">
-                                <a href="{{pkg.PackageUrl}}" target="_blank">   <img class="img-gallery" src="{{pkg.IconUrl}}" /></a>
+                                <a href="{{pkg.PackageUrl}}" target="_blank"> <img class="img-gallery" src="{{pkg.IconUrl}}" /></a>
                             </div>
-                            <div class="pull-left" style="width:80%;">
+                            <div class="pull-left item-info-gal">
                                 <a href="{{pkg.PackageUrl}}" target="_blank">{{pkg.Title}}</a>
                                 <span class="text-ellipsis">{{pkg.Description}}</span>
                             </div>

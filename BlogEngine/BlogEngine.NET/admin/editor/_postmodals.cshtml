@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
                 <h4 class="modal-title">{{lbl.postMeta}}</h4>
             </div>
-            <div class="modal-body" style="overflow-y: scroll">
+            <div class="modal-body">
                 <div class="form-horizontal clearfix">
                     <div class="form-group">
                         <label class="control-label col-sm-4" for="txtSlug">{{lbl.slug}}</label>
@@ -36,7 +36,7 @@
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" name="ckEnableComments" data-ng-model="post.HasCommentsEnabled" />
-                                    <span>{{lbl.enableComments}}</span>
+                                    {{lbl.enableComments}}
                                 </label>
                             </div>
                         </div>
@@ -44,8 +44,8 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button data-ng-click="save()" class="btn btn-success btn-tabkey pull-right"  type="submit"><i class="fa fa-save"></i> {{lbl.save}}</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="fa fa-ban"></i> {{lbl.cancel}}</button>
-                <button data-ng-click="save()" class="btn btn-success" type="submit"><i class="fa fa-save"></i> {{lbl.save}}</button>
             </div>
         </div>
     </div>

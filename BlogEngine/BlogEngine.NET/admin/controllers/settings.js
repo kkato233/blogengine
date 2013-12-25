@@ -125,5 +125,18 @@
         .error(function () { toastr.error($rootScope.lbl.importFailed); });
     }
 
+    $scope.testEmail = function () {
+        dataService.updateItem("/api/settings?action=testEmail", $scope.settings)
+        .success(function (data) {
+            if (data) {
+                toastr.error(data);
+            }
+            else {
+                toastr.success($rootScope.lbl.completed);
+            }
+        })
+        .error(function () { toastr.error($rootScope.lbl.failed); });
+    }
+
     $scope.load();
 }]);

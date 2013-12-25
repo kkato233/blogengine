@@ -278,3 +278,44 @@
     margin-left: 0;
     margin-right: 4px !important;
 }
+
+@media screen and (max-width:360px) {
+    body {
+        background-color: #fff !important;
+        padding-top: 20px;
+    }
+
+    .account.well {
+        opacity: 1 !important;
+        top: 0 !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none;
+    }
+
+    .account-header {
+        opacity: 1 !important;
+        top: 0;
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 30px;
+        width: 100% !important;
+    }
+
+    .logo {
+        display: block;
+        text-align: center;
+    }
+
+    .account-header a {
+        float: none !important;
+        text-align: center;
+        display: block;
+    }
+
+    .page-header {
+        border-bottom: none;
+        background-color: #EEE;
+        padding: 10px !important;
+        border-radius: 4px;
+    }
+}
