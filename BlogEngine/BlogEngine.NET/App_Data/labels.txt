@@ -457,6 +457,7 @@ pageAdded
 pageDeleted
 pageIdRequired
 pageMeta
+pageSource
 PageNotFound
 pages
 pageUpdated

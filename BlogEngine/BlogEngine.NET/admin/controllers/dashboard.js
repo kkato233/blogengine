@@ -104,15 +104,15 @@
     }
 
     $scope.loadPackages = function () {
-        spinOn();
+        loading("gal");
         dataService.getItems('/api/packages', { take: 5, skip: 0 })
         .success(function (data) {
             angular.copy(data, $scope.packages);
-            spinOff();
+            loaded("gal");
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
-            spinOff();
+            loaded("gal");
         });
     }
 

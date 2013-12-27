@@ -34,6 +34,16 @@ function spinOff() {
     $("#spinner").addClass("loaded");
 }
 
+function loading(id) {
+    $("#" + id + "-spinner").removeClass("loaded");
+    $("#" + id + "-spinner").addClass("loading");
+}
+
+function loaded(id) {
+    $("#" + id + "-spinner").removeClass("loading");
+    $("#" + id + "-spinner").addClass("loaded");
+}
+
 function selectedOption(arr, val) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].OptionValue == val) return arr[i];

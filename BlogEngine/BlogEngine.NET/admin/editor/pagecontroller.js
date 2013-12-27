@@ -131,7 +131,13 @@
 
     $scope.source = function () {
         $("#modal-source").modal();
-        $("#editor-source").val($("#editor").html());
+        var html = $('#editor').html();
+        if (html.indexOf(' class="ng-binding"') === 2) {
+            $("#editor-source").val(html.replace(' class="ng-binding"', ''));
+        }
+        else {
+            $("#editor-source").val($("#editor").html());
+        }
     }
 
     $scope.load();
@@ -139,8 +145,8 @@
 
 var newPage = {
     "Id": "",
-    "Title": BlogAdmin.i18n.unpublishedPage,
-    "Content": "<p>" + BlogAdmin.i18n.typeHere + "...</p>",
+    "Title": "",
+    "Content": "",
     "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
     "Slug": "unpublished",
     "ShowInList": true,
