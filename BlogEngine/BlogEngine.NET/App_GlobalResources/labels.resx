@@ -2362,4 +2362,13 @@
   <data name="pageSource" xml:space="preserve">
     <value>Page Source</value>
   </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>Title of post</value>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>Title of page</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>Type and enter</value>
+  </data>
 </root>

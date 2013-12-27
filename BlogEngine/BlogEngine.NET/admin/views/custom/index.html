@@ -112,7 +112,7 @@
                     <th class="table-item-title table-item-w50">{{lbl.title}} <a ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
                     <th class="hmax768">{{lbl.author}}</th>
-                    <th class="hmax359">Last Update</th>
+                    <th class="hmax359">{{lbl.lastUpdate}}</th>
                     <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                     <th class="hmax992" data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
                 </tr>

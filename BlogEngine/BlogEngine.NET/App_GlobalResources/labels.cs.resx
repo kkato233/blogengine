@@ -2359,4 +2359,16 @@
   <data name="lastUpdate" xml:space="preserve">
     <value>Poslední aktualizace</value>
   </data>
+  <data name="pageSource" xml:space="preserve">
+    <value>Kód stránky</value>
+  </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>Nadpis příspěvku</value>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>Nadpis stránky</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>Napište a stiskněte Enter</value>
+  </data>
 </root>
