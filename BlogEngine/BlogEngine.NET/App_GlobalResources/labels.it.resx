@@ -229,13 +229,13 @@
     <value>Data</value>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>Output Standard del Feed</value>
+    <value>Impostazione predefinita della produzione del Feed</value>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
     <value>Testo predefinito visualizzato nel campo di Ricerca</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Eliminare</value>
+    <value>Cancella</value>
   </data>
   <data name="description" xml:space="preserve">
     <value>Descrizione</value>
@@ -338,10 +338,9 @@
   </data>
   <data name="home" xml:space="preserve">
     <value>Home</value>
-    <comment>Ritorna alla home page</comment>
   </data>
   <data name="htmlHeadSection" xml:space="preserve">
-    <value>Sezione HTML head</value>
+    <value>Sezione HTML del tag head</value>
   </data>
   <data name="ignore" xml:space="preserve">
     <value>Ignora</value>
@@ -353,7 +352,7 @@
     <value>E' la pagina iniziale</value>
   </data>
   <data name="keywords" xml:space="preserve">
-    <value>Keywords</value>
+    <value>Parole chiave</value>
   </data>
   <data name="language" xml:space="preserve">
     <value>Scegli la lingua</value>
@@ -530,10 +529,10 @@
     <value>Impostazioni</value>
   </data>
   <data name="showCountryChooser" xml:space="preserve">
-    <value>Visualizza la scelta della lingua</value>
+    <value>Visualizza la scelta del paese</value>
   </data>
   <data name="showCountryChooserDescription" xml:space="preserve">
-    <value>Se non è abilitata la scelta della lingua, nessuna bandiera può essere associata al singolo Commento</value>
+    <value>Se non è abilitata la scelta del paese, nessuna bandiera può essere visualizzata su ogni singolo Commento.</value>
   </data>
   <data name="showDescriptionInPostList" xml:space="preserve">
     <value>Visualizza solo la descrizione del Post</value>
@@ -542,7 +541,7 @@
     <value>Mostra come lista</value>
   </data>
   <data name="showLivePreview" xml:space="preserve">
-    <value>Mostra anteprima live</value>
+    <value>Mostra anteprima dal vivo</value>
   </data>
   <data name="showPostNavigation" xml:space="preserve">
     <value>Mostra la navigazione dei Post</value>
@@ -596,7 +595,7 @@
     <value>Carica File</value>
   </data>
   <data name="uploadImage" xml:space="preserve">
-    <value>Carica Image</value>
+    <value>Carica Immagine</value>
   </data>
   <data name="userName" xml:space="preserve">
     <value>Nome Utente</value>
@@ -710,7 +709,7 @@
     <value>Utilizza il nome del blog nel titolo</value>
   </data>
   <data name="useBlogNameInPageTitlesDescription" xml:space="preserve">
-    <value>Prefisso al titolo di pagina con il nome del blog</value>
+    <value>Prefissa il titolo della pagina con il nome del blog</value>
   </data>
   <data name="uncategorized" xml:space="preserve">
     <value>Nessun Categoria</value>
@@ -731,7 +730,7 @@
     <value>Accedi</value>
   </data>
   <data name="logoff" xml:space="preserve">
-    <value>Esci</value>
+    <value>Disconnetti</value>
   </data>
   <data name="useRawHtmlEditor" xml:space="preserve">
     <value>Utilizza l'editor HTML</value>
@@ -764,7 +763,7 @@
     <value>Estensioni</value>
   </data>
   <data name="profiles" xml:space="preserve">
-    <value>Profili Utente</value>
+    <value>Profili</value>
   </data>
   <data name="accuracy" xml:space="preserve">
     <value>Accuratezza</value>
@@ -884,7 +883,7 @@
     <value>IP</value>
   </data>
   <data name="link" xml:space="preserve">
-    <value>Link</value>
+    <value>Collegamento</value>
   </data>
   <data name="manual" xml:space="preserve">
     <value>Manuale</value>
@@ -1013,7 +1012,7 @@
     <value>Estrai dal Titolo</value>
   </data>
   <data name="goToPost" xml:space="preserve">
-    <value>Vedi il Post</value>
+    <value>Vai al Post</value>
   </data>
   <data name="insertImage" xml:space="preserve">
     <value>Allega Immagine</value>
@@ -1043,13 +1042,13 @@
     <value>Nuova Categoria</value>
   </data>
   <data name="setPublishDate" xml:space="preserve">
-    <value>Imposta Data Pubblicazione</value>
+    <value>Imposta la Data di Pubblicazione</value>
   </data>
   <data name="show" xml:space="preserve">
     <value>Mostra</value>
   </data>
   <data name="slug" xml:space="preserve">
-    <value>Nome del File (facoltativo)</value>
+    <value>Nome del Post (facoltativo)</value>
   </data>
   <data name="stats" xml:space="preserve">
     <value>Statistiche</value>
@@ -1082,7 +1081,7 @@
     <value>Devi inserire l'E-mail</value>
   </data>
   <data name="minPassLengthInChars" xml:space="preserve">
-    <value>Lunghezza Minima dei Caratteri</value>
+    <value>Lunghezza Minima dei Caratteri per la Password</value>
   </data>
   <data name="newAndConfirmPasswordMismatch" xml:space="preserve">
     <value>Le Password non coincidono</value>
@@ -1245,7 +1244,7 @@
     <value>Ruolto Predefinito per Editor</value>
   </data>
   <data name="developmentMode" xml:space="preserve">
-    <value>Modalità Sviluppo</value>
+    <value>Modalità di Sviluppo</value>
   </data>
   <data name="developmentModeCheckboxMessage" xml:space="preserve">
     <value>Quando testi Disqus in locale, spunta questo</value>
@@ -1276,7 +1275,7 @@
     <value>Non hai ancora un Account?</value>
   </data>
   <data name="download" xml:space="preserve">
-    <value>Download</value>
+    <value>Scarica</value>
   </data>
   <data name="editingRightsForRole" xml:space="preserve">
     <value>Imposta i diritti per il Ruolo</value>
@@ -1462,7 +1461,7 @@
     <value>Assicurati che l'estensione Recaptcha sia abilitata e configurata.</value>
   </data>
   <data name="recentDatesAtTop" xml:space="preserve">
-    <value>Date recenti in cima</value>
+    <value>Date recenti in alto</value>
   </data>
   <data name="recentPendingComments" xml:space="preserve">
     <value>Commenti recenti in attesa</value>
@@ -1757,7 +1756,7 @@
     <value>Cancella i selezionati</value>
   </data>
   <data name="downloadOPML" xml:space="preserve">
-    <value>Download OPML file</value>
+    <value>Scarica il file OPML</value>
   </data>
   <data name="downloads" xml:space="preserve">
     <value>Downloads</value>
@@ -2021,13 +2020,13 @@
     <value>Approva i Selezionati</value>
   </data>
   <data name="content" xml:space="preserve">
-    <value>Content</value>
+    <value>Contenuto</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Errore</value>
   </data>
   <data name="goToPage" xml:space="preserve">
-    <value>Go to page</value>
+    <value>Vai alla Pagina</value>
   </data>
   <data name="noPostsMatchedYourCriteria" xml:space="preserve">
     <value>Spiacente, nessun post corrisponde ai tuoi criteri</value>
@@ -2204,7 +2203,7 @@
     <value>Giustificato</value>
   </data>
   <data name="lastUpdated" xml:space="preserve">
-    <value>Ultimo aggiornamento</value>
+    <value>Ultimo aggiornato</value>
   </data>
   <data name="latestComments" xml:space="preserve">
     <value>Ultimi commenti</value>
@@ -2296,9 +2295,6 @@
   <data name="systemRole" xml:space="preserve">
     <value>Ruolo di sistema</value>
   </data>
-  <data name="tags1" xml:space="preserve">
-    <value>Tags</value>
-  </data>
   <data name="tagUpdated" xml:space="preserve">
     <value>Tag aggiornato</value>
   </data>
@@ -2340,5 +2336,29 @@
   </data>
   <data name="viewMyBlog" xml:space="preserve">
     <value>Vedi il mio blog</value>
+  </data>
+  <data name="amp" xml:space="preserve">
+    <value>&amp;</value>
+  </data>
+  <data name="createBlog" xml:space="preserve">
+    <value>Crea un nuovo blog</value>
+  </data>
+  <data name="disqusWebsiteName" xml:space="preserve">
+    <value>Nome del Sito Web usato in Disqus</value>
+  </data>
+  <data name="fullScreen" xml:space="preserve">
+    <value>Schermo intero</value>
+  </data>
+  <data name="importedFromBlogML" xml:space="preserve">
+    <value>Importato da BlogML</value>
+  </data>
+  <data name="lastUpdate" xml:space="preserve">
+    <value>Ultimo aggiornamento</value>
+  </data>
+  <data name="pageSource" xml:space="preserve">
+    <value>Sorgente della Pagina</value>
+  </data>
+  <data name="previewComment" xml:space="preserve">
+    <value>Anteprima</value>
   </data>
 </root>
