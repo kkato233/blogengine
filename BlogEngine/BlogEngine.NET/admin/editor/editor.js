@@ -121,3 +121,7 @@ function webRoot(url) {
         return result + url;
     }
 }
+
+$(document).ready(function () {
+    $("#txtTitle").focus();
+});

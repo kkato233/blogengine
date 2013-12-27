@@ -44,7 +44,7 @@
             </thead>
             <tbody data-bind="foreach: posts">
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td> <input type="checkbox" id="{{item.TagName}}" data-ng-model="item.IsChecked" /> </td>
+                    <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
                     <td class="table-item-title">
                         <a title="{{item.TagName}}" href="" ng-click="loadEditForm(item.TagName)" class="text-ellipsis pull-left">{{item.TagName}}</a>
                         <a title="{{item.TagName}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}?tag=/{{item.TagName}}"><i class="fa fa-external-link"></i></a>

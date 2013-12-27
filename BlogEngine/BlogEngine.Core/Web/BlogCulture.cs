@@ -585,6 +585,7 @@ namespace BlogEngine.Core.Web
             AddResource("pageDeleted");
             AddResource("pageIdRequired");
             AddResource("pageMeta");
+            AddResource("pageSource");
             AddResource("PageNotFound");
             AddResource("pages");
             AddResource("pageUpdated");

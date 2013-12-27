@@ -73,7 +73,8 @@ public class BlogsController : ApiController
         }
     }
 
-    public HttpResponseMessage Put([FromBody]BlogEngine.Core.Data.Models.Blog blog)
+    [HttpPut]
+    public HttpResponseMessage Update([FromBody]BlogEngine.Core.Data.Models.Blog blog)
     {
         try
         {

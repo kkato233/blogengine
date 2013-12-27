@@ -45,7 +45,7 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
 
     $scope.save = function () {
         spinOn();
-        dataService.updateItem("/api/blogs", $scope.editItem)
+        dataService.updateItem("/api/blogs/update/item", $scope.editItem)
         .success(function (data) {
             toastr.success($rootScope.lbl.blogSaved);
             $scope.load();
