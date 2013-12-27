@@ -154,7 +154,7 @@
     <value>Are you sure you want to {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Attach a file</value>
+    <value>Attach file</value>
   </data>
   <data name="author" xml:space="preserve">
     <value>Author</value>
@@ -1535,7 +1535,7 @@
     <value>Add new category</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>Insert image</value>
+    <value>Insert image (or just drag &amp; drop)</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
     <value>Insert video</value>
@@ -2361,5 +2361,113 @@
   </data>
   <data name="pageSource" xml:space="preserve">
     <value>Page Source</value>
+  </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>Title of post</value>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>Title of page</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>Type and enter</value>
+  </data>
+  <data name="fontSize" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Heading</value>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="forecolor" xml:space="preserve">
+    <value>Forecolor</value>
+  </data>
+  <data name="backcolor" xml:space="preserve">
+    <value>Backcolor</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>Unlink</value>
+  </data>
+  <data name="showTitle" xml:space="preserve">
+    <value>Show title</value>
+  </data>
+  <data name="tagMinimumPosts" xml:space="preserve">
+    <value>Minimum posts in each tag</value>
+  </data>
+  <data name="tagCloudMaxSize" xml:space="preserve">
+    <value>Tag cloud maximum size (Sorted by Recent Posts)</value>
+  </data>
+  <data name="unlimited" xml:space="preserve">
+    <value>Unlimited</value>
+  </data>
+  <data name="default" xml:space="preserve">
+    <value>default</value>
+  </data>
+  <data name="showRssIcon" xml:space="preserve">
+    <value>Show RSS icon</value>
+  </data>
+  <data name="showPostCount" xml:space="preserve">
+    <value>Show post count</value>
+  </data>
+  <data name="showComments" xml:space="preserve">
+    <value>Show comments</value>
+  </data>
+  <data name="showRating" xml:space="preserve">
+    <value>Show rating</value>
+  </data>
+  <data name="visitorInfoApmlFound" xml:space="preserve">
+    <value>I can see you have an APML file at</value>
+  </data>
+  <data name="visitorInfoApmlQuestion" xml:space="preserve">
+    <value>Do you wish to filter the content of this blog based on your APML file?</value>
+  </data>
+  <data name="visitorInfoApplyFilter" xml:space="preserve">
+    <value>Apply filter</value>
+  </data>
+  <data name="twitterAccountUrl" xml:space="preserve">
+    <value>Your Twitter account URL</value>
+  </data>
+  <data name="twitterRssFeedUrl" xml:space="preserve">
+    <value>Twitter RSS feed URL</value>
+  </data>
+  <data name="twitterNumberOfDisplayedTwits" xml:space="preserve">
+    <value>Number of displayed Twits</value>
+  </data>
+  <data name="twitterPollingInterval" xml:space="preserve">
+    <value>Polling Interval (#/minutes)</value>
+  </data>
+  <data name="twitterFollowMeText" xml:space="preserve">
+    <value>Follow me text</value>
+  </data>
+  <data name="enterValidString" xml:space="preserve">
+    <value>Please enter a valid string</value>
+  </data>
+  <data name="addNewLink" xml:space="preserve">
+    <value>Add new link</value>
+  </data>
+  <data name="openLinkInNewWindow" xml:space="preserve">
+    <value>Open link in new window</value>
+  </data>
+  <data name="websiteUrl" xml:space="preserve">
+    <value>Website URL</value>
+  </data>
+  <data name="addLink" xml:space="preserve">
+    <value>Add link</value>
+  </data>
+  <data name="newWindow" xml:space="preserve">
+    <value>New window</value>
+  </data>
+  <data name="showComments" xml:space="preserve">
+    <value>Show comments</value>
+  </data>
+  <data name="avatarSize" xml:space="preserve">
+    <value>Avatar size (in pixels)</value>
+  </data>
+  <data name="numberOfCommenters" xml:space="preserve">
+    <value>Number of commenters</value>
+  </data>
+  <data name="maxAgeInDays" xml:space="preserve">
+    <value>Max age in days</value>
   </data>
 </root>

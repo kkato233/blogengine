@@ -63,7 +63,7 @@
         @RenderPage("_source.cshtml")
         <div class="container editor admin-editor admin-editor-page">
             <div id="overlay-editor" class="well">
-                <input type="text" id="txtTitle" placeholder="Title of page..." class="form-control" data-ng-model="page.Title" />
+                <input type="text" id="txtTitle" placeholder="{{lbl.titleOfPage}}..." class="form-control" data-ng-model="page.Title" />
                 @RenderPage("_editor.cshtml")
             </div>
             <hr />
