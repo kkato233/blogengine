@@ -7,16 +7,16 @@
 
 <div id="body">
 
-<label for="<%=txtNumberOfPosts.ClientID %>">Number of posts</label>
+<label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfPosts %></label>
 <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
-<asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Please enter a valid number" Display="Dynamic" />
-<asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Please enter a valid number" Display="dynamic" /><br /><br />
+<asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Type="Integer" Operator="DataTypeCheck" ErrorMessage="<%$Resources:labels, enterValidNumber %>" Display="Dynamic" />
+<asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="<%$Resources:labels, enterValidNumber %>" Display="dynamic" /><br /><br />
 
-<label for="<%=cbShowComments.ClientID %>">Show comments</label>
+<label for="<%=cbShowComments.ClientID %>"><%=Resources.labels.showComments %></label>
 <asp:CheckBox runat="Server" ID="cbShowComments" />
 <br /><br />
 
-<label for="<%=cbShowRating.ClientID %>">Show rating</label>
+<label for="<%=cbShowRating.ClientID %>"><%=Resources.labels.showRating %></label>
 <asp:CheckBox runat="Server" ID="cbShowRating" />
 
 </div>

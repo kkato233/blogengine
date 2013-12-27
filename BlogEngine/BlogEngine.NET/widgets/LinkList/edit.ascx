@@ -1,20 +1,20 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.LinkList.Edit" %>
 <fieldset>
-    <legend>Add new link</legend>
+    <legend><%=Resources.labels.addNewLink %></legend>
     <label for="<%=txtTitle.ClientID %>">
         <%=Resources.labels.title %></label>
-    <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="Please enter a title"
+    <asp:RequiredFieldValidator runat="Server" ControlToValidate="txtTitle" ErrorMessage="<%$Resources:labels, enterTitle %>"
         ValidationGroup="add" /><br />
     <asp:TextBox runat="server" ID="txtTitle" Width="250px" />
-    <asp:CheckBox runat="server" ID="cbNewWindow" Text="Open link in new window" />
+    <asp:CheckBox runat="server" ID="cbNewWindow" Text="<%$Resources:labels, openLinkInNewWindow %>" />
     <br />
     <br />
     <label for="<%=txtUrl.ClientID %>">
-        Website URL</label>
+        <%=Resources.labels.websiteUrl %></label>
     <asp:RegularExpressionValidator runat="Server" ControlToValidate="txtUrl" ValidationExpression="(http://|https://|)([\w-]+\.)+[\w-]+(/[\w- ./?%&=;~]*)?"
-        ErrorMessage="Please enter a valid URL" ValidationGroup="add" /><br />
+        ErrorMessage="<%$Resources:labels, enterValidUrl %>" ValidationGroup="add" /><br />
     <asp:TextBox runat="server" ID="txtUrl" Width="250px" Text="http://" />
-    <asp:Button runat="server" ID="btnAdd" Text="Add link" ValidationGroup="add" />
+    <asp:Button runat="server" ID="btnAdd" Text="<%$Resources:labels, addLink %>" ValidationGroup="add" />
 </fieldset>
 <br />
 <asp:GridView runat="server" ID="grid" CellPadding="2" Width="100%" AutoGenerateColumns="False"
@@ -30,7 +30,7 @@
                 <asp:TextBox runat="server" ID="txtTitle" Width="90%" Text='<%# Eval("title") %>' />
             </EditItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="Website URL">
+        <asp:TemplateField HeaderText="<%$Resources:labels, websiteUrl %>">
             <ItemTemplate>
                 <%# Eval("url")%>
             </ItemTemplate>
@@ -38,7 +38,7 @@
                 <asp:TextBox runat="server" ID="txtUrl" Width="90%" Text='<%# Eval("url") %>' />
             </EditItemTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="New window">
+        <asp:TemplateField HeaderText="<%$Resources:labels, newWindow %>">
             <ItemTemplate>
                 <asp:CheckBox runat="server" Enabled="False" ID="cbNewWindow" Checked='<%# bool.Parse((string)Eval("newwindow")) %>' />
             </ItemTemplate>
