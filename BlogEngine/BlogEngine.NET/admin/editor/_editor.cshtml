@@ -8,20 +8,20 @@
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-text-height"></i><span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a data-edit="fontSize 1"><font size="2">font size (1)</font></a></li>
-                <li><a data-edit="fontSize 2"><font size="3">font size (2)</font></a></li>
-                <li><a data-edit="fontSize 3"><font size="4">font size (3)</font></a></li>
-                <li><a data-edit="fontSize 4"><font size="5">font size (4)</font></a></li>
-                <li><a data-edit="fontSize 5"><font size="6">font size (5)</font></a></li>
+                <li><a data-edit="fontSize 1"><font size="2">Font size (1)</font></a></li>
+                <li><a data-edit="fontSize 2"><font size="3">Font size (2)</font></a></li>
+                <li><a data-edit="fontSize 3"><font size="4">Font size (3)</font></a></li>
+                <li><a data-edit="fontSize 4"><font size="5">Font size (4)</font></a></li>
+                <li><a data-edit="fontSize 5"><font size="6">Font size (5)</font></a></li>
             </ul>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-heading"><b>H</b></i><span class="caret"></span></button>
             <ul class="dropdown-menu heading-item">
-                <li><a data-edit="formatBlock <h2>"><h2 style="font-size: 22px; margin: 5px;">Hading 2</h2></a></li>
-                <li><a data-edit="formatBlock <h3>"><h3 style="font-size: 20px; margin: 5px;">Hading 3</h3></a></li>
-                <li><a data-edit="formatBlock <h4>"><h4 style="font-size: 18px; margin: 5px;">Hading 4</h4></a></li>
-                <li><a data-edit="formatBlock <h5>"><h5 style="font-size: 16px; margin: 5px;">Hading 5</h5></a></li>
+                <li><a data-edit="formatBlock <h2>"><h2 style="font-size: 22px; margin: 5px;">Heading 2</h2></a></li>
+                <li><a data-edit="formatBlock <h3>"><h3 style="font-size: 20px; margin: 5px;">Heading 3</h3></a></li>
+                <li><a data-edit="formatBlock <h4>"><h4 style="font-size: 18px; margin: 5px;">Heading 4</h4></a></li>
+                <li><a data-edit="formatBlock <h5>"><h5 style="font-size: 16px; margin: 5px;">Heading 5</h5></a></li>
             </ul>
         </div>
     </div>
@@ -229,8 +229,8 @@
         </div>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></button>
-        <button type="button" class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></button>
+        <button type="button" class="btn btn-default" data-edit="undo" title="{{lbl.undo}} (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></button>
+        <button type="button" class="btn btn-default" data-edit="redo" title="{{lbl.redo}} (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></button>
     </div>
     <div class="btn-group">
         <button type="button" class="btn btn-default" ng-click="toggleEditor($event)" title="{{lbl.fullScreen}}"><i class="fa fa-desktop"></i></button>
