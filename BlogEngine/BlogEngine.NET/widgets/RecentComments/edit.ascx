@@ -7,9 +7,9 @@
 
 <div id="body">
 
-<label for="<%=txtNumberOfPosts.ClientID %>">Number of comments</label>
+<label for="<%=txtNumberOfPosts.ClientID %>"><%=Resources.labels.numberOfComments %></label>
 <asp:TextBox runat="server" ID="txtNumberOfPosts" Width="30" />
-<asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Please enter a valid number" Display="Dynamic" />
-<asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="Please enter a valid number" Display="dynamic" />
+<asp:CompareValidator runat="Server" ControlToValidate="txtNumberOfPosts" Type="Integer" Operator="DataTypeCheck" ErrorMessage="<%$Resources:labels, enterValidNumber %>" Display="Dynamic" />
+<asp:RequiredFieldValidator runat="server" ControlToValidate="txtNumberOfPosts" ErrorMessage="<%$Resources:labels, enterValidNumber %>" Display="dynamic" />
 
 </div>

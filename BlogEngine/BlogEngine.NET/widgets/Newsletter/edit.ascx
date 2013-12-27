@@ -7,7 +7,7 @@
     .beTable a { color: #CE3900; text-decoration: none; }
 </style>
 
-<label style="display: block; margin: 10px 0 5px 0" for="<%=txtPrefix %>">Email subject prefix</label>
+<label style="display: block; margin: 10px 0 5px 0" for="<%=txtPrefix %>"><%=Resources.labels.emailSubjectPrefix %></label>
 <asp:TextBox runat="server" ID="txtPrefix" Width="300" /><br />
 
 <asp:GridView 
