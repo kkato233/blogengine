@@ -5,7 +5,6 @@
   <showpostnavigation>True</showpostnavigation>
   <mobiletheme>Standard</mobiletheme>
   <enablehttpcompression>False</enablehttpcompression>
-  <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <htmlheader />
   <theme>Standard</theme>
   <emailsubjectprefix>Weblog</emailsubjectprefix>
@@ -14,7 +13,6 @@
   <commentsperpage>10</commentsperpage>
   <feedauthor />
   <description>Short description of the blog</description>
-  <iscommentnestingenabled>True</iscommentnestingenabled>
   <enablepingbacksend>True</enablepingbacksend>
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
   <commentblacklistcount>2</commentblacklistcount>
@@ -30,11 +28,12 @@
   <showincludecommentsoption>False</showincludecommentsoption>
   <createblogonselfregistration>False</createblogonselfregistration>
   <numberofrecentcomments>10</numberofrecentcomments>
-  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
+  <enablecommentsmoderation>True</enablecommentsmoderation>
   <blogrollmaxlength>23</blogrollmaxlength>
   <language>en-US</language>
   <smtpserver>mail.example.com</smtpserver>
   <disqusdevmode>False</disqusdevmode>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <postsperpage>10</postsperpage>
   <enabletrackbackreceive>True</enabletrackbackreceive>
   <enableopensearch>True</enableopensearch>
@@ -42,18 +41,19 @@
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <removeextensionsfromurls>True</removeextensionsfromurls>
   <smtpusername>username</smtpusername>
+  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablepasswordreset>True</enablepasswordreset>
-  <enableerrorlogging>True</enableerrorlogging>
+  <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <alternatefeedurl />
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
   <commentwhitelistcount>1</commentwhitelistcount>
-  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
+  <enableerrorlogging>True</enableerrorlogging>
   <enablereferrertracking>False</enablereferrertracking>
   <disquswebsitename />
   <handlewwwsubdomain />
   <culture>Auto</culture>
-  <removewhitespaceinstylesheets>True</removewhitespaceinstylesheets>
+  <postsperfeed>3</postsperfeed>
   <sendmailoncomment>True</sendmailoncomment>
   <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
   <remotemaxfilesize>524288</remotemaxfilesize>
@@ -70,13 +70,12 @@
   <smtpserverport>25</smtpserverport>
   <smtppassword>password</smtppassword>
   <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
-  <enablecommentsmoderation>True</enablecommentsmoderation>
+  <iscommentnestingenabled>True</iscommentnestingenabled>
   <timestamppostlinks>False</timestamppostlinks>
   <avatar>wavatar</avatar>
-  <postsperfeed>3</postsperfeed>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
-  <enableoptimization>False</enableoptimization>
+  <enablessl>False</enablessl>
   <name>Name of the blog</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
@@ -89,7 +88,6 @@
   <enableenclosures>False</enableenclosures>
   <authorname>My name</authorname>
   <descriptioncharacters>300</descriptioncharacters>
-  <enablessl>False</enablessl>
   <geocodinglongitude>0</geocodinglongitude>
   <enablewebsiteincomments>False</enablewebsiteincomments>
   <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>

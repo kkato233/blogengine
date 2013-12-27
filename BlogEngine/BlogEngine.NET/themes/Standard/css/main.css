@@ -7,15 +7,10 @@
         http://seyfolahi.net/
 */
 
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700|Lato:700);
-
 body {
-    font-family: "Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
     line-height: 1.8;
     color: #333333;
     background-color: #eeeeee;
-    padding-top: 51px;
     cursor: default;
     font-weight: 300;
 }
@@ -56,7 +51,6 @@ h6,
 }
 
 img {
-    /* fixed responsive */
     max-width: 100%;
 }
 
@@ -99,7 +93,7 @@ table {
 
 .header .title-wrapper {
     background-color: #ffffff;
-    padding: 50px 0;
+    padding: 30px 0;
     margin-bottom: 35px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
@@ -135,8 +129,11 @@ table {
     text-decoration: none;
 }
 
+.header .navbar {
+    margin: 0;
+    border-radius: 0;
+}
 /*[ WELL GLOBAL ]*/
-
 .well-global {
     background-color: #ffffff;
     padding: 4%;
@@ -254,7 +251,7 @@ table {
 
 .comment-item .comment-gravatar {
     border-radius: 4px;
-    overflow: hidden;
+    position:relative;
 }
 
 .comment-item .comment-header {
@@ -272,18 +269,44 @@ table {
     color: #333;
 }
 
-.comment-item .self {
-    background-color: #e5f2ff;
-    border-color: #9bd1ff !important;
+.comment-item .comment-content.self {
+    background-color: #ebffe5;
+    border-color: #c0e0b2 !important;
 }
 
 .comment-item .self .comment-header {
-    border-bottom-color: #9bd1ff;
+    border-bottom-color: #c0e0b2;
+}
+
+.comment-item .self .comment-header h4 a,
+.comment-item .self .comment-header h4 {
+    color: #376f1d !important;
+}
+
+.comment-item .self a {
+    color: #74af5a;
+}
+
+.comment-item .self .comment-header .text-uppercase {
+    color: #c0e0b2;
 }
 
 .comment-item .comment-form {
     border: 1px solid #CCC;
     margin: 15px 0;
+}
+.comment-item .carrow {
+    background: url(../images/carrow.png) no-repeat 0 0;
+    width: 9px;
+    height: 17px;
+    position: absolute;
+    right: -11px;
+    top: 14px;
+    z-index: 999;
+}
+
+.comment-item .self .carrow {
+    background: url(../images/sarrow.png) no-repeat 0 0 !important;
 }
 
 /*[ COMMENTS FORM ]*/
@@ -321,6 +344,8 @@ table {
 .comment-form .comment-preview .comment-header small {
     display: none;
 }
+
+
 
 /*[ RELATED POSTS ]*/
 .related-posts h3 {
@@ -409,7 +434,6 @@ table {
     margin: 0 0 15px 0;
     border-bottom: 1px solid #eeeeee;
     padding-bottom: 4%;
-    text-transform: uppercase;
     font-weight: bold;
     font-size: 16px;
 }
@@ -593,6 +617,13 @@ table {
 
 .newsletter #newsletterform input[type="text"] {
     direction: ltr !important;
+}
+
+.footer .newsletter #newsletterform input[type="text"] {
+    background-color: #333;
+    border-color: #111;
+    color: #CCC;
+    box-shadow: none;
 }
 
 /*[ PAGE LIST ]*/
@@ -883,7 +914,6 @@ table {
     top: -15px !important;
 }
 
-
 /*[ FOOTER ]*/
 .footer {
     background-color: #222;
@@ -903,6 +933,7 @@ table {
     background: none;
     color: #AAA;
     padding: 2% 0;
+    box-shadow: none;
 }
 
 .widgets-footer .widget .widget-header {

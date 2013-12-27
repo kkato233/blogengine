@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" EnableViewState="False" Inherits="BlogEngine.Core.Web.Controls.CommentViewBase" %>
 <ul id="id_<%=Comment.Id %>" class="media-list">
     <li class="media comment-item">
-        <div class="pull-left comment-gravatar"><%= Gravatar(72)%></div>
+        <div class="pull-left comment-gravatar <%= Post.Author.Equals(Comment.Author, StringComparison.OrdinalIgnoreCase) ? " self" : "" %>"><%= Gravatar(72)%> <div class="carrow"></div></div>
         <div class="media-body">
             <div class="comment-content <%= Post.Author.Equals(Comment.Author, StringComparison.OrdinalIgnoreCase) ? " self" : "" %>">
                 <div class="comment-header clearfix">

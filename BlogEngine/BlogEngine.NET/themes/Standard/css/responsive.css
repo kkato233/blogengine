@@ -47,4 +47,7 @@
     .widgets-footer {
         display: none;
     }
+    .comment-gravatar {
+        display:none;
+    }
 }

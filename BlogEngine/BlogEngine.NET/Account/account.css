@@ -15,10 +15,6 @@
     opacity: 0;
 }
 
-.account-header .logo img {
-    width: 200px;
-}
-
 .account-header .returnblog {
     position: relative;
     top: 20px;
