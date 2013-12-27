@@ -64,6 +64,7 @@ automatically
 automoderation
 available
 avatars
+backcolor
 basic
 beTheFirstToRate
 birthday
@@ -102,6 +103,7 @@ clickToDisable
 clickToEnable
 close
 closeCommetsAfter
+colors
 comment
 commentLabelText
 commentNotificationUnsubscribe
@@ -320,7 +322,9 @@ findPosition
 firstName
 followTwitter
 font
+fontSize
 forceMainTheme
+forecolor
 forgotPassword
 formMessage
 fullName
@@ -335,6 +339,8 @@ goToPost
 groupByYear
 handleWwwSubdomain
 hasRated
+heading
+headings
 home
 hostName
 htmlHeadSection
@@ -683,6 +689,7 @@ unapprovedcomments
 uncategorized
 underline
 undo
+unlink
 unmoderated
 unpublish
 unpublished

@@ -192,6 +192,7 @@ namespace BlogEngine.Core.Web
             AddResource("automoderation");
             AddResource("available");
             AddResource("avatars");
+            AddResource("backcolor");
             AddResource("basic");
             AddResource("beTheFirstToRate");
             AddResource("birthday");
@@ -230,6 +231,7 @@ namespace BlogEngine.Core.Web
             AddResource("clickToEnable");
             AddResource("close");
             AddResource("closeCommetsAfter");
+            AddResource("colors");
             AddResource("comment");
             AddResource("commentLabelText");
             AddResource("commentNotificationUnsubscribe");
@@ -448,7 +450,9 @@ namespace BlogEngine.Core.Web
             AddResource("firstName");
             AddResource("followTwitter");
             AddResource("font");
+            AddResource("fontSize");
             AddResource("forceMainTheme");
+            AddResource("forecolor");
             AddResource("forgotPassword");
             AddResource("formMessage");
             AddResource("fullName");
@@ -463,6 +467,7 @@ namespace BlogEngine.Core.Web
             AddResource("groupByYear");
             AddResource("handleWwwSubdomain");
             AddResource("hasRated");
+            AddResource("heading");
             AddResource("home");
             AddResource("hostName");
             AddResource("htmlHeadSection");
@@ -787,6 +792,8 @@ namespace BlogEngine.Core.Web
             AddResource("timeStampPostLinks");
             AddResource("timezone");
             AddResource("title");
+            AddResource("titleOfPage");
+            AddResource("titleOfPost");
             AddResource("toDisableSetTo0");
             AddResource("tools");
             AddResource("total");
@@ -800,6 +807,7 @@ namespace BlogEngine.Core.Web
             AddResource("trustAuthenticated");
             AddResource("turnDisqusOnOff");
             AddResource("type");
+            AddResource("typeAndEnter");
             AddResource("typeHere");
             AddResource("unapprove");
             AddResource("unapproved");
@@ -807,6 +815,7 @@ namespace BlogEngine.Core.Web
             AddResource("uncategorized");
             AddResource("underline");
             AddResource("undo");
+            AddResource("unlink");
             AddResource("unmoderated");
             AddResource("unpublish");
             AddResource("unpublished");
