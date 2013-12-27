@@ -1535,7 +1535,7 @@
     <value>Přidat novou kategorii</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>Vložit obrázek</value>
+    <value>Vložit obrázek (nebo uchop&amp;pusť)</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
     <value>Vložit video</value>
@@ -2132,7 +2132,7 @@
     <value>Krok vpřed</value>
   </data>
   <data name="hyperlink" xml:space="preserve">
-    <value>Odkaz</value>
+    <value>Vytvořit odkaz</value>
   </data>
   <data name="typeHere" xml:space="preserve">
     <value>Pište zde</value>
@@ -2370,5 +2370,23 @@
   </data>
   <data name="typeAndEnter" xml:space="preserve">
     <value>Napište a stiskněte Enter</value>
+  </data>
+<data name="fontSize" xml:space="preserve">
+    <value>Velikost písma</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Nadpis</value>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <value>Barvy</value>
+  </data>
+  <data name="forecolor" xml:space="preserve">
+    <value>Barva textu</value>
+  </data>
+  <data name="backcolor" xml:space="preserve">
+    <value>Barva pozadí</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>Zrušit odkaz</value>
   </data>
 </root>

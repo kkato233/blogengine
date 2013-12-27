@@ -154,7 +154,7 @@
     <value>Are you sure you want to {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Attach a file</value>
+    <value>Attach file</value>
   </data>
   <data name="author" xml:space="preserve">
     <value>Author</value>
@@ -1535,7 +1535,7 @@
     <value>Add new category</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>Insert image</value>
+    <value>Insert image (or just drag &amp; drop)</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
     <value>Insert video</value>
@@ -2370,5 +2370,23 @@
   </data>
   <data name="typeAndEnter" xml:space="preserve">
     <value>Type and enter</value>
+  </data>
+  <data name="fontSize" xml:space="preserve">
+    <value>Font size</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Heading</value>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="forecolor" xml:space="preserve">
+    <value>Forecolor</value>
+  </data>
+  <data name="backcolor" xml:space="preserve">
+    <value>Backcolor</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>Unlink</value>
   </data>
 </root>

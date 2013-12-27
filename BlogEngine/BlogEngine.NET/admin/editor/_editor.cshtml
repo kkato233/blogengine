@@ -6,22 +6,22 @@
             <ul class="dropdown-menu"></ul>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-text-height"></i><span class="caret"></span></button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.fontSize}}"><i class="fa fa-text-height"></i><span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li><a data-edit="fontSize 1"><font size="2">Font size (1)</font></a></li>
-                <li><a data-edit="fontSize 2"><font size="3">Font size (2)</font></a></li>
-                <li><a data-edit="fontSize 3"><font size="4">Font size (3)</font></a></li>
-                <li><a data-edit="fontSize 4"><font size="5">Font size (4)</font></a></li>
-                <li><a data-edit="fontSize 5"><font size="6">Font size (5)</font></a></li>
+                <li><a data-edit="fontSize 1"><font size="2">{{lbl.fontSize}} (1)</font></a></li>
+                <li><a data-edit="fontSize 2"><font size="3">{{lbl.fontSize}} (2)</font></a></li>
+                <li><a data-edit="fontSize 3"><font size="4">{{lbl.fontSize}} (3)</font></a></li>
+                <li><a data-edit="fontSize 4"><font size="5">{{lbl.fontSize}} (4)</font></a></li>
+                <li><a data-edit="fontSize 5"><font size="6">{{lbl.fontSize}} (5)</font></a></li>
             </ul>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-heading"><b>H</b></i><span class="caret"></span></button>
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.heading}}"><i class="fa fa-heading"><b>H</b></i><span class="caret"></span></button>
             <ul class="dropdown-menu heading-item">
-                <li><a data-edit="formatBlock <h2>"><h2 style="font-size: 22px; margin: 5px;">Heading 2</h2></a></li>
-                <li><a data-edit="formatBlock <h3>"><h3 style="font-size: 20px; margin: 5px;">Heading 3</h3></a></li>
-                <li><a data-edit="formatBlock <h4>"><h4 style="font-size: 18px; margin: 5px;">Heading 4</h4></a></li>
-                <li><a data-edit="formatBlock <h5>"><h5 style="font-size: 16px; margin: 5px;">Heading 5</h5></a></li>
+                <li><a data-edit="formatBlock <h2>"><h2 style="font-size: 22px; margin: 5px;">{{lbl.heading}} 2</h2></a></li>
+                <li><a data-edit="formatBlock <h3>"><h3 style="font-size: 20px; margin: 5px;">{{lbl.heading}} 3</h3></a></li>
+                <li><a data-edit="formatBlock <h4>"><h4 style="font-size: 18px; margin: 5px;">{{lbl.heading}} 4</h4></a></li>
+                <li><a data-edit="formatBlock <h5>"><h5 style="font-size: 16px; margin: 5px;">{{lbl.heading}} 5</h5></a></li>
             </ul>
         </div>
     </div>
@@ -32,12 +32,12 @@
         <button type="button" class="btn btn-default" data-edit="underline" title="{{lbl.underline}} (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tint"></i><span class="caret"></span></button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.colors}}"><i class="fa fa-tint"></i><span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li>
                 <div class="clearfix color-list-wrapper">
                     <div class="color-list-item color-list-item-1">
-                        <div class="title-color-list">Forecolor</div>
+                        <div class="title-color-list">{{lbl.forecolor}}</div>
                         <div class="colorlist clearfix">
                             <div style="background-color: #ffffff;"><a data-edit="forecolor #fffff"></a></div>
                             <div style="background-color: #ffcccc;"><a data-edit="forecolor #ffcccc"></a></div>
@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     <div class="color-list-item color-list-item">
-                        <div class="title-color-list">Backcolor</div>
+                        <div class="title-color-list">{{lbl.backcolor}}</div>
                         <div class="colorlist clearfix">
                             <div style="background-color: #ffffff;"><a data-edit="backcolor #fffff"></a></div>
                             <div style="background-color: #ffcccc;"><a data-edit="backcolor #ffcccc"></a></div>
@@ -203,7 +203,7 @@
         <button type="button" class="btn btn-default" data-edit="justifyfull" title="{{lbl.justify}} (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="unlink"><i class="fa fa-unlink" title="{{lbl.hyperlink}}"></i></button>
+        <button type="button" class="btn btn-default" data-edit="unlink" title="{{lbl.unlink}}"><i class="fa fa-unlink"></i></button>
         <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown" title="{{lbl.hyperlink}}"><i class="fa fa-link"></i></button>
         <div class="dropdown-menu input-append add-url-btn clearfix">
             <div class="pull-left">
@@ -216,16 +216,16 @@
     </div>
     <div class="btn-group uploadfiles-btn">
         <div class="btn-group">
-            <button type="button" class="btn  btn-default" id="pictureBtn" title="Insert picture (or just drag & drop)"><i class="fa fa-picture-o"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" onchange="angular.element(this).scope().uploadFile('image', this.files)" />
+            <button type="button" class="btn  btn-default" id="pictureBtn"><i class="fa fa-picture-o"></i></button>
+            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" title="{{lbl.insertImage}}" onchange="angular.element(this).scope().uploadFile('image', this.files)" />
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default" id="videoBtn" title="Insert video"><i class="fa fa-video-camera"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#videoBtn" onchange="angular.element(this).scope().uploadFile('video', this.files)" />
+            <button type="button" class="btn btn-default" id="videoBtn"><i class="fa fa-video-camera"></i></button>
+            <input type="file" data-role="magic-overlay" data-target="#videoBtn" title="{{lbl.insertVideo}}" onchange="angular.element(this).scope().uploadFile('video', this.files)" />
         </div>
         <div class="btn-group last-border">
-            <button type="button" class="btn btn-default last-border" id="fileBtn" title="Attach file"><i class="fa fa-paperclip"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#fileBtn" onchange="angular.element(this).scope().uploadFile('file', this.files)" />
+            <button type="button" class="btn btn-default last-border" id="fileBtn"><i class="fa fa-paperclip"></i></button>
+            <input type="file" data-role="magic-overlay" data-target="#fileBtn" title="{{lbl.attachFile}}" onchange="angular.element(this).scope().uploadFile('file', this.files)" />
         </div>
     </div>
     <div class="btn-group">
