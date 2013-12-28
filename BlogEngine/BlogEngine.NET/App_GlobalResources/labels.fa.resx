@@ -1918,4 +1918,7 @@
   <data name="pageSource" xml:space="preserve">
     <value>منبع</value>
   </data>
+  <data name="Empty" xml:space="preserve">
+    <value>خالی</value>
+  </data>
 </root>

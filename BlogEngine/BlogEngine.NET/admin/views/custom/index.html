@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div ng-if="canEditExensions" data-ng-if="pkgLocation != 'G'" class="form-group">
+                                <div ng-if="canInstallPackages && pkgLocation != 'G'"  class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.priority}}</span>
                                     </div>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div ng-if="package.SettingsUrl">
-                                <iframe ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
+                                <iframe ng-if="canEditExensions" ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
                             </div>
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">
@@ -85,7 +85,7 @@
             </h2>
         </div>
         <div class="toolbar-grid clearfix">
-            <div class="pull-left">
+            <div ng-if="IsPrimary" class="pull-left">
                 <button data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
                 <button data-ng-if="pkgLocation != 'G'" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
@@ -112,7 +112,7 @@
                     <th class="table-item-title table-item-w50">{{lbl.title}} <a ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
                     <th class="hmax768">{{lbl.author}}</th>
-                    <th class="hmax359">{{lbl.lastUpdate}}</th>
+                    <!--<th class="hmax359">{{lbl.lastUpdate}}</th>-->
                     <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                     <th class="hmax992" data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
                 </tr>
@@ -130,7 +130,7 @@
                     </td>
                     <td class="hmax768">{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
                     <td class="hmax768" data-ng-bind-html="item.Authors"></td>
-                    <td class="hmax359">{{item.LastUpdated}}</td>
+                    <!--<td class="hmax359">{{item.LastUpdated}}</td>-->
                     <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                     <td class="hmax992" data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
                 </tr>

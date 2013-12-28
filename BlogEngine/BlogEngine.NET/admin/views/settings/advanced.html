@@ -79,12 +79,12 @@
                             </div>
                         </div>
                         <hr />
-                        <div class="form-group">
+                        <div class="form-group" ng-if="SiteVars.IsPrimary">
                             <label class="control-label" for="txtGalleryFeedUrl">{{lbl.galleryFeedUrl}}</label>
                             <input class=" form-control ltr-dir" id="txtGalleryFeedUrl" type="text" data-ng-model="settings.GalleryFeedUrl">
                             <small class="help-block">{{lbl.galleryFeedUrlDescription}}</small>
                         </div>
-                        <hr />
+                        <hr ng-if="SiteVars.IsPrimary" />
                         <div class="form-group">
                             <label class="control-label" for="txtThemeCookieName">{{lbl.themeCookieName}}</label>
                             <input type="text" class="form-control ltr-dir" id="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
@@ -111,7 +111,7 @@
                             <label class="control-label" for="selCultures">{{lbl.selfRegistrationInitialRole}}</label>
                             <select id="selCultures" class="form-control" data-ng-options="o.OptionName for o in lookups.SelfRegisterRoles" data-ng-model="selfRegistrationInitialRole"></select>
                         </div>
-                        <div class="checkbox">
+                        <div ng-if="SiteVars.IsPrimary" class="checkbox">
                             <label>
                                 <input type="checkbox" name="ckCreateBlogOnSelfRegistration" data-ng-model="settings.CreateBlogOnSelfRegistration" />
                                 {{lbl.createBlogOnSelfRegistration}}

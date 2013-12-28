@@ -1,11 +1,19 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
-
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
     <link rel="shortcut icon" href="~/pics/blogengine.ico" type="image/x-icon" />
     <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
     <link href="~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
@@ -13,16 +21,6 @@
     <script type="text/javascript" src="<%# ShRoot %>scripts/shCore.js"></script>
     <script type="text/javascript" src="<%# ShRoot %>scripts/shAutoloader.js"></script>
     <script type="text/javascript" src="<%# ShRoot %>shActivator.js"></script>
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet" />
-    <link href="css/responsive.css" rel="stylesheet" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
     <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body class="<%=Resources.labels.LangDirection %>">
@@ -47,7 +45,7 @@
                             <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
                               { %>
                             <li>
-                                <a href="<%=parentPage.RelativeLink %>" class="dropdown-toggle"><%=parentPage.Title%> </a>
+                                <a href="<%=parentPage.RelativeLink %>" class="pull-left dropdown-m"><%=parentPage.Title%> </a><a href="#" data-toggle="dropdown" class="dropdown-toggle pull-left"><span class="caret"></span></a>
                                 <%if (parentPage.HasChildPages)
                                   { %>
                                 <ul class="dropdown-menu dropdown-menu-u">
@@ -69,12 +67,11 @@
                             <li><a runat="server" id="aLogin"></a></li>
                         </ul>
                     </div>
-                    <!--/.nav-collapse -->
                 </div>
             </div>
             <div class="title-wrapper">
                 <div class="container">
-                    <img src="[CUSTOMFIELD|THEME|Standard|Logo Address|/themes/Standard/images/logo.png/]" class="pull-left logo" alt="<%=BlogSettings.Instance.Name %>" />
+                    <img src="<%=Utils.AbsoluteWebRoot %>[CUSTOMFIELD|THEME|Standard|Logo Address|themes/Standard/images/logo.png/]" class="pull-left logo" alt="<%=BlogSettings.Instance.Name %>" />
                     <hgroup class="pull-left">
                         <h1><a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a></h1>
                         <h3><%=BlogSettings.Instance.Description %></h3>
@@ -96,7 +93,6 @@
                 </div>
             </div>
         </header>
-
         <section class="container">
             <div class="row">
                 <section class="col-md-8 content-wrapper">
@@ -108,7 +104,6 @@
                 </aside>
             </div>
         </section>
-
         <footer class="footer">
             <div class="container">
                 <div class="widgets-footer clearfix">

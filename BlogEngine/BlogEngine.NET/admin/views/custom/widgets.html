@@ -67,7 +67,7 @@
             </h2>
         </div>
         <div class="toolbar-grid clearfix">
-            <div class="pull-left">
+            <div ng-if="IsPrimary" class="pull-left">
                 <button data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
                 <button data-ng-if="pkgLocation != 'G'" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
@@ -80,7 +80,7 @@
                 <div class="btn-toolbar pull-right">
                     <div class="btn-group">
                         <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                        <button id="fltr-gal" class="btn btn-default btn-sm" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
+                        <button id="fltr-gal" class="btn btn-default btn-sm" ng-if="canInstallPackages" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
                     </div>
                 </div>
                 <span class="pull-right lbl-show">{{lbl.show}} :</span>

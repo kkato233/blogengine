@@ -24,8 +24,10 @@
         <div class="post-rating">
             <%=Rating %>
         </div>
-        <%=AdminLinks %>
+     
     </footer>
 
     <%} %>
+
+       <%=AdminLinks %>
 </article>

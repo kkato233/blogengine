@@ -223,6 +223,7 @@ emailIsInvalid
 emailIsRequired
 emailNotExist
 emailSubjectPrefix
+empty
 emptyLog
 emptyTrash
 enable
