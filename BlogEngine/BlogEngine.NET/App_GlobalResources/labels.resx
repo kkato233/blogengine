@@ -2467,7 +2467,7 @@
   <data name="maxAgeInDays" xml:space="preserve">
     <value>Max age in days</value>
   </data>
-  <data name="emply" xml:space="preserve">
+  <data name="empty" xml:space="preserve">
     <value>Empty</value>
   </data>
 </root>

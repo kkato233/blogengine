@@ -76,7 +76,10 @@
         spinOn();
         $scope.post.Content = $("#editor").html();
         $scope.post.Author = $scope.selectedAuthor.OptionValue;
-        if ($scope.post.Slug.toLowerCase() === "unpublished" || $scope.post.Slug.length == 0) {
+        if ($scope.post.Title.length == 0) {
+            $scope.post.Title = "Untitled";
+        }
+        if ($scope.post.Slug.length == 0) {
             $scope.post.Slug = toSlug($scope.post.Title);
         }
         // get selected categories
