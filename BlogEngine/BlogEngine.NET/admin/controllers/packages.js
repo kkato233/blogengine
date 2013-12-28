@@ -7,8 +7,9 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.pkgType = "Extension";
     $scope.pkgLocation = "L";
     $scope.fltr = 'PackageType == "Extension" and Location != "G"';
-    $scope.canEditExensions = SiteVars.IsAdmin;
-    $scope.canInstallPackages = SiteVars.IsAdmin;
+    $scope.IsPrimary = $rootScope.SiteVars.IsPrimary == "True";
+    $scope.canEditExensions = $rootScope.SiteVars.IsAdmin == "True";
+    $scope.canInstallPackages = $rootScope.SiteVars.IsAdmin == "True" && $rootScope.SiteVars.IsPrimary == "True";
 
     $scope.id = ($location.search()).id;
     $scope.theme = ($location.search()).id;

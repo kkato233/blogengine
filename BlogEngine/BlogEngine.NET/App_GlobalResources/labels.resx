@@ -154,7 +154,7 @@
     <value>Are you sure you want to {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Attach file</value>
+    <value>Attach a file</value>
   </data>
   <data name="author" xml:space="preserve">
     <value>Author</value>
@@ -1535,7 +1535,7 @@
     <value>Add new category</value>
   </data>
   <data name="insertImage" xml:space="preserve">
-    <value>Insert image (or just drag &amp; drop)</value>
+    <value>Insert image</value>
   </data>
   <data name="insertVideo" xml:space="preserve">
     <value>Insert video</value>
@@ -2240,10 +2240,10 @@
     <value>Failed to save rights</value>
   </data>
   <data name="rolesItem" xml:space="preserve">
-    <value>Item&nbsp;</value>
+    <value />
   </data>
   <data name="rolesItemDeleted" xml:space="preserve">
-    <value>&nbsp;deleted</value>
+    <value />
   </data>
   <data name="couldNotDeleteItem" xml:space="preserve">
     <value>Could not delete item </value>
@@ -2458,9 +2458,6 @@
   <data name="newWindow" xml:space="preserve">
     <value>New window</value>
   </data>
-  <data name="showComments" xml:space="preserve">
-    <value>Show comments</value>
-  </data>
   <data name="avatarSize" xml:space="preserve">
     <value>Avatar size (in pixels)</value>
   </data>
@@ -2469,5 +2466,8 @@
   </data>
   <data name="maxAgeInDays" xml:space="preserve">
     <value>Max age in days</value>
+  </data>
+  <data name="emply" xml:space="preserve">
+    <value>Empty</value>
   </data>
 </root>

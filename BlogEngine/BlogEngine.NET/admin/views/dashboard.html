@@ -66,6 +66,7 @@
                             <a href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml?id={{post.Id}}&returnUrl={{SiteVars.RelativeWebRoot}}admin/#/" class="text-ellipsis pull-left">{{post.Title}}</a>
                             <a title="{{post.Title}}" class="external-link pull-right" target="_new" href="{{post.RelativeLink}}"><i class="fa fa-external-link"></i></a>
                         </li>
+                        <li ng-if="draftposts.length == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
                 </div>
                 <div class="panel panel-default">
@@ -79,13 +80,14 @@
                             <a href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml?id={{page.Id}}&returnUrl={{SiteVars.RelativeWebRoot}}admin/#/" class="text-ellipsis pull-left">{{page.Title}}</a>
                             <a title="{{page.Title}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}page/{{page.Slug}}"><i class="fa fa-external-link"></i></a>
                         </li>
+                        <li ng-if="draftpages.length == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
                 </div>
                 <div class="panel panel-default panel-trash">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapseFive">{{lbl.trash}}</a>
-                            <small>({{trash.TotalCount}})</small>
+                            <small ng-if="trash.TotalCount > 0">({{trash.TotalCount}})</small>
                             <span ng-if="trash.TotalCount > 0" class="pull-right">
                                 <span class="purgeall label label-danger" data-ng-click="purgeAll()"><i class="fa fa-times"></i> {{lbl.purgeAll}}</span>
                             </span>
@@ -99,8 +101,8 @@
                                 <a title="{{lbl.purge}}" href="" data-ng-click="purge(t.Id)" class="purgethis"><i class="fa fa-times fa-sm"></i></a>
                             </span>
                         </li>
+                        <li ng-if="trash.TotalCount == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
-                    <!--<span ng-if="trash.length == 0" class="list-group-item">Empty</span>-->
                 </div>
             </div>
             <div class="clearfix visible-xs"></div>
@@ -108,7 +110,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseSix">{{lbl.latestFromTheGallery}} <span id="gal-spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span></a>
+                            <a data-toggle="collapse" href="#collapseSix">{{lbl.latestFromTheGallery}}</a>
                         </h4>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseSix">
@@ -122,6 +124,7 @@
                             </div>
                         </li>
                     </ul>
+                    <div id="gal-spinner" class="loaded text-center"><div><i class="fa fa-spinner fa-spin"></i></div></div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -133,6 +136,7 @@
                         <li data-ng-if="logItems.length > 0" class="list-group-item">
                             <a href="" data-ng-click="openLogFile()">{{lbl.loggedMessages}}</a>
                         </li>
+                        <li ng-if="logItems.length == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
                 </div>
             </div>
