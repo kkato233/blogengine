@@ -37,6 +37,9 @@
     $scope.load();
 
     $scope.save = function () {
+        if (!$('#form').valid()) {
+            return false;
+        }
         if ($scope.category.Id) {
             dataService.updateItem("/api/categories/update/" + $scope.category.Id, $scope.category)
            .success(function (data) {
@@ -87,7 +90,15 @@
     }
 
     $scope.clear = function () {
-        $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": $rootScope.lbl.newCategory, "Description": $rootScope.lbl.description, "Count": 0 };
+        $scope.category = { "IsChecked": false, "Id": null, "Parent": null, "Title": "", "Description": "", "Count": 0 };
         $scope.id = null;
     }
+
+    $(document).ready(function () {
+        $('#form').validate({
+            rules: {
+                txtSlug: { required: true }
+            }
+        });
+    });
 }]);
