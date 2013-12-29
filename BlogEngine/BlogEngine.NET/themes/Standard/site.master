@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="site.master.cs" Inherits="StandardSite" %>
+
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Linq" %>
 <!DOCTYPE html>
@@ -41,13 +42,13 @@
                             <li><a href="<%=Utils.AbsoluteWebRoot %>"><%=Resources.labels.home %></a></li>
                             <li><a href="<%=Utils.AbsoluteWebRoot %>archive<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.archive %></a></li>
                             <li><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
-                            <li><a href="<%=Utils.FeedUrl %>"><%=Resources.labels.subscribe %></a></li>
                             <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
                               { %>
                             <li>
-                                <a href="<%=parentPage.RelativeLink %>" class="pull-left dropdown-m"><%=parentPage.Title%> </a><a href="#" data-toggle="dropdown" class="dropdown-toggle pull-left"><span class="caret"></span></a>
+                                <a href="<%=parentPage.RelativeLink %>" class="pull-left dropdown-m"><%=parentPage.Title%> </a>
                                 <%if (parentPage.HasChildPages)
                                   { %>
+                                <a href="#" data-toggle="dropdown" class="dropdown-toggle pull-left"><span class="caret"></span></a>
                                 <ul class="dropdown-menu dropdown-menu-u">
                                     <%foreach (BlogEngine.Core.Page childPage in BlogEngine.Core.Page.Pages.Where(p => p.Parent == parentPage.Id && p.IsPublished))
                                       { %>

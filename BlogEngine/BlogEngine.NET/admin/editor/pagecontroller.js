@@ -39,6 +39,9 @@
     }
 
     $scope.save = function () {
+        if (!$('#form').valid()) {
+            return false;
+        }
         spinOn();
         $scope.page.Content = $("#editor").html();
         $scope.page.Parent = $scope.selectedParent;
@@ -141,6 +144,14 @@
     }
 
     $scope.load();
+
+    $(document).ready(function () {
+        $('#form').validate({
+            rules: {
+                txtTitle: { required: true }
+            }
+        });
+    });
 }]);
 
 var newPage = {
@@ -150,5 +161,5 @@ var newPage = {
     "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
     "Slug": "unpublished",
     "ShowInList": true,
-    "IsPublished": false
+    "IsPublished": true
 }

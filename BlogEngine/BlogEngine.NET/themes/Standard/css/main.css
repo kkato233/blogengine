@@ -1,5 +1,5 @@
 ﻿/*
-    Standard Theme - Version 1.4.0 (11/28/‎2013)
+    Standard Theme - Version 1.5.0 (11/29/‎2013)
     http://dotnetblogengine.net/
 
     Designed and Implementation by Farzin Seyfolahi (@Seyfolahi)
@@ -57,7 +57,7 @@ table { width: 100%; }
 .header .nav > li > a.dropdown-toggle { padding: 15px 10px !important; }
 
 /*[02.well-global]*/
-.well-global { background-color: #ffffff; padding: 4%; margin-bottom: 20px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.well-global,#trackbacks { background-color: #ffffff; padding: 4%; margin-bottom: 20px; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
 .well-global .well-global-title { margin: 0; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid #eeeeee; padding-bottom: 20px; }
 .well-global .well-global-title h3 { margin: 0; font-weight: 700; }
 .page-global { background-color: #ffffff !important; padding: 4% !important; margin-bottom: 20px !important; border-radius: 6px !important; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
@@ -199,7 +199,7 @@ table { width: 100%; }
 
 /*[23.search]*/
 .search { padding: 4px; background: #fff; }
-.search input[type=text] { background-color: #fff; border: none; padding: 2%; height: 40px; width: 75%; }
+.search input[type=text] { background-color: #fff; border: none; padding: 2%; height: 40px; width: 75%; outline: none !important; }
 .search input[type=button] { border: none; padding: 0; height: 40px; width: 25%; background-color: #428bca; color: #fff; border-radius: 4px; }
 .search input[type=button]:hover { background-color: #3276b1; }
 
@@ -232,7 +232,7 @@ table { width: 100%; }
 /*[27.search-page]*/
 .search-page .search-page-searchbox { background: #fff; padding: 3px; border-radius: 6px; border: 1px solid #CCC; margin-bottom: 15px; }
 .search-page .search-page-searchbox input[type=button] { float: right; width: 20%; border: none; height: 100%; padding: 8px 0; }
-.search-page .search-page-searchbox input[type=text] { border: none; width: 79%; border-radius: 3px; padding: 8px 1%; }
+.search-page .search-page-searchbox input[type=text] { border: none; width: 76%; border-radius: 3px; padding: 4px 1%; outline:none !important; }
 .search-page .searchresult { border-bottom: 1px dotted #CCC; padding: 10px 0; font-size: 14px; }
 .search-page .searchresult a { font-weight: normal; font-size: 16px; }
 .search-page .searchresult span.text { clear: both; line-height: 35px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 13px; color: #555; }
@@ -261,6 +261,7 @@ table { width: 100%; }
 #q-notes select { padding: 5px !important; width: 200px; }
 #q-notes #q-listbox { width: 100% !important; }
 #q-notes input[type=submit] { background-color: #428bca !important; color: #fff; border: none !important; font-weight: normal !important; border-radius: 3px !important; }
+#q-panel {height:180px ;}
 
 /*[30.footer]*/
 .footer { background-color: #222; margin: 0; padding: 0; }
