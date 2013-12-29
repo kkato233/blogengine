@@ -178,12 +178,7 @@
     $scope.source = function () {
         $("#modal-source").modal();
         var html = $('#editor').html();
-        if (html.indexOf(' class="ng-binding"') === 2) {
-            $("#editor-source").val(html.replace(' class="ng-binding"', ''));
-        }
-        else {
-            $("#editor-source").val($("#editor").html());
-        }
+        $("#editor-source").val($("#editor").html());
     }
 
     $scope.status = function () {
@@ -214,7 +209,7 @@ var newPost = {
     "Author": "Admin",
     "Content": "",
     "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
-    "Slug": "unpublished",
+    "Slug": "",
     "Categories": "",
     "Tags": "",
     "Comments": "",

@@ -45,9 +45,8 @@
         };
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
-
-    <form id="form" action="" style="margin:0;">
-        <div id="wrap">
+    <div id="wrap">
+        <form id="form" action="" style="margin:0;">
             @RenderPage("_nav.cshtml")
             <div class="subnav admin-views-subnav">
                 <div class="container">
@@ -118,8 +117,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>
     @Scripts.Render("~/scripts/wysiwyg")
 </body>
