@@ -45,9 +45,8 @@
         };
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
-
-    <form id="form" action="" style="margin:0;">
-        <div id="wrap">
+    <div id="wrap">
+        <form id="form" action="" style="margin:0;">
             @RenderPage("_nav.cshtml")
             <div class="subnav admin-views-subnav">
                 <div class="container">
@@ -75,13 +74,13 @@
                         <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
                         <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
                         <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
+                        <span ng-if="page.Id"><a href="{{SiteVars.RelativeWebRoot}}page/{{page.Slug}}" class="btn btn-default" target="_new"><i class="fa fa-eye"></i> {{lbl.goToPage}}</a></span>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>
-
     @Scripts.Render("~/scripts/wysiwyg")
 </body>
 </html>
