@@ -44,7 +44,10 @@
 
         if (BlogSettings.Instance.EnableErrorLogging)
         {
-            Utils.Log(sb.ToString());
+            // this can generate lots of errors
+            // from scripts crawling the site.
+            // uncomment if you want to see them
+            // Utils.Log(sb.ToString());
         }
         context.Items["LastErrorDetails"] = sb.ToString();
         context.Response.StatusCode = 500;

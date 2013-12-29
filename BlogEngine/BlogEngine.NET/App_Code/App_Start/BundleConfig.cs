@@ -103,6 +103,8 @@ public class BundleConfig
         bundles.Add(
           new ScriptBundle("~/scripts/wysiwyg")
             .Include("~/scripts/jquery-2.0.3.js")
+            .Include("~/scripts/jquery.form.js")
+            .Include("~/scripts/jquery.validate.js")
             .Include("~/scripts/toastr.js")
             .Include("~/scripts/Q.js")
             .Include("~/Scripts/angular.min.js")

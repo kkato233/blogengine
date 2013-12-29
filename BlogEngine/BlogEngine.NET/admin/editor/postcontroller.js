@@ -73,12 +73,12 @@
     }
 
     $scope.save = function () {
+        if (!$('#form').valid()) {
+            return false;
+        }
         spinOn();
         $scope.post.Content = $("#editor").html();
         $scope.post.Author = $scope.selectedAuthor.OptionValue;
-        if ($scope.post.Title.length == 0) {
-            $scope.post.Title = "Untitled";
-        }
         if ($scope.post.Slug.length == 0) {
             $scope.post.Slug = toSlug($scope.post.Title);
         }
@@ -198,6 +198,14 @@
     }; 
 
     $scope.load();
+
+    $(document).ready(function () {
+        $('#form').validate({
+            rules: {
+                txtTitle: { required: true }
+            }
+        });
+    });
 }]);
 
 var newPost = {

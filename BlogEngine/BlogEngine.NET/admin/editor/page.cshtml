@@ -46,35 +46,40 @@
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
 
-    <div id="wrap">
-        @RenderPage("_nav.cshtml")
-        <div class="subnav admin-views-subnav">
-            <div class="container">
-                <ul class="nav nav-pills">
-                    <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content">{{lbl.posts}}</a></li>
-                    <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments">{{lbl.comments}}</a></li>
-                    <li class="active"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages">{{lbl.pages}}</a></li>
-                    <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/categories">{{lbl.categories}}</a></li>
-                    <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/tags">{{lbl.tags}}</a></li>
-                </ul>
+    <form id="form" action="" style="margin:0;">
+        <div id="wrap">
+            @RenderPage("_nav.cshtml")
+            <div class="subnav admin-views-subnav">
+                <div class="container">
+                    <ul class="nav nav-pills">
+                        <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content">{{lbl.posts}}</a></li>
+                        <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments">{{lbl.comments}}</a></li>
+                        <li class="active"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages">{{lbl.pages}}</a></li>
+                        <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/categories">{{lbl.categories}}</a></li>
+                        <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/tags">{{lbl.tags}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            @RenderPage("_pagemodals.cshtml")
+            @RenderPage("_source.cshtml")
+            <div class="container editor admin-editor admin-editor-page">
+                <div id="overlay-editor">
+                    <div class="well">
+                        <input type="text" id="txtTitle" name="txtTitle" placeholder="{{lbl.titleOfPage}}..." class="form-control" data-ng-model="page.Title" />
+                        @RenderPage("_editor.cshtml")
+                    </div>
+
+                    <hr />
+                    <div class="text-right">
+                        <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-large'></i></span>
+                        <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
+                        <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
+                        <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
+                    </div>
+                </div>
             </div>
         </div>
-        @RenderPage("_pagemodals.cshtml")
-        @RenderPage("_source.cshtml")
-        <div class="container editor admin-editor admin-editor-page">
-            <div id="overlay-editor" class="well">
-                <input type="text" id="txtTitle" placeholder="{{lbl.titleOfPage}}..." class="form-control" data-ng-model="page.Title" />
-                @RenderPage("_editor.cshtml")
-            </div>
-            <hr />
-            <div class="text-right">
-                <span id="spinner" class="loaded"><i class='fa fa-spinner fa-spin fa-large'></i></span>
-                <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
-                <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
-                <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
-            </div>
-        </div>
-    </div>
+    </form>
     <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>
 
     @Scripts.Render("~/scripts/wysiwyg")

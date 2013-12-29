@@ -111,7 +111,9 @@
                     <th class="hmax768">&nbsp;</th>
                     <th class="table-item-title table-item-w50">{{lbl.title}} <a ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
-                    <th class="hmax768">{{lbl.author}}</th>
+                    <!-- if gallery add class to author list -->
+                    <th data-ng-if="pkgLocation != 'G'" class="hmax768">{{lbl.author}}</th>
+                    <th data-ng-if="pkgLocation != 'L'" class="hmax768 author-gallery">{{lbl.author}}</th>
                     <!--<th class="hmax359">{{lbl.lastUpdate}}</th>-->
                     <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
                     <th class="hmax992" data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
@@ -129,7 +131,9 @@
                         <a data-ng-if="item.Location != 'L'" title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td class="hmax768">{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
-                    <td class="hmax768" data-ng-bind-html="item.Authors"></td>
+                    <!-- if gallery add class to author list -->
+                    <td data-ng-if="pkgLocation != 'G'" class="hmax768" data-ng-bind-html="item.Authors"></td>
+                    <td data-ng-if="pkgLocation != 'L'" class="hmax768 author-gallery" data-ng-bind-html="item.Authors"></td>
                     <!--<td class="hmax359">{{item.LastUpdated}}</td>-->
                     <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                     <td class="hmax992" data-ng-if="item.Location != 'G'">{{item.Priority}}</td>

@@ -609,7 +609,9 @@
             DataUpdate();
            
             Pages.Remove(this);
-            DeletedPages.Add(this);
+
+            if(!DeletedPages.Contains(this))
+                DeletedPages.Add(this);
         }
 
         /// <summary>
