@@ -87,7 +87,7 @@
                         <a href="https://plus.google.com/[CUSTOMFIELD|THEME|Standard|Google plus|u/0/]">
                             <img src="~/themes/Standard/images/googleplus.png" runat="server" />
                         </a>
-                        <a href="[CUSTOMFIELD|THEME|Standard|Your RSS|syndicaton.axd/]">
+                        <a href="[CUSTOMFIELD|THEME|Standard|Your RSS|syndication.axd/]">
                             <img src="~/themes/Standard/images/rss.png" runat="server" />
                         </a>
                     </div>
