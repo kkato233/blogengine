@@ -498,6 +498,15 @@
 
         #endregion
 
+        #region EnableOptimization
+
+        /// <summary>
+        ///     DO NOT USE: no longer needed and will be removed in later versions
+        /// </summary>
+        public bool EnableOptimization { get; set; }
+
+        #endregion 
+
         #region UseBlogNameInPageTitles
 
         /// <summary>

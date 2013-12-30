@@ -3,7 +3,7 @@
 
 <label for="<%=ddlMinimumPosts.ClientID %>"><%=Resources.labels.tagMinimumPosts %></label><br />
 <asp:DropDownList runat="server" ID="ddlMinimumPosts">
-  <asp:ListItem Value="1" Text="1 (<%$Resources:labels, default %>)" />
+  <asp:ListItem Value="1" Text="<%$ Resources:labels, defaultMinTag %>" />
   <asp:ListItem Text="2" />
   <asp:ListItem Text="3" />
   <asp:ListItem Text="4" />
@@ -17,7 +17,7 @@
 <br /><br />
 <label for="<%=ddlCloudSize.ClientID %>"><%=Resources.labels.tagCloudMaxSize %></label><br />
 <asp:DropDownList runat="server" ID="ddlCloudSize">
-  <asp:ListItem Value="-1" Text="<%$Resources:labels, unlimited %> (<%$Resources:labels, default %>)" />
+  <asp:ListItem Value="-1" Text="<%$ Resources:labels, unlimited %>" />
   <asp:ListItem Text="10" />
   <asp:ListItem Text="25" />
   <asp:ListItem Text="50" />

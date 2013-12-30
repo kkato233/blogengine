@@ -330,6 +330,7 @@ namespace BlogEngine.Core.Web
             AddResource("disqusSettings");
             AddResource("disqusShortName");
             AddResource("disqusSignupMessage");
+            AddResource("disqusWebsiteName");
             AddResource("doNotPassRightsWithFalseValue");
             AddResource("dontHaveAccount");
             AddResource("down");

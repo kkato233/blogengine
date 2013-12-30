@@ -202,6 +202,7 @@ displayRatingsOnRecentPosts
 disqusSettings
 disqusShortName
 disqusSignupMessage
+disqusWebsiteName
 doNotPassRightsWithFalseValue
 dontHaveAccount
 down
