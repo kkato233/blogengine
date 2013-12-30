@@ -112,7 +112,7 @@
                             <span ng-if="status() < 2"><a href="#" ng-click="save()" class="btn btn-default"><i class="fa fa-save"></i> {{lbl.save}}</a></span>
                             <a ng-if="status() < 2" href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
                             <a ng-if="status() == 2" href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
-                            <span ng-if="post.Id"><a href="{{SiteVars.RelativeWebRoot}}post/{{post.Slug}}" class="btn btn-default" target="_new"><i class="fa fa-eye"></i> {{lbl.goToPost}}</a></span>
+                            <span ng-if="post.Id"><a href="{{post.RelativeLink}}" class="btn btn-default" target="_new"><i class="fa fa-eye"></i> {{lbl.goToPost}}</a></span>
                         </div>
                     </div>
                 </div>
