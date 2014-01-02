@@ -83,34 +83,34 @@ function selectedOption(arr, val) {
     }
 }
 
-function stripVowelAccent(str)
-{
-var s=str;
+var keys = keys || function (o) { var a = []; for (var k in o) a.push(k); return a; };
 
-var rExps=[ /[\u00C0-\u00C5]/g, /[\u00E0-\u00E5]/g,
-/[\u00C8-\u00CB]/g, /[\u00E8-\u00EB]/g,
-/[\u00CC-\u00CE]/g, /[\u00EC-\u00EF]/g,
-/[\u00D2-\u00D6]/g, /[\u00DD]/g, /[\u00F2-\u00F6]/g,
-/[\u00DA-\u00DC]/g, /[\u00F9-\u00FC]/g, /[\u00FD]/g,
-/[\u010C]/g, /[\u010D]/g, /[\u010E]/g, /[\u010C]/g, /[\u011A]/g, /[\u011B]/g,
-/[\u0147]/g, /[\u010C]/g, /[\u0158]/g, /[\u0159]/g, /[\u0160]/g, /[\u0161]/g,
-/[\u0164]/g, /[\u0165]/g, /[\u016E]/g, /[\u016F]/g, /[\u017D]/g, /[\u017E]/g];
+var toSlug = function (string) {
+    var accents = "\u00e0\u00e1\u00e4\u00e2\u00e8"
+      + "\u00e9\u00eb\u00ea\u00ec\u00ed\u00ef"
+      + "\u00ee\u00f2\u00f3\u00f6\u00f4\u00f9"
+      + "\u00fa\u00fc\u00fb\u00f1\u00e7";
 
-var repChar=['A','a','E','e','I','i','O','Y','o','U','u','y','C','c','D','d','E','e','N','n','R','r','S','s','T','t','U','u','Z','z'];
+    var without = "aaaaeeeeiiiioooouuuunc";
 
-for(var i=0; i<rExps.length; i++)
-s=s.replace(rExps[i],repChar[i]);
+    var map = {
+        '@': ' at ', '\u20ac': ' euro ',
+        '$': ' dollar ', '\u00a5': ' yen ',
+        '\u0026': ' and ', '\u00e6': 'ae', '\u0153': 'oe'
+    };
 
-return s;
-}
-
-function toSlug(title) {
-    title = stripVowelAccent(title)
-    return title
-    .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-');
-}
+    return string
+      .toLowerCase()
+      .replace(
+        new RegExp('[' + accents + ']', 'g'),
+        function (c) { return without.charAt(accents.indexOf(c)); })
+      .replace(
+        new RegExp('[' + keys(map).join('') + ']', 'g'),
+        function (c) { return map[c]; })
+      .replace(/[^a-z0-9]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+};
 
 function webRoot(url) {
     var result = SiteVars.ApplicationRelativeWebRoot;
