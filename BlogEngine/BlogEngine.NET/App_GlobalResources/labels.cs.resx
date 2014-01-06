@@ -2240,10 +2240,10 @@
     <value>Uložení práv se nezdařilo</value>
   </data>
   <data name="rolesItem" xml:space="preserve">
-    <value>Položka&nbsp;</value>
+    <value>Položka</value>
   </data>
   <data name="rolesItemDeleted" xml:space="preserve">
-    <value>&nbsp;smazána</value>
+    <value>smazána</value>
   </data>
   <data name="couldNotDeleteItem" xml:space="preserve">
     <value>Nelze smazat položku </value>
@@ -2409,9 +2409,6 @@
   </data>
   <data name="showPostCount" xml:space="preserve">
     <value>Zobrazit počet příspěvků</value>
-  </data>
-  <data name="showComments" xml:space="preserve">
-    <value>Zobrazit komentáře</value>
   </data>
   <data name="showRating" xml:space="preserve">
     <value>Zobrazit hodnocení</value>
