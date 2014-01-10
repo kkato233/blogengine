@@ -55,11 +55,7 @@ public class UploadController : ApiController
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
                     var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                    retUrl = uploaded.FileDownloadPath.Replace("\"", "");
-                    if (retUrl.StartsWith("/"))
-                        retUrl = retUrl.Substring(1);
-                    retUrl = Utils.RelativeWebRoot + retUrl;
-                    return Request.CreateResponse(HttpStatusCode.Created, retUrl);
+                    return Request.CreateResponse(HttpStatusCode.Created, uploaded.FileDownloadPath);
                 }
             }
             if (action == "file")
@@ -68,10 +64,6 @@ public class UploadController : ApiController
                 {
                     var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
                     retUrl = uploaded.FileDownloadPath + "|" + file.FileName + " (" + BytesToString(uploaded.FileSize) + ")";
-                    retUrl = retUrl.Replace("\"", "");
-                    if (retUrl.StartsWith("/"))
-                        retUrl = retUrl.Substring(1);
-                    retUrl = Utils.RelativeWebRoot + retUrl;
                     return Request.CreateResponse(HttpStatusCode.Created, retUrl);
                 }
             }
