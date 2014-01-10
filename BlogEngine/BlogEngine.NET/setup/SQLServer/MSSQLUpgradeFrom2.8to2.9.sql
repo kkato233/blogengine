@@ -3,10 +3,10 @@
 -- be_CustomFields
 --
 CREATE TABLE [dbo].[be_CustomFields](
-	[CustomType] [nvarchar](100) NOT NULL,
-	[ObjectId] [nvarchar](250) NOT NULL,
+	[CustomType] [nvarchar](25) NOT NULL,
+	[ObjectId] [nvarchar](100) NOT NULL,
 	[BlogId] [uniqueidentifier] NOT NULL,
-	[Key] [nvarchar](250) NOT NULL,
+	[Key] [nvarchar](150) NOT NULL,
 	[Value] [nvarchar](max) NOT NULL,
 	[Attribute] [nvarchar](250) NULL
 )

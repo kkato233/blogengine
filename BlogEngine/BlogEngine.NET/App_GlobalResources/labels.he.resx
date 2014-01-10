@@ -934,4 +934,124 @@
   <data name="receive" xml:space="preserve">
     <value>קבל</value>
   </data>
+  <data name="addNewCategory" xml:space="preserve">
+    <value>הוסף קטגוריה חדשה</value>
+  </data>
+  <data name="addNewRole" xml:space="preserve">
+    <value>הוסף הרשאה חדשה</value>
+  </data>
+  <data name="blogName" xml:space="preserve">
+    <value>שם הבלוג</value>
+  </data>
+  <data name="commentsPerPage" xml:space="preserve">
+    <value>מספר תגובות בדף</value>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>תוכן</value>
+  </data>
+  <data name="count" xml:space="preserve">
+    <value>סה"כ</value>
+  </data>
+  <data name="custom" xml:space="preserve">
+    <value>התאמה אישית</value>
+  </data>
+  <data name="customCode" xml:space="preserve">
+    <value>קוד מותאם אישית</value>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>תאריך פרסום</value>
+  </data>
+  <data name="editExistingBlog" xml:space="preserve">
+    <value>ערוך בלוג</value>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value>ריק</value>
+  </data>
+  <data name="enabled" xml:space="preserve">
+    <value>פעיל</value>
+  </data>
+  <data name="goToPage" xml:space="preserve">
+    <value>צפה בדף</value>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>ייבא ייצא</value>
+  </data>
+  <data name="installed" xml:space="preserve">
+    <value>מותקן</value>
+  </data>
+  <data name="LangDirection" xml:space="preserve">
+    <value>rtl</value>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>תגובות אחרונות</value>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>הבא</value>
+  </data>
+  <data name="pageMeta" xml:space="preserve">
+    <value>הגדרות דף</value>
+  </data>
+  <data name="parent" xml:space="preserve">
+    <value>אב</value>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>הגדרות הודעה</value>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>הקודם</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>דפים שפורסמו</value>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>הודעות שפורסמו</value>
+  </data>
+  <data name="purgeAll" xml:space="preserve">
+    <value>מחק הכל</value>
+  </data>
+  <data name="securitySettings" xml:space="preserve">
+    <value>הגדרות אבטחה</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>בחר</value>
+  </data>
+  <data name="setAsCurrentTheme" xml:space="preserve">
+    <value>תבנית נוכחית</value>
+  </data>
+  <data name="setAsMobileTheme" xml:space="preserve">
+    <value>תבנית נוכחית לנייד</value>
+  </data>
+  <data name="showPostNavigation" xml:space="preserve">
+    <value>הצג ניווט הודעות</value>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>תגובות ספאם</value>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>הרשאות מערכת</value>
+  </data>
+  <data name="testEmailSettings" xml:space="preserve">
+    <value>בדוק הגדרות מייל</value>
+  </data>
+  <data name="themes" xml:space="preserve">
+    <value>תבניות</value>
+  </data>
+  <data name="trackingScript" xml:space="preserve">
+    <value>סקריפט מעקב</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>הקש ולחץ אנתר</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>לא פורסם</value>
+  </data>
+  <data name="useBlogNameInPageTitles" xml:space="preserve">
+    <value>הצג כותרת הבלוג בכותרת דפי האתר</value>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>צפה בבלוג</value>
+  </data>
+  <data name="virtualPath" xml:space="preserve">
+    <value>נתיב וירטואלי</value>
+  </data>
 </root>

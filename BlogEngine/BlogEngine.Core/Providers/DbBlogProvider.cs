@@ -3019,7 +3019,7 @@ namespace BlogEngine.Core.Providers
                         p.Add(conn.CreateParameter(FormatParamName("objectid"), field.ObjectId));
                         p.Add(conn.CreateParameter(FormatParamName("key"), field.Key));
                         p.Add(conn.CreateParameter(FormatParamName("value"), field.Value));
-                        p.Add(conn.CreateParameter(FormatParamName("attribute"), field.Attribute));
+                        p.Add(conn.CreateParameter(FormatParamName("attribute"), (field.Attribute != null ? field.Attribute : string.Empty)));
                         cmd.ExecuteNonQuery();
                     }
                 }
