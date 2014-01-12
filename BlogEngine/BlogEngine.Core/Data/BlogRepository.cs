@@ -70,7 +70,7 @@ namespace BlogEngine.Core.Data
 
             string message;
             if (!BlogGenerator.ValidateProperties(item.Name, item.UserName, item.Email, out message))
-                throw new ApplicationException("Validation for new blog failed.");
+                throw new ApplicationException(message);
 
             var coreBlog = BlogGenerator.CreateNewBlog(item.Name, item.UserName, item.Email, item.Password, out message);
 

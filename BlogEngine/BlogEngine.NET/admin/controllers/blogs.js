@@ -73,8 +73,8 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
             $("#modal-add").modal('hide');
             $scope.focusInput = false;
         })
-        .error(function () {
-            toastr.error($rootScope.lbl.failedAddingNewRole);
+        .error(function (data) {
+            toastr.error(data);
             spinOff();
             $("#modal-add").modal('hide');
             $scope.focusInput = false;

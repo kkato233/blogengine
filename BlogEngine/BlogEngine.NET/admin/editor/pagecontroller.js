@@ -53,6 +53,7 @@
         if ($scope.page.Id) {
             dataService.updateItem('/api/pages/update/foo', $scope.page)
            .success(function (data) {
+               $scope.load();
                toastr.success("Page updated");
                $("#modal-form").modal('hide');
                spinOff();
