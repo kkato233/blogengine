@@ -65,11 +65,11 @@ public class BlogsController : ApiController
         }
         catch (UnauthorizedAccessException)
         {
-            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+            return Request.CreateResponse(HttpStatusCode.Unauthorized, Resources.labels.notAuthorized);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
         }
     }
 

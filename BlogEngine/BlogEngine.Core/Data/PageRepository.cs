@@ -140,11 +140,12 @@ namespace BlogEngine.Core.Data
             page.IsPublished = detail.IsPublished;
             page.ShowInList = detail.ShowInList;
             page.IsDeleted = detail.IsDeleted;
-            page.Slug = detail.Slug;
             page.Content = detail.Content;
             page.Description = detail.Description;
             page.Keywords = detail.Keywords;
             page.IsFrontPage = detail.IsFrontPage;
+
+            page.Slug = GetUniqueSlug(detail.Slug);
 
             if (detail.Parent != null)
             {
@@ -213,6 +214,27 @@ namespace BlogEngine.Core.Data
                 IsFrontPage = page.IsFrontPage,
                 IsDeleted = page.IsDeleted
             };
+        }
+
+        static string GetUniqueSlug(string slug)
+        {
+            string s = Utils.RemoveIllegalCharacters(slug.Trim());
+
+            // will do for up to 100 unique post titles
+            for (int i = 1; i < 101; i++)
+            {
+                if (IsUniqueSlug(s))
+                    break;
+
+                s = string.Format("{0}{1}", slug, i);
+            }
+            return s;
+        }
+
+        private static bool IsUniqueSlug(string slug)
+        {
+            return Page.Pages.Where(p => p.Slug != null && p.Slug.ToLower() == slug.ToLower())
+                .FirstOrDefault() == null ? true : false;
         }
 
         #endregion

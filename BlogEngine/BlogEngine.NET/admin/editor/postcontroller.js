@@ -98,6 +98,7 @@
         if ($scope.post.Id) {
             dataService.updateItem('api/posts/update/foo', $scope.post)
            .success(function (data) {
+               $scope.load();
                toastr.success($rootScope.lbl.postUpdated);
                $("#modal-form").modal('hide');
                spinOff();

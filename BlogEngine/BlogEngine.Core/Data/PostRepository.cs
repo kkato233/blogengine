@@ -75,6 +75,7 @@ namespace BlogEngine.Core.Data
                 throw new System.UnauthorizedAccessException();
 
             var post = new Post();
+                        
             Save(post, detail);
             return ToJsonDetail(post);
         }
@@ -185,11 +186,13 @@ namespace BlogEngine.Core.Data
             post.Author = detail.Author;
             post.Description = detail.Description;
             post.Content = detail.Content;
-            post.Slug = detail.Slug;
             post.IsPublished = detail.IsPublished;
             post.HasCommentsEnabled = detail.HasCommentsEnabled;
             post.IsDeleted = detail.IsDeleted;
             post.DateCreated = DateTime.ParseExact(detail.DateCreated, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+            // insure new post has unique slug
+            post.Slug = GetUniqueSlug(detail.Slug);
 
             UpdatePostCategories(post, detail.Categories);
             UpdatePostTags(post, FilterTags(detail.Tags));
@@ -291,6 +294,27 @@ namespace BlogEngine.Core.Data
                 }
             }
             return uniqueTags;
+        }
+
+        static string GetUniqueSlug(string slug)
+        {
+            string s = Utils.RemoveIllegalCharacters(slug.Trim());
+
+            // will do for up to 100 unique post titles
+            for (int i = 1; i < 101; i++)
+            {
+                if (IsUniqueSlug(s))
+                    break;
+
+                s = string.Format("{0}{1}", slug, i);
+            }
+            return s;
+        }
+
+        private static bool IsUniqueSlug(string slug)
+        {
+            return Post.ApplicablePosts.Where(p => p.Slug != null && p.Slug.ToLower() == slug.ToLower())
+                .FirstOrDefault() == null ? true : false;
         }
 
         #endregion
