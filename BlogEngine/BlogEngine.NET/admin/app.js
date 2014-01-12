@@ -33,6 +33,18 @@
     }];
     app.config(config);
 
+    app.directive('focusMe', function ($timeout) {
+        return function (scope, element, attrs) {
+            scope.$watch(attrs.focusMe, function (value) {
+                if (value) {
+                    $timeout(function () {
+                        element.focus();
+                    }, 700);
+                }
+            });
+        };
+    });
+
     var run = ["$rootScope", "$log", function ($rootScope, $log) {
 
         $rootScope.lbl = BlogAdmin.i18n;

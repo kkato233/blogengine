@@ -1,12 +1,12 @@
 ﻿<div id="alerts"></div>
-<div class="editor-toolbar  btn-toolbar" data-role="editor-toolbar" data-target="#editor" role="toolbar">
+<div class="editor-toolbar btn-toolbar" data-role="editor-toolbar" data-target="#editor" role="toolbar">
     <div class="btn-group">
         <div class="btn-group">
-            <button class="btn btn-default" data-toggle="dropdown" title="{{lbl.font}}"><i class="fa fa-font"></i><span class="caret"></span></button>
+            <button class="btn btn-default" tabindex="-1" data-toggle="dropdown" title="{{lbl.font}}"><i class="fa fa-font"></i><span class="caret"></span></button>
             <ul class="dropdown-menu"></ul>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.fontSize}}"><i class="fa fa-text-height"></i><span class="caret"></span></button>
+            <button type="button" tabindex="-1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.fontSize}}"><i class="fa fa-text-height"></i><span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a data-edit="fontSize 1"><font size="2">{{lbl.fontSize}} (1)</font></a></li>
                 <li><a data-edit="fontSize 2"><font size="3">{{lbl.fontSize}} (2)</font></a></li>
@@ -16,7 +16,7 @@
             </ul>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.heading}}"><i class="fa fa-heading"><b>H</b></i><span class="caret"></span></button>
+            <button type="button" tabindex="-1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.heading}}"><i class="fa fa-heading"><b>H</b></i><span class="caret"></span></button>
             <ul class="dropdown-menu heading-item">
                 <li><a data-edit="formatBlock <h2>"><h2 style="font-size: 22px; margin: 5px;">{{lbl.heading}} 2</h2></a></li>
                 <li><a data-edit="formatBlock <h3>"><h3 style="font-size: 20px; margin: 5px;">{{lbl.heading}} 3</h3></a></li>
@@ -26,13 +26,13 @@
         </div>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="bold" title="{{lbl.bold}} (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></button>
-        <button type="button" class="btn btn-default" data-edit="italic" title="{{lbl.italic}} (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></button>
-        <button type="button" class="btn btn-default" data-edit="strikethrough" title="{{lbl.strikethrough}}"><i class="fa fa-strikethrough"></i></button>
-        <button type="button" class="btn btn-default" data-edit="underline" title="{{lbl.underline}} (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="bold" title="{{lbl.bold}} (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="italic" title="{{lbl.italic}} (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="strikethrough" title="{{lbl.strikethrough}}"><i class="fa fa-strikethrough"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="underline" title="{{lbl.underline}} (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.colors}}"><i class="fa fa-tint"></i><span class="caret"></span></button>
+        <button type="button" tabindex="-1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="{{lbl.colors}}"><i class="fa fa-tint"></i><span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li>
                 <div class="clearfix color-list-wrapper">
@@ -191,50 +191,50 @@
         </ul>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="insertunorderedlist" title="{{lbl.bulletList}}"><i class="fa fa-list-ul"></i></button>
-        <button type="button" class="btn btn-default" data-edit="insertorderedlist" title="{{lbl.numberList}}"><i class="fa fa-list-ol"></i></button>
-        <button type="button" class="btn btn-default" data-edit="outdent" title="{{lbl.reduceIndent}} (Shift+Tab)"><i class="fa fa-outdent"></i></button>
-        <button type="button" class="btn btn-default" data-edit="indent" title="{{lbl.indent}} (Tab)"><i class="fa fa-indent"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="insertunorderedlist" title="{{lbl.bulletList}}"><i class="fa fa-list-ul"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="insertorderedlist" title="{{lbl.numberList}}"><i class="fa fa-list-ol"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="outdent" title="{{lbl.reduceIndent}} (Shift+Tab)"><i class="fa fa-outdent"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="indent" title="{{lbl.indent}} (Tab)"><i class="fa fa-indent"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="justifyleft" title="{{lbl.alignLeft}} (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></button>
-        <button type="button" class="btn btn-default" data-edit="justifycenter" title="{{lbl.center}} (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></button>
-        <button type="button" class="btn btn-default" data-edit="justifyright" title="{{lbl.alignRight}} (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></button>
-        <button type="button" class="btn btn-default" data-edit="justifyfull" title="{{lbl.justify}} (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="justifyleft" title="{{lbl.alignLeft}} (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="justifycenter" title="{{lbl.center}} (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="justifyright" title="{{lbl.alignRight}} (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="justifyfull" title="{{lbl.justify}} (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="unlink" title="{{lbl.unlink}}"><i class="fa fa-unlink"></i></button>
-        <button type="button" class="btn btn-default  dropdown-toggle" data-toggle="dropdown" title="{{lbl.hyperlink}}"><i class="fa fa-link"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="unlink" title="{{lbl.unlink}}"><i class="fa fa-unlink"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default  dropdown-toggle" data-toggle="dropdown" title="{{lbl.hyperlink}}"><i class="fa fa-link"></i></button>
         <div class="dropdown-menu input-append add-url-btn clearfix">
             <div class="pull-left">
-                <input class="form-control input-sm" placeholder="{{lbl.url}}" type="text" data-edit="createLink" />
+                <input class="form-control input-sm" tabindex="-1" placeholder="{{lbl.url}}" type="text" data-edit="createLink" />
             </div>
             <div class="pull-right">
-                <button class="btn btn-primary btn-sm btn-add-link" type="button"><i class="fa fa-plus"></i>{{lbl.add}}</button>
+                <button class="btn btn-primary btn-sm btn-add-link" tabindex="-1" type="button"><i class="fa fa-plus"></i>{{lbl.add}}</button>
             </div>
         </div>
     </div>
     <div class="btn-group uploadfiles-btn">
         <div class="btn-group">
-            <button type="button" class="btn  btn-default" id="pictureBtn"><i class="fa fa-picture-o"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#pictureBtn" title="{{lbl.insertImage}}" onchange="angular.element(this).scope().uploadFile('image', this.files)" />
+            <button type="button" tabindex="-1" class="btn  btn-default" id="pictureBtn"><i class="fa fa-picture-o"></i></button>
+            <input type="file" data-role="magic-overlay" tabindex="-1" data-target="#pictureBtn" title="{{lbl.insertImage}}" onchange="angular.element(this).scope().uploadFile('image', this.files)" />
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default" id="videoBtn"><i class="fa fa-video-camera"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#videoBtn" title="{{lbl.insertVideo}}" onchange="angular.element(this).scope().uploadFile('video', this.files)" />
+            <button type="button" tabindex="-1" class="btn btn-default" id="videoBtn"><i class="fa fa-video-camera"></i></button>
+            <input type="file" data-role="magic-overlay" tabindex="-1" data-target="#videoBtn" title="{{lbl.insertVideo}}" onchange="angular.element(this).scope().uploadFile('video', this.files)" />
         </div>
         <div class="btn-group last-border">
-            <button type="button" class="btn btn-default last-border" id="fileBtn"><i class="fa fa-paperclip"></i></button>
-            <input type="file" data-role="magic-overlay" data-target="#fileBtn" title="{{lbl.attachFile}}" onchange="angular.element(this).scope().uploadFile('file', this.files)" />
+            <button type="button" tabindex="-1" class="btn btn-default last-border" id="fileBtn"><i class="fa fa-paperclip"></i></button>
+            <input type="file" data-role="magic-overlay" tabindex="-1" data-target="#fileBtn" title="{{lbl.attachFile}}" onchange="angular.element(this).scope().uploadFile('file', this.files)" />
         </div>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" data-edit="undo" title="{{lbl.undo}} (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></button>
-        <button type="button" class="btn btn-default" data-edit="redo" title="{{lbl.redo}} (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="undo" title="{{lbl.undo}} (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" data-edit="redo" title="{{lbl.redo}} (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></button>
     </div>
     <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="toggleEditor($event)" title="{{lbl.fullScreen}}"><i class="fa fa-desktop"></i></button>
-        <button type="button" class="btn btn-default" ng-click="source()" title="{{lbl.source}}"><i class="fa fa-code"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" ng-click="toggleEditor($event)" title="{{lbl.fullScreen}}"><i class="fa fa-desktop"></i></button>
+        <button type="button" tabindex="-1" class="btn btn-default" ng-click="source()" title="{{lbl.source}}"><i class="fa fa-code"></i></button>
     </div>
 </div>
 <div class="editro-switch">

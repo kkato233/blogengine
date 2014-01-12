@@ -78,8 +78,9 @@ table { width: 100%; }
 .post .post-rating p { top: 9px; }
 
 /*[04.comment-item]*/
-.comment-item .comment-content { border: 1px solid #CCC; border-radius: 4px; padding: 2%; }
-.comment-item .comment-gravatar { border-radius: 4px; position: relative; }
+.comment-item .comment-content { border: 1px solid #CCC; border-radius: 4px; padding: 2%; margin-bottom:10px !important }
+.comment-item .comment-gravatar { position: relative; }
+.comment-item .comment-gravatar img { border-radius: 4px; }
 .comment-item .comment-header { border-bottom: 1px solid #EEE; padding-bottom: 5px; }
 .comment-item .comment-header h4 { font-weight: bold; font-size: 18px; color: #333; }
 .comment-item .comment-header h4 a { color: #333; }
@@ -92,6 +93,7 @@ table { width: 100%; }
 .comment-item .comment-form { border: 1px solid #CCC; margin: 15px 0; }
 .comment-item .carrow { background: url(../images/carrow.png) no-repeat 0 0; width: 9px; height: 17px; position: absolute; right: -11px; top: 14px; z-index: 999; }
 .comment-item .self .carrow { background: url(../images/sarrow.png) no-repeat 0 0 !important; }
+#commentlist .media, #commentlist  ul, #commentlist  ol { margin:0 !important;}
 
 /*[05.comment-form]*/
 .comment-form { }

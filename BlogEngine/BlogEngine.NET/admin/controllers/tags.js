@@ -3,11 +3,13 @@
     $scope.items = [];
     $scope.id = {};
     $scope.tag = {};
+    $scope.focusInput = false;
 
     $scope.loadEditForm = function (id) {
         $scope.id = id;
         $scope.tag = id;
         $("#modal-add-tag").modal();
+        $scope.focusInput = true;
     }
 
     $scope.load = function () {
@@ -56,7 +58,7 @@
 
     $scope.save = function () {
         if ($scope.tag) {
-            dataService.updateItem("/api/tags", { OldTag: $scope.id, NewTag: $scope.tag })
+            dataService.updateItem("/api/tags/update/" + $scope.id, { OldTag: $scope.id, NewTag: $scope.tag })
            .success(function (data) {
                toastr.success($rootScope.lbl.tagUpdated);
                $scope.load();
@@ -65,5 +67,6 @@
            .error(function () { toastr.error($rootScope.lbl.updateFailed); });
         }
         $("#modal-add-tag").modal('hide');
+        $scope.focusInput = false;
     }
 }]);

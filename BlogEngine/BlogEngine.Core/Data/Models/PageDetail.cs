@@ -20,6 +20,10 @@ namespace BlogEngine.Core.Data.Models
         /// </summary>
         public string Slug { get; set; }
         /// <summary>
+        /// Relative link
+        /// </summary>
+        public string RelativeLink { get; set; }
+        /// <summary>
         /// Page title
         /// </summary>
         public string Title { get; set; }

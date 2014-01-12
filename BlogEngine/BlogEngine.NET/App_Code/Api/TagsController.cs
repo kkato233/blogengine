@@ -31,7 +31,8 @@ public class TagsController : ApiController
         }
     }
 
-    public HttpResponseMessage Put([FromBody]TagToUpdate tag)
+    [HttpPut]
+    public HttpResponseMessage Update([FromBody]TagToUpdate tag)
     {
         try
         {

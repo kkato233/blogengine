@@ -4,13 +4,13 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
     $scope.editItem = {};
     $scope.newItem = {};
     $scope.modalTitle = $rootScope.lbl.addNewBlog;
-
-    $scope.one = 1;
+    $scope.focusInput = false;
 
     $scope.modalNew = function () {
         $scope.modalTitle = $rootScope.lbl.addNewBlog;
         $scope.editItem = {};
         $("#modal-add").modal();
+        $scope.focusInput = true;
     }
 
     $scope.modalEdit = function (id) {
@@ -71,11 +71,13 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
             $scope.load();
             spinOff();
             $("#modal-add").modal('hide');
+            $scope.focusInput = false;
         })
         .error(function () {
             toastr.error($rootScope.lbl.failedAddingNewRole);
             spinOff();
             $("#modal-add").modal('hide');
+            $scope.focusInput = false;
         });
     }
 

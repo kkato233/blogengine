@@ -44,7 +44,7 @@
                             <li><a href="<%=Utils.AbsoluteWebRoot %>contact<%= BlogEngine.Core.BlogConfig.FileExtension %>"><%=Resources.labels.contact %></a></li>
                             <%foreach (BlogEngine.Core.Page parentPage in BlogEngine.Core.Page.Pages.Where(p => !p.HasParentPage && p.IsPublished && p.ShowInList))
                               { %>
-                            <li>
+                            <li class="page-menu clearfix">
                                 <a href="<%=parentPage.RelativeLink %>" class="pull-left dropdown-m"><%=parentPage.Title%> </a>
                                 <%if (parentPage.HasChildPages)
                                   { %>
@@ -115,7 +115,7 @@
                 <p class="text-muted credit">Copyright &copy; <%=DateTime.Now.Year %> <a href="<%=Utils.AbsoluteWebRoot %>"><%=BlogSettings.Instance.Name %></a> - Powered by <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET</a> <%=BlogSettings.Instance.Version() %> - Design by <a href="http://seyfolahi.net/" title="Farzin Seyfolahi - UI/UX Designer at BlogEngine.NET" target="_blank">FS</a> </p>
             </div>
         </footer>
-        <script src="<%=Utils.AbsoluteWebRoot %>themes/Standard/js/bootstrap.min.js"></script>
+        <script src="<%=(Utils.AbsoluteWebRoot + "themes/" + BlogSettings.Instance.Theme + "/js/bootstrap.min.js")%>" type="text/javascript"></script>
         <script>
             var links, index, link;
             links = document.getElementById('social-icons').getElementsByTagName('a');
@@ -125,7 +125,7 @@
                 if (link.href == 'http://twitter.com/') { link.style.display = "none"; }
                 if (link.href == 'https://plus.google.com/') { link.style.display = "none"; }
             }
-        </script> 
+        </script>
     </form>
 </body>
 </html>
