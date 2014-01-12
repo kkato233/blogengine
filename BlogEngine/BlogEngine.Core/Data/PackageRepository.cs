@@ -219,6 +219,7 @@ namespace BlogEngine.Core.Data
                 {
                     existingPackage.LocalVersion = x.Version;
                     existingPackage.Enabled = x.Enabled;
+                    existingPackage.SettingsUrl = x.AdminPage;
                 }
             }
         }

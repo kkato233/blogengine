@@ -3,6 +3,7 @@
     $scope.roles = [];
     $scope.editItem = {};
     $scope.isNewItem = false;
+    $scope.focusInput = false;
 
     $scope.load = function () {
         spinOn();
@@ -24,6 +25,7 @@
             $scope.editItem = {};
             $scope.isNewItem = true;
             $("#modal-user-edit").modal();
+            $scope.focusInput = true;
             return false;
         }
         else {
@@ -34,6 +36,7 @@
         .success(function (data) {
             angular.copy(data, $scope.editItem);
             $("#modal-user-edit").modal();
+            $scope.focusInput = true;
             spinOff();
         })
         .error(function () {
@@ -72,11 +75,13 @@
                 $scope.load();
                 spinOff();
                 $("#modal-user-edit").modal('hide');
+                $scope.focusInput = false;
             })
             .error(function () {
                 toastr.error($rootScope.lbl.errorAddingNewUser);
                 spinOff();
                 $("#modal-user-edit").modal('hide');
+                $scope.focusInput = false;
             });
         }
         else {
@@ -86,11 +91,13 @@
                 $scope.load();
                 spinOff();
                 $("#modal-user-edit").modal('hide');
+                $scope.focusInput = false;
             })
             .error(function () {
                 toastr.error($rootScope.lbl.updateFailed);
                 spinOff();
                 $("#modal-user-edit").modal('hide');
+                $scope.focusInput = false;
             });
         }
     }

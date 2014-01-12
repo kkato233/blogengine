@@ -3,6 +3,7 @@
     $scope.rights = [];
     $scope.editItem = {};
     $scope.newItem = false;
+    $scope.focusInput = false;
 
     $scope.load = function () {
         spinOn();
@@ -33,6 +34,7 @@
         .success(function (data) {
             angular.copy(data, $scope.rights);
             $("#modal-edit").modal();
+            $scope.focusInput = true;
             spinOff();
         })
         .error(function () {
@@ -47,6 +49,7 @@
         .success(function (data) {
             angular.copy(data, $scope.editItem);
             $("#modal-edit").modal();
+            $scope.focusInput = true;
             spinOff();
         })
         .error(function () {
@@ -76,11 +79,13 @@
             $scope.load();
             spinOff();
             $("#modal-edit").modal('hide');
+            $scope.focusInput = false;
         })
         .error(function () {
             toastr.error($rootScope.lbl.failedAddingNewRole);
             spinOff();
             $("#modal-edit").modal('hide');
+            $scope.focusInput = false;
         });
     }
 
@@ -92,11 +97,13 @@
             $scope.load();
             spinOff();
             $("#modal-edit").modal('hide');
+            $scope.focusInput = false;
         })
         .error(function () {
             toastr.error($rootScope.lbl.failedToSaveRights);
             spinOff();
             $("#modal-edit").modal('hide');
+            $scope.focusInput = false;
         });
     }
 

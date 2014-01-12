@@ -202,6 +202,7 @@ namespace BlogEngine.Core.Data
                 ShowInList = page.ShowInList,
                 Title = page.Title,
                 Slug = page.Slug,
+                RelativeLink = page.RelativeLink,
                 Content = page.Content,
                 Parent = parentOption,
                 Description = page.Description,

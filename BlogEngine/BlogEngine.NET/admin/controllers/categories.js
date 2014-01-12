@@ -3,17 +3,20 @@
     $scope.lookups = [];
     $scope.category = {};
     $scope.id = ($location.search()).id;
+    $scope.focusInput = false;
 
     if ($scope.id) {
         dataService.getItems('/api/categories', { Id: $scope.id })
             .success(function (data) { angular.copy(data, $scope.category); })
             .error(function () { toastr.error($rootScope.lbl.errorLoadingCategory); });
         $("#modal-add-cat").modal();
+        $scope.focusInput = true;
     }
 
     $scope.addNew = function () {
         $scope.clear();
         $("#modal-add-cat").modal();
+        $scope.focusInput = true;
     }
 
     $scope.load = function () {
@@ -60,6 +63,7 @@
            .error(function () { toastr.error($rootScope.lbl.failedAddingNewCategory); });
         }
         $("#modal-add-cat").modal('hide');
+        $scope.focusInput = false;
     }
 
 	$scope.processChecked = function (action) {

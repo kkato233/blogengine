@@ -1921,4 +1921,22 @@
   <data name="empty" xml:space="preserve">
     <value>خالی</value>
   </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>منتشر شده در</value>
+  </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>عنوان پست</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>تایپ و اینتر</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>منتشر نشده</value>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>زمان انتشار</value>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>عنوان صفحه</value>
+  </data>
 </root>

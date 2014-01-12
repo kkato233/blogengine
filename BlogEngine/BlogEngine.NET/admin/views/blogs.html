@@ -16,12 +16,6 @@
                                     <input type="text" class="form-control" id="txtName" data-ng-model="editItem.Name" ng-disabled="true" />
                                 </div>
                             </div>
-                            <!--<div class="form-group">
-                                <label class="control-label col-md-6" for="txtHost">{{lbl.hostName}}</label>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" id="txtHost" data-ng-model="editItem.Hostname" />
-                                </div>
-                            </div>-->
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtVirtualPath">{{lbl.virtualPath}}</label>
                                 <div class="col-md-8">
@@ -61,7 +55,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="focusInput=false"><i class="fa fa-times"></i></button>
                         <h4 class="modal-title">{{modalTitle}}</h4>
                     </div>
                     <form id="form" action="">
@@ -76,7 +70,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4" for="txtBlogName">{{lbl.blogName}}</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control ltr-dir" id="txtBlogName" name="txtBlogName" data-ng-model="newItem.Name" />
+                                        <input type="text" class="form-control ltr-dir" id="txtBlogName" name="txtBlogName" data-ng-model="newItem.Name" focus-me="focusInput" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -108,7 +102,7 @@
                     </form>
                     <div class="modal-footer">
                         <button data-ng-click="saveNew()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                     </div>
                 </div>
             </div>

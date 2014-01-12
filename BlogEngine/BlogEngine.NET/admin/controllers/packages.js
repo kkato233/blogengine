@@ -50,7 +50,14 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $scope.customFields = [];
 
         dataService.getItems('/api/packages', { Id: id })
-        .success(function (data) { angular.copy(data, $scope.package); })
+        .success(function (data) {
+            angular.copy(data, $scope.package);
+            if ($scope.package) {
+                if($scope.package.SettingsUrl){
+                    $scope.extEditSrc = $scope.package.SettingsUrl.replace("~/", SiteVars.RelativeWebRoot);
+                }
+            }
+        })
         .error(function () { toastr.error($rootScope.lbl.errorLoadingPackage); });
 
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
