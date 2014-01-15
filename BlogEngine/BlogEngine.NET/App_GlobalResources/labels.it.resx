@@ -1644,12 +1644,6 @@
   <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
     <value>Non hai Post bozze.</value>
   </data>
-  <data name="showEnableWebSiteInComments" xml:space="preserve">
-    <value>Abilita il Sito Web nei Commenti</value>
-  </data>
-  <data name="showEnableWebSiteInCommentsDescrition" xml:space="preserve">
-    <value>Scegli se permettere la pubblicazione del Sito Web nei Commenti</value>
-  </data>
   <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
     <value>Accetta Qualsiasi Testo prima del Nome dell'Host</value>
   </data>
@@ -2360,5 +2354,122 @@
   </data>
   <data name="previewComment" xml:space="preserve">
     <value>Anteprima</value>
+  </data>
+  <data name="addLink" xml:space="preserve">
+    <value>Aggiungi un Collegamento</value>
+  </data>
+  <data name="addNewLink" xml:space="preserve">
+    <value>Crea un Nuovo Collegamento</value>
+  </data>
+  <data name="avatarSize" xml:space="preserve">
+    <value>Dimensioni dell'Avatar (in pixels)</value>
+  </data>
+  <data name="backcolor" xml:space="preserve">
+    <value>Colore di sfondo</value>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <value>Colori</value>
+  </data>
+  <data name="default" xml:space="preserve">
+    <value>predefinito</value>
+  </data>
+  <data name="defaultMinTag" xml:space="preserve">
+    <value>1 (predefinito)</value>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value>Vuoto</value>
+  </data>
+  <data name="enterValidString" xml:space="preserve">
+    <value>Per favore inserisci una stringa valida</value>
+  </data>
+  <data name="fontSize" xml:space="preserve">
+    <value>Dimensioni testo</value>
+  </data>
+  <data name="forecolor" xml:space="preserve">
+    <value>Colore in primo piano</value>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>Intestazione</value>
+  </data>
+  <data name="maxAgeInDays" xml:space="preserve">
+    <value>Periodo massimo in giorni</value>
+  </data>
+  <data name="newWindow" xml:space="preserve">
+    <value>Nuova finestra</value>
+  </data>
+  <data name="numberOfCommenters" xml:space="preserve">
+    <value>Numero di commentatori</value>
+  </data>
+  <data name="openLinkInNewWindow" xml:space="preserve">
+    <value>Apri il collegamento in una nuova finestra</value>
+  </data>
+  <data name="showComments" xml:space="preserve">
+    <value>Mostra i commenti</value>
+  </data>
+  <data name="showEnableWebsiteInComments" xml:space="preserve">
+    <value>Abilita il Sito Web nei Commenti</value>
+  </data>
+  <data name="showEnableWebsiteInCommentsDescription" xml:space="preserve">
+    <value>Scegli se permettere la pubblicazione del Sito Web nei Commenti</value>
+  </data>
+  <data name="showPostCount" xml:space="preserve">
+    <value>Mostra il conteggio dei Post</value>
+  </data>
+  <data name="showRating" xml:space="preserve">
+    <value>Mostra la valutazione</value>
+  </data>
+  <data name="showRssIcon" xml:space="preserve">
+    <value>Mostra l'icona RSS</value>
+  </data>
+  <data name="showTitle" xml:space="preserve">
+    <value>Mostra il Titolo</value>
+  </data>
+  <data name="tagCloudMaxSize" xml:space="preserve">
+    <value>Dimensione massima della Tag cloud (Ordinata per i post più recenti)</value>
+  </data>
+  <data name="tagMinimumPosts" xml:space="preserve">
+    <value>Quantità minima dei post in ogni tag</value>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>Titolo della Pagina</value>
+  </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>Titolo del Post</value>
+  </data>
+  <data name="twitterAccountUrl" xml:space="preserve">
+    <value>URL del tuo account Twitter</value>
+  </data>
+  <data name="twitterFollowMeText" xml:space="preserve">
+    <value>Testo per il Follow Me</value>
+  </data>
+  <data name="twitterNumberOfDisplayedTwits" xml:space="preserve">
+    <value>Numero di Twits da mostrare</value>
+  </data>
+  <data name="twitterPollingInterval" xml:space="preserve">
+    <value>Intervallo di interrogazione (#/minuti)</value>
+  </data>
+  <data name="twitterRssFeedUrl" xml:space="preserve">
+    <value>URL del feed RSS di Twitter</value>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>Scrivi e premi invio</value>
+  </data>
+  <data name="unlimited" xml:space="preserve">
+    <value>Illimitato</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>Scollega</value>
+  </data>
+  <data name="websiteUrl" xml:space="preserve">
+    <value>URL del sito web</value>
+  </data>
+  <data name="visitorInfoApmlFound" xml:space="preserve">
+    <value>Posso vedere se avessi un file APML a</value>
+  </data>
+  <data name="visitorInfoApmlQuestion" xml:space="preserve">
+    <value>Vuoi filtrare il contenuto di questo blog in base al tuo file APML?</value>
+  </data>
+  <data name="visitorInfoApplyFilter" xml:space="preserve">
+    <value>Applica filtro</value>
   </data>
 </root>
