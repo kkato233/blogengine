@@ -196,6 +196,14 @@
     $scope.load();
 
     $(document).ready(function () {
+        $.validator.addMethod(
+            "dateFormatted",
+            function (value, element) {
+                var re = /^\d{4}-\d{1,2}-\d{1,2}\s([0-9]|[0-1][0-9]|[2][0-3]):([0-5][0-9])$/;
+                return (this.optional(element) && value == "") || re.test(value);
+            },
+            "yyyy-mm-dd hh:mm"
+        );
         $('#form').validate({
             rules: {
                 txtTitle: { required: true }

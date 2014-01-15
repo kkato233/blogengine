@@ -102,6 +102,11 @@ namespace BlogEngine.Core.Data
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.CreateNewPosts))
                 throw new System.UnauthorizedAccessException();
+
+            var cat = (from c in Category.Categories.ToList() where c.Title == item.Title select c).FirstOrDefault();
+            if (cat != null)
+                throw new ApplicationException("Title must be unique");
+
             try
             {
                 var newItem = new Category();
@@ -123,6 +128,10 @@ namespace BlogEngine.Core.Data
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPosts))
                 throw new System.UnauthorizedAccessException();
+
+            var cat = (from c in Category.Categories.ToList() where c.Title == item.Title && c.Id != item.Id select c).FirstOrDefault();
+            if (cat != null)
+                throw new ApplicationException("Title must be unique");
 
             var core = (from c in Category.Categories.ToList() where c.Id == item.Id select c).FirstOrDefault();
 

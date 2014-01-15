@@ -141,13 +141,13 @@ namespace BlogEngine.Core.Data
             page.ShowInList = detail.ShowInList;
             page.IsDeleted = detail.IsDeleted;
             page.Content = detail.Content;
-            page.Description = detail.Description;
+            page.Description = GetDescription(detail.Description, detail.Content);
             page.Keywords = detail.Keywords;
             page.IsFrontPage = detail.IsFrontPage;
 
             page.Slug = GetUniqueSlug(detail.Slug);
 
-            if (detail.Parent != null)
+            if (detail.Parent != null && detail.Parent.OptionValue != null)
             {
                 try
                 {
@@ -155,7 +155,7 @@ namespace BlogEngine.Core.Data
                 }
                 catch (Exception)
                 {
-                    Utils.Log("Error parsing parent ID while adding new page");
+                    Utils.Log("Error parsing parent ID while saving page");
                 }
             }
             page.Save();
@@ -235,6 +235,21 @@ namespace BlogEngine.Core.Data
         {
             return Page.Pages.Where(p => p.Slug != null && p.Slug.ToLower() == slug.ToLower())
                 .FirstOrDefault() == null ? true : false;
+        }
+
+        // if description not set, use first 100 chars in the post
+        static string GetDescription(string desc, string content)
+        {
+            if (string.IsNullOrEmpty(desc))
+            {
+                var p = Utils.StripHtml(content);
+
+                if (p.Length > 100)
+                    return p.Substring(0, 100);
+
+                return p;
+            }
+            return desc;
         }
 
         #endregion

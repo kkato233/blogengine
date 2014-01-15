@@ -65,9 +65,9 @@ public class CategoriesController : ApiController
         {
             return Request.CreateResponse(HttpStatusCode.Unauthorized);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
         }
     }
 
@@ -83,9 +83,9 @@ public class CategoriesController : ApiController
         {
             return Request.CreateResponse(HttpStatusCode.Unauthorized);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
         }
     }
 
