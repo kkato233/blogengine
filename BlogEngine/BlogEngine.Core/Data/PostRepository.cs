@@ -184,7 +184,7 @@ namespace BlogEngine.Core.Data
         {
             post.Title = detail.Title;
             post.Author = detail.Author;
-            post.Description = detail.Description;
+            post.Description = GetDescription(detail.Description, detail.Content);
             post.Content = detail.Content;
             post.IsPublished = detail.IsPublished;
             post.HasCommentsEnabled = detail.HasCommentsEnabled;
@@ -311,10 +311,25 @@ namespace BlogEngine.Core.Data
             return s;
         }
 
-        private static bool IsUniqueSlug(string slug)
+        static bool IsUniqueSlug(string slug)
         {
             return Post.ApplicablePosts.Where(p => p.Slug != null && p.Slug.ToLower() == slug.ToLower())
                 .FirstOrDefault() == null ? true : false;
+        }
+
+        // if description not set, use first 100 chars in the post
+        static string GetDescription(string desc, string content)
+        {
+            if (string.IsNullOrEmpty(desc))
+            {
+                var p = Utils.StripHtml(content);
+
+                if (p.Length > 100)
+                    return p.Substring(0, 100);
+
+                return p;
+            }
+            return desc;
         }
 
         #endregion

@@ -49,7 +49,7 @@
                toastr.success($rootScope.lbl.categoryUpdated);
                $scope.load();
            })
-           .error(function () { toastr.error($rootScope.lbl.updateFailed); });
+           .error(function (data) { toastr.error(data); });
         }
         else {
             dataService.addItem("/api/categories", $scope.category)
@@ -60,7 +60,7 @@
                    $scope.load();
                }
            })
-           .error(function () { toastr.error($rootScope.lbl.failedAddingNewCategory); });
+           .error(function (data) { toastr.error(data); });
         }
         $("#modal-add-cat").modal('hide');
         $scope.focusInput = false;
