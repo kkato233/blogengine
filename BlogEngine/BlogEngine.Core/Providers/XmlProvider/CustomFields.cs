@@ -117,6 +117,7 @@ namespace BlogEngine.Core.Providers
                     {
                         if (field.CustomType == items[i].Attributes["customtype"].InnerText
                             && field.BlogId.ToString() == items[i].Attributes["blogid"].InnerText
+                            && field.ObjectId == items[i].Attributes["objectid"].InnerText
                             && field.Key == items[i].Attributes["key"].InnerText)
                         {
                             if (items[i].ParentNode != null)

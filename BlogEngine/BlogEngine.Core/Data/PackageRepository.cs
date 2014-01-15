@@ -1,5 +1,6 @@
 ﻿using BlogEngine.Core.Data.Contracts;
 using BlogEngine.Core.Data.Models;
+using BlogEngine.Core.Data.Services;
 using BlogEngine.Core.Packaging;
 using BlogEngine.Core.Web.Extensions;
 using System;
@@ -134,6 +135,8 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAdministrator || !Blog.CurrentInstance.IsPrimary)
                 throw new System.UnauthorizedAccessException();
 
+            DeleteThemeCustomFields(id);
+
             return Installer.UninstallPackage(id).Success;
         }
 
@@ -230,6 +233,24 @@ namespace BlogEngine.Core.Data
             foreach (var p in packages)
             {
                 System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.Location, p.LocalVersion, p.OnlineVersion));
+            }
+        }
+
+        static void DeleteThemeCustomFields(string theme)
+        {
+            var p = CachedPackages.FirstOrDefault(pkg => pkg.Id == theme);
+            if (p.PackageType.ToLower() == "theme")
+            {
+                var fields = BlogEngine.Core.Providers.BlogService.FillCustomFields();
+
+                foreach (var f in fields)
+                {
+                    if (f.BlogId == Blog.CurrentInstance.Id && f.CustomType.ToLower() == "theme" && f.ObjectId == theme)
+                    {
+                        BlogEngine.Core.Providers.BlogService.DeleteCustomField(f);
+                    }
+                }
+                CustomFieldsParser.ClearCache();
             }
         }
 

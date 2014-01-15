@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using BlogEngine.Core.Providers;
 using NuGet;
 using BlogEngine.Core.Data.Models;
+using BlogEngine.Core.Data.Services;
 
 namespace BlogEngine.Core.Packaging
 {
@@ -51,6 +52,8 @@ namespace BlogEngine.Core.Packaging
                 BlogService.InsertPackageFiles(packageFiles);
 
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
+
+                CustomFieldsParser.ClearCache();
 
                 Utils.Log(string.Format("Installed package {0} by {1}", pkgId, Security.CurrentUser.Identity.Name));
             }

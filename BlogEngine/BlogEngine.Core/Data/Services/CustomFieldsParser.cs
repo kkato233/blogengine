@@ -62,7 +62,7 @@ namespace BlogEngine.Core.Data.Services
             get
             {
                 // uncomment this line to disable gallery caching for debugging
-                //Blog.CurrentInstance.Cache.Remove(_cacheKey);
+                // Blog.CurrentInstance.Cache.Remove(_cacheKey);
 
                 if (Blog.CurrentInstance.Cache[_cacheKey] == null)
                 {
@@ -79,6 +79,9 @@ namespace BlogEngine.Core.Data.Services
             }
         }
 
+        /// <summary>
+        /// Clear custom fields cache
+        /// </summary>
         public static void ClearCache()
         {
             Blog.CurrentInstance.Cache.Remove(_cacheKey);
@@ -138,47 +141,55 @@ namespace BlogEngine.Core.Data.Services
 
         static List<CustomField> LoadFields()
         {
-            var fields = new List<CustomField>();
+            var markupFields = new List<CustomField>();
 
             // read default from templates
             var themeFields = FromThemeTemplates();
 
             if (themeFields != null && themeFields.Count > 0)
-                fields.AddRange(themeFields);
+                markupFields.AddRange(themeFields);
 
-            // update defaults with overrides
-            var repoFields = FromRepository();
+            // TODO: post fields
 
-            return MergeWithOverride(fields, repoFields);
+            SaveToRepository(markupFields);
+
+            return FromRepository();
         }
 
         static List<CustomField> FromThemeTemplates()
         {
-            var path = HttpContext.Current.Server.MapPath(
-                string.Format("{0}themes/{1}", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme));
+            var dirPath = HttpContext.Current.Server.MapPath(
+                string.Format("{0}themes", Utils.ApplicationRelativeWebRoot));
 
             var items = new List<CustomField>();
 
-            foreach (var f in Directory.GetFiles(path))
+            foreach (var d in Directory.GetDirectories(dirPath))
             {
-                if (f.Contains(".master", System.StringComparison.OrdinalIgnoreCase)
-                    || f.Contains(".ascx", System.StringComparison.OrdinalIgnoreCase)
-                    || f.Contains(".cshtml", System.StringComparison.OrdinalIgnoreCase))
-                {
-                    var contents = File.ReadAllText(f);
+                if (d.EndsWith("RazorHost"))
+                    continue;
 
-                    if (contents.Contains("[CUSTOMFIELD", System.StringComparison.OrdinalIgnoreCase))
+                foreach (var f in Directory.GetFiles(d))
+                {
+                    if (f.Contains(".master", System.StringComparison.OrdinalIgnoreCase)
+                        || f.Contains(".ascx", System.StringComparison.OrdinalIgnoreCase)
+                        || f.Contains(".cshtml", System.StringComparison.OrdinalIgnoreCase))
                     {
-                        foreach (var item in CustomFieldsParser.GetFieldsFromString(contents))
+                        var contents = File.ReadAllText(f);
+
+                        if (contents.Contains("[CUSTOMFIELD", System.StringComparison.OrdinalIgnoreCase))
                         {
-                            if (FindInCollection(items, item) == null)
+                            foreach (var item in CustomFieldsParser.GetFieldsFromString(contents))
                             {
-                                items.Add(item);
+                                if (FindInCollection(items, item) == null)
+                                {
+                                    items.Add(item);
+                                }
                             }
                         }
                     }
                 }
             }
+
             return items;
         }
 
@@ -188,44 +199,28 @@ namespace BlogEngine.Core.Data.Services
             return repoItems ?? new List<CustomField>();
         }
 
-        static List<CustomField> MergeWithOverride(List<CustomField> baseList, List<CustomField> overrides)
+        static void SaveToRepository(List<CustomField> markupFields)
         {
-            var fields = new List<CustomField>();
+            List<CustomField> savedFields = FromRepository();
 
             // both empty
-            if (baseList.Count == 0 && overrides.Count == 0)
-                return fields;
+            if (markupFields.Count == 0 && savedFields.Count == 0)
+                return;
 
-            // base empty - just return overrides
-            if (baseList.Count == 0)
-                return overrides;
+            // nothing in markup - return saved
+            if (markupFields.Count == 0)
+                return;
 
-            // overrides empty - return base
-            if (overrides.Count == 0)
-                return baseList;
-
-            // update base from overrides
-            foreach (var item in baseList)
+            // save if not yet in the data store
+            foreach (var item in markupFields)
             {
-                var oItem = FindInCollection(overrides, item);
-                if (oItem != null)
+                var oItem = FindInCollection(savedFields, item);
+                if (oItem == null)
                 {
-                    if (item.BlogId == Guid.Empty)
-                        item.BlogId = Blog.CurrentInstance.BlogId;
-
-                    item.Value = oItem.Value;
-                    fields.Add(item);
+                    item.BlogId = Blog.CurrentInstance.BlogId;
+                    BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
                 }
             }
-
-            // add override if not in base
-            foreach (var item in overrides)
-            {
-                var bItem = FindInCollection(baseList, item);
-                if (bItem == null)
-                    fields.Add(item);
-            }
-            return fields;
         }
 
         static CustomField FindInCollection(List<CustomField> items, CustomField item)
