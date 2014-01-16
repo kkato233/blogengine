@@ -145,7 +145,9 @@ namespace BlogEngine.Core.Data
             page.Keywords = detail.Keywords;
             page.IsFrontPage = detail.IsFrontPage;
 
-            page.Slug = GetUniqueSlug(detail.Slug);
+            // if changing slug, should be unique
+            if (page.Slug != detail.Slug)
+                page.Slug = GetUniqueSlug(detail.Slug);
 
             if (detail.Parent != null && detail.Parent.OptionValue != null)
             {

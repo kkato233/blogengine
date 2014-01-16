@@ -78,6 +78,30 @@ namespace Widgets.Newsletter
             Post.Saving += PublishableSaving;
             BlogEngine.Core.Page.Saved += PublishableSaved;
             BlogEngine.Core.Page.Saving += PublishableSaving;
+
+            BlogEngine.Core.Page.Serving += Page_Serving;
+            BlogEngine.Core.Post.Serving += Post_Serving;
+        }
+
+        void Post_Serving(object sender, ServingEventArgs e)
+        {
+            _formAction = "";
+        }
+
+        void Page_Serving(object sender, ServingEventArgs e)
+        {
+            _formAction = "";
+            if (e.Location == ServingLocation.SinglePage)
+            {
+                var page = (BlogEngine.Core.Page)sender;
+                if (page.IsFrontPage)
+                    _formAction = string.Format("page/{0}?id={1}", page.Slug, page.Id);
+            }
+        }
+        static string _formAction = "";
+        public static string FormAction()
+        {
+            return _formAction;
         }
 
         #endregion
