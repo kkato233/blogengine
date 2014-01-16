@@ -40,7 +40,7 @@ public partial class page : BlogBasePage
             this.ServePage(id);
             this.AddMetaTags();
         }
-        else
+        else if (!this.IsCallback)
         {
             this.Response.Redirect(Utils.RelativeWebRoot);
         }

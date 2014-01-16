@@ -98,7 +98,7 @@
         if ($scope.post.Id) {
             dataService.updateItem('api/posts/update/foo', $scope.post)
            .success(function (data) {
-               $scope.load();
+               $scope.refreshPost();
                toastr.success($rootScope.lbl.postUpdated);
                $("#modal-form").modal('hide');
                spinOff();
@@ -191,7 +191,21 @@
             return 1;
         }
         return 0;
-    }; 
+    };
+
+    $scope.refreshPost = function () {
+        spinOn();
+        var url = '/api/posts/' + $scope.id;
+        dataService.getItems(url)
+        .success(function (data) {
+            angular.copy(data, $scope.post);
+            spinOff();
+        })
+        .error(function () {
+            spinOff();
+        });
+    }
+        
 
     $scope.load();
 

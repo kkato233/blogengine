@@ -35,7 +35,12 @@
   function beginAddEmail()
   {
     if(!Page_ClientValidate('newsletter'))
-      return false;
+        return false;
+
+    var formAction = '<%=FormAction() %>';
+    if (formAction.length > 0) {
+        document.getElementById("aspnetForm").action = formAction;
+    }
       
     var arg = BlogEngine.$('<%=txtEmail.ClientID %>').value;
     var context = 'newsletter';

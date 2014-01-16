@@ -191,8 +191,9 @@ namespace BlogEngine.Core.Data
             post.IsDeleted = detail.IsDeleted;
             post.DateCreated = DateTime.ParseExact(detail.DateCreated, "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 
-            // insure new post has unique slug
-            post.Slug = GetUniqueSlug(detail.Slug);
+            // if changing slug, should be unique
+            if (post.Slug != detail.Slug)
+                post.Slug = GetUniqueSlug(detail.Slug);
 
             UpdatePostCategories(post, detail.Categories);
             UpdatePostTags(post, FilterTags(detail.Tags));
