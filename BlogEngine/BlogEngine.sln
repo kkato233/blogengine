@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngine.NET\", "{B02E9840-1261-47AB-AE40-D333E73BB2C0}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET(1)", "BlogEngine.NET\", "{B02E9840-1261-47AB-AE40-D333E73BB2C0}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
@@ -31,9 +33,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BlogEngine.NET", "BlogEngin
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "53265"
 		VWDVirtualPath = "/"
+		SlnRelativePath = "BlogEngine.NET\"
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogEngine.Tests", "BlogEngine.Tests\BlogEngine.Tests.csproj", "{A1A7512F-8DAD-4022-B39F-D892D0B579FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogEngine.Core", "BlogEngine.Core\BlogEngine.Core.csproj", "{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}"
 EndProject
@@ -56,16 +57,6 @@ Global
 		{B02E9840-1261-47AB-AE40-D333E73BB2C0}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{B02E9840-1261-47AB-AE40-D333E73BB2C0}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{B02E9840-1261-47AB-AE40-D333E73BB2C0}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Release|.NET.ActiveCfg = Release|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A1A7512F-8DAD-4022-B39F-D892D0B579FF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9ED9914A-FB6E-4D21-8C71-9122E8C3076B}.Debug|Any CPU.Build.0 = Debug|Any CPU
