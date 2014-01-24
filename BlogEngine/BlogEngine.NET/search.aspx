@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" CodeFile="search.aspx.cs" Inherits="search" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="search" ValidateRequest="false" Codebehind="search.aspx.cs" %>
 
 <%@ Import Namespace="BlogEngine.Core" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">

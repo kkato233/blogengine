@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.Twitter.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.Twitter.Edit" Codebehind="edit.ascx.cs" %>
 <%@ Reference Control="~/widgets/Twitter/widget.ascx" %>
 
 <label for="<%=txtAccountUrl %>"><%=Resources.labels.twitterAccountUrl %></label><br />

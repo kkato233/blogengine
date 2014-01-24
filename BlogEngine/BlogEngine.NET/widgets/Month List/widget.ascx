@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.MonthList.Widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.MonthList.Widget" Codebehind="widget.ascx.cs" %>
 <blog:MonthList runat="Server" ID="ctlMonthList" />

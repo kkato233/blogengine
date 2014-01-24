@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.RecentComments.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.RecentComments.Edit" Codebehind="edit.ascx.cs" %>
 
 <style type="text/css">
   #body label {display: block; float:left; width:150px}

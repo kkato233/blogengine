@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="menu.ascx.cs" Inherits="Admin.Menu" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Admin.Menu" Codebehind="menu.ascx.cs" %>
 <ul runat="server" id="ulMenu" class="toprounded"  />

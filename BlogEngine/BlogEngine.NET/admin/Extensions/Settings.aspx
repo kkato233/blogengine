@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="admin.master" AutoEventWireup="true" CodeFile="Settings.aspx.cs" Inherits="Admin.Extensions.Settings" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="admin.master" AutoEventWireup="true" Inherits="Admin.Extensions.Settings" Codebehind="Settings.aspx.cs" %>
 <%@ Reference Control = "Settings.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphAdmin" Runat="Server">

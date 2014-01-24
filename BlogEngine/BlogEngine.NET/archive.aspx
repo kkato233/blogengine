@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="archive.aspx.cs" Inherits="archive" EnableViewState="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="archive" EnableViewState="false" Codebehind="archive.aspx.cs" %>
 
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <div id="archive" class="archive-page page-global">

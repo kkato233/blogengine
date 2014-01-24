@@ -1,5 +1,4 @@
-﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/account.master" AutoEventWireup="true"
-    CodeFile="password-retrieval.aspx.cs" Inherits="Account.PasswordRetrieval" %>
+﻿<%@ Page Title="Password Retrieval" Language="C#" MasterPageFile="~/Account/account.master" AutoEventWireup="true" Inherits="Account.PasswordRetrieval" Codebehind="password-retrieval.aspx.cs" %>
 
 <%@ MasterType VirtualPath="~/Account/account.master" %>
 <%@ Import Namespace="BlogEngine.Core" %>

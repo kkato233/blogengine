@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.VisitorInfo.Widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.VisitorInfo.Widget" Codebehind="widget.ascx.cs" %>
 
 <span runat="server" id="pName" />
 <br /><br />

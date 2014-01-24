@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="error404.aspx.cs" Inherits="error404" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="error404" Codebehind="error404.aspx.cs" %>
 
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <div class="post error404 page-global">

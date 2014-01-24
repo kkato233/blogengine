@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.Newsletter.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.Newsletter.Edit" Codebehind="edit.ascx.cs" %>
 <style type="text/css">
     .beTable { border-collapse:collapse; border: 1px solid #dcdcdc; border-top:solid 5px #c8c8c8; margin: 10px 0; width: 100%; position:static;}
     .beTable th { padding: 10px 5px; background-color:#e5e5e5; text-align: left; }

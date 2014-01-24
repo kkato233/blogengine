@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="admin.master.cs" Inherits="Admin.AdminMasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="Admin.AdminMasterPage" Codebehind="admin.master.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <html>
 <head id="Head1" runat="server">

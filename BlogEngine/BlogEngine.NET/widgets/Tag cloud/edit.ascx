@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.TagCloud.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.TagCloud.Edit" Codebehind="edit.ascx.cs" %>
 <%@ Reference VirtualPath="~/widgets/Tag cloud/widget.ascx" %>
 
 <label for="<%=ddlMinimumPosts.ClientID %>"><%=Resources.labels.tagMinimumPosts %></label><br />

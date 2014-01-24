@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.TagCloud.WidgetsTagCloudWidget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.TagCloud.WidgetsTagCloudWidget" Codebehind="widget.ascx.cs" %>
 <ul runat="server" id="ulTags" />

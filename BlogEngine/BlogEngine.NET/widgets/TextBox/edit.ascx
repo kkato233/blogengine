@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.TextBox.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.TextBox.Edit" Codebehind="edit.ascx.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce_3_5_8/tiny_mce.js"></script>

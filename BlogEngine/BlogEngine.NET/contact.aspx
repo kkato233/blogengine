@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="contact.aspx.cs" Inherits="contact" ValidateRequest="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="contact" ValidateRequest="false" Codebehind="contact.aspx.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
