@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" CodeFile="post.aspx.cs" Inherits="post" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" Inherits="post" Codebehind="post.aspx.cs" %>
 <%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   

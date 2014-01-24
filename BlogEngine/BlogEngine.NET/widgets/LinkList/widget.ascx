@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.LinkList.Widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.LinkList.Widget" Codebehind="widget.ascx.cs" %>
 <ul runat="server" id="ulLinks" />

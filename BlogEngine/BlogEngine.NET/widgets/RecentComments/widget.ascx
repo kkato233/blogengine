@@ -1,2 +1,2 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.RecentComments.Widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.RecentComments.Widget" Codebehind="widget.ascx.cs" %>
 <asp:PlaceHolder runat="Server" ID="phPosts" />

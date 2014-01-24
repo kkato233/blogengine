@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="edit.ascx.cs" Inherits="Widgets.LinkList.Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.LinkList.Edit" Codebehind="edit.ascx.cs" %>
 <fieldset>
     <legend><%=Resources.labels.addNewLink %></legend>
     <label for="<%=txtTitle.ClientID %>">

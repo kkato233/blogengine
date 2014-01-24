@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="CommentView.ascx.cs" Inherits="UserControls.CommentView" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="UserControls.CommentView" Codebehind="CommentView.ascx.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <div class="well-global">

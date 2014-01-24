@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="account.master" AutoEventWireup="true" ClientIDMode="Static" CodeFile="login.aspx.cs" Inherits="Account.Login" %>
+﻿<%@ Page Language="C#" MasterPageFile="account.master" AutoEventWireup="true" ClientIDMode="Static" Inherits="Account.Login" Codebehind="login.aspx.cs" %>
 
 <%@ MasterType VirtualPath="~/Account/account.master" %>
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="error.aspx.cs" Inherits="error_occurred" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="error_occurred" Codebehind="error.aspx.cs" %>
 
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <div class="post page-global">

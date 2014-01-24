@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="page.aspx.cs" Inherits="page" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" Inherits="page" Codebehind="page.aspx.cs" %>
 <%@ Import Namespace="BlogEngine.Core"%>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   <div id="page" class="page-global">

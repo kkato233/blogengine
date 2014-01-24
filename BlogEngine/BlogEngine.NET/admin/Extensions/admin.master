@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="admin.master.cs" Inherits="Admin.AdminMasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" Inherits="Admin.ExtensionsMasterPage" Codebehind="admin.master.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 <html>

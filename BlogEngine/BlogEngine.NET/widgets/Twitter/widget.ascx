@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.Twitter.Widget" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.Twitter.Widget" Codebehind="widget.ascx.cs" %>
 <asp:Repeater runat="server" ID="repItems" OnItemDataBound="RepItemsItemDataBound">
   <ItemTemplate>
     <img src="<%=BlogEngine.Core.Utils.RelativeWebRoot %>widgets/Twitter/twitter.ico" alt="Twitter" />

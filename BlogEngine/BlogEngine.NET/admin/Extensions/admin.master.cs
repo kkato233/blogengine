@@ -15,7 +15,7 @@ namespace Admin
     /// <summary>
     /// The AdminMasterPage.
     /// </summary>
-    public partial class AdminMasterPage : MasterPage
+    public partial class ExtensionsMasterPage : MasterPage
     {
         #region Public Methods
 

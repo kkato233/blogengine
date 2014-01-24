@@ -1,2 +1,2 @@
-<%@ Control Language="C#" AutoEventWireup="true" CodeFile="widget.ascx.cs" Inherits="Widgets.AuthorList.Widget" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.AuthorList.Widget" Codebehind="widget.ascx.cs" %>
 <blog:AuthorList ID="AuthorList1" runat="Server" ShowAuthorImg="true" ShowRssIcon="false" AuthorImgSize="32" />

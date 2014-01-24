@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="account.master" AutoEventWireup="true"
-    CodeFile="create-blog.aspx.cs" Inherits="Account.CreateBlog" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="account.master" AutoEventWireup="true" Inherits="Account.CreateBlog" Codebehind="create-blog.aspx.cs" %>
 
 <%@ MasterType VirtualPath="~/Account/account.master" %>
 <%@ Import Namespace="BlogEngine.Core" %>
