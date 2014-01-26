@@ -85,6 +85,7 @@ namespace BlogEngine.Core.Data
                 throw new System.UnauthorizedAccessException();
             try
             {
+                item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
                 BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
                 CustomFieldsParser.ClearCache();
                 return true;

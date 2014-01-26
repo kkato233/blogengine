@@ -25,19 +25,19 @@ namespace BlogEngine.Core.Data.Contracts
         /// </summary>
         /// <param name="trashType">Trash type</param>
         /// <param name="id">Id</param>
-        void Restore(string trashType, Guid id);
+        bool Restore(string trashType, Guid id);
 
         /// <summary>
         /// Purge
         /// </summary>
         /// <param name="trashType">Trash type</param>
         /// <param name="id">Id</param>
-        void Purge(string trashType, Guid id);
+        bool Purge(string trashType, Guid id);
 
         /// <summary>
         /// Purge all
         /// </summary>
-        void PurgeAll();
+        bool PurgeAll();
 
         /// <summary>
         /// Purge log file

@@ -204,6 +204,7 @@
     <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="themes\Standard\site.master" />
     <Content Include="themes\TitaniumX\site.master" />
+    <None Include="Properties\PublishProfiles\be.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

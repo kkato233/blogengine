@@ -60,7 +60,6 @@ public class CustomFieldsController : ApiController
             {
                 foreach (var item in items)
                 {
-                    item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
                     repository.Update(item);
                 }
             }

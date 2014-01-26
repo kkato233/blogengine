@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[be_CustomFields](
 )
 GO
 
-CREATE NONCLUSTERED INDEX [idx_be_CustomType_ObjectId_BlogId_Key] ON [dbo].[be_CustomFields] 
+CREATE CLUSTERED INDEX [idx_be_CustomType_ObjectId_BlogId_Key] ON [dbo].[be_CustomFields] 
 (
 	[CustomType] ASC,
 	[ObjectId] ASC,

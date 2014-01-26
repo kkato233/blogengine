@@ -53,7 +53,7 @@ public class PackagesController : ApiController
     }
 
     [HttpPut]
-    public void ProcessChecked([FromBody]List<Package> items)
+    public bool ProcessChecked([FromBody]List<Package> items)
     {
         if (items == null || items.Count == 0)
             throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
@@ -78,6 +78,7 @@ public class PackagesController : ApiController
                         repository.Uninstall(item.Id);
                     }
                 }
+                return true;
             }
             catch (System.Exception ex)
             {
@@ -85,20 +86,21 @@ public class PackagesController : ApiController
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
+        return false;
     }
 
     [HttpPut]
-    public void Update([FromBody]Package item)
+    public bool Update([FromBody]Package item)
     {
         try
         {
             repository.Update(item);
+            return true;
         }
         catch (Exception ex)
         {
             BlogEngine.Core.Utils.Log("Error updating package", ex);
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
-        var x = item;
     }
 }
