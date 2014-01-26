@@ -17,8 +17,6 @@ public class BlogsController : ApiController
 
     public IEnumerable<BlogEngine.Core.Data.Models.Blog> Get(int take = 10, int skip = 0, string filter = "", string order = "Name")
     {
-        if (!BlogEngine.Core.Blog.CurrentInstance.IsPrimary)
-            throw new HttpResponseException(HttpStatusCode.Unauthorized);
         try
         {
             return repository.Find(take, skip, filter, order);

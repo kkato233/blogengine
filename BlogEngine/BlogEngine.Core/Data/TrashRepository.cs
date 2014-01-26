@@ -136,7 +136,7 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="trashType">Trash type</param>
         /// <param name="id">Id</param>
-        public void Restore(string trashType, Guid id)
+        public bool Restore(string trashType, Guid id)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
@@ -165,6 +165,7 @@ namespace BlogEngine.Core.Data
                 default:
                     break;
             }
+            return true;
         }
 
         /// <summary>
@@ -172,7 +173,7 @@ namespace BlogEngine.Core.Data
         /// </summary>
         /// <param name="trashType">Trash type</param>
         /// <param name="id">Id</param>
-        public void Purge(string trashType, Guid id)
+        public bool Purge(string trashType, Guid id)
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
@@ -201,12 +202,13 @@ namespace BlogEngine.Core.Data
                 default:
                     break;
             }
+            return true;
         }
 
         /// <summary>
         /// Purge all
         /// </summary>
-        public void PurgeAll()
+        public bool PurgeAll()
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
@@ -239,6 +241,8 @@ namespace BlogEngine.Core.Data
             {
                 pg.Purge();
             }
+
+            return true;
         }
 
         /// <summary>

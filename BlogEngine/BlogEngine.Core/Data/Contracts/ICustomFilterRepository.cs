@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace BlogEngine.Core.Data.Contracts
 {
-    interface ICustomFilterRepository
+    /// <summary>
+    /// Custom filter
+    /// </summary>
+    public interface ICustomFilterRepository
     {
         /// <summary>
         /// Get list of custom filters

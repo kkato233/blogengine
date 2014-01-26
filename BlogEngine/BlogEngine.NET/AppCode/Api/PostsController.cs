@@ -60,7 +60,7 @@ public class PostsController : ApiController
             if (result == null)
                 return Request.CreateResponse(HttpStatusCode.NotModified);
 
-            return Request.CreateResponse(HttpStatusCode.OK, result);
+            return Request.CreateResponse(HttpStatusCode.Created, result);
         }
         catch (UnauthorizedAccessException)
         {
