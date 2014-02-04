@@ -93,7 +93,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtDescriptionCharacters">{{lbl.numberOfCharacters}}</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="txtDescriptionCharacters" name="txtDescriptionCharacters" data-ng-model="settings.DescriptionCharacters" />
+                                    <input type="text" class="form-control" id="txtDescriptionCharacters" name="txtDescriptionCharacters" data-ng-model="settings.DescriptionCharacters" data-ng-disabled="settings.ShowDescriptionInPostList == false" />
                                 </div>
                             </div>
                             <hr />
@@ -109,7 +109,7 @@
                             <div class="form-group clearifx">
                                 <label class="control-label col-md-4" for="txtDescriptionCharactersForPosts">{{lbl.numberOfCharacters}}</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="txtDescriptionCharactersForPosts" name="txtDescriptionCharactersForPosts" data-ng-model="settings.DescriptionCharactersForPostsByTagOrCategory" />
+                                    <input type="text" class="form-control" id="txtDescriptionCharactersForPosts" name="txtDescriptionCharactersForPosts" data-ng-model="settings.DescriptionCharactersForPostsByTagOrCategory" data-ng-disabled="settings.ShowDescriptionInPostListForPostsByTagOrCategory == false" />
                                 </div>
                             </div>
                             <hr />

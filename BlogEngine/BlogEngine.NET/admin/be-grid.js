@@ -136,6 +136,12 @@
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
+            // for blogs, do not check primary
+            else if (scope.blogsPage) {
+                if (scope.pagedItems[scope.currentPage][i].IsPrimary === false) {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
             else {
                 // for others toggle all
                 scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;

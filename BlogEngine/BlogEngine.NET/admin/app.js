@@ -33,7 +33,7 @@
     }];
     app.config(config);
 
-    app.directive('focusMe', function ($timeout) {
+    app.directive('focusMe', ['$timeout', function ($timeout) {
         return function (scope, element, attrs) {
             scope.$watch(attrs.focusMe, function (value) {
                 if (value) {
@@ -43,7 +43,7 @@
                 }
             });
         };
-    });
+    }]);
 
     var run = ["$rootScope", "$log", function ($rootScope, $log) {
 

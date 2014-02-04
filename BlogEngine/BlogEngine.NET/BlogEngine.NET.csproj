@@ -38,9 +38,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.Unity, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -58,10 +57,6 @@
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NuGet.Core, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
@@ -142,11 +137,6 @@
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
     <Content Include="bin\BlogEngine.NET.dll.config" />
-    <Content Include="bin\System.Web.Helpers.dll.refresh" />
-    <Content Include="bin\System.Web.Razor.dll.refresh" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll.refresh" />
-    <Content Include="bin\System.Web.WebPages.dll.refresh" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll.refresh" />
     <Content Include="Content\font\fontawesome-webfont.eot" />
     <Content Include="Content\font\fontawesome-webfont.ttf" />
     <Content Include="Content\font\fontawesome-webfont.woff" />
@@ -205,6 +195,8 @@
     <Content Include="themes\Standard\site.master" />
     <Content Include="themes\TitaniumX\site.master" />
     <None Include="Properties\PublishProfiles\be.pubxml" />
+    <None Include="Properties\PublishProfiles\bespa - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\bespa - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -297,22 +289,6 @@
     <Content Include="App_Data\blogs\_new\users.xml" />
     <Content Include="App_Data\categories.xml" />
     <Content Include="App_Data\customfields.xml" />
-    <Content Include="App_Data\datastore\extensions\AkismetFilter.xml" />
-    <Content Include="App_Data\datastore\extensions\BBCode.xml" />
-    <Content Include="App_Data\datastore\extensions\BreakPost.xml" />
-    <Content Include="App_Data\datastore\extensions\Jcarousel.xml" />
-    <Content Include="App_Data\datastore\extensions\Logger.xml" />
-    <Content Include="App_Data\datastore\extensions\MediaElementPlayer.xml" />
-    <Content Include="App_Data\datastore\extensions\MetaExtension.xml" />
-    <Content Include="App_Data\datastore\extensions\PasswordProtected.xml" />
-    <Content Include="App_Data\datastore\extensions\Recaptcha.xml" />
-    <Content Include="App_Data\datastore\extensions\ResolveLinks.xml" />
-    <Content Include="App_Data\datastore\extensions\SendCommentMail.xml" />
-    <Content Include="App_Data\datastore\extensions\SendPings.xml" />
-    <Content Include="App_Data\datastore\extensions\SimpleCaptcha.xml" />
-    <Content Include="App_Data\datastore\extensions\Smilies.xml" />
-    <Content Include="App_Data\datastore\extensions\StopForumSpam.xml" />
-    <Content Include="App_Data\datastore\extensions\TypePadFilter.xml" />
     <Content Include="App_Data\datastore\widgets\be_WIDGET_ZONE.xml" />
     <Content Include="App_Data\datastore\widgets\Footer_Widget.xml" />
     <Content Include="App_Data\extensionmap.txt" />
@@ -351,18 +327,13 @@
     <Content Include="bin\NuGet.Core.dll" />
     <Content Include="bin\System.Net.Http.Formatting.dll" />
     <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
     <Content Include="bin\System.Web.Http.dll" />
     <Content Include="bin\System.Web.Http.WebHost.dll" />
     <Content Include="bin\System.Web.Optimization.dll" />
     <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
     <Content Include="bin\System.Web.WebPages.dll" />
     <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="contact.aspx" />
     <Content Include="Content\app.css" />
@@ -2382,6 +2353,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\datastore\extensions\" />
     <Folder Include="App_Data\files\2014\01\" />
     <Folder Include="App_Data\files\avatars\" />
     <Folder Include="App_Data\files\jcarousel\album1\" />

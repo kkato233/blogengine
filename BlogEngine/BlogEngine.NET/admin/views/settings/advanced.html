@@ -87,7 +87,7 @@
                         <hr ng-if="SiteVars.IsPrimary" />
                         <div class="form-group">
                             <label class="control-label" for="txtThemeCookieName">{{lbl.themeCookieName}}</label>
-                            <input type="text" class="form-control ltr-dir" id="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
+                            <input type="text" class="form-control ltr-dir" id="txtThemeCookieName" name="txtThemeCookieName" data-ng-model="settings.ThemeCookieName" />
                         </div>
                     </div>
                 </div>
@@ -109,11 +109,11 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="selCultures">{{lbl.selfRegistrationInitialRole}}</label>
-                            <select id="selCultures" class="form-control" data-ng-options="o.OptionName for o in lookups.SelfRegisterRoles" data-ng-model="selfRegistrationInitialRole"></select>
+                            <select id="selCultures" class="form-control" data-ng-options="o.OptionName for o in lookups.SelfRegisterRoles" data-ng-model="selfRegistrationInitialRole" data-ng-disabled="settings.EnableSelfRegistration == false"></select>
                         </div>
                         <div ng-if="SiteVars.IsPrimary" class="checkbox">
                             <label>
-                                <input type="checkbox" name="ckCreateBlogOnSelfRegistration" data-ng-model="settings.CreateBlogOnSelfRegistration" />
+                                <input type="checkbox" name="ckCreateBlogOnSelfRegistration" data-ng-model="settings.CreateBlogOnSelfRegistration" data-ng-disabled="settings.EnableSelfRegistration == false" />
                                 {{lbl.createBlogOnSelfRegistration}}
                             </label>
                         </div>
@@ -126,11 +126,11 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="txtRemoteFileDownloadTimeout">{{lbl.remoteTimeout}}</label>
-                            <input type="text" class=" form-control" id="txtRemoteFileDownloadTimeout" name="txtRemoteFileDownloadTimeout" data-ng-model="settings.RemoteFileDownloadTimeout" />
+                            <input type="text" class=" form-control" id="txtRemoteFileDownloadTimeout" name="txtRemoteFileDownloadTimeout" data-ng-model="settings.RemoteFileDownloadTimeout" data-ng-disabled="settings.AllowServerToDownloadRemoteFiles == false" />
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="txtRemoteMaxFileSize">{{lbl.maximumRemoteFileSize}}</label>
-                            <input type="text" class=" form-control" id="txtRemoteMaxFileSize" name="txtRemoteMaxFileSize" data-ng-model="settings.RemoteMaxFileSize" />
+                            <input type="text" class=" form-control" id="txtRemoteMaxFileSize" name="txtRemoteMaxFileSize" data-ng-model="settings.RemoteMaxFileSize" data-ng-disabled="settings.AllowServerToDownloadRemoteFiles == false" />
                         </div>
                     </div>
                 </div>
