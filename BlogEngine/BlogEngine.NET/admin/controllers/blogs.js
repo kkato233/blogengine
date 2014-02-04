@@ -5,6 +5,7 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
     $scope.newItem = {};
     $scope.modalTitle = $rootScope.lbl.addNewBlog;
     $scope.focusInput = false;
+    $scope.blogsPage = true;
 
     $scope.modalNew = function () {
         $scope.modalTitle = $rootScope.lbl.addNewBlog;

@@ -401,7 +401,11 @@
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
 xcopy "$(SolutionDir)packages\Microsoft.AspNet.Razor.3.1.0\lib\net45\System.Web.Razor.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
 xcopy "$(SolutionDir)packages\WebGrease.1.5.2\lib\WebGrease.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
 xcopy "$(SolutionDir)packages\Microsoft.AspNet.WebPages.3.1.0\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
@@ -410,12 +414,7 @@ xcopy "$(SolutionDir)packages\Unity.3.0.1304.1\lib\Net45\*.dll" "$(SolutionDir)B
 xcopy "$(SolutionDir)packages\Newtonsoft.Json.5.0.8\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
 xcopy "$(SolutionDir)packages\Microsoft.AspNet.WebApi.Client.5.1.0\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
 xcopy "$(SolutionDir)packages\Microsoft.AspNet.WebApi.WebHost.5.1.0\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
-xcopy "$(SolutionDir)packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I
-</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+xcopy "$(SolutionDir)packages\Microsoft.AspNet.WebApi.Core.5.1.0\lib\net45\*.dll" "$(SolutionDir)BlogEngine.NET\Bin\" /F /R /Y /I</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

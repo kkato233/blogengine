@@ -109,7 +109,8 @@
                 txtEmail: { email: true },
                 txtSmtpServerPort: { number: true },
                 txtNumberOfRecentPosts: { number: true },
-                txtNumberOfRecentComments: { number: true }
+                txtNumberOfRecentComments: { number: true },
+                txtThemeCookieName: { required: true }
             }
         });
     });
