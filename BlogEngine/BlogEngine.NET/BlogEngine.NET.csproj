@@ -173,12 +173,6 @@
     <Content Include="setup\VistaDB\VistaDBUpgradeTo1.5.0.0From1.4.5.0.vsql3" />
     <Content Include="setup\VistaDB\VistaDBUpgradeTo1.6From1.5.vsql3" />
     <Content Include="setup\VistaDB\VistaDBWeb.Config" />
-    <Content Include="tests\avatar.cshtml" />
-    <Content Include="tests\default.cshtml" />
-    <Content Include="tests\packaging.cshtml" />
-    <Content Include="tests\pager.cshtml" />
-    <Content Include="tests\urlrewrite.cshtml" />
-    <Content Include="tests\_layout.cshtml" />
     <Content Include="themes\Garland-Revisited\CommentForm.cshtml" />
     <Content Include="themes\Garland-Revisited\CommentView.cshtml" />
     <Content Include="themes\Garland-Revisited\PostNavigation.cshtml" />
@@ -268,13 +262,7 @@
     <Content Include="admin\views\users\profile.html" />
     <Content Include="admin\views\users\roles.html" />
     <Content Include="admin\WidgetEditor.aspx" />
-    <Content Include="api\Authentication.svc" />
-    <Content Include="api\BlogImporter.asmx" />
-    <Content Include="api\Comments.asmx" />
-    <Content Include="api\Profile.asmx" />
-    <Content Include="api\RoleService.asmx" />
     <Content Include="api\TagMiniView.aspx" />
-    <Content Include="api\UserService.asmx" />
     <Content Include="api\wlw.css" />
     <Content Include="App_Data\blogroll.xml" />
     <Content Include="App_Data\blogs.xml" />
@@ -288,7 +276,6 @@
     <Content Include="App_Data\blogs\_new\setup.xml" />
     <Content Include="App_Data\blogs\_new\users.xml" />
     <Content Include="App_Data\categories.xml" />
-    <Content Include="App_Data\customfields.xml" />
     <Content Include="App_Data\datastore\widgets\be_WIDGET_ZONE.xml" />
     <Content Include="App_Data\datastore\widgets\Footer_Widget.xml" />
     <Content Include="App_Data\extensionmap.txt" />
@@ -1365,8 +1352,6 @@
     <Content Include="setup\TestFiles\sample.png" />
     <Content Include="setup\TestFiles\sample.txt" />
     <Content Include="setup\VistaDB\ReadMe.txt" />
-    <Content Include="tests\back.png" />
-    <Content Include="tests\Quixote.css" />
     <Content Include="themes\Garland-Revisited\images\bg-content-left.png" />
     <Content Include="themes\Garland-Revisited\images\bg-content-right.png" />
     <Content Include="themes\Garland-Revisited\images\bg-content.png" />
@@ -1645,12 +1630,6 @@
     <Compile Include="AppCode\App_Start\IoCContainer.cs" />
     <Compile Include="AppCode\App_Start\UnityConfig.cs" />
     <Compile Include="AppCode\App_Start\WebApiConfig.cs" />
-    <Compile Include="AppCode\BlogImporter.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="AppCode\Comments.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="AppCode\Controls\AuthorList.cs" />
     <Compile Include="AppCode\Controls\BlogList.cs" />
     <Compile Include="AppCode\Controls\Blogroll.cs" />
@@ -1697,16 +1676,6 @@
     <Compile Include="AppCode\Extensions\StopForumSpam.cs" />
     <Compile Include="AppCode\Extensions\TypePadFilter.cs" />
     <Compile Include="App_Code\Helpers\RazorHelpers.cs" />
-    <Compile Include="AppCode\Profile.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="AppCode\Quixote.cs" />
-    <Compile Include="AppCode\RoleService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="AppCode\UserService.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="AppCode\WebUtils.cs" />
     <Compile Include="App_GlobalResources\labels.af.designer.cs">
       <AutoGen>True</AutoGen>
@@ -2358,8 +2327,6 @@
     <Folder Include="App_Data\files\avatars\" />
     <Folder Include="App_Data\files\jcarousel\album1\" />
     <Folder Include="App_Data\packages\SimpleBlog.1.1.0\" />
-    <Folder Include="themes\SimpleBlog\img\" />
-    <Folder Include="themes\SimpleBlog\include\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

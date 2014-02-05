@@ -55,7 +55,8 @@ public class UploadController : ApiController
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
                     var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                    return Request.CreateResponse(HttpStatusCode.Created, uploaded.FileDownloadPath);
+                    var url = string.Format("{0}image.axd?picture={1}", Blog.CurrentInstance.RelativeWebRoot, uploaded.FilePath);
+                    return Request.CreateResponse(HttpStatusCode.Created, url);
                 }
             }
             if (action == "file")
