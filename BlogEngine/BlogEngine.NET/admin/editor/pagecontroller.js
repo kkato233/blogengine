@@ -162,7 +162,7 @@ var newPage = {
     "Id": "",
     "Title": "",
     "Content": "",
-    "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
+    "DateCreated": moment().format("YYYY-MM-DD HH:mm"),
     "Slug": "",
     "ShowInList": true,
     "IsPublished": true

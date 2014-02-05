@@ -231,7 +231,7 @@ var newPost = {
     "Title": "",
     "Author": "Admin",
     "Content": "",
-    "DateCreated": moment().format("YYYY-MM-DD HH:MM"),
+    "DateCreated": moment().format("YYYY-MM-DD HH:mm"),
     "Slug": "",
     "Categories": "",
     "Tags": "",
