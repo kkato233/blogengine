@@ -9,7 +9,7 @@
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
     var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
 }
-<html data-ng-app="blogEditor">
+<html data-ng-app="blogAdmin">
 <head>
     <title>{{lbl.editor}}</title>
     <link rel="shortcut icon" href="@Href(Utils.ApplicationRelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
@@ -56,10 +56,12 @@
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages">{{lbl.pages}}</a></li>
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/categories">{{lbl.categories}}</a></li>
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/tags">{{lbl.tags}}</a></li>
+                        <li><a href="#" data-target="#modal-file-manager" data-toggle="modal">{{lbl.fileManager}}</a></li>
                     </ul>
                 </div>
             </div>
             @RenderPage("_postmodals.cshtml")
+            @RenderPage("_filemanager.cshtml")
             @RenderPage("_source.cshtml")
             <div class="container editor admin-editor admin-editor-post">
                 <div id="overlay-editor">

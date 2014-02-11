@@ -28,7 +28,7 @@ namespace BlogEngine.Core.Providers
         /// Virtual path is the path starting from the /files/ containers
         /// The entity is created against the current blog id
         /// </remarks>
-        internal abstract Directory CreateDirectory(string VirtualPath);
+        public abstract Directory CreateDirectory(string VirtualPath);
 
         /// <summary>
         /// Deletes a spefic directory from a virtual path

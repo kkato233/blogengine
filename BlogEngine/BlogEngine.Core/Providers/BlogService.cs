@@ -649,7 +649,7 @@ namespace BlogEngine.Core.Providers
         /// Virtual path is the path starting from the /files/ containers
         /// The entity is created against the current blog id
         /// </remarks>
-        internal static Directory CreateDirectory(string VirtualPath)
+        public static Directory CreateDirectory(string VirtualPath)
         {
             return FileSystemProvider.CreateDirectory(VirtualPath);
         }
