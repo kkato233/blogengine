@@ -126,7 +126,7 @@ namespace BlogEngine.Core.Providers
         /// Virtual path is the path starting from the /files/ containers
         /// The entity is created against the current blog id
         /// </remarks>
-        internal override FileSystem.Directory CreateDirectory(string VirtualPath)
+        public override FileSystem.Directory CreateDirectory(string VirtualPath)
         {
             VirtualPath = VirtualPath.VirtualPathToDbPath();
             if (DirectoryExists(VirtualPath))

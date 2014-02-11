@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PostEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('PostEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.post = newPost;
     $scope.lookups = [];

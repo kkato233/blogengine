@@ -28,6 +28,7 @@ public class UnityConfig
         unity.RegisterType<CustomFieldsController>();
         unity.RegisterType<UsersController>();
         unity.RegisterType<RolesController>();
+        unity.RegisterType<FileManagerController>();
 
         unity.RegisterType<ISettingsRepository, SettingsRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IPostRepository, PostRepository>(new HierarchicalLifetimeManager());
@@ -43,6 +44,7 @@ public class UnityConfig
         unity.RegisterType<ICustomFieldRepository, CustomFieldRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IUsersRepository, UsersRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IRolesRepository, RolesRepository>(new HierarchicalLifetimeManager());
+        unity.RegisterType<IFileManagerRepository, FileManagerRepository>(new HierarchicalLifetimeManager());
 
         config.DependencyResolver = new IoCContainer(unity);
     }

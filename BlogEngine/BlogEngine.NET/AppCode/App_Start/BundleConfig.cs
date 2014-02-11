@@ -87,6 +87,7 @@ public class BundleConfig
             .Include("~/admin/controllers/pages.js")
             .Include("~/admin/controllers/tags.js")
             .Include("~/admin/controllers/categories.js")
+            .Include("~/admin/controllers/files.js")
             .Include("~/admin/controllers/comments.js")
             .Include("~/admin/controllers/users.js")
             .Include("~/admin/controllers/roles.js")
@@ -115,11 +116,13 @@ public class BundleConfig
             .Include("~/scripts/jquery.hotkeys.js")
             .Include("~/scripts/bootstrap-wysiwyg.js")
             .Include("~/scripts/moment.js")
-            .Include("~/admin/editor/app.js")
+            .Include("~/admin/app.js")
             .Include("~/admin/editor/editor.js")
             .Include("~/admin/editor/postcontroller.js")
             .Include("~/admin/editor/pagecontroller.js")
-            .Include("~/admin/editor/services.js")
+            .Include("~/admin/be-grid.js")
+            .Include("~/admin/controllers/files.js")
+            .Include("~/admin/services.js")
           );
     }
 
