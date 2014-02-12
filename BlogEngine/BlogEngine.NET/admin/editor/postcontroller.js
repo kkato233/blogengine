@@ -139,13 +139,13 @@
         .success(function (data) {
             toastr.success($rootScope.lbl.uploaded);
             var editorHtml = $("#editor").html();
-            if (action === "image") {
+            if (action === "file" && $scope.IsImage(data)) {
                 $("#editor").html(editorHtml + '<img src=' + data + ' />');
             }
             if (action === "video") {
                 $("#editor").html(editorHtml + '<p>[video src=' + data + ']</p>');
             }
-            if (action === "file") {
+            if (action === "file" && $scope.IsImage(data) === false) {
                 var res = data.split("|");
                 if (res.length === 2) {
                     $("#editor").html(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
@@ -206,6 +206,15 @@
         });
     }
         
+    $scope.IsImage = function (file) {
+        if (file.match(/.png/i)) { return true; }
+        if (file.match(/.jpg/i)) { return true; }
+        if (file.match(/.jpeg/i)) { return true; }
+        if (file.match(/.tiff/i)) { return true; }
+        if (file.match(/.gif/i)) { return true; }
+        if (file.match(/.bmp/i)) { return true; }
+        return false;
+    }
 
     $scope.load();
 
