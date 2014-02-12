@@ -27,7 +27,7 @@ public class UploadController : ApiController
             if (!string.IsNullOrEmpty(dirPath))
                 dirName = dirPath;
 
-            if (action == "filemgr")
+            if (action == "filemgr" || action == "file")
             {
                 string[] ImageExtensnios = { ".jpg", ".png", ".jpeg", ".tiff", ".gif", ".bmp" };
 
@@ -70,8 +70,7 @@ public class UploadController : ApiController
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
                     var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                    var url = string.Format("{0}image.axd?picture={1}", Blog.CurrentInstance.RelativeWebRoot, uploaded.FilePath);
-                    return Request.CreateResponse(HttpStatusCode.Created, url);
+                    return Request.CreateResponse(HttpStatusCode.Created, uploaded.AsImage.ImageUrl);
                 }
             }
             if (action == "file")

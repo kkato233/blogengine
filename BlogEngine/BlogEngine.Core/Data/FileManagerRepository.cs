@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Data
                     FileSize = "",
                     FileType = FileType.Directory,
                     Created = "",
-                    FullPath = "",
+                    FullPath = directory.Parent.FullPath,
                     Name = "..."
                 });
                 responsePath = "root" + directory.FullPath;
