@@ -264,5 +264,22 @@ namespace BlogEngine.Core
         }
 
         #endregion
+
+        #region DefaultEditor
+
+        /// <summary>
+        /// Default admin editor.
+        /// </summary>
+        public static string DefaultEditor
+        {
+            get
+            {
+                return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["BlogEngine.DefaultEditor"])
+                    ? "bootstrap-wysiwyg"
+                    : WebConfigurationManager.AppSettings["BlogEngine.DefaultEditor"];
+            }
+        }
+
+        #endregion
     }
 }

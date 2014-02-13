@@ -63,7 +63,7 @@
             }
             $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, $scope.post.Author);
             load_tags(existingTags, $scope.allTags);
-            $("#editor").html($scope.post.Content);
+            editorSetHtml($scope.post.Content);
             spinOff();
         })
         .error(function () {
@@ -77,7 +77,7 @@
             return false;
         }
         spinOn();
-        $scope.post.Content = $("#editor").html();
+        $scope.post.Content = editorGetHtml();
         $scope.post.Author = $scope.selectedAuthor.OptionValue;
         if ($scope.post.Slug.length == 0) {
             $scope.post.Slug = toSlug($scope.post.Title);
@@ -121,8 +121,8 @@
     }
 
     $scope.saveSource = function () {
-        $scope.post.Content = $("#editor-source").val();
-        $("#editor").html($("#editor-source").val());
+        $scope.post.Content = editorGetSource();
+        editorSetSource();
         $("#modal-source").modal('hide');
     }
 
@@ -138,17 +138,17 @@
         dataService.uploadFile("/api/upload?action=" + action, fd)
         .success(function (data) {
             toastr.success($rootScope.lbl.uploaded);
-            var editorHtml = $("#editor").html();
+            var editorHtml = editorGetHtml();
             if (action === "file" && $scope.IsImage(data)) {
-                $("#editor").html(editorHtml + '<img src=' + data + ' />');
+                editorSetHtml(editorHtml + '<img src=' + data + ' />');
             }
             if (action === "video") {
-                $("#editor").html(editorHtml + '<p>[video src=' + data + ']</p>');
+                editorSetHtml(editorHtml + '<p>[video src=' + data + ']</p>');
             }
             if (action === "file" && $scope.IsImage(data) === false) {
                 var res = data.split("|");
                 if (res.length === 2) {
-                    $("#editor").html(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
+                    editorSetHtml(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
                 }
             }
         })
@@ -168,12 +168,12 @@
 
     $scope.expand = function () {
         $('#overlay-editor').addClass('overlay-editor');
-        $('#editor').addClass('full-editor');
+        $('#well-editor').addClass('full-editor');
     }
 
     $scope.compress = function () {
         $('#overlay-editor').removeClass('overlay-editor');
-        $('#editor').removeClass('full-editor');
+        $('#well-editor').removeClass('full-editor');
     }
 
     $scope.source = function () {
