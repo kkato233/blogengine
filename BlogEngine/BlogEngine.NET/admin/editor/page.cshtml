@@ -8,6 +8,10 @@
     var returnUrl = Request["returnUrl"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content/pages"; }
     var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
+    var defaultEditor = "~/editors/bootstrap-wysiwyg/editor.cshtml";
+    if (BlogConfig.DefaultEditor == "tiny-mce"){
+        defaultEditor = "~/editors/tiny_mce_3_5_8/editor.cshtml";
+    }
 }
 <html data-ng-app="blogAdmin">
 <head>
@@ -61,13 +65,11 @@
                 </div>
             </div>
             @RenderPage("_pagemodals.cshtml")
-            @RenderPage("_filemanager.cshtml")
-            @RenderPage("_source.cshtml")
             <div class="container editor admin-editor admin-editor-page">
                 <div id="overlay-editor">
                     <div class="well">
                         <input type="text" id="txtTitle" name="txtTitle" placeholder="{{lbl.titleOfPage}}..." class="form-control" data-ng-model="page.Title" />
-                        @RenderPage("_editor.cshtml")
+                        @RenderPage(defaultEditor)
                     </div>
 
                     <hr />

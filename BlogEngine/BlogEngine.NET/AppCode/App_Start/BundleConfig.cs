@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogEngine.Core;
+using System;
 using System.Web.Optimization;
 
 /// <summary>
@@ -113,8 +114,6 @@ public class BundleConfig
             .Include("~/Scripts/angular-sanitize.min.js")
             .Include("~/scripts/bootstrap.js")
             .Include("~/scripts/textext.js")
-            .Include("~/scripts/jquery.hotkeys.js")
-            .Include("~/scripts/bootstrap-wysiwyg.js")
             .Include("~/scripts/moment.js")
             .Include("~/admin/app.js")
             .Include("~/admin/editor/editor.js")
@@ -124,6 +123,18 @@ public class BundleConfig
             .Include("~/admin/controllers/files.js")
             .Include("~/admin/services.js")
           );
+
+        if (BlogConfig.DefaultEditor == "tiny-mce")
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
+        }
+        else
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/jquery.hotkeys.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/editor.js");
+        }
     }
 
     public static void AddDefaultIgnorePatterns(IgnoreList ignoreList)

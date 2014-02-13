@@ -26,47 +26,6 @@ function get_tags() {
     return tagList;
 }
 
-$(function () {
-    function initToolbarBootstrapBindings() {
-        var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-              'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-              'Times New Roman', 'Verdana'],
-              fontTarget = $('[title=' + BlogAdmin.i18n.font + ']').siblings('.dropdown-menu');
-        $.each(fonts, function (idx, fontName) {
-            fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
-        });
-        $('a[title]').tooltip({ container: 'body' });
-        $('.dropdown-menu input').click(function () { return false; })
-            .change(function () { $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle'); })
-            .keydown('esc', function () {
-            this.value = ''; $(this).change();
-        });
-
-        $('[data-role=magic-overlay]').each(function () {
-            var overlay = $(this), target = $(overlay.data('target'));
-            overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-        });
-        if ("onwebkitspeechchange" in document.createElement("input")) {
-            var editorOffset = $('#editor').offset();
-            $('#voiceBtn').css('position', 'absolute').offset({ top: editorOffset.top, left: editorOffset.left + $('#editor').innerWidth() - 35 });
-        } else {
-            $('#voiceBtn').hide();
-        }
-    };
-    function showErrorAlert(reason, detail) {
-        var msg = '';
-        if (reason === 'unsupported-file-type') { msg = "Unsupported format " + detail; }
-        else {
-            console.log("error uploading file", reason, detail);
-        }
-        $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
-         '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
-    };
-    $("#beVersion").html(SiteVars.Version);
-    initToolbarBootstrapBindings();
-    $('#editor').wysiwyg({ fileUploadError: showErrorAlert });
-});
-
 function spinOn() {
     $("#spinner").removeClass("loaded");
     $("#spinner").addClass("loading");
@@ -82,8 +41,6 @@ function selectedOption(arr, val) {
         if (arr[i].OptionValue.toLowerCase() === val.toLowerCase()) return arr[i];
     }
 }
-
-var keys = keys || function (o) { var a = []; for (var k in o) a.push(k); return a; };
 
 var toSlug = function (string) {
     var accents = "\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C7\u00C8\u00C9\u00CA"

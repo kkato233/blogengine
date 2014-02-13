@@ -125,18 +125,15 @@
     <Content Include="admin\controllers\files.js" />
     <Content Include="admin\editor\page.cshtml" />
     <Content Include="admin\editor\post.cshtml" />
-    <Content Include="admin\editor\_editor.cshtml" />
     <Content Include="admin\editor\_nav.cshtml" />
     <Content Include="admin\editor\_pagemodals.cshtml" />
     <Content Include="admin\editor\_postmodals.cshtml" />
-    <Content Include="admin\editor\_source.cshtml" />
     <Content Include="admin\Extensions\admin.master" />
     <Content Include="admin\index.cshtml" />
     <Content Include="admin\views\content\files.html" />
     <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
     <Content Include="App_Code\Helpers\ControlsHelper.cshtml" />
-    <Content Include="admin\editor\_filemanager.cshtml" />
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
@@ -146,6 +143,10 @@
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\toastr.less" />
+    <Content Include="editors\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
+    <Content Include="editors\bootstrap-wysiwyg\editor.js" />
+    <Content Include="editors\bootstrap-wysiwyg\jquery.hotkeys.js" />
+    <Content Include="editors\tiny_mce_3_5_8\editor.js" />
     <Content Include="editors\tiny_mce_3_5_8\plugins\syntaxhighlighter\syntaxhighlighter.version" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -192,6 +193,8 @@
     <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="themes\Standard\site.master" />
     <Content Include="themes\TitaniumX\site.master" />
+    <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
+    <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
     <None Include="Properties\PublishProfiles\be.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - Web Deploy.pubxml" />
@@ -1006,7 +1009,6 @@
     <Content Include="Scripts\Auto\04-jquery-jtemplates.js" />
     <Content Include="Scripts\Auto\05-json2.min.js" />
     <Content Include="Scripts\Auto\blog.js" />
-    <Content Include="Scripts\bootstrap-wysiwyg.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
@@ -1263,7 +1265,6 @@
     <Content Include="Scripts\jquery-jtemplates.min.js" />
     <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.form.js" />
-    <Content Include="Scripts\jquery.hotkeys.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
