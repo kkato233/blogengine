@@ -134,6 +134,8 @@
     <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
     <Content Include="App_Code\Helpers\ControlsHelper.cshtml" />
+    <Content Include="admin\editor\_filemgr.cshtml" />
+    <Content Include="admin\editor\_uploadbtns.cshtml" />
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />

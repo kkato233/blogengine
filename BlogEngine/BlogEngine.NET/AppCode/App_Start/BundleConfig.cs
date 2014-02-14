@@ -124,21 +124,21 @@ public class BundleConfig
             .Include("~/admin/services.js")
           );
 
-        if (BlogConfig.DefaultEditor == "tiny-mce")
-        {
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
-        }
-        if (BlogConfig.DefaultEditor == "summernote")
-        {
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");
-        }
-        else
+        if (BlogConfig.DefaultEditor == "~/editors/bootstrap-wysiwyg/editor.cshtml")
         {
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/jquery.hotkeys.js");
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/editor.js");
+        }
+        if (BlogConfig.DefaultEditor == "~/editors/tiny_mce_3_5_8/editor.cshtml")
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
+        }
+        else
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");            
         }
     }
 

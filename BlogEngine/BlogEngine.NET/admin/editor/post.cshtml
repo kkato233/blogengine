@@ -8,13 +8,6 @@
     var returnUrl = Request["return"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
     var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
-    var defaultEditor = "~/editors/bootstrap-wysiwyg/editor.cshtml";
-    if (BlogConfig.DefaultEditor == "tiny-mce"){
-        defaultEditor = "~/editors/tiny_mce_3_5_8/editor.cshtml";
-    }
-    if (BlogConfig.DefaultEditor == "summernote"){
-        defaultEditor = "~/editors/summernote/editor.cshtml";
-    }
 }
 <html data-ng-app="blogAdmin">
 <head>
@@ -68,13 +61,15 @@
                 </div>
             </div>
             @RenderPage("_postmodals.cshtml")
+            @RenderPage("_filemgr.cshtml")
             <div class="container editor admin-editor admin-editor-post">
                 <div id="overlay-editor">
                     <div class="row clearfix">
                         <div class="col-md-9">
                             <div class="well-editor">
                                 <input type="text" id="txtTitle" name="txtTitle" placeholder="{{lbl.titleOfPost}}..." class="form-control" data-ng-model="post.Title" />
-                                @RenderPage(defaultEditor)
+                                @RenderPage(BlogConfig.DefaultEditor)
+                                @RenderPage("_uploadbtns.cshtml")
                             </div>
                         </div>
                         <div class="col-md-3">

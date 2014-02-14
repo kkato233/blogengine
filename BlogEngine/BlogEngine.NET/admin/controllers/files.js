@@ -42,13 +42,13 @@
             var j = checked.length;
             while (j--) {
                 var item = checked[j];
-                var editorHtml = $("#editor").html();
+                var editorHtml = editorGetHtml();
                 if (item.FileType === 1) {
                     var fileTag = "<p><a href='" + SiteVars.ApplicationRelativeWebRoot + "file.axd?file=" + item.FullPath + "' target='_blank'>" + item.Name + " (" + item.FileSize + ")</a></p>";
-                    $("#editor").html(editorHtml + fileTag);
+                    editorSetHtml(editorHtml + fileTag);
                 }
                 if (item.FileType === 2) {
-                    $("#editor").html(editorHtml + "<img src='" + SiteVars.ApplicationRelativeWebRoot + "image.axd?picture=" + item.FullPath + "' />");
+                    editorSetHtml(editorHtml + "<img src='" + SiteVars.ApplicationRelativeWebRoot + "image.axd?picture=" + item.FullPath + "' />");
                 }
             }
             toastr.success($rootScope.lbl.completed);
