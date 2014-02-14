@@ -146,6 +146,12 @@
     <Content Include="editors\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
     <Content Include="editors\bootstrap-wysiwyg\editor.js" />
     <Content Include="editors\bootstrap-wysiwyg\jquery.hotkeys.js" />
+    <Content Include="editors\summernote\editor.js" />
+    <Content Include="editors\summernote\summernote-bs2.css" />
+    <Content Include="editors\summernote\summernote-bs3.css" />
+    <Content Include="editors\summernote\summernote.css" />
+    <Content Include="editors\summernote\summernote.js" />
+    <Content Include="editors\summernote\summernote.min.js" />
     <Content Include="editors\tiny_mce_3_5_8\editor.js" />
     <Content Include="editors\tiny_mce_3_5_8\plugins\syntaxhighlighter\syntaxhighlighter.version" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -195,6 +201,7 @@
     <Content Include="themes\TitaniumX\site.master" />
     <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
     <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
+    <Content Include="editors\summernote\editor.cshtml" />
     <None Include="Properties\PublishProfiles\be.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - Web Deploy.pubxml" />

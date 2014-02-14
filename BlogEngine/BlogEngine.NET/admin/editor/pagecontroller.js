@@ -29,7 +29,7 @@
                 $scope.selectedParent = selectedOption($scope.lookups.PageList, $scope.page.Parent.OptionValue);
                 var x = $scope.selectedParent;
             }
-            $("#editor").html($scope.page.Content);
+            editorSetHtml($scope.page.Content);
             spinOff();
         })
         .error(function () {
@@ -43,7 +43,7 @@
             return false;
         }
         spinOn();
-        $scope.page.Content = $("#editor").html();
+        $scope.page.Content = editorGetHtml();
         $scope.page.Parent = $scope.selectedParent;
 
         if ($scope.page.Slug.length == 0) {
@@ -82,12 +82,6 @@
         }
     }
 
-    $scope.saveSource = function () {
-        $scope.page.Content = $("#editor-source").val();
-        $("#editor").html($("#editor-source").val());
-        $("#modal-source").modal('hide');
-    }
-
     $scope.uploadFile = function (action, files) {
         var fd = new FormData();
         fd.append("file", files[0]);
@@ -95,48 +89,21 @@
         dataService.uploadFile("/api/upload?action=" + action, fd)
         .success(function (data) {
             toastr.success("Uploaded");
-            var editorHtml = $("#editor").html();
+            var editorHtml = editorGetHtml();
             if (action === "image") {
-                $("#editor").html(editorHtml + '<img src=' + data + ' />');
+                editorSetHtml(editorHtml + '<img src=' + data + ' />');
             }
             if (action === "video") {
-                $("#editor").html(editorHtml + '<p>[video src=' + data + ']</p>');
+                editorSetHtml(editorHtml + '<p>[video src=' + data + ']</p>');
             }
             if (action === "file") {
                 var res = data.split("|");
                 if (res.length === 2) {
-                    $("#editor").html(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
+                    editorSetHtml(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
                 }
             }
         })
         .error(function () { toastr.error("Import failed"); });
-    }
-
-    $scope.toggleEditor = function (e) {
-        if ($scope.fullScreen) {
-            $scope.compress();
-            $scope.fullScreen = false;
-        }
-        else {
-            $scope.expand();
-            $scope.fullScreen = true;
-        }
-    }
-
-    $scope.expand = function () {
-        $('#overlay-editor').addClass('overlay-editor');
-        $('#editor').addClass('full-editor');
-    }
-
-    $scope.compress = function () {
-        $('#overlay-editor').removeClass('overlay-editor');
-        $('#editor').removeClass('full-editor');
-    }
-
-    $scope.source = function () {
-        $("#modal-source").modal();
-        var html = $('#editor').html();
-        $("#editor-source").val($("#editor").html());
     }
 
     $scope.load();
