@@ -9,9 +9,11 @@
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
     var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
     var defaultEditor = "~/editors/bootstrap-wysiwyg/editor.cshtml";
-    if (BlogConfig.DefaultEditor == "tiny-mce")
-    {
+    if (BlogConfig.DefaultEditor == "tiny-mce"){
         defaultEditor = "~/editors/tiny_mce_3_5_8/editor.cshtml";
+    }
+    if (BlogConfig.DefaultEditor == "summernote"){
+        defaultEditor = "~/editors/summernote/editor.cshtml";
     }
 }
 <html data-ng-app="blogAdmin">

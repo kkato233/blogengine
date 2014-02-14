@@ -39,8 +39,6 @@
     $('#editor').wysiwyg({ fileUploadError: showErrorAlert });
 });
 
-var keys = keys || function (o) { var a = []; for (var k in o) a.push(k); return a; };
-
 var editorGetHtml = function () {
     return $("#editor").html();
 }
@@ -49,10 +47,29 @@ var editorSetHtml = function (html) {
     $("#editor").html(html);
 }
 
-var editorGetSource = function () {
-    return $("#editor-source").val();
+var sourceShow = function () {
+    $("#modal-source").modal();
+    var html = $('#editor').html();
+    $("#editor-source").val($("#editor").html());
 }
 
-var editorSetSource = function () {
-    $("#editor").html($("#editor-source").val());
+var sourceHide = function () {
+    editorSetHtml($("#editor-source").val());
+    $("#modal-source").modal('hide');
+}
+
+var fullScreen = false;
+
+function toggleFullScreen() {
+    if (fullScreen === false) {
+        $('#overlay-editor').addClass('overlay-editor');
+        $('#editor').addClass('full-editor');
+        $('#btn-source').attr("disabled", "disabled");
+        fullScreen = true;
+    } else {
+        $('#overlay-editor').removeClass('overlay-editor');
+        $('#editor').removeClass('full-editor');
+        $('#btn-source').removeAttr("disabled");
+        fullScreen = false;
+    }
 }

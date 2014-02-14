@@ -129,6 +129,11 @@ public class BundleConfig
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
         }
+        if (BlogConfig.DefaultEditor == "summernote")
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");
+        }
         else
         {
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/jquery.hotkeys.js");

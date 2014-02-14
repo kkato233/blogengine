@@ -42,6 +42,8 @@ function selectedOption(arr, val) {
     }
 }
 
+var keys = keys || function (o) { var a = []; for (var k in o) a.push(k); return a; };
+
 var toSlug = function (string) {
     var accents = "\u00C0\u00C1\u00C2\u00C3\u00C4\u00C5\u00C7\u00C8\u00C9\u00CA"
       + "\u00CB\u00CC\u00CD\u00CE\u00CF\u00D0\u00D1\u00D2\u00D3\u00D4"

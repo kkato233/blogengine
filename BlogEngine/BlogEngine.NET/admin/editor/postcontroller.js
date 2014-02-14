@@ -120,12 +120,6 @@
         }
     }
 
-    $scope.saveSource = function () {
-        $scope.post.Content = editorGetSource();
-        editorSetSource();
-        $("#modal-source").modal('hide');
-    }
-
     $scope.publish = function (doPublish){
         $scope.post.IsPublished = doPublish;
         $scope.save();
@@ -153,33 +147,6 @@
             }
         })
         .error(function () { toastr.error($rootScope.lbl.importFailed); });
-    }
-
-    $scope.toggleEditor = function (e) {
-        if ($scope.fullScreen) {
-            $scope.compress();
-            $scope.fullScreen = false;
-        }
-        else {
-            $scope.expand();
-            $scope.fullScreen = true;
-        }
-    }
-
-    $scope.expand = function () {
-        $('#overlay-editor').addClass('overlay-editor');
-        $('#well-editor').addClass('full-editor');
-    }
-
-    $scope.compress = function () {
-        $('#overlay-editor').removeClass('overlay-editor');
-        $('#well-editor').removeClass('full-editor');
-    }
-
-    $scope.source = function () {
-        $("#modal-source").modal();
-        var html = $('#editor').html();
-        $("#editor-source").val($("#editor").html());
     }
 
     $scope.status = function () {
