@@ -9,5 +9,7 @@ var editorSetHtml = function (html) {
 $(function () {
     $('.summernote').summernote({
         height: 240
+        // language must be added here and in BundleConfig.cs
+        // ,lang: 'ru-RU'
     });
 });

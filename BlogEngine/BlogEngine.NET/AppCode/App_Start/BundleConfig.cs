@@ -138,6 +138,8 @@ public class BundleConfig
         else
         {
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
+            // change language here if needed
+            //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/lang/summernote-ru-RU.js");
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");            
         }
     }
