@@ -7,7 +7,6 @@
     var id = Request["id"];
     var returnUrl = Request["returnUrl"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content/pages"; }
-    var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
 }
 <html data-ng-app="blogAdmin">
 <head>
@@ -31,18 +30,7 @@
 </head>
 <body data-ng-controller="PageEditorController" class="@Resources.labels.LangDirection">
     <script type="text/javascript">
-        var SiteVars = {
-            ApplicationRelativeWebRoot: '@Utils.ApplicationRelativeWebRoot',
-            RelativeWebRoot: '@Utils.RelativeWebRoot',
-            BlogInstanceId: '@Blog.CurrentInstance.Id',
-            UserName: '@User.Identity.Name',
-            UserRights: ['@Html.Raw(string.Join("', '", userRights))'],
-            AbsoluteWebRoot: '@Utils.AbsoluteWebRoot',
-            Version: 'BlogEngine.NET ' + '@BlogSettings.Instance.Version()'
-        };
-        var editVars = {
-            id: '@id'
-        };
+        var editVars = { id: '@id' };
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
     <div id="wrap">

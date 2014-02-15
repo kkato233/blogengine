@@ -8,6 +8,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
     using System.Web;
     using System.Web.Caching;
     using HttpModules;
+    using System.Linq;
 
     /// <summary>
     /// Removes whitespace in all stylesheets added to the 
@@ -85,7 +86,20 @@ namespace BlogEngine.Core.Web.HttpHandlers
 
                     var jc = new BlogCulture(culture, BlogCulture.ResourceType.Admin);
 
-                    sb.Append("BlogAdmin = { i18n: " + jc.ToJsonString() + "};");
+                    // add SiteVars used to pass server-side values to JavaScript in admin UI
+                    var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
+                    var sbSiteVars = new StringBuilder();
+                    sbSiteVars.Append("ApplicationRelativeWebRoot: '" + Utils.ApplicationRelativeWebRoot + "',");
+                    sbSiteVars.Append("RelativeWebRoot: '" + Utils.RelativeWebRoot + "',");
+                    sbSiteVars.Append("BlogInstanceId: '" + Blog.CurrentInstance.Id + "',");
+                    sbSiteVars.Append("UserName:  '" + Security.CurrentUser.Identity.Name + "',");
+                    sbSiteVars.Append("UserRights: ['" + string.Join("', '", userRights) + "'],");
+                    sbSiteVars.Append("AbsoluteWebRoot:  '" + Utils.AbsoluteWebRoot + "',");
+                    sbSiteVars.Append("IsPrimary: '" + Blog.CurrentInstance.IsPrimary + "',");
+                    sbSiteVars.Append("IsAdmin: '" + Security.IsAdministrator + "',");
+                    sbSiteVars.Append("Version: 'BlogEngine.NET " + BlogSettings.Instance.Version() + "'");
+
+                    sb.Append("SiteVars = {" + sbSiteVars.ToString() + "}; BlogAdmin = { i18n: " + jc.ToJsonString() + "};");
                     script = sb.ToString();
                 }
             }
