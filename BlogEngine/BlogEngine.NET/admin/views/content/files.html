@@ -9,7 +9,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="focusInput=false"><i class="fa fa-times"></i></button>
-                            <h4 class="modal-title">New folder</h4>
+                            <h4 class="modal-title">{{lbl.addFolder}}</h4>
                         </div>
                         <div class="modal-body">
                             <div class="form-horizontal clearfix">
@@ -39,7 +39,7 @@
         <div class="toolbar-grid clearfix">
             <div class="pull-left">
                 <button data-ng-click="processChecked('delete')" ng-disabled="hasChecked() === false" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
-                <button data-ng-click="addFolder()" class="btn btn-success btn-sm btn-tabkey" type="submit"><i class="fa fa-folder"></i> Add directory</button>
+                <button data-ng-click="addFolder()" class="btn btn-success btn-sm btn-tabkey" type="submit"><i class="fa fa-folder"></i> {{lbl.addFolder}}</button>
                 <div class="btn-group">
                     <a class="btn btn-success btn-sm" id="uploadBtn" title="{{lbl.uploadFile}}"><i class="fa fa-upload"></i> {{lbl.uploadFile}}</a>
                     <input type="file" style="position: relative; left: 0" data-role="magic-overlay" class="cursor-pointer" data-target="#uploadBtn" onchange="angular.element(this).scope().uploadFile(this.files)" />

@@ -11,12 +11,14 @@ addCommentsToPages
 addCustomCodeToHeader
 addEditPost
 addFilter
+addFolder
 addNewBlog
 addNewCategory
 addNewPage
 addNewRole
 addNewUser
 addToPages
+addToPost
 addToWhiteList
 admin
 administrationPanel
@@ -314,6 +316,7 @@ failedAddingNewRole
 failedToSaveRights
 feed
 fileManager
+filePicker
 filestorage
 filter
 filterByApml
