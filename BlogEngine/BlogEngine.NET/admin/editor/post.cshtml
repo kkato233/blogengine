@@ -7,9 +7,8 @@
     var id = Request["id"];
     var returnUrl = Request["return"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content"; }
-    var userRights = Security.CurrentUserRights().Select(r => r.Flag).ToArray();
 }
-<html data-ng-app="blogEditor">
+<html data-ng-app="blogAdmin">
 <head>
     <title>{{lbl.editor}}</title>
     <link rel="shortcut icon" href="@Href(Utils.ApplicationRelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
@@ -31,18 +30,7 @@
 </head>
 <body data-ng-controller="PostEditorController" class="@Resources.labels.LangDirection">
     <script type="text/javascript">
-        var SiteVars = {
-            ApplicationRelativeWebRoot: '@Utils.ApplicationRelativeWebRoot',
-            RelativeWebRoot: '@Utils.RelativeWebRoot',
-            BlogInstanceId: '@Blog.CurrentInstance.Id',
-            UserName: '@User.Identity.Name',
-            UserRights: ['@Html.Raw(string.Join("', '", userRights))'],
-            AbsoluteWebRoot: '@Utils.AbsoluteWebRoot',
-            Version: 'BlogEngine.NET ' + '@BlogSettings.Instance.Version()'
-        };
-        var editVars = {
-            id: '@id'
-        };
+        var editVars = { id: '@id' };
     </script>
     <script type="text/javascript" src="admin.res.axd"></script>
     <div id="wrap">
@@ -56,18 +44,20 @@
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/pages">{{lbl.pages}}</a></li>
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/categories">{{lbl.categories}}</a></li>
                         <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/tags">{{lbl.tags}}</a></li>
+                        <li><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/files">{{lbl.fileManager}}</a></li>
                     </ul>
                 </div>
             </div>
             @RenderPage("_postmodals.cshtml")
-            @RenderPage("_source.cshtml")
+            @RenderPage("_filemgr.cshtml")
             <div class="container editor admin-editor admin-editor-post">
                 <div id="overlay-editor">
                     <div class="row clearfix">
                         <div class="col-md-9">
                             <div class="well-editor">
                                 <input type="text" id="txtTitle" name="txtTitle" placeholder="{{lbl.titleOfPost}}..." class="form-control" data-ng-model="post.Title" />
-                                @RenderPage("_editor.cshtml")
+                                @RenderPage(BlogConfig.DefaultEditor)
+                                @RenderPage("_uploadbtns.cshtml")
                             </div>
                         </div>
                         <div class="col-md-3">

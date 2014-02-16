@@ -122,17 +122,20 @@
     <Content Include="Account\Logout.cshtml" />
     <Content Include="Account\Web.Config" />
     <Content Include="admin\admin.master" />
+    <Content Include="admin\controllers\files.js" />
     <Content Include="admin\editor\page.cshtml" />
     <Content Include="admin\editor\post.cshtml" />
-    <Content Include="admin\editor\_editor.cshtml" />
     <Content Include="admin\editor\_nav.cshtml" />
     <Content Include="admin\editor\_pagemodals.cshtml" />
     <Content Include="admin\editor\_postmodals.cshtml" />
-    <Content Include="admin\editor\_source.cshtml" />
     <Content Include="admin\Extensions\admin.master" />
     <Content Include="admin\index.cshtml" />
+    <Content Include="admin\views\content\files.html" />
+    <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
     <Content Include="App_Code\Helpers\ControlsHelper.cshtml" />
+    <Content Include="admin\editor\_filemgr.cshtml" />
+    <Content Include="admin\editor\_uploadbtns.cshtml" />
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
@@ -142,6 +145,16 @@
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\toastr.less" />
+    <Content Include="editors\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
+    <Content Include="editors\bootstrap-wysiwyg\editor.js" />
+    <Content Include="editors\bootstrap-wysiwyg\jquery.hotkeys.js" />
+    <Content Include="editors\summernote\editor.js" />
+    <Content Include="editors\summernote\summernote-bs2.css" />
+    <Content Include="editors\summernote\summernote-bs3.css" />
+    <Content Include="editors\summernote\summernote.css" />
+    <Content Include="editors\summernote\summernote.js" />
+    <Content Include="editors\summernote\summernote.min.js" />
+    <Content Include="editors\tiny_mce_3_5_8\editor.js" />
     <Content Include="editors\tiny_mce_3_5_8\plugins\syntaxhighlighter\syntaxhighlighter.version" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -188,6 +201,9 @@
     <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="themes\Standard\site.master" />
     <Content Include="themes\TitaniumX\site.master" />
+    <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
+    <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
+    <Content Include="editors\summernote\editor.cshtml" />
     <None Include="Properties\PublishProfiles\be.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\bespa - Web Deploy.pubxml" />
@@ -224,11 +240,9 @@
     <Content Include="admin\controllers\settings.js" />
     <Content Include="admin\controllers\tags.js" />
     <Content Include="admin\controllers\users.js" />
-    <Content Include="admin\editor\app.js" />
     <Content Include="admin\editor\editor.js" />
     <Content Include="admin\editor\pagecontroller.js" />
     <Content Include="admin\editor\postcontroller.js" />
-    <Content Include="admin\editor\services.js" />
     <Content Include="admin\Extensions\Settings.ascx" />
     <Content Include="admin\Extensions\Settings.aspx" />
     <Content Include="admin\menu.ascx" />
@@ -279,10 +293,6 @@
     <Content Include="App_Data\datastore\widgets\be_WIDGET_ZONE.xml" />
     <Content Include="App_Data\datastore\widgets\Footer_Widget.xml" />
     <Content Include="App_Data\extensionmap.txt" />
-    <Content Include="App_Data\files\2011\07\admin menu.PNG" />
-    <Content Include="App_Data\files\2011\07\background2.PNG" />
-    <Content Include="App_Data\files\2013\11\api.txt" />
-    <Content Include="App_Data\files\2013\11\logo.PNG" />
     <Content Include="App_Data\labels.txt" />
     <Content Include="App_Data\monstercache\80\6981821.png" />
     <Content Include="App_Data\newsletter.xml" />
@@ -1008,7 +1018,6 @@
     <Content Include="Scripts\Auto\04-jquery-jtemplates.js" />
     <Content Include="Scripts\Auto\05-json2.min.js" />
     <Content Include="Scripts\Auto\blog.js" />
-    <Content Include="Scripts\bootstrap-wysiwyg.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
@@ -1265,7 +1274,6 @@
     <Content Include="Scripts\jquery-jtemplates.min.js" />
     <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.form.js" />
-    <Content Include="Scripts\jquery.hotkeys.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -1611,6 +1619,7 @@
     <Compile Include="AppCode\Api\CategoriesController.cs" />
     <Compile Include="AppCode\Api\CommentsController.cs" />
     <Compile Include="AppCode\Api\CustomFieldsController.cs" />
+    <Compile Include="AppCode\Api\FileManagerController.cs" />
     <Compile Include="AppCode\Api\FileSystemDataStreamProvider.cs" />
     <Compile Include="AppCode\Api\LogsController.cs" />
     <Compile Include="AppCode\Api\LookupsController.cs" />
@@ -2323,9 +2332,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\datastore\extensions\" />
-    <Folder Include="App_Data\files\2014\01\" />
     <Folder Include="App_Data\files\avatars\" />
-    <Folder Include="App_Data\files\jcarousel\album1\" />
     <Folder Include="App_Data\packages\SimpleBlog.1.1.0\" />
   </ItemGroup>
   <PropertyGroup>

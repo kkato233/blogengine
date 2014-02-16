@@ -5,6 +5,7 @@ using BlogEngine.Core.Providers;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -12,7 +13,7 @@ using System.Web.Http;
 
 public class UploadController : ApiController
 {
-    public HttpResponseMessage Post(string action)
+    public HttpResponseMessage Post(string action, string dirPath = "")
     {
         WebUtils.CheckRightsForAdminPostPages(false);
 
@@ -22,6 +23,20 @@ public class UploadController : ApiController
         if (file != null && file.ContentLength > 0)
         {
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
+
+            if (!string.IsNullOrEmpty(dirPath))
+                dirName = dirPath;
+
+            if (action == "filemgr" || action == "file")
+            {
+                string[] ImageExtensnios = { ".jpg", ".png", ".jpeg", ".tiff", ".gif", ".bmp" };
+
+                if (ImageExtensnios.Any(x => file.FileName.ToLower().Contains(x.ToLower())))
+                    action = "image";
+                else
+                    action = "file";
+            }
+
             var dir = BlogService.GetDirectory(dirName);
             var retUrl = "";
 
@@ -55,8 +70,7 @@ public class UploadController : ApiController
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
                     var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                    var url = string.Format("{0}image.axd?picture={1}", Blog.CurrentInstance.RelativeWebRoot, uploaded.FilePath);
-                    return Request.CreateResponse(HttpStatusCode.Created, url);
+                    return Request.CreateResponse(HttpStatusCode.Created, uploaded.AsImage.ImageUrl);
                 }
             }
             if (action == "file")

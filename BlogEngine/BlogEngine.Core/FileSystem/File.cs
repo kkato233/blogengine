@@ -218,7 +218,7 @@ namespace BlogEngine.Core.FileSystem
         {
             get
             {
-                return string.Format("{0}FILES{1}.axdx", Utils.RelativeWebRoot, this.SafeFilePath);
+                return string.Format("{0}file.axd?file={1}", Utils.RelativeWebRoot, this.SafeFilePath);
             }
         }
 

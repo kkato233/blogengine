@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlogEngine.Core;
+using System;
 using System.Web.Optimization;
 
 /// <summary>
@@ -87,6 +88,7 @@ public class BundleConfig
             .Include("~/admin/controllers/pages.js")
             .Include("~/admin/controllers/tags.js")
             .Include("~/admin/controllers/categories.js")
+            .Include("~/admin/controllers/files.js")
             .Include("~/admin/controllers/comments.js")
             .Include("~/admin/controllers/users.js")
             .Include("~/admin/controllers/roles.js")
@@ -112,15 +114,34 @@ public class BundleConfig
             .Include("~/Scripts/angular-sanitize.min.js")
             .Include("~/scripts/bootstrap.js")
             .Include("~/scripts/textext.js")
-            .Include("~/scripts/jquery.hotkeys.js")
-            .Include("~/scripts/bootstrap-wysiwyg.js")
             .Include("~/scripts/moment.js")
-            .Include("~/admin/editor/app.js")
+            .Include("~/admin/app.js")
             .Include("~/admin/editor/editor.js")
             .Include("~/admin/editor/postcontroller.js")
             .Include("~/admin/editor/pagecontroller.js")
-            .Include("~/admin/editor/services.js")
+            .Include("~/admin/be-grid.js")
+            .Include("~/admin/controllers/files.js")
+            .Include("~/admin/services.js")
           );
+
+        if (BlogConfig.DefaultEditor == "~/editors/bootstrap-wysiwyg/editor.cshtml")
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/jquery.hotkeys.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/editor.js");
+        }
+        if (BlogConfig.DefaultEditor == "~/editors/tiny_mce_3_5_8/editor.cshtml")
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
+        }
+        else
+        {
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
+            // change language here if needed
+            //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/lang/summernote-ru-RU.js");
+            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");            
+        }
     }
 
     public static void AddDefaultIgnorePatterns(IgnoreList ignoreList)

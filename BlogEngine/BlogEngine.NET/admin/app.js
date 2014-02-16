@@ -11,6 +11,7 @@
         .when("/content/pages", { templateUrl: "views/content/pages.html" })
         .when("/content/categories", { templateUrl: "views/content/categories.html" })
         .when("/content/tags", { templateUrl: "views/content/tags.html" })
+        .when("/content/files", { templateUrl: "views/content/files.html" })
 
         .when("/custom", { templateUrl: "views/custom/index.html" })
         .when("/custom/themes", { templateUrl: "views/custom/themes.html" })
@@ -49,7 +50,6 @@
 
         $rootScope.lbl = BlogAdmin.i18n;
         $rootScope.SiteVars = SiteVars;
-        $rootScope.testData = true;
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';
     }];

@@ -147,6 +147,7 @@
     <Compile Include="Compilation\ServerVariableExpressionBuilder.cs" />
     <Compile Include="Compilation\SessionExpressionBuilder.cs" />
     <Compile Include="Data\Contracts\ICustomFieldRepository.cs" />
+    <Compile Include="Data\Contracts\IFileManagerRepository.cs" />
     <Compile Include="Data\Contracts\IRolesRepository.cs" />
     <Compile Include="Data\Contracts\IUsersRepository.cs" />
     <Compile Include="Data\CustomFieldRepository.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Data\Contracts\ITagRepository.cs" />
     <Compile Include="Data\Contracts\ITrashRepository.cs" />
     <Compile Include="Data\CustomFilterRepository.cs" />
+    <Compile Include="Data\FileManagerRepository.cs" />
     <Compile Include="Data\LookupsRepository.cs" />
     <Compile Include="Data\Models\Blog.cs" />
     <Compile Include="Data\Models\BlogItem.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Data\TagRepository.cs" />
     <Compile Include="Data\TrashRepository.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FileSystem\Common.cs" />
     <Compile Include="FileSystem\Directory.cs" />
     <Compile Include="FileSystem\File.cs" />
     <Compile Include="FileSystem\FileStoreDb.cs" />

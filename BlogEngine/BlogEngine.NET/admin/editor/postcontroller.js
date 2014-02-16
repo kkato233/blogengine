@@ -1,4 +1,4 @@
-﻿angular.module('blogEditor').controller('PostEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
+﻿angular.module('blogAdmin').controller('PostEditorController', ["$rootScope", "$scope", "$location", "$filter", "$log", "dataService", function ($rootScope, $scope, $location, $filter, $log, dataService) {
     $scope.id = editVars.id;
     $scope.post = newPost;
     $scope.lookups = [];
@@ -63,7 +63,7 @@
             }
             $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, $scope.post.Author);
             load_tags(existingTags, $scope.allTags);
-            $("#editor").html($scope.post.Content);
+            editorSetHtml($scope.post.Content);
             spinOff();
         })
         .error(function () {
@@ -77,7 +77,7 @@
             return false;
         }
         spinOn();
-        $scope.post.Content = $("#editor").html();
+        $scope.post.Content = editorGetHtml();
         $scope.post.Author = $scope.selectedAuthor.OptionValue;
         if ($scope.post.Slug.length == 0) {
             $scope.post.Slug = toSlug($scope.post.Title);
@@ -120,12 +120,6 @@
         }
     }
 
-    $scope.saveSource = function () {
-        $scope.post.Content = $("#editor-source").val();
-        $("#editor").html($("#editor-source").val());
-        $("#modal-source").modal('hide');
-    }
-
     $scope.publish = function (doPublish){
         $scope.post.IsPublished = doPublish;
         $scope.save();
@@ -138,48 +132,21 @@
         dataService.uploadFile("/api/upload?action=" + action, fd)
         .success(function (data) {
             toastr.success($rootScope.lbl.uploaded);
-            var editorHtml = $("#editor").html();
-            if (action === "image") {
-                $("#editor").html(editorHtml + '<img src=' + data + ' />');
+            var editorHtml = editorGetHtml();
+            if (action === "file" && $scope.IsImage(data)) {
+                editorSetHtml(editorHtml + '<img src=' + data + ' />');
             }
             if (action === "video") {
-                $("#editor").html(editorHtml + '<p>[video src=' + data + ']</p>');
+                editorSetHtml(editorHtml + '<p>[video src=' + data + ']</p>');
             }
-            if (action === "file") {
+            if (action === "file" && $scope.IsImage(data) === false) {
                 var res = data.split("|");
                 if (res.length === 2) {
-                    $("#editor").html(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
+                    editorSetHtml(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
                 }
             }
         })
         .error(function () { toastr.error($rootScope.lbl.importFailed); });
-    }
-
-    $scope.toggleEditor = function (e) {
-        if ($scope.fullScreen) {
-            $scope.compress();
-            $scope.fullScreen = false;
-        }
-        else {
-            $scope.expand();
-            $scope.fullScreen = true;
-        }
-    }
-
-    $scope.expand = function () {
-        $('#overlay-editor').addClass('overlay-editor');
-        $('#editor').addClass('full-editor');
-    }
-
-    $scope.compress = function () {
-        $('#overlay-editor').removeClass('overlay-editor');
-        $('#editor').removeClass('full-editor');
-    }
-
-    $scope.source = function () {
-        $("#modal-source").modal();
-        var html = $('#editor').html();
-        $("#editor-source").val($("#editor").html());
     }
 
     $scope.status = function () {
@@ -206,6 +173,15 @@
         });
     }
         
+    $scope.IsImage = function (file) {
+        if (file.match(/.png/i)) { return true; }
+        if (file.match(/.jpg/i)) { return true; }
+        if (file.match(/.jpeg/i)) { return true; }
+        if (file.match(/.tiff/i)) { return true; }
+        if (file.match(/.gif/i)) { return true; }
+        if (file.match(/.bmp/i)) { return true; }
+        return false;
+    }
 
     $scope.load();
 
