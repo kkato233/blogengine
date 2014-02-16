@@ -9,56 +9,102 @@ using System.Collections.Generic;
 using BlogEngine.Core;
 using System.Web.UI;
 
+
 #endregion
 
+//TODO  Remove All URL redirects to Business layer? To speed up page loading instead of having the most visited page handling so many tasks
 public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 {
+
+    bool SearchEngine = false;
 	protected void Page_Load(object sender, EventArgs e)
 	{
+        //Check to see if Client is a SearchEngine or Bot trying to craw the website
+        CheckBrowserCaps();
+
+
 		if (Page.IsCallback)
 			return;
-		
+
+        // If Client is a SearchEngine or Bot Start the Processing of SearchEngine 
+        if (SearchEngine == true)
+        {
+            ProcessSearchEngine();
+        }
+
 		if (Request.RawUrl.ToLowerInvariant().Contains("/category/"))
 		{
 			DisplayCategories();
 		}
-		else if (Request.RawUrl.ToLowerInvariant().Contains("/author/"))
-		{
-			DisplayAuthors();
-		}
-		else if (Request.RawUrl.ToLowerInvariant().Contains("?tag="))
-		{
-			DisplayTags();
-		}
-		else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
-		{
-			if (Request.RawUrl.Contains("year="))
-				Redirect();
-			else
-				DisplayDateRange();
 
-            base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
-		}
-		else if (Request.QueryString["apml"] != null)
-		{
-			DisplayApmlFiltering();
+            else if (Request.RawUrl.ToLowerInvariant().Contains("/author/"))
+            {
+                DisplayAuthors();
+            }
+            else if (Request.RawUrl.ToLowerInvariant().Contains("?tag="))
+            {
+                DisplayTags();
+            }
+            else if (Request.QueryString["year"] != null || Request.QueryString["date"] != null || Request.QueryString["calendar"] != null)
+            {
+                if (Request.RawUrl.Contains("year="))
+                    Redirect();
+                else
+                    DisplayDateRange();
 
-            base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
-		}
-		else
-		{			
-			if (!BlogSettings.Instance.UseBlogNameInPageTitles)
-				Page.Title = BlogSettings.Instance.Name + " | ";
+                // base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));    This only should be for default.aspx page once.
+                //TODO Removing all BlogSettings.Instance.Description AddMetaTags so that each page and post has unique description 
+            }
+            else if (Request.QueryString["apml"] != null)
+            {
+                DisplayApmlFiltering();
+            }
+            else
+            {
+                if (!BlogSettings.Instance.UseBlogNameInPageTitles)
+                    Page.Title = BlogSettings.Instance.Name + " | ";
 
-			if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
-				Page.Title += Server.HtmlEncode(BlogSettings.Instance.Description);
+                if (!string.IsNullOrEmpty(BlogSettings.Instance.Description))
+                    Page.Title += Server.HtmlEncode(BlogSettings.Instance.Description);
 
-            base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
-		}
+                base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description));
+            }
 
 		AddMetaKeywords();
 		base.AddMetaTag("author", Server.HtmlEncode(BlogSettings.Instance.AuthorName));		
 	}
+
+    void CheckBrowserCaps()
+    {
+        System.Web.HttpBrowserCapabilities myBrowserCaps = Request.Browser;
+        if (((System.Web.Configuration.HttpCapabilitiesBase)myBrowserCaps).Crawler)
+        {
+            SearchEngine = true;
+        }
+
+    }
+       /// <summary>
+       ///   Blocks SearchEngine and Bots from indexing Human Only webpages
+       ///   pager,keywords,tags,categories,search and archive page
+       /// </summary>
+    private void ProcessSearchEngine ()
+       {
+           string CrawlerUrl = Request.RawUrl.ToLowerInvariant();
+                       
+           if (CrawlerUrl.Contains("/category/") ||
+               CrawlerUrl.Contains("?tag") ||
+               CrawlerUrl.Contains("?page=") ||
+               // Post with Date has format http://MainWebsite.com/post/2014/02/13/post-2
+               CrawlerUrl.Contains(Utils.RelativeWebRoot + "/2013/", StringComparison.OrdinalIgnoreCase) ||   //Stops Calendar from being indexed 
+               CrawlerUrl.Contains(Utils.RelativeWebRoot + "/2014/", StringComparison.OrdinalIgnoreCase) ||   
+               CrawlerUrl.StartsWith(Utils.RelativeWebRoot + "search.aspx", StringComparison.OrdinalIgnoreCase) ||
+               CrawlerUrl.StartsWith(Utils.RelativeWebRoot + "archive.aspx", StringComparison.OrdinalIgnoreCase))
+           {
+               base.AddMetaTag("ROBOT", "NOINDEX, NOFOLLOW");
+               //Sends SearchEngine or Bot to the default page
+               Response.RedirectPermanent(Utils.RelativeWebRoot); 
+           }
+       }
 
 	private void DisplayApmlFiltering()
 	{
@@ -109,6 +155,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		}
 	}
 	
+    //TODO Does the old URL redirect still needed with BE 2.9 and above?
 	/// <summary>
 	/// Permanently redirects to the correct URL format if the page is requested with
 	/// the old URL: /default.aspx?year=2007&month=12
@@ -141,6 +188,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 
 		if (rewrite != null)
 		{
+            //TODO Replace this Block of code with Response.RedirectPermanent?  Since Asp.net 4.0 has new method saves on code.
 			Response.Clear();
 			Response.StatusCode = 301;
 			Response.AppendHeader("location", rewrite + page);
@@ -191,7 +239,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             Category category = Category.GetCategory(categoryId, Blog.CurrentInstance.IsSiteAggregation);
 			PostList1.Posts = Post.GetPostsByCategory(category).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
             Page.Title = category.Title;
-            base.AddMetaTag("description", string.IsNullOrWhiteSpace(category.Description) ? Server.HtmlEncode(BlogSettings.Instance.Description + ", " + category.Title) : category.Description);
+            base.AddMetaTag("description", string.IsNullOrWhiteSpace(category.Description) ? Server.HtmlEncode(category.Title) : category.Description);
         }
 	}
 
@@ -203,7 +251,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             PostList1.ContentBy = ServingContentBy.Author;
 			PostList1.Posts = Post.GetPostsByAuthor(author).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			Title = Resources.labels.AllPostsBy +" " + Server.HtmlEncode(author);
-            base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description + ", " + Title));
+            base.AddMetaTag("description", Server.HtmlEncode(Title));
 		}
 	}
 
@@ -214,7 +262,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
             PostList1.ContentBy = ServingContentBy.Tag;
 			PostList1.Posts = Post.GetPostsByTag(Request.QueryString["tag"].Substring(1)).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
 			base.Title = Resources.labels.AllPostsTagged + " '" + Request.QueryString["tag"].Substring(1) + "'";
-            base.AddMetaTag("description", Server.HtmlEncode(BlogSettings.Instance.Description + ", " + base.Title));
+            base.AddMetaTag("description", Server.HtmlEncode(base.Title));
 		}
 	}
 
@@ -254,4 +302,6 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			Title = Server.HtmlEncode(Resources.labels.calendar);
 		}
 	}
+
+
 }
