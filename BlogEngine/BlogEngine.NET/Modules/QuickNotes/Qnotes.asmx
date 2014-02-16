@@ -51,7 +51,7 @@ public class Qnotes  : WebService {
     [WebMethod]
     public QuickNote SaveNote(string id, string note)
     {
-        note = HttpUtility.HtmlEncode(note);
+        note = HttpUtility.HtmlAttributeEncode(note);
         return UserNotes.SaveNote(id, note);
     }
     
@@ -79,7 +79,7 @@ public class Qnotes  : WebService {
 
         if (!Security.IsAuthorizedTo(Rights.CreateNewPosts))
         {
-            response.Message = "Not authorized to create new Posts.";
+            response.Message = Resources.labels.notAuthorizedToCreateNewPosts;
             return response;
         }
 
@@ -99,7 +99,7 @@ public class Qnotes  : WebService {
                     cats = s.SettingValue;
             }
 
-            content = HttpUtility.HtmlEncode(content).Replace("\n", "<br />");
+            content = HttpUtility.HtmlAttributeEncode(content).Replace("\n", "<br />");
             var title = content;
 
             int prdIdx = content.IndexOf(".");
@@ -163,12 +163,12 @@ public class Qnotes  : WebService {
         catch (Exception ex)
         {
             Utils.Log(string.Format("QuickNotes.Qnotes.SaveQuickPost(): {0}", ex.Message));
-            response.Message = string.Format("Could not save quick post: {0}", ex.Message);
+            response.Message = string.Format("{0}: {1}", Resources.labels.couldNotSaveQuickPost, ex.Message);
             return response;
         }
 
         response.Success = true;
-        response.Message = "Post saved";
+        response.Message = Resources.labels.postSaved;
 
         return response;
     }

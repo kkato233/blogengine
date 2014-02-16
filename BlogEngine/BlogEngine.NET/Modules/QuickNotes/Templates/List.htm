@@ -7,7 +7,7 @@
 	<div class="q-left">
         {#if $T.d.length == 0}
         <div class="q-info">
-            You do not have any notes yet.
+            {BlogEngineRes.i18n.noNotesYet}
         </div>
         {#else}
         <select onchange="GetNote(this.options[this.selectedIndex].value)" id="q-listbox" class="rounded" multiple="multiple" size="2">
