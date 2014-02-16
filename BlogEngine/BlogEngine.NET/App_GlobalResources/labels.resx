@@ -2472,5 +2472,32 @@
   </data>
   <data name="defaultMinTag" xml:space="preserve">
     <value>1 (default)</value>
+  </data>    
+  <data name="noNotesYet" xml:space="preserve">
+    <value>You do not have any notes yet.</value>
+  </data>
+  <data name="defaultPostCategory" xml:space="preserve">
+    <value>Default post category</value>
+  </data>
+  <data name="tagsCommaDelimited" xml:space="preserve">
+    <value>Tags (comma delimited)</value>
+  </data>
+  <data name="postSaved" xml:space="preserve">
+    <value>Post saved</value>
+  </data>
+  <data name="couldNotSaveQuickPost" xml:space="preserve">
+    <value>Could not save quick post</value>
+  </data>
+  <data name="notAuthorizedToCreateNewPosts" xml:space="preserve">
+    <value>Not authorized to create new Posts.</value>
+  </data>
+  <data name="filePicker" xml:space="preserve">
+    <value>File picker</value>
+  </data>
+  <data name="addFolder" xml:space="preserve">
+    <value>Add folder</value>
+  </data>
+  <data name="addToPost" xml:space="preserve">
+    <value>Add to post</value>
   </data>
 </root>

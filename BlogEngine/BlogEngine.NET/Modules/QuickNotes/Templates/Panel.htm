@@ -8,13 +8,13 @@
 	    <div class="q-left">
 		    <textarea rows="5" cols="40" id="q-txtarea" class="q-area rounded">{JSON.parse($.cookie('quck-note-current')).Note}</textarea>
 		    <div class="q-submit">
-			    <input type="submit" name="submit" id="q-save" onclick="return SaveNote();" value="Save" class="primary rounded" />
+			    <input type="submit" name="submit" id="q-save" onclick="return SaveNote();" value="{BlogEngineRes.i18n.save}" class="primary rounded" />
                 {#if !IsNewNote()}
-			    <a href="" id="q-publish" onclick="return SaveQuickPost();">Publish</a>
-                <a href="" id="q-delete" onclick="DeleteNote(); return false;">Delete</a>
+			    <a href="" id="q-publish" onclick="return SaveQuickPost();">{BlogEngineRes.i18n.publish}</a>
+                <a href="" id="q-delete" onclick="DeleteNote(); return false;">{BlogEngineRes.i18n.doDelete}</a>
                 {#/if}
-			    or
-			    <a href="#" class="closeup">Cancel</a>
+			    {BlogEngineRes.i18n.or}
+			    <a href="#" class="closeup">{BlogEngineRes.i18n.cancel}</a>
                 <span id="q-loader" class="hidden" />
 		    </div>
 	    </div>

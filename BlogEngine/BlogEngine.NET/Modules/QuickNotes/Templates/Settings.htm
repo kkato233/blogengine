@@ -7,7 +7,7 @@
 	<div class="q-left">
 		<div class="q-set-1">
             <p>
-                <span>Default post category</span>
+                <span>{BlogEngineRes.i18n.defaultPostCategory}</span>
                 <select id="selCategory" class="rounded">
                     {#foreach $T.d.Categories as category}
                     <option value="{$T.category.Id}" {#if $T.d.Settings.length > 0}{#foreach $T.d.Settings as setting}{#if $T.setting.SettingName == 'category' && $T.setting.SettingValue == $T.category.Id}selected="selected"{#/if}{#/for}{#/if}>{$T.category.Title}</option>
@@ -17,13 +17,13 @@
         </div>
         <div class="q-set-2">
             <p>
-                <span>Tags (comma delimited)</span>              
+                <span>{BlogEngineRes.i18n.tagsCommaDelimited}</span>              
                 <input class="field rounded" type="text" id="txtTags" value="{#if $T.d.Settings.length > 0}{#foreach $T.d.Settings as setting}{#if $T.setting.SettingName == 'tags'}{$T.setting.SettingValue}{#/if}{#/for}{#/if}" size="30" />
             </p>
         </div>
 		<p>
-			<input type="submit" name="submit" id="q-save" value="Save" onclick="SaveSettings(); return false;" class="primary rounded" />
-			or <a href="#" class="closeup">Cancel</a>
+			<input type="submit" name="submit" id="q-save" value="{BlogEngineRes.i18n.save}" onclick="SaveSettings(); return false;" class="primary rounded" />
+			{BlogEngineRes.i18n.or} <a href="#" class="closeup">{BlogEngineRes.i18n.cancel}</a>
             <span id="q-loader" class="hidden" />
 		</p>
 	</div>

@@ -6,7 +6,7 @@
         { "OptionName": "Atom 1.0", "OptionValue": "Atom", "IsSelected": false }
     ];
     $scope.closeDaysOptions = [
-        { "OptionName": "Never", "OptionValue": "0", "IsSelected": false },
+        { "OptionName": $rootScope.lbl.never, "OptionValue": "0", "IsSelected": false },
         { "OptionName": "1", "OptionValue": "1", "IsSelected": false },
         { "OptionName": "2", "OptionValue": "2", "IsSelected": false },
         { "OptionName": "3", "OptionValue": "3", "IsSelected": false },

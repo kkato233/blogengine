@@ -67,18 +67,28 @@ namespace BlogEngine.Core.Web
             }
             else
             {
-                AddResource("hasRated");
-                AddResource("savingTheComment");
-                AddResource("comments");
-                AddResource("commentWasSaved");
-                AddResource("commentWaitingModeration");
-                AddResource("cancel");
-                AddResource("filter");
                 AddResource("apmlDescription");
                 AddResource("beTheFirstToRate");
+                AddResource("cancel");
+                AddResource("comments");
+                AddResource("commentWaitingModeration");
+                AddResource("commentWasSaved");
+                AddResource("couldNotSaveQuickPost");
                 AddResource("currentlyRated");
-                AddResource("ratingHasBeenRegistered");
+                AddResource("defaultPostCategory");
+                AddResource("delete");
+                AddResource("filter");
+                AddResource("hasRated");
+                AddResource("noNotesYet");
+                AddResource("notAuthorizedToCreateNewPosts");
+                AddResource("or");
+                AddResource("postSaved");
+                AddResource("publish");
                 AddResource("rateThisXStars");
+                AddResource("ratingHasBeenRegistered");
+                AddResource("save");
+                AddResource("savingTheComment");
+                AddResource("tagsCommaDelimited");
             }
         }
 
@@ -139,12 +149,14 @@ namespace BlogEngine.Core.Web
             AddResource("addCustomCodeToHeader");
             AddResource("addEditPost");
             AddResource("addFilter");
+            AddResource("addFolder");
             AddResource("addNewBlog");
             AddResource("addNewCategory");
             AddResource("addNewPage");
             AddResource("addNewRole");
             AddResource("addNewUser");
             AddResource("addToPages");
+            AddResource("addToPost");
             AddResource("addToWhiteList");
             AddResource("admin");
             AddResource("administrationPanel");
@@ -441,6 +453,7 @@ namespace BlogEngine.Core.Web
             AddResource("failedToSaveRights");
             AddResource("feed");
             AddResource("fileManager");
+            AddResource("filePicker");
             AddResource("filestorage");
             AddResource("filter");
             AddResource("filterByApml");

@@ -154,7 +154,7 @@
     <value>Skutečně chcete {0} {1}?</value>
   </data>
   <data name="attachFile" xml:space="preserve">
-    <value>Přiložit soubor</value>
+    <value>Vložit soubor</value>
   </data>
   <data name="author" xml:space="preserve">
     <value>Autor</value>
@@ -599,7 +599,7 @@
     <value>Časová zóna</value>
   </data>
   <data name="title" xml:space="preserve">
-    <value>Nadpis</value>
+    <value>Název</value>
   </data>
   <data name="trimStylesheet" xml:space="preserve">
     <value>Zmenšit kaskádové styly</value>
@@ -1158,7 +1158,7 @@
     <value>Prosím vložte datum (rrrr-mm-dd hh:mm)</value>
   </data>
   <data name="enterTitle" xml:space="preserve">
-    <value>Prosím vložte nadpis</value>
+    <value>Prosím vložte název</value>
   </data>
   <data name="enterValidDate" xml:space="preserve">
     <value>Prosím vložte platné datum (rrrr-mm-dd hh:mm)</value>
@@ -1173,7 +1173,7 @@
     <value>Prosím uveďte platné číslo (kladné či záporné)</value>
   </data>
   <data name="extractFromTitle" xml:space="preserve">
-    <value>Odvodit z nadpisu</value>
+    <value>Odvodit z názvu</value>
   </data>
   <data name="findPosition" xml:space="preserve">
     <value>Najít pozici</value>
@@ -1628,10 +1628,10 @@
     <value>Uživatelský kód</value>
   </data>
   <data name="defaultAnonymousRole" xml:space="preserve">
-    <value>implicitní Anonymní role</value>
+    <value>výchozí Anonymní role</value>
   </data>
   <data name="defaultEditorsRole" xml:space="preserve">
-    <value>implicitní Editor role</value>
+    <value>výchozí Editor role</value>
   </data>
   <data name="editingRightsForRole" xml:space="preserve">
     <value>Úprava práv pro roli</value>
@@ -2363,10 +2363,10 @@
     <value>Kód stránky</value>
   </data>
   <data name="titleOfPost" xml:space="preserve">
-    <value>Nadpis příspěvku</value>
+    <value>Název příspěvku</value>
   </data>
   <data name="titleOfPage" xml:space="preserve">
-    <value>Nadpis stránky</value>
+    <value>Název stránky</value>
   </data>
   <data name="typeAndEnter" xml:space="preserve">
     <value>Napište a stiskněte Enter</value>
@@ -2390,7 +2390,7 @@
     <value>Zrušit odkaz</value>
   </data>
   <data name="showTitle" xml:space="preserve">
-    <value>Zobrazit záhlaví</value>
+    <value>Zobrazit název</value>
   </data>
   <data name="tagMinimumPosts" xml:space="preserve">
     <value>Minimum příspěvků v každém štítku</value>
@@ -2402,7 +2402,7 @@
     <value>Neomezeno</value>
   </data>
   <data name="default" xml:space="preserve">
-    <value>přednastaveno</value>
+    <value>výchozí</value>
   </data>
   <data name="showRssIcon" xml:space="preserve">
     <value>Zobrazit RSS ikonu</value>
@@ -2466,5 +2466,38 @@
   </data>
   <data name="maxAgeInDays" xml:space="preserve">
     <value>Max. stáří ve dnech</value>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value>Prázdný</value>
+  </data>
+  <data name="defaultMinTag" xml:space="preserve">
+    <value>1 (výchozí)</value>
+  </data>
+  <data name="noNotesYet" xml:space="preserve">
+    <value>Zatím nemáte žádné poznámky.</value>
+  </data>
+  <data name="defaultPostCategory" xml:space="preserve">
+    <value>Výchozí kategorie přísp.</value>
+  </data>
+  <data name="tagsCommaDelimited" xml:space="preserve">
+    <value>Štítky (odděleny čárkou)</value>
+  </data>
+  <data name="postSaved" xml:space="preserve">
+    <value>Příspěvek uložen</value>
+  </data>
+  <data name="couldNotSaveQuickPost" xml:space="preserve">
+    <value>Nelze uložit rychlý příspěvek</value>
+  </data>
+  <data name="notAuthorizedToCreateNewPosts" xml:space="preserve">
+    <value>Nemáte oprávnění k vytvoření nového příspěvku.</value>
+  </data>
+  <data name="filePicker" xml:space="preserve">
+    <value>Výběr souboru</value>
+  </data>
+  <data name="addFolder" xml:space="preserve">
+    <value>Přidat adresář</value>
+  </data>
+  <data name="addToPost" xml:space="preserve">
+    <value>Přidat k příspěvku</value>
   </data>
 </root>
