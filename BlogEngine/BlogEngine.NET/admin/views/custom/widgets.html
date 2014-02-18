@@ -68,8 +68,7 @@
         </div>
         <div class="toolbar-grid clearfix">
             <div ng-if="IsPrimary" class="pull-left">
-                <button data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
-                <button data-ng-if="pkgLocation != 'G'" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                <button ng-disabled="hasChecked() === false" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
             <div class="pull-right btn-flt-r hmin767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button></div>
             <div class="pull-right filterbar flt-r clearfix">
@@ -77,13 +76,6 @@
                 <div class="navbar-left search-grid pull-right">
                     <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}" />
                 </div>
-                <div class="btn-toolbar pull-right">
-                    <div class="btn-group">
-                        <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                        <button id="fltr-gal" class="btn btn-default btn-sm" ng-if="canInstallPackages" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
-                    </div>
-                </div>
-                <span class="pull-right lbl-show">{{lbl.show}} :</span>
             </div>
         </div>
         <table class="table table-bordered table-striped table-hover table-responsive">
@@ -98,13 +90,12 @@
             </thead>
             <tbody data-bind="foreach: items">
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" /> </td>
+                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /> </td>
                     <td class="table-item-avatar"><img src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
                         <div class="text-ellipsis pull-left"> <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> <span class="item-description hmax480">{{item.Description}}</span> </div>
-                        <a data-ng-if="item.Location != 'L'" title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
                     </td>
-                    <td>{{pkgLocation == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
+                    <td>{{item.LocalVersion}}</td>
                     <td class="hmax768"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
                 </tr>
             </tbody>

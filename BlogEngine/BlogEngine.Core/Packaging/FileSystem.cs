@@ -1,5 +1,6 @@
 ﻿using BlogEngine.Core.Data.Models;
 using BlogEngine.Core.Providers;
+using BlogEngine.Core.Web.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -20,40 +21,106 @@ namespace BlogEngine.Core.Packaging
         private static int fileOrder;
 
         /// <summary>
-        /// 
+        /// Load themes from /themes directory
         /// </summary>
-        /// <param name="packages"></param>
-        public static void Load(List<Package> packages)
+        /// <returns>Lit of installed themes</returns>
+        public static List<Package> LoadThemes()
         {
             try
             {
-                var themes = GetThemes();
-                var widgets = GetWidgets();
-                
-                if(themes != null && themes.Count > 0)
-                {
-                    foreach (var theme in from theme in themes
-                        let found = packages.Any(pkg => theme.Id.ToLower() == pkg.Id.ToLower())
-                        where !found select theme)
-                    {
-                        packages.Add(theme);
-                    }
-                }
-
-                if (widgets != null && widgets.Count > 0)
-                {
-                    foreach (var wdg in from wdg in widgets
-                        let found = packages.Any(pkg => wdg.Id.ToLower() == pkg.Id.ToLower())
-                        where !found select wdg)
-                    {
-                        packages.Add(wdg);
-                    }
-                }
+                return GetThemes();
             }
             catch (Exception ex)
             {
                 Utils.Log(System.Reflection.MethodBase.GetCurrentMethod().Name, ex);
+                return null;
             }
+        }
+
+        /// <summary>
+        /// Load widgets from /widgets directory
+        /// </summary>
+        /// <returns>List of installed widgets</returns>
+        public static List<Package> LoadWidgets()
+        {
+            try
+            {
+                return GetWidgets();
+            }
+            catch (Exception ex)
+            {
+                Utils.Log(System.Reflection.MethodBase.GetCurrentMethod().Name, ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Load extensions from extensions manager
+        /// </summary>
+        /// <returns>List of installed extensions</returns>
+        public static List<Package> LoadExtensions()
+        {
+            var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
+            var packages = new List<Package>();
+
+            foreach (KeyValuePair<string, ManagedExtension> ext in extensions)
+            {
+                var x = ExtensionManager.GetExtension(ext.Key);
+                var adminPage = string.IsNullOrEmpty(x.AdminPage) ?
+                string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled) :
+                string.Format(x.AdminPage, x.Name, x.Enabled);
+
+                // If extension name in gallery differ from package ID
+                // they will show as 2 extensions in the list.
+                // To avoid, we can add mapping to /app_data/extensionmap.txt
+                // in format "ExtensionId=PackageName" to map exension id to package id
+                var map = Packaging.FileSystem.ExtansionMap();
+                var extId = map.ContainsKey(x.Name) ? map[x.Name] : x.Name;
+
+                var p = new Package
+                {
+                    Id = x.Name,
+                    PackageType = "Extension",
+                    Title = x.Name,
+                    Description = x.Description,
+                    LocalVersion = x.Version,
+                    Authors = x.Author,
+                    IconUrl = "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png",
+                    Enabled = x.Enabled,
+                    Priority = x.Priority,
+                    SettingsUrl = x.Settings.Count > 0 ? adminPage : "",
+                    Location = "L"
+                };
+                packages.Add(p);
+
+                //var existingPackage = packages.Where(p => p.Id == extId).FirstOrDefault();
+
+                //if (existingPackage == null)
+                //{
+                //    var p = new Package
+                //    {
+                //        Id = x.Name,
+                //        PackageType = "Extension",
+                //        Title = x.Name,
+                //        Description = x.Description,
+                //        LocalVersion = x.Version,
+                //        Authors = x.Author,
+                //        IconUrl = "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png",
+                //        Enabled = x.Enabled,
+                //        Priority = x.Priority,
+                //        SettingsUrl = x.Settings.Count > 0 ? adminPage : "",
+                //        Location = "L"
+                //    };
+                //    packages.Add(p);
+                //}
+                //else
+                //{
+                //    existingPackage.LocalVersion = x.Version;
+                //    existingPackage.Enabled = x.Enabled;
+                //    existingPackage.SettingsUrl = x.AdminPage;
+                //}
+            }
+            return packages;
         }
 
         /// <summary>

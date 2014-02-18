@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div ng-if="canInstallPackages && pkgLocation != 'G'"  class="form-group">
+                                <div ng-if="canInstallPackages"  class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.priority}}</span>
                                     </div>
@@ -51,7 +51,7 @@
                                         <input type="text" class="form-control" id="txtPriority" data-ng-model="package.Priority" />
                                     </div>
                                 </div>
-                                <div data-ng-if="pkgLocation != 'G' && canEditExensions" class="form-group">
+                                <div data-ng-if="canEditExensions" class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.enabled}}</span>
                                     </div>
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button data-ng-if="pkgLocation != 'G'" data-ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                        <button data-ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                     </div>
                 </div>
@@ -86,8 +86,7 @@
         </div>
         <div class="toolbar-grid clearfix">
             <div ng-if="IsPrimary" class="pull-left">
-                <button data-ng-if="pkgLocation == 'G'" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
-                <button data-ng-if="pkgLocation != 'G'" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                <button ng-disabled="hasChecked() === false" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
             <div class="pull-right btn-flt-r hmin767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button></div>
             <div class="pull-right filterbar flt-r clearfix">
@@ -95,13 +94,6 @@
                 <div class="navbar-left search-grid pull-right">
                     <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}" />
                 </div>
-                <div class="btn-toolbar pull-right">
-                    <div class="btn-group">
-                        <button id="fltr-loc" class="btn btn-default btn-sm active" data-ng-click="relocate('L')">{{lbl.installed}}</button>
-                        <button id="fltr-gal" class="btn btn-default btn-sm" ng-if="canInstallPackages" data-ng-click="relocate('G')">{{lbl.gallery}}</button>
-                    </div>
-                </div>
-                <span class="pull-right lbl-show">{{lbl.show}} :</span>
             </div>
         </div>
         <table class="table table-bordered table-striped table-hover table-responsive">
@@ -111,31 +103,24 @@
                     <th class="hmax768">&nbsp;</th>
                     <th class="table-item-title table-item-w70">{{lbl.title}} <a ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
-                    <!-- if gallery add class to author list -->
-                    <th data-ng-if="pkgLocation != 'G'" class="hmax768">{{lbl.author}}</th>
-                    <th data-ng-if="pkgLocation != 'L'" class="hmax768 author-gallery">{{lbl.author}}</th>
-                    <!--<th class="hmax359">{{lbl.lastUpdate}}</th>-->
-                    <th data-ng-if="pkgLocation != 'G'">{{lbl.enabled}}</th>
-                    <th class="hmax992" data-ng-if="pkgLocation != 'G'">{{lbl.priority}}</th>
+                    <th class="hmax768">{{lbl.author}}</th>
+                    <th>{{lbl.enabled}}</th>
+                    <th class="hmax992">{{lbl.priority}}</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: items">
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" /></td>
+                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /></td>
                     <td class="table-item-avatar hmax768"><img src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
                         <div class="text-ellipsis pull-left">
                             <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
                             <span class="item-description hmax480">{{item.Description}}</span>
                         </div>
-                        <a data-ng-if="item.Location != 'L'" title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td class="hmax768">{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
-                    <!-- if gallery add class to author list -->
-                    <td data-ng-if="pkgLocation != 'G'" class="hmax768" data-ng-bind-html="item.Authors"></td>
-                    <td data-ng-if="pkgLocation != 'L'" class="hmax768 author-gallery" data-ng-bind-html="item.Authors"></td>
-                    <!--<td class="hmax359">{{item.LastUpdated}}</td>-->
-                    <td data-ng-if="item.Location != 'G'"><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
+                    <td class="hmax768" data-ng-bind-html="item.Authors"></td>
+                    <td><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                     <td class="hmax992" data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
                 </tr>
             </tbody>

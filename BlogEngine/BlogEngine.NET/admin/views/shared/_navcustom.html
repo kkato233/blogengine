@@ -4,6 +4,7 @@
             <li data-ng-class="{ active: isActive('/custom')}"><a href="#/custom">{{lbl.extensions}}</a></li>
             <li data-ng-class="{ active: isActive('/custom/themes')}"><a href="#/custom/themes">{{lbl.themes}}</a></li>
             <li ng-if="showWidgetsTab" data-ng-class="{ active: isActive('/custom/widgets')}"><a href="#/custom/widgets">{{lbl.widgets}}</a></li>
+            <li ng-if="showWidgetsTab" data-ng-class="{ active: isActive('/custom/packages')}"><a href="#/custom/packages">{{lbl.gallery}}</a></li>
         </ul>
     </div>
 </div>

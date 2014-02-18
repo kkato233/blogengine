@@ -1,7 +1,7 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div data-ng-include src="'views/shared/_navcustom.html'"></div>
-    <div class="container admin-views-main admin-views-custom-themes" data-ng-controller="CustomController">
+    <div class="container admin-views-main admin-views-custom-widgets" data-ng-controller="CustomController">
         <div id="modal-theme-edit" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -12,43 +12,42 @@
                     <div class="modal-body">
                         <div class="form-horizontal clearfix">
                             <div class="pkg-common">
-                                <div class="form-group">
+                                <div class="row">
                                     <div class="col-md-4">
-                                        <img ng-if="!package.PackageUrl" class="pkg-img" width="160" src="{{package.IconUrl}}" alt="Package image" title="" />
+                                        <img ng-if="!package.PackageUrl" class="pkg-img" width="100" src="{{package.IconUrl}}" alt="Package image" title="" />
                                         <a ng-if="package.PackageUrl" href="{{package.PackageUrl}}" target="_new">
-                                            <img class="pkg-img" width="160" src="{{package.IconUrl}}" alt="Package image" title="" />
+                                            <img class="pkg-img" width="100" src="{{package.IconUrl}}" alt="Package image" title="" />
                                         </a>
                                     </div>
                                     <div class="col-md-8">
                                         <div>
-                                            <span class="control-label">{{lbl.description}}:</span>
+                                            <span>{{lbl.description}}: </span>
                                             <span ng-bind-html="package.Description"></span>
                                         </div>
                                         <hr />
                                         <div>
-                                            <span class="control-label"><i class="fa fa-user"></i> {{lbl.author}}: </span>
+                                            <span><i class="fa fa-user"></i> {{lbl.author}}: </span>
                                             <span ng-bind-html="package.Authors"></span>
                                         </div>
                                         <div ng-if="package.Tags">
-                                            <span class="control-label"><i class="fa fa-tags"></i> {{lbl.tags}}: </span>
+                                            <span><i class="fa fa-tags"></i> {{lbl.tags}}: </span>
                                             <span ng-bind-html="package.Tags"></span>
                                         </div>
                                         <div ng-if="package.LastUpdated">
-                                            <span class="control-label"><i class="fa fa-calendar"></i> {{lbl.date}}: </span>
+                                            <span><i class="fa fa-calendar"></i> {{lbl.date}}: </span>
                                             <span ng-bind-html="package.LastUpdated"></span>
                                         </div>
                                         <div ng-if="package.DownloadCount">
-                                            <span class="control-label"><i class="fa fa-download"></i> {{lbl.downloads}}: </span>
+                                            <span><i class="fa fa-download"></i> {{lbl.downloads}}: </span>
                                             <span>{{package.DownloadCount}}</span>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                             <hr data-ng-if="customFields.length > 0" />
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">
-                                <label class="control-label col-md-4" for="txtSlug">{{item.Key}}</label>
+                                <label class="control-label  col-md-4" for="txtSlug">{{item.Key}}</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtSlug" data-ng-model="item.Value" />
                                 </div>
@@ -64,12 +63,12 @@
         </div>
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
-                {{lbl.themes}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
+                {{lbl.gallery}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
             </h2>
         </div>
         <div class="toolbar-grid clearfix">
             <div ng-if="IsPrimary" class="pull-left">
-                <button ng-disabled="hasChecked() === false" ng-click="processChecked('uninstall')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                <button ng-disabled="hasChecked() === false" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
             </div>
             <div class="pull-right btn-flt-r hmin767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button></div>
             <div class="pull-right filterbar flt-r clearfix">
@@ -91,13 +90,14 @@
             </thead>
             <tbody data-bind="foreach: items">
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td> <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /> </td>
+                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" /> </td>
                     <td class="table-item-avatar"><img src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
                         <div class="text-ellipsis pull-left"> <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> <span class="item-description hmax480">{{item.Description}}</span> </div>
+                        <a data-ng-if="item.Location != 'L'" title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
                     </td>
-                    <td>{{item.LocalVersion}}</td>
-                    <td class="hmax768" title="{{item.Authors}}"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
+                    <td>{{pkgLocation == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
+                    <td class="hmax768"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
                 </tr>
             </tbody>
         </table>
@@ -117,4 +117,3 @@
     </div>
 </div>
 <div id="footer" data-ng-include src="'views/shared/_footer.html'"></div>
-

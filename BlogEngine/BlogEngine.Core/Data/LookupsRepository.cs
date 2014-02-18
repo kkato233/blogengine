@@ -142,10 +142,9 @@ namespace BlogEngine.Core.Data
         void LoadThemes()
         {
             var items = new List<SelectOption>();
-            List<Package> packages = new List<Package>();
-            Packaging.FileSystem.Load(packages);
+            var packages = Packaging.FileSystem.LoadThemes();
 
-            foreach (var pkg in packages.Where(p => p.PackageType == "Theme"))
+            foreach (var pkg in packages)
             {
                 items.Add(new SelectOption { OptionName = pkg.Title, OptionValue = pkg.Id.ToString() });
             }
