@@ -4,9 +4,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.customFields = [];
     $scope.editId = "";
     $scope.package = {};
-    $scope.pkgType = "Extension";
-    $scope.pkgLocation = "L";
-    $scope.fltr = 'PackageType == "Extension" and Location != "G"';
+    $scope.fltr = 'extensions';
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary == "True";
     $scope.canEditExensions = $rootScope.SiteVars.IsAdmin == "True";
     $scope.canInstallPackages = $rootScope.SiteVars.IsAdmin == "True" && $rootScope.SiteVars.IsPrimary == "True";
@@ -17,31 +15,28 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     if ($scope.id) {
         $("#modal-theme-edit").modal();
     }
-
     if ($location.path().indexOf("/custom/themes") == 0) {
-        $scope.pkgType = "Theme";
-        $scope.fltr = 'PackageType == "Theme"  and Location != "G"';
+        $scope.fltr = 'themes';
     }
     if ($location.path().indexOf("/custom/widgets") == 0) {
-        $scope.pkgType = "Widget";
-        $scope.fltr = 'PackageType == "Widget"  and Location != "G"';
+        $scope.fltr = 'widgets';
+    }
+    if ($location.path().indexOf("/custom/packages") == 0) {
+        $scope.fltr = 'packages';
     }
 
     $scope.load = function () {
         spinOn();
-        var loc = $scope.pkgLocation == 'G' ? ' == "G"' : ' != "G"';
-        $scope.fltr = 'PackageType == "' + $scope.pkgType + '" and Location ' + loc;
-
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter);
-                spinOff();
-            })
-            .error(function () {
-                toastr.error($rootScope.lbl.errorLoadingPackages);
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingPackages);
+            spinOff();
+        });
     }
 
     $scope.loadCustomFields = function (id) {
@@ -49,16 +44,16 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $scope.extEditSrc = SiteVars.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext=" + id + "&enb=False";
         $scope.customFields = [];
 
-        dataService.getItems('/api/packages', { Id: id })
-        .success(function (data) {
-            angular.copy(data, $scope.package);
-            if ($scope.package) {
-                if($scope.package.SettingsUrl){
-                    $scope.extEditSrc = $scope.package.SettingsUrl.replace("~/", SiteVars.RelativeWebRoot);
+        for (var i = 0, len = $scope.items.length; i < len; i++) {
+            if ($scope.items[i].Id === id) {
+                angular.copy($scope.items[i], $scope.package);
+                if ($scope.package) {
+                    if($scope.package.SettingsUrl){
+                        $scope.extEditSrc = $scope.package.SettingsUrl.replace("~/", SiteVars.RelativeWebRoot);
+                    }
                 }
             }
-        })
-        .error(function () { toastr.error($rootScope.lbl.errorLoadingPackage); });
+        }
 
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
         .success(function (data) {
@@ -126,6 +121,18 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
             toastr.error($rootScope.lbl.failed);
             spinOff();
         });
+    }
+
+    $scope.hasChecked = function () {
+        var i = $scope.items.length;
+        var checked = [];
+        while (i--) {
+            var item = $scope.items[i];
+            if (item.IsChecked === true) {
+                return true;
+            }
+        }
+        return false;
     }
 
     $scope.load();

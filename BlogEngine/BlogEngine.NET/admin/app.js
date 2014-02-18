@@ -16,6 +16,7 @@
         .when("/custom", { templateUrl: "views/custom/index.html" })
         .when("/custom/themes", { templateUrl: "views/custom/themes.html" })
         .when("/custom/widgets", { templateUrl: "views/custom/widgets.html" })
+        .when("/custom/packages", { templateUrl: "views/custom/packages.html" })
 
         .when("/users", { templateUrl: "views/users/index.html" })
         .when("/users/roles", { templateUrl: "views/users/roles.html" })

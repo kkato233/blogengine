@@ -36,13 +36,35 @@ namespace BlogEngine.Core.Data
             if (string.IsNullOrEmpty(order)) order = "LastUpdated desc";
 
             var packages = new List<Package>();
-            var query = CachedPackages.AsQueryable().Where(filter);        
+            var pkgsToLoad = new List<Package>();
 
-            foreach (var item in query.OrderBy(order).Skip(skip).Take(take))
+            if (filter.ToLower() == "extensions")
             {
-                packages.Add(item);
+                pkgsToLoad = Packaging.FileSystem.LoadExtensions();
             }
-            return packages;
+            else if (filter.ToLower() == "themes")
+            {
+                pkgsToLoad = Packaging.FileSystem.LoadThemes();
+            }
+            else if (filter.ToLower() == "widgets")
+            {
+                pkgsToLoad = Packaging.FileSystem.LoadWidgets();
+            }
+            else
+            {
+                pkgsToLoad = CachedPackages;
+            }
+
+            filter = "1==1";
+            var query = pkgsToLoad.AsQueryable().Where(filter);
+
+            return query.OrderBy(order).Skip(skip).Take(take);
+
+            //foreach (var item in query.OrderBy(order).Skip(skip).Take(take))
+            //{
+            //    packages.Add(item);
+            //}
+            //return packages;
         }
 
         /// <summary>
@@ -142,7 +164,7 @@ namespace BlogEngine.Core.Data
 
         #region Private methods
 
-        static IEnumerable<Package> CachedPackages
+        static List<Package> CachedPackages
         {
             get
             {
@@ -160,7 +182,7 @@ namespace BlogEngine.Core.Data
                         CacheItemPriority.Low,
                         null);
                 }
-                return (IEnumerable<Package>)Blog.CurrentInstance.Cache[Constants.CacheKey];
+                return (List<Package>)Blog.CurrentInstance.Cache[Constants.CacheKey];
             }
         }
 
@@ -170,11 +192,11 @@ namespace BlogEngine.Core.Data
 
             Gallery.Load(packages);
             //Trace("01: ", packages);
-            Packaging.FileSystem.Load(packages);
+            //Packaging.FileSystem.Load(packages);
             //Trace("02: ", packages);
-            LoadExtensions(packages);
+            //LoadExtensions(packages);
             //Trace("03: ", packages);
-            Installer.MarkAsInstalled(packages);
+            //Installer.MarkAsInstalled(packages);
             //Trace("04: ", packages);
 
             return packages;
