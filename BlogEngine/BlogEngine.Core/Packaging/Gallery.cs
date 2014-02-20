@@ -53,18 +53,17 @@ namespace BlogEngine.Core.Packaging
 
                     var jp = new Package
                     {
-                        Id = pkg.Id,
+                        Id = string.IsNullOrEmpty(pkg.Id) ? pkg.Title : pkg.Id,
                         PackageType = pkg.PackageType,
                         Authors = string.IsNullOrEmpty(pkg.Authors) ? "unknown" : pkg.Authors,
                         Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
                         DownloadCount = pkg.DownloadCount,
-                        LastUpdated = pkg.LastUpdated.ToString("yyyy-MM-dd HH:mm"),// format for sort order to work with strings
+                        LastUpdated = pkg.LastUpdated == DateTime.MinValue ? pkg.Published.ToString("yyyy-MM-dd HH:mm") : pkg.LastUpdated.ToString("yyyy-MM-dd HH:mm"), // format for sort order to work with strings
                         Title = pkg.Title,
                         OnlineVersion = pkg.Version,
                         Website = pkg.ProjectUrl,
                         Tags = pkg.Tags,
-                        IconUrl = pkg.IconUrl,
-                        Location = "G"
+                        IconUrl = pkg.IconUrl
                     };
 
                     // for themes or widgets, get screenshot instead of icon
@@ -145,14 +144,23 @@ namespace BlogEngine.Core.Packaging
             do
             {
                 var s = skip;
-                var pkgs = (new[] { packagingSource })
-                .SelectMany(
-                    source =>
-                    {
-                        var galleryFeedContext = new GalleryFeedContext(new Uri(BlogSettings.Instance.GalleryFeedUrl)) { IgnoreMissingProperties = true };
+                var galleryFeedContext = new GalleryFeedContext(new Uri(BlogSettings.Instance.GalleryFeedUrl)) { IgnoreMissingProperties = true };
+
+                // check if gallery feed supports "screenshots" (dnbegallery.org style)
+                var pkgs = (new[] { packagingSource }).SelectMany(source => {
                         return galleryFeedContext.Packages.Expand("Screenshots").OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
                     }
                 );
+
+                // if not, use standard nuget feed interface
+                if (pkgs.Count() == 0)
+                {
+                    pkgs = (new[] { packagingSource }).SelectMany(source => {
+                            return galleryFeedContext.Packages.OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
+                        }
+                    );
+                }
+
                 cnt = pkgs.Count();
                 skip = skip + 100;
                 allPacks.AddRange(pkgs);
@@ -166,11 +174,11 @@ namespace BlogEngine.Core.Packaging
             switch (packageType)
             {
                 case "Theme":
-                    return string.Format("{0}/Themes/OrchardGallery/Content/Images/themeDefaultIcon.png", Constants.GalleryAppUrl);
+                    return string.Format("{0}pics/Theme.png", Utils.ApplicationRelativeWebRoot);
                 case "Extension":
-                    return string.Format("{0}/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png", Constants.GalleryAppUrl);
+                    return string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot);
                 case "Widget":
-                    return string.Format("{0}/Themes/OrchardGallery/Content/Images/widgetDefaultIcon.png", Constants.GalleryAppUrl);
+                    return string.Format("{0}pics/Widget.png", Utils.ApplicationRelativeWebRoot);
             }
             return string.Empty;
         }

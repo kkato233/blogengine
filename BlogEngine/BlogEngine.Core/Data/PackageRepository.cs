@@ -31,8 +31,6 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
 
-            if (take == 0) take = CachedPackages.Count();
-            if (string.IsNullOrEmpty(filter)) filter = "1==1";
             if (string.IsNullOrEmpty(order)) order = "LastUpdated desc";
 
             var packages = new List<Package>();
@@ -55,16 +53,9 @@ namespace BlogEngine.Core.Data
                 pkgsToLoad = CachedPackages;
             }
 
-            filter = "1==1";
-            var query = pkgsToLoad.AsQueryable().Where(filter);
+            if (take == 0) take = pkgsToLoad.Count();
 
-            return query.OrderBy(order).Skip(skip).Take(take);
-
-            //foreach (var item in query.OrderBy(order).Skip(skip).Take(take))
-            //{
-            //    packages.Add(item);
-            //}
-            //return packages;
+            return pkgsToLoad.AsQueryable().OrderBy(order).Skip(skip).Take(take);
         }
 
         /// <summary>
@@ -232,11 +223,10 @@ namespace BlogEngine.Core.Data
                         Description = x.Description,
                         LocalVersion = x.Version,
                         Authors = x.Author,
-                        IconUrl = "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png",
+                        IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
                         Enabled = x.Enabled,
                         Priority = x.Priority,
-                        SettingsUrl = x.Settings.Count > 0 ? adminPage : "",
-                        Location = "L"
+                        SettingsUrl = x.Settings.Count > 0 ? adminPage : ""
                     };
                     packages.Add(p);
                 }
@@ -254,7 +244,7 @@ namespace BlogEngine.Core.Data
             string s = "{0}|{1}|{2}|{3}|{4}|{5}";
             foreach (var p in packages)
             {
-                System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.Location, p.LocalVersion, p.OnlineVersion));
+                System.Diagnostics.Debug.WriteLine(string.Format(s, msg, p.PackageType, p.Id, p.LocalVersion, p.OnlineVersion));
             }
         }
 
@@ -274,16 +264,6 @@ namespace BlogEngine.Core.Data
                 }
                 CustomFieldsParser.ClearCache();
             }
-        }
-
-        IEnumerable<Package> FromGallery()
-        {
-            return CachedPackages.Where(p => p.Location == "G" || p.Location == "I");
-        }
-
-        IEnumerable<Package> LocalPackages()
-        {
-            return CachedPackages.Where(p => p.Location != "G");
         }
 
         #endregion

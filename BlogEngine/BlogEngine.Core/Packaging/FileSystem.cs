@@ -79,46 +79,18 @@ namespace BlogEngine.Core.Packaging
 
                 var p = new Package
                 {
-                    Id = x.Name,
+                    Id = extId,
                     PackageType = "Extension",
                     Title = x.Name,
                     Description = x.Description,
                     LocalVersion = x.Version,
                     Authors = x.Author,
-                    IconUrl = "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png",
+                    IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
                     Enabled = x.Enabled,
                     Priority = x.Priority,
-                    SettingsUrl = x.Settings.Count > 0 ? adminPage : "",
-                    Location = "L"
+                    SettingsUrl = x.Settings.Count > 0 ? adminPage : ""
                 };
                 packages.Add(p);
-
-                //var existingPackage = packages.Where(p => p.Id == extId).FirstOrDefault();
-
-                //if (existingPackage == null)
-                //{
-                //    var p = new Package
-                //    {
-                //        Id = x.Name,
-                //        PackageType = "Extension",
-                //        Title = x.Name,
-                //        Description = x.Description,
-                //        LocalVersion = x.Version,
-                //        Authors = x.Author,
-                //        IconUrl = "http://dnbegallery.org/cms/Themes/OrchardGallery/Content/Images/extensionDefaultIcon.png",
-                //        Enabled = x.Enabled,
-                //        Priority = x.Priority,
-                //        SettingsUrl = x.Settings.Count > 0 ? adminPage : "",
-                //        Location = "L"
-                //    };
-                //    packages.Add(p);
-                //}
-                //else
-                //{
-                //    existingPackage.LocalVersion = x.Version;
-                //    existingPackage.Enabled = x.Enabled;
-                //    existingPackage.SettingsUrl = x.AdminPage;
-                //}
             }
             return packages;
         }
@@ -228,14 +200,11 @@ namespace BlogEngine.Core.Packaging
                 let index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1
                 select d.Substring(index)
                 into themeId select GetPackageManifest(themeId, Constants.Theme) ?? 
-                new Package {Id = themeId, PackageType = Constants.Theme, Location = "L"}
+                new Package {Id = themeId, PackageType = Constants.Theme}
                 into p where p.Id != "RazorHost" select p)
             {
                 if (string.IsNullOrEmpty(p.IconUrl))
                     p.IconUrl = DefaultIconUrl(p);
-
-                if (string.IsNullOrEmpty(p.Location))
-                    p.Location = "L";
 
                 if (string.IsNullOrEmpty(p.Title))
                     p.Title = p.Id;
@@ -254,13 +223,10 @@ namespace BlogEngine.Core.Packaging
                 let index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1
                 select d.Substring(index)
                 into widgetId select GetPackageManifest(widgetId, Constants.Widget) ?? 
-                new Package {Id = widgetId, PackageType = Constants.Widget, Location = "L"})
+                new Package {Id = widgetId, PackageType = Constants.Widget})
             {
                 if (string.IsNullOrEmpty(p.IconUrl))
                     p.IconUrl = DefaultIconUrl(p);
-
-                if (string.IsNullOrEmpty(p.Location))
-                    p.Location = "L";
 
                 if (string.IsNullOrEmpty(p.Title))
                     p.Title = p.Id;

@@ -18,6 +18,7 @@
   <commentblacklistcount>2</commentblacklistcount>
   <iscocommentenabled>False</iscocommentenabled>
   <compresswebresource>False</compresswebresource>
+  <commentwhitelistcount>1</commentwhitelistcount>
   <addiptowhitelistfilteronapproval>False</addiptowhitelistfilteronapproval>
   <themecookiename>theme</themecookiename>
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
@@ -28,12 +29,11 @@
   <showincludecommentsoption>False</showincludecommentsoption>
   <createblogonselfregistration>False</createblogonselfregistration>
   <numberofrecentcomments>10</numberofrecentcomments>
-  <enablecommentsmoderation>True</enablecommentsmoderation>
+  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <blogrollmaxlength>23</blogrollmaxlength>
   <language>en-US</language>
   <smtpserver>mail.example.com</smtpserver>
   <disqusdevmode>False</disqusdevmode>
-  <endorsement>http://www.dotnetblogengine.net/syndication.axd</endorsement>
   <postsperpage>10</postsperpage>
   <enabletrackbackreceive>True</enabletrackbackreceive>
   <enableopensearch>True</enableopensearch>
@@ -47,7 +47,7 @@
   <alternatefeedurl />
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
-  <commentwhitelistcount>1</commentwhitelistcount>
+  <enablecommentsmoderation>True</enablecommentsmoderation>
   <enableerrorlogging>True</enableerrorlogging>
   <enablereferrertracking>False</enablereferrertracking>
   <disquswebsitename />
@@ -75,7 +75,7 @@
   <avatar>wavatar</avatar>
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
-  <enablessl>False</enablessl>
+  <enableoptimization>False</enableoptimization>
   <name>Name of the blog</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
@@ -88,6 +88,7 @@
   <enableenclosures>False</enableenclosures>
   <authorname>My name</authorname>
   <descriptioncharacters>300</descriptioncharacters>
+  <enablessl>False</enablessl>
   <geocodinglongitude>0</geocodinglongitude>
   <enablewebsiteincomments>False</enablewebsiteincomments>
   <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>

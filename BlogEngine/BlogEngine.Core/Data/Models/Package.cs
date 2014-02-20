@@ -62,11 +62,6 @@
         /// </summary>
         public string Tags { get; set; }
         /// <summary>
-        /// Package location
-        /// L - local; G - gallery; I - both (installed)
-        /// </summary>
-        public string Location { get; set; }
-        /// <summary>
         /// Package rating
         /// </summary>
         public double Rating { get; set; }

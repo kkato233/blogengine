@@ -12,6 +12,12 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.id = ($location.search()).id;
     $scope.theme = ($location.search()).id;
 
+    $scope.selectedFeed = "http://dnbegallery.org/feed/FeedService.svc";
+    $scope.galleryFeeds = [
+	    { "OptionName": "DnbeGallery.org", "OptionValue": "http://dnbegallery.org/feed/FeedService.svc", "IsSelected": false }
+	    //,{ "OptionName": "Local feed", "OptionValue": "http://localhost/galserver/nuget", "IsSelected": false }
+    ];
+
     if ($scope.id) {
         $("#modal-theme-edit").modal();
     }
@@ -27,6 +33,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
 
     $scope.load = function () {
         spinOn();
+        $scope.selectedFeedObject = selectedOption($scope.galleryFeeds, $scope.selectedFeed);
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
         .success(function (data) {
             angular.copy(data, $scope.items);
@@ -133,6 +140,10 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
             }
         }
         return false;
+    }
+
+    $scope.changeFeed = function () {
+        alert($scope.selectedFeedObject.OptionValue);
     }
 
     $scope.load();
