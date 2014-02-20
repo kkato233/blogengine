@@ -25,7 +25,8 @@
             .success(function (data) { angular.copy(data, $scope.lookups); })
             .error(function () { toastr.error("Error loading lookups"); });
 
-        dataService.getItems('/api/categories')
+        var p = { skip: 0, take: 0 };
+        dataService.getItems('/api/categories', p)
             .success(function (data) {
                 angular.copy(data, $scope.items);
                 gridInit($scope, $filter);
