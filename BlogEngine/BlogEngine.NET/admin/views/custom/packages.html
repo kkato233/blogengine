@@ -2,6 +2,58 @@
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div data-ng-include src="'views/shared/_navcustom.html'"></div>
     <div class="container admin-views-main admin-views-custom-widgets" data-ng-controller="CustomController">
+        <form id="form" action="">
+            <div id="modal-feeds-edit" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" ng-click="focusInput=false" aria-hidden="true"><i class="fa fa-times"></i></button>
+                            <h4 class="modal-title">{{lbl.edit}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal clearfix">
+                                <div class="pkg-common">
+                                    <div class="row" style="margin-bottom: 10px">
+                                        <div class="col-md-4">
+                                            <input class="form-control ltr-dir" id="txtFeedName" name="txtFeedName" focus-me="focusInput" type="text">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input class="form-control ltr-dir" id="txtFeedUrl" name="txtFeedUrl" type="text">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button data-ng-click="addFeed()" class="btn btn-primary btn-tabkey"><i class="fa fa-plus"></i>{{lbl.add}}</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered table-striped table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="table-item-title table-item-w30">{{lbl.title}}</th>
+                                                        <th class="table-item-w60 hmax768">{{lbl.url}}</th>
+                                                        <th class="table-item-w10 hmax768">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr data-ng-repeat="item in galleryFeeds">
+                                                        <td>{{item.OptionName}}</td>
+                                                        <td>{{item.OptionValue}}</td>
+                                                        <td><button type="button" class="btn btn-danger btn-sm" ng-click="removeFeed(item.OptionName)" ng-disabled="galleryFeeds.length < 2 || item.OptionValue === selectedFeed"><i class="fa fa-times"></i></button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.close}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div id="modal-theme-edit" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -65,7 +117,10 @@
             <h2 class="page-title pull-left">
                 {{lbl.gallery}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
             </h2>
-            <select id="selGalleryFeed" class="form-control pull-right" style="width: 180px; margin-top: 15px" data-ng-options="o.OptionName for o in galleryFeeds" data-ng-model="selectedFeedObject" ng-change="changeFeed()"></select>
+            <div class="pull-right" style="width: 240px; margin-top: 15px">
+                <select id="selGalleryFeed" class="form-control pull-left" style="width: 190px" data-ng-options="o.OptionName for o in galleryFeeds" data-ng-model="selectedFeedObject" ng-change="changeFeed()"></select>
+                <button type="button" data-ng-click="loadEditForm()" class="btn btn-default pull-right" style="width: 40px; margin-top: 3px"><i class="fa fa-cog"></i></button>
+            </div>
         </div>
         <div class="toolbar-grid clearfix">
             <div ng-if="IsPrimary" class="pull-left">
@@ -91,7 +146,7 @@
                     <th class="hmax768">{{lbl.author}}</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: items">
+            <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                     <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" /> </td>
                     <td class="table-item-avatar">
@@ -109,6 +164,12 @@
                     <td>{{item.OnlineVersion}}</td>
                     <td>{{item.DownloadCount}}</td>
                     <td class="hmax768"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
+                </tr>
+                <tr ng-if="items.length == 0">
+                    <td colspan="7">
+                        <!--<span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>-->
+                        <span>{{lbl.empty}}</span>
+                    </td>
                 </tr>
             </tbody>
         </table>

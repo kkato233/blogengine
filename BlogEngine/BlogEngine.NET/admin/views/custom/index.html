@@ -108,7 +108,7 @@
                     <th class="hmax992">{{lbl.priority}}</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: items">
+            <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                     <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /></td>
                     <td class="table-item-avatar hmax768"><img src="{{item.IconUrl}}" /></td>
@@ -118,7 +118,7 @@
                             <span class="item-description hmax480">{{item.Description}}</span>
                         </div>
                     </td>
-                    <td class="hmax768">{{item.Location == 'L' ? item.LocalVersion : item.OnlineVersion}}</td>
+                    <td class="hmax768">{{item.LocalVersion}}</td>
                     <td class="hmax768" data-ng-bind-html="item.Authors"></td>
                     <td><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                     <td class="hmax992" data-ng-if="item.Location != 'G'">{{item.Priority}}</td>

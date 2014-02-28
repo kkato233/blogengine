@@ -180,16 +180,7 @@ namespace BlogEngine.Core.Data
         static List<Package> LoadPackages()
         {
             var packages = new List<Package>();
-
             Gallery.Load(packages);
-            //Trace("01: ", packages);
-            //Packaging.FileSystem.Load(packages);
-            //Trace("02: ", packages);
-            //LoadExtensions(packages);
-            //Trace("03: ", packages);
-            //Installer.MarkAsInstalled(packages);
-            //Trace("04: ", packages);
-
             return packages;
         }
 

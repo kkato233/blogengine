@@ -2,22 +2,19 @@
 angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scope", "$location", "$filter", "dataService", function ($rootScope, $scope, $location, $filter, dataService) {
     $scope.items = [];
     $scope.customFields = [];
+    $scope.galleryFeeds = [];
     $scope.editId = "";
     $scope.package = {};
     $scope.fltr = 'extensions';
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary == "True";
     $scope.canEditExensions = $rootScope.SiteVars.IsAdmin == "True";
     $scope.canInstallPackages = $rootScope.SiteVars.IsAdmin == "True" && $rootScope.SiteVars.IsPrimary == "True";
+    $scope.focusInput = false;
 
     $scope.id = ($location.search()).id;
     $scope.theme = ($location.search()).id;
-
-    $scope.selectedFeed = "http://dnbegallery.org/feed/FeedService.svc";
-    $scope.galleryFeeds = [
-	    { "OptionName": "DnbeGallery.org", "OptionValue": "http://dnbegallery.org/feed/FeedService.svc", "IsSelected": false }
-	    //,{ "OptionName": "Local feed", "OptionValue": "http://localhost/galserver/nuget", "IsSelected": false }
-    ];
-
+    $scope.selectedFeed = $rootScope.SiteVars.GalleryFeedUrl;
+    
     if ($scope.id) {
         $("#modal-theme-edit").modal();
     }
@@ -32,8 +29,19 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     }
 
     $scope.load = function () {
+        dataService.getItems('/api/galleryfeeds')
+        .success(function (data) {
+            angular.copy(data, $scope.galleryFeeds);
+            $scope.selectedFeedObject = selectedOption($scope.galleryFeeds, $scope.selectedFeed);
+            $scope.loadPackages();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingPackages);
+        });
+    }
+
+    $scope.loadPackages = function () {
         spinOn();
-        $scope.selectedFeedObject = selectedOption($scope.galleryFeeds, $scope.selectedFeed);
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
         .success(function (data) {
             angular.copy(data, $scope.items);
@@ -142,9 +150,68 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         return false;
     }
 
+    $scope.addFeed = function () {
+        if (!$('#form').valid()) {
+            return false;
+        }
+        spinOn();
+        var p = { "OptionName": $("#txtFeedName").val(), "OptionValue": $("#txtFeedUrl").val() };
+
+        dataService.addItem("/api/galleryfeeds", p)
+        .success(function (data) {
+            $scope.load();
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.updateFailed);
+            spinOff();
+        });
+    }
+
+    $scope.removeFeed = function (feed) {
+        spinOn();
+        dataService.deleteItem("/api/galleryfeeds", { "Id": feed })
+        .success(function (data) {
+            $scope.load();
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.updateFailed);
+            spinOff();
+        });
+    }
+
     $scope.changeFeed = function () {
-        alert($scope.selectedFeedObject.OptionValue);
+        spinOn();
+        dataService.updateItem("/api/galleryfeeds", $scope.selectedFeedObject)
+        .success(function (data) {
+            $scope.selectedFeed = $scope.selectedFeedObject.OptionValue;
+            $scope.load();
+            toastr.success($rootScope.lbl.completed);
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.updateFailed);
+            spinOff();
+        });
     }
 
     $scope.load();
+
+    $(document).ready(function () {
+        $('#form').validate({
+            rules: {
+                txtFeedName: { required: true },
+                txtFeedUrl: { required: true }
+            }
+        });
+    });
+
+    $scope.loadEditForm = function (id) {
+        $("#txtFeedName").val("");
+        $("#txtFeedUrl").val("");
+        $("#modal-feeds-edit").modal();
+        $scope.focusInput = true;
+    }
+
 }]);

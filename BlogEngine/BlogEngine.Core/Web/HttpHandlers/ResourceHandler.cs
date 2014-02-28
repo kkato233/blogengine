@@ -97,6 +97,7 @@ namespace BlogEngine.Core.Web.HttpHandlers
                     sbSiteVars.Append("UserRights: ['" + string.Join("', '", userRights) + "'],");
                     sbSiteVars.Append("AbsoluteWebRoot:  '" + Utils.AbsoluteWebRoot + "',");
                     sbSiteVars.Append("GenericPageSize:  '" + BlogConfig.GenericPageSize.ToString() + "',");
+                    sbSiteVars.Append("GalleryFeedUrl:  '" + BlogSettings.Instance.GalleryFeedUrl + "',");
                     sbSiteVars.Append("IsPrimary: '" + Blog.CurrentInstance.IsPrimary + "',");
                     sbSiteVars.Append("IsAdmin: '" + Security.IsAdministrator + "',");
                     sbSiteVars.Append("Version: 'BlogEngine.NET " + BlogSettings.Instance.Version() + "'");
