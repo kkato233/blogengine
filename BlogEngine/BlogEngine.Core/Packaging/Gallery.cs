@@ -146,20 +146,16 @@ namespace BlogEngine.Core.Packaging
                 var s = skip;
                 var galleryFeedContext = new GalleryFeedContext(new Uri(BlogSettings.Instance.GalleryFeedUrl)) { IgnoreMissingProperties = true };
 
-                // check if gallery feed supports "screenshots" (dnbegallery.org style)
-                var pkgs = (new[] { packagingSource }).SelectMany(source => {
-                        return galleryFeedContext.Packages.Expand("Screenshots").OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
-                    }
-                );
-
-                // if not, use standard nuget feed interface
-                if (pkgs.Count() == 0)
+                // dnbegallery.org overrides feed with additional values in "screenshots" section
+                var pkgs = BlogSettings.Instance.GalleryFeedUrl == "http://dnbegallery.org/feed/FeedService.svc" ?
+                (new[] { packagingSource }).SelectMany(source =>
                 {
-                    pkgs = (new[] { packagingSource }).SelectMany(source => {
-                            return galleryFeedContext.Packages.OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
-                        }
-                    );
-                }
+                    return galleryFeedContext.Packages.Expand("Screenshots").OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
+                }) :
+                (new[] { packagingSource }).SelectMany(source =>
+                {
+                    return galleryFeedContext.Packages.OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
+                });
 
                 cnt = pkgs.Count();
                 skip = skip + 100;

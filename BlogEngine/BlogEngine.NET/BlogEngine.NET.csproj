@@ -163,6 +163,8 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="media\sample.flv" />
     <Content Include="packages.config" />
+    <Content Include="pics\ext.png" />
+    <Content Include="pics\pkg.png" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-loader.min.js.map" />
@@ -1622,6 +1624,7 @@
     <Compile Include="AppCode\Api\CustomFieldsController.cs" />
     <Compile Include="AppCode\Api\FileManagerController.cs" />
     <Compile Include="AppCode\Api\FileSystemDataStreamProvider.cs" />
+    <Compile Include="AppCode\Api\GalleryFeedsController.cs" />
     <Compile Include="AppCode\Api\LogsController.cs" />
     <Compile Include="AppCode\Api\LookupsController.cs" />
     <Compile Include="AppCode\Api\PackagesController.cs" />

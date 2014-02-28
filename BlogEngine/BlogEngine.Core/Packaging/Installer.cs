@@ -107,27 +107,5 @@ namespace BlogEngine.Core.Packaging
             return new JsonResponse { Success = true, Message = "Package successfully uninstalled" };
         }
 
-        /// <summary>
-        /// Load installed packages
-        /// </summary>
-        /// <param name="packages"></param>
-        //public static void MarkAsInstalled(List<Package> packages)
-        //{
-        //    var installed = BlogService.InstalledFromGalleryPackages();
-
-        //    foreach (var pkg in packages)
-        //    {
-        //        if (pkg == null) continue;
-        //        var p = pkg;
-        //        if(installed != null && installed.Count > 0)
-        //        {
-        //            foreach (var inst in installed.Where(inst => p.Id.ToLower() == inst.PackageId.ToLower()))
-        //            {
-        //                pkg.Location = "I";
-        //                pkg.LocalVersion = inst.Version;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
