@@ -7,8 +7,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.package = {};
     $scope.fltr = 'extensions';
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary == "True";
-    $scope.canEditExensions = $rootScope.SiteVars.IsAdmin == "True";
-    $scope.canInstallPackages = $rootScope.SiteVars.IsAdmin == "True" && $rootScope.SiteVars.IsPrimary == "True";
+    $scope.security = $rootScope.security;
     $scope.focusInput = false;
 
     $scope.id = ($location.search()).id;

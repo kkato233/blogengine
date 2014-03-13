@@ -53,6 +53,12 @@ namespace BlogEngine.Core
         ViewDetailedErrorMessages,
 
         /// <summary>
+        /// A user is allowed to access administration dashboard.
+        /// </summary>
+        [RightDetails(Category = RightCategory.General)]
+        ViewDashboard,
+
+        /// <summary>
         /// A user is allowed to access administration pages.
         /// Typically, a blog where self-registration is allowed
         /// would restrict this right from guest users.
@@ -65,12 +71,6 @@ namespace BlogEngine.Core
         /// </summary>
         [RightDetails(Category = RightCategory.General)]
         AccessAdminSettingsPages,
-
-        /// <summary>
-        /// A user is allowed to manage widgets.
-        /// </summary>
-        [RightDetails(Category = RightCategory.General)]
-        ManageWidgets,
 
         #endregion
 
@@ -101,7 +101,6 @@ namespace BlogEngine.Core
         ModerateComments,
 
         #endregion
-
  
         #region Posts
 
@@ -284,6 +283,34 @@ namespace BlogEngine.Core
         EditOtherUsers,
 
         #endregion
+
+        #region Custom
+
+        /// <summary>
+        /// Manage extensions
+        /// </summary>
+        [RightDetails(Category = RightCategory.Custom)]
+        ManageExtensions,
+
+        /// <summary>
+        /// A user is allowed to manage widgets.
+        /// </summary>
+        [RightDetails(Category = RightCategory.Custom)]
+        ManageWidgets,
+
+        /// <summary>
+        /// Manage themes
+        /// </summary>
+        [RightDetails(Category = RightCategory.Custom)]
+        ManageThemes,
+
+        /// <summary>
+        /// Manage NuGet packages
+        /// </summary>
+        [RightDetails(Category = RightCategory.Custom)]
+        ManagePackages
+
+        #endregion
     }
 
 
@@ -360,6 +387,11 @@ namespace BlogEngine.Core
         /// <summary>
         /// Roles
         /// </summary>
-        Roles
+        Roles,
+
+        /// <summary>
+        /// Extensions, themes, widgets and packages
+        /// </summary>
+        Custom
     }
 }

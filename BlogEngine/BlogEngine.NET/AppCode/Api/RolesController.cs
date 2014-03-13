@@ -1,4 +1,5 @@
-﻿using BlogEngine.Core.Data.Contracts;
+﻿using BlogEngine.Core;
+using BlogEngine.Core.Data.Contracts;
 using BlogEngine.Core.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -185,6 +186,12 @@ public class RolesController : ApiController
         try
         {
             repository.SaveRights(rights, id);
+
+            // admin UI injects rights in JavaScript resource file
+            // so it can be used in Angular scripts. Crear cache on rights update.
+            string cacheKey = "admin.resource.axd - " + BlogSettings.Instance.Culture;
+            BlogEngine.Core.Blog.CurrentInstance.Cache.Remove(cacheKey);      
+
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         catch (UnauthorizedAccessException)

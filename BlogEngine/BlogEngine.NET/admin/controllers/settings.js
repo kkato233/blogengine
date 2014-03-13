@@ -1,6 +1,7 @@
 ﻿angular.module('blogAdmin').controller('SettingsController', ["$rootScope", "$scope", "$location", "$log", "$http", "dataService", function ($rootScope, $scope, $location, $log, $http, dataService) {
     $scope.settings = {};
     $scope.lookups = {};
+    $scope.UserVars = UserVars;
     $scope.feedOptions = [
         { "OptionName": "RSS 2.0", "OptionValue": "Rss", "IsSelected": false },
         { "OptionName": "Atom 1.0", "OptionValue": "Atom", "IsSelected": false }
@@ -88,7 +89,7 @@
 
     $scope.importClickOnce = function () {
         var url = 'http://dotnetblogengine.net/clickonce/blogimporter/blog.importer.application?url=';
-        url += SiteVars.AbsoluteWebRoot + '&username=' + SiteVars.UserName;
+        url += SiteVars.AbsoluteWebRoot + '&username=' + UserVars.Name;
         location.href = url;
     }
 

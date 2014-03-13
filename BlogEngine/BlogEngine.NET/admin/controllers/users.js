@@ -4,8 +4,12 @@
     $scope.editItem = {};
     $scope.isNewItem = false;
     $scope.focusInput = false;
+    $scope.security = $rootScope.security;
 
     $scope.load = function () {
+        if (!$scope.security.canManageUsers == true) {
+            window.location.replace("../Account/Login.aspx");
+        }
         spinOn();
         dataService.getItems('/api/users', { take: 0, skip: 0, filter: "1 == 1", order: "UserName" })
             .success(function (data) {

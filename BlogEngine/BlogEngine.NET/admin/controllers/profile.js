@@ -2,10 +2,11 @@
     $scope.user = {};
     $scope.noAvatar = SiteVars.ApplicationRelativeWebRoot + "pics/noavatar.jpg";
     $scope.photo = $scope.noAvatar;
+    $scope.UserVars = UserVars;
 
     $scope.load = function () {
         spinOn();
-        dataService.getItems('/api/users/' + SiteVars.UserName)
+        dataService.getItems('/api/users/' + UserVars.Name)
         .success(function (data) {
             angular.copy(data, $scope.user);
             $scope.setPhoto();

@@ -119,14 +119,11 @@ namespace BlogEngine.Core.Data
         /// <returns>True on success</returns>
         public bool Update(BlogUser user)
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnUser))
+            if (!Security.IsAuthorizedTo(Rights.EditOwnUser))
                 throw new System.UnauthorizedAccessException();
 
             if (user == null || string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Email))
                 throw new ApplicationException("Error adding new user; Missing required fields");
-
-            if (!Security.IsAuthorizedTo(Rights.EditOwnUser))
-                throw new ApplicationException("Not authorized");
 
             // update user
             var usr = Membership.GetUser(user.UserName);

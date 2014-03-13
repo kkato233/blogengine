@@ -133,6 +133,11 @@ namespace BlogEngine.Core
             HttpCookie cookie = new HttpCookie(FormsAuthCookieName, string.Empty);
             cookie.Expires = DateTime.Now.AddYears(-3);
             HttpContext.Current.Response.Cookies.Add(cookie);
+
+            // admin UI injects user info in JavaScript resource file
+            // so it can be used in Angular scripts. Crear cache on log off.
+            string cacheKey = "admin.resource.axd - " + BlogSettings.Instance.Culture;
+            Blog.CurrentInstance.Cache.Remove(cacheKey);
         }
 
         /// <summary>

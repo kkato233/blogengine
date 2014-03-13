@@ -148,7 +148,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Location == 'L'" /> </td>
+                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="items.length == 0" /> </td>
                     <td class="table-item-avatar">
                         <img ng-if="item.IconUrl === ''" src="../../pics/pkg.png" />
                         <img ng-if="item.IconUrl != ''" src="{{item.IconUrl}}" />

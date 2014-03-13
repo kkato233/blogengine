@@ -281,7 +281,9 @@ namespace BlogEngine.Core
                     Rights.CreateNewPosts,
                     Rights.EditOwnPages,
                     Rights.EditOwnPosts,
-                    Rights.EditOwnUser
+                    Rights.EditOwnUser,
+                    Rights.ViewDashboard,
+                    Rights.ManagePackages
                 };
             }
             else if (roleName.Equals(BlogConfig.AnonymousRole, StringComparison.OrdinalIgnoreCase))
