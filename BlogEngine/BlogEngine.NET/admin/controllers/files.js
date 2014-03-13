@@ -44,11 +44,11 @@
                 var item = checked[j];
                 var editorHtml = editorGetHtml();
                 if (item.FileType === 1) {
-                    var fileTag = "<p><a href='" + SiteVars.ApplicationRelativeWebRoot + "file.axd?file=" + item.FullPath + "' target='_blank'>" + item.Name + " (" + item.FileSize + ")</a></p>";
+                    var fileTag = "<p><a href='" + SiteVars.RelativeWebRoot + "file.axd?file=" + item.FullPath + "' target='_blank'>" + item.Name + " (" + item.FileSize + ")</a></p>";
                     editorSetHtml(editorHtml + fileTag);
                 }
                 if (item.FileType === 2) {
-                    editorSetHtml(editorHtml + "<img src='" + SiteVars.ApplicationRelativeWebRoot + "image.axd?picture=" + item.FullPath + "' />");
+                    editorSetHtml(editorHtml + "<img src='" + SiteVars.RelativeWebRoot + "image.axd?picture=" + item.FullPath + "' />");
                 }
             }
             toastr.success($rootScope.lbl.completed);

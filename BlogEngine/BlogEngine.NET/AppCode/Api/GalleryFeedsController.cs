@@ -19,9 +19,6 @@ public class GalleryFeedsController : ApiController
     {
         try
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminSettingsPages))
-                throw new System.UnauthorizedAccessException();
-
             var feeds = new List<SelectOption>();
             var feedSets = ExtensionManager.GetSettings(_metaExtension, _galleryFeeds);
 

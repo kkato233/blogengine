@@ -4,6 +4,8 @@
     $scope.lookups = [];
     $scope.selectedParent = {};
     $scope.fullScreen = false;
+    $scope.security = $rootScope.security;
+    $scope.UserVars = UserVars;
 
     $scope.load = function () {
         var lookupsUrl = '/api/lookups';

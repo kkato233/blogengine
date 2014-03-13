@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div ng-if="canInstallPackages"  class="form-group">
+                                <div ng-if="security.canManageExtensions" class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.priority}}</span>
                                     </div>
@@ -51,7 +51,7 @@
                                         <input type="text" class="form-control" id="txtPriority" data-ng-model="package.Priority" />
                                     </div>
                                 </div>
-                                <div data-ng-if="canEditExensions" class="form-group">
+                                <div data-ng-if="security.canManageExtensions" class="form-group">
                                     <div class="col-md-4">
                                         <span>{{lbl.enabled}}</span>
                                     </div>
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                             <div ng-if="package.SettingsUrl">
-                                <iframe ng-if="canEditExensions" ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
+                                <iframe ng-if="security.canManageExtensions" ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
                             </div>
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">

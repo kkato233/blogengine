@@ -28,9 +28,6 @@ namespace BlogEngine.Core.Data
         /// <returns>List of packages</returns>
         public IEnumerable<Package> Find(int take = 10, int skip = 0, string filter = "", string order = "")
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
-                throw new System.UnauthorizedAccessException();
-
             if (string.IsNullOrEmpty(order)) order = "LastUpdated desc";
 
             var packages = new List<Package>();
@@ -38,18 +35,26 @@ namespace BlogEngine.Core.Data
 
             if (filter.ToLower() == "extensions")
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ManageExtensions))
+                    throw new System.UnauthorizedAccessException();
                 pkgsToLoad = Packaging.FileSystem.LoadExtensions();
             }
             else if (filter.ToLower() == "themes")
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ManageThemes))
+                    throw new System.UnauthorizedAccessException();
                 pkgsToLoad = Packaging.FileSystem.LoadThemes();
             }
             else if (filter.ToLower() == "widgets")
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ManageWidgets))
+                    throw new System.UnauthorizedAccessException();
                 pkgsToLoad = Packaging.FileSystem.LoadWidgets();
             }
             else
             {
+                if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ManagePackages))
+                    throw new System.UnauthorizedAccessException();
                 pkgsToLoad = CachedPackages;
             }
 
@@ -65,7 +70,7 @@ namespace BlogEngine.Core.Data
         /// <returns>Package</returns>
         public Package FindById(string id)
         {
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
+            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.ManagePackages))
                 throw new System.UnauthorizedAccessException();
 
             return CachedPackages.FirstOrDefault(pkg => pkg.Id == id);

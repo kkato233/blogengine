@@ -5,6 +5,8 @@
     $scope.allTags = [];
     $scope.selectedAuthor = {};
     $scope.typeHere = BlogAdmin.i18n.typeHere;
+    $scope.security = $rootScope.security;
+    $scope.UserVars = UserVars;
 
     $scope.load = function () {
         dataService.getItems('/api/lookups')
@@ -31,7 +33,7 @@
             }
             else {
                 load_tags([], $scope.allTags);
-                $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, SiteVars.UserName);
+                $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, UserVars.Name);
             }
         })
         .error(function () {

@@ -207,9 +207,6 @@
     <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
     <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
     <Content Include="editors\summernote\editor.cshtml" />
-    <None Include="Properties\PublishProfiles\be.pubxml" />
-    <None Include="Properties\PublishProfiles\bespa - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\bespa - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

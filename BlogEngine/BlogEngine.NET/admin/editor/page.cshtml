@@ -2,8 +2,11 @@
 @using System.Web.Optimization
 @using BlogEngine.Core
 @{
-    App_Code.WebUtils.CheckRightsForAdminPagesPages(false);
+    if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.EditOwnPages)){
+        Security.RedirectForUnauthorizedRequest();
+    }
     string loginUrl = Href(Utils.RelativeWebRoot + "Account/login.aspx");
+    var userRights = string.Join("','", Security.CurrentUserRights().Select(r => r.Flag).ToArray());
     var id = Request["id"];
     var returnUrl = Request["returnUrl"];
     if (string.IsNullOrEmpty(returnUrl)) { returnUrl = Utils.RelativeWebRoot + "admin/#/content/pages"; }
@@ -20,6 +23,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/Content/css")
     <script type="text/javascript">
+        var UserVars = { Name: '@Security.CurrentUser.Identity.Name', IsAdmin: '@Security.IsAdministrator', Rights: ['@Html.Raw(userRights)'] };
         if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
             var msViewportStyle = document.createElement("style");
             var mq = "@@-ms-viewport{width:auto!important}";

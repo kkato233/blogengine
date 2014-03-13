@@ -3,19 +3,16 @@
         return viewLocation === $location.path() || $location.path().startsWith(viewLocation + "/");
     };
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary;
-    $scope.showBlogsTab = canManageBlogs();
-    $scope.showUsersTab = canManageUsers();
-    $scope.showSettingsTab = canManageSettings();
+    $scope.security = $rootScope.security;
+    $scope.UserVars = UserVars;
 }]);
 
-angular.module('blogAdmin').controller('SubNavController', ["$scope", "$location", function ($scope, $location) {
+angular.module('blogAdmin').controller('SubNavController', ["$scope", "$location", "$rootScope", function ($scope, $location, $rootScope) {
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
-    $scope.showRolesTab = canManageRoles();
-    $scope.showUsersTab = canManageUsers();
-    $scope.showWidgetsTab = canManageWidgets();
-    $scope.showContentPages = canManagePages();
+    $scope.security = $rootScope.security;
+    $scope.UserVars = UserVars;
 }]);
 
 if (typeof String.prototype.startsWith != 'function') {
@@ -65,33 +62,4 @@ function webRoot(url) {
     else {
         return result + url;
     }
-}
-
-function canManageRoles() {
-    return SiteVars.UserRights.indexOf("ViewRoles") > -1 ? true : false;
-}
-
-function canManageUsers() {
-    return SiteVars.UserRights.indexOf("EditOtherUsers") > -1 ? true : false;
-}
-
-function canManageSettings() {
-    return SiteVars.UserRights.indexOf("AccessAdminSettingsPages") > -1 ? true : false;
-}
-
-function canManageWidgets() {
-    return SiteVars.UserRights.indexOf("ManageWidgets") > -1 ? true : false;
-}
-
-function canManagePages() {
-    return SiteVars.UserRights.indexOf("EditOwnPages") > -1 ? true : false;
-}
-
-function canManageBlogs() {
-    if (SiteVars.IsPrimary == "True") {
-        if (SiteVars.IsAdmin == "True") {
-            return true;
-        }
-    }
-    return false;
 }

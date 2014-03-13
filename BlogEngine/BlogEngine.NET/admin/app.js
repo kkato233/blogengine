@@ -51,9 +51,59 @@
 
         $rootScope.lbl = BlogAdmin.i18n;
         $rootScope.SiteVars = SiteVars;
+        $rootScope.security = new security();
         toastr.options.positionClass = 'toast-bottom-right';
         toastr.options.backgroundpositionClass = 'toast-bottom-right';
     }];
 
     app.run(run);
+
+    var security = function () {
+        // dashboard
+        this.showTabDashboard = showTabDashboard();
+        this.viewErrorMessages = viewErrorMessages();
+        function showTabDashboard() { return UserVars.Rights.indexOf("ViewDashboard") > -1 ? true : false; }
+        function viewErrorMessages() { return UserVars.Rights.indexOf("ViewDetailedErrorMessages") > -1 ? true : false; }
+
+        // blogs
+        this.showTabBlogs = showTabBlogs();
+        function showTabBlogs() { return (SiteVars.IsPrimary == "True" && UserVars.IsAdmin == "True") ? true : false; }
+
+        // content
+        this.showTabContent = showTabContent();
+        function showTabContent() { return UserVars.Rights.indexOf("EditOwnPosts") > -1 ? true : false; }
+
+        // customization/packaging
+        this.showTabCustom = showTabCustom();
+        this.canManageExtensions = canManageExtensions();
+        this.canManageThemes = canManageThemes();
+        this.canManageWidgets = canManageWidgets();
+        this.canManagePackages = canManagePackages();
+
+        function showTabCustom() {
+            return (UserVars.Rights.indexOf("ManageExtensions") > -1 ||
+                UserVars.Rights.indexOf("ManageWidgets") > -1 ||
+                UserVars.Rights.indexOf("ManageThemes") > -1 ||
+                UserVars.Rights.indexOf("ManagePackages") > -1) ? true : false;
+        }
+        function canManageExtensions() { return UserVars.Rights.indexOf("ManageExtensions") > -1; }
+        function canManageThemes() { return UserVars.Rights.indexOf("ManageThemes") > -1; }
+        function canManageWidgets() { return UserVars.Rights.indexOf("ManageWidgets") > -1; }
+        function canManagePackages() { return UserVars.Rights.indexOf("ManagePackages") > -1; }
+
+        // users
+        this.showTabUsers = showTabUsers();
+        this.canManageUsers = canManageUsers();
+        this.canManageRoles = canManageRoles();
+        this.canManageProfile = canManageProfile();
+
+        function showTabUsers() { return (UserVars.Rights.indexOf("EditOtherUsers") > -1) ? true : false; }
+        function canManageUsers() { return UserVars.Rights.indexOf("EditOtherUsers") > -1 ? true : false; }
+        function canManageRoles() { return UserVars.Rights.indexOf("EditRoles") > -1 ? true : false; }
+        function canManageProfile() { return UserVars.Rights.indexOf("EditOwnUser") > -1 ? true : false; }
+
+        // settings
+        this.showTabSettings = showTabSettings();
+        function showTabSettings() { return UserVars.Rights.indexOf("AccessAdminSettingsPages") > -1 ? true : false; }     
+    }
 })();

@@ -7,6 +7,7 @@
     $scope.packages = [];
     $scope.logItems = [];
     $scope.itemToPurge = {};
+    $scope.security = $rootScope.security;
 
     $scope.openLogFile = function () {
         dataService.getItems('/api/logs/getlog/file')
@@ -76,6 +77,9 @@
     }
 
     $scope.load = function () {
+        if ($rootScope.security.showTabDashboard === false) {
+            window.location = "../Account/Login.aspx";
+        }
         spinOn();
 
         $scope.loadPackages();
@@ -104,6 +108,9 @@
     }
 
     $scope.loadPackages = function () {
+        if (!$scope.security.showTabCustom) {
+            return;
+        }
         loading("gal");
         dataService.getItems('/api/packages', { take: 5, skip: 0 })
         .success(function (data) {

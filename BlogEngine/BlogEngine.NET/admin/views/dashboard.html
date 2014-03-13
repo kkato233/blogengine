@@ -107,7 +107,7 @@
             </div>
             <div class="clearfix visible-xs"></div>
             <div class="col-xs-6 col-md-4">
-                <div class="panel panel-default">
+                <div data-ng-if="security.showTabCustom" class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapseSix">{{lbl.latestFromTheGallery}}</a>
@@ -126,7 +126,7 @@
                     </ul>
                     <div id="gal-spinner" class="loaded text-center"><div><i class="fa fa-spinner fa-spin"></i></div></div>
                 </div>
-                <div class="panel panel-default">
+                <div data-ng-if="security.viewErrorMessages" class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapseSeven">{{lbl.logs}}</a>
