@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="ckEnableCommentsModeration" data-ng-model="settings.EnableCommentsModeration" />
+                                        <input type="checkbox" name="ckEnableCommentsModeration" data-ng-model="settings.EnableCommentsModeration" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                         {{lbl.enableCommentsModeration}}
                                     </label>
                                 </div>
@@ -32,13 +32,13 @@
                             <div class="col-md-6">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="ckIsCommentNestingEnabled" data-ng-model="settings.IsCommentNestingEnabled" />
+                                        <input type="checkbox" name="ckIsCommentNestingEnabled" data-ng-model="settings.IsCommentNestingEnabled" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                         {{lbl.enableCommentNesting}}
                                     </label>
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="ckIsCoCommentEnabled" data-ng-model="settings.IsCoCommentEnabled" />
+                                        <input type="checkbox" name="ckIsCoCommentEnabled" data-ng-model="settings.IsCoCommentEnabled" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                         {{lbl.enableCoComments}}
                                     </label>
                                 </div>
@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="closeDaysOptions">{{lbl.closeCommetsAfter}}</label>
                                 <div class="col-md-8">
-                                    <select class="form-control" id="closeDaysOptions" data-ng-options="o.OptionName for o in closeDaysOptions" data-ng-model="selCloseDays"></select>
+                                    <select class="form-control" id="closeDaysOptions" data-ng-options="o.OptionName for o in closeDaysOptions" data-ng-model="selCloseDays" data-ng-disabled="settings.IsCommentsEnabled == false"></select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ckEnableCountryInComments" data-ng-model="settings.EnableCountryInComments" />
+                                    <input type="checkbox" name="ckEnableCountryInComments" data-ng-model="settings.EnableCountryInComments" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                     {{lbl.showCountryChooser}}
                                 </label>
                             </div>
@@ -77,7 +77,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ckEnableWebsiteInComments" data-ng-model="settings.EnableWebsiteInComments" />
+                                    <input type="checkbox" name="ckEnableWebsiteInComments" data-ng-model="settings.EnableWebsiteInComments" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                     {{lbl.showEnableWebsiteInComments}}
                                 </label>
                             </div>
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="ckShowLivePreview" data-ng-model="settings.ShowLivePreview" />
+                                    <input type="checkbox" name="ckShowLivePreview" data-ng-model="settings.ShowLivePreview" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                     {{lbl.showLivePreview}}
                                 </label>
                             </div>
@@ -199,18 +199,18 @@
                         <div class="alert alert-info" data-ng-bind-html="lbl.disqusSignupMessage"></div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="ckUseDisqus" data-ng-model="settings.UseDisqus" />
+                                <input type="checkbox" name="ckUseDisqus" data-ng-model="settings.UseDisqus" data-ng-disabled="settings.IsCommentsEnabled == false" />
                                 {{lbl.useDisqusAsCommentProvider}}
                             </label>
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="txtDisqusWebsiteName">{{lbl.disqusWebsiteName}}</label>
-                            <input type="text" class="form-control ltr-dir" id="txtDisqusWebsiteName" data-ng-model="settings.DisqusWebsiteName" />
+                            <input type="text" class="form-control ltr-dir" id="txtDisqusWebsiteName" data-ng-model="settings.DisqusWebsiteName" data-ng-disabled="settings.UseDisqus == false" />
                         </div>
                         <hr />
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="ckDisqusDevMode" data-ng-model="settings.DisqusDevMode" />
+                                <input type="checkbox" name="ckDisqusDevMode" data-ng-model="settings.DisqusDevMode" data-ng-disabled="settings.UseDisqus == false" />
                                 {{lbl.developmentMode}}
                             </label>
                         </div>
