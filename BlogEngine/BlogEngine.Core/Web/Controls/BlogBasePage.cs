@@ -253,7 +253,7 @@
         {
             if (Request.FilePath.Contains("post.aspx", StringComparison.InvariantCultureIgnoreCase))
             {
-                string path = string.Format("{0}themes/{1}/post.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
+                string path = string.Format("{0}Custom/Themes/{1}/post.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
                 if (System.IO.File.Exists(Server.MapPath(path)))
                     return path;
             }
@@ -267,12 +267,12 @@
                 Request.FilePath.Contains("error404.aspx", StringComparison.InvariantCultureIgnoreCase) ||
                 Request.FilePath.Contains("search.aspx", StringComparison.InvariantCultureIgnoreCase))
             {
-                string path = string.Format("{0}themes/{1}/page.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
+                string path = string.Format("{0}Custom/Themes/{1}/page.master", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
                 if (System.IO.File.Exists(Server.MapPath(path)))
                     return path;
             }
 
-            return string.Format("{0}themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, 
+            return string.Format("{0}Custom/Themes/{1}/site.master", Utils.ApplicationRelativeWebRoot, 
                 BlogSettings.Instance.GetThemeWithAdjustments(null));
         }
     }

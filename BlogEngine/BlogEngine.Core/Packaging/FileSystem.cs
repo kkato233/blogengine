@@ -194,7 +194,7 @@ namespace BlogEngine.Core.Packaging
         static List<Package> GetThemes()
         {
             var installedThemes = new List<Package>();
-            var path = HttpContext.Current.Server.MapPath(string.Format("{0}themes/", Utils.ApplicationRelativeWebRoot));
+            var path = HttpContext.Current.Server.MapPath(string.Format("{0}Custom/Themes/", Utils.ApplicationRelativeWebRoot));
 
             foreach (var p in from d in Directory.GetDirectories(path)
                 let index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1
@@ -241,7 +241,7 @@ namespace BlogEngine.Core.Packaging
             var jp = new Package { Id = id, PackageType = pkgType };
 
             var pkgUrl = pkgType == "Theme" ?
-                string.Format("{0}themes/{1}/theme.xml", Utils.ApplicationRelativeWebRoot, id) :
+                string.Format("{0}Custom/Themes/{1}/theme.xml", Utils.ApplicationRelativeWebRoot, id) :
                 string.Format("{0}widgets/{1}/widget.xml", Utils.ApplicationRelativeWebRoot, id);
 
             var pkgPath = HttpContext.Current.Server.MapPath(pkgUrl);

@@ -168,7 +168,7 @@ public static class RazorHelpers
         return WIDGET_CONTAINER_BODY_MARKER;
     }
 
-    public const string RAZOR_HOST_PAGE_VPATH = "~/themes/RazorHost/page.cshtml";
+    public const string RAZOR_HOST_PAGE_VPATH = "~/Custom/Themes/RazorHost/page.cshtml";
 
     public static string ParseRazor(string virtualPath, object model)
     {

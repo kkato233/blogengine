@@ -49,7 +49,7 @@ namespace BlogEngine.Core.Data.Services
         static string ThemeNoAvatar(string email)
         {
             var themeAvatar = HttpContext.Current.Server.MapPath(string.Format(
-                "{0}themes/{1}/noavatar.jpg", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme));
+                "{0}Custom/Themes/{1}/noavatar.jpg", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme));
 
             return System.IO.File.Exists(themeAvatar) ? themeAvatar : "";
         }
