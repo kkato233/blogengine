@@ -285,31 +285,31 @@
         /// an empty string is returned.
         /// </param>
         /// <returns></returns>
-        public string GetPathAndFilename(bool checkExistence)
-        {
-            string filename = string.Empty;
-            var appRoot = HostingEnvironment.MapPath("~/");
-            var codeAssemblies = Utils.CodeAssemblies();
-            foreach (Assembly a in codeAssemblies)
-            {
-                var types = a.GetTypes();
-                foreach (var type in types.Where(type => type.Name == Name))
-                {
-                    var assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
-                    assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
-                    var fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
-                    filename = appRoot + Path.Combine(Path.Combine(assemblyName, "Extensions"), Name + fileExt);
-                }
-            }
+        //public string GetPathAndFilename(bool checkExistence)
+        //{
+        //    string filename = string.Empty;
+        //    var appRoot = HostingEnvironment.MapPath("~/");
+        //    var codeAssemblies = Utils.CodeAssemblies();
+        //    foreach (Assembly a in codeAssemblies)
+        //    {
+        //        var types = a.GetTypes();
+        //        foreach (var type in types.Where(type => type.Name == Name))
+        //        {
+        //            var assemblyName = type.Assembly.FullName.Split(".".ToCharArray())[0];
+        //            assemblyName = assemblyName.Replace("App_SubCode_", "App_Code\\");
+        //            var fileExt = assemblyName.Contains("VB_Code") ? ".vb" : ".cs";
+        //            filename = appRoot + Path.Combine(Path.Combine(assemblyName, "Extensions"), Name + fileExt);
+        //        }
+        //    }
 
-            if (checkExistence && !string.IsNullOrWhiteSpace(filename))
-            {
-                if (!File.Exists(filename))
-                    return string.Empty;
-            }
+        //    if (checkExistence && !string.IsNullOrWhiteSpace(filename))
+        //    {
+        //        if (!File.Exists(filename))
+        //            return string.Empty;
+        //    }
 
-            return filename;
-        }
+        //    return filename;
+        //}
 
         #endregion
     }

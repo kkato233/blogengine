@@ -2,6 +2,7 @@
     $scope.settings = {};
     $scope.lookups = {};
     $scope.UserVars = UserVars;
+    $scope.ServerTime = moment(ServerTime).format("YYYY-MM-DD HH:mm");
     $scope.feedOptions = [
         { "OptionName": "RSS 2.0", "OptionValue": "Rss", "IsSelected": false },
         { "OptionName": "Atom 1.0", "OptionValue": "Atom", "IsSelected": false }
