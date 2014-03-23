@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="BlogEngine.Core.Web.Controls.PostNavigationBase" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" EnableViewState="false" Inherits="BlogEngine.Core.Web.Controls.CommentFormBase" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
 <script runat="server">
@@ -12,8 +12,8 @@
 
     private void ParseAndInjectRazor()
     {
-        string vPath = string.Format("~/themes/{0}/PostNavigation.cshtml", BlogSettings.Instance.Theme);
-        string parsedRazor = RazorHelpers.ParseRazor(vPath, this);  // 'this' is PostNavigationBase.
+        string vPath = string.Format("~/Custom/Themes/{0}/CommentForm.cshtml", BlogSettings.Instance.Theme);
+        string parsedRazor = RazorHelpers.ParseRazor(vPath, this);  // 'this' is CommentFormBase.
 
         if (!string.IsNullOrWhiteSpace(parsedRazor))
         {

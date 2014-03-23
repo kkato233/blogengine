@@ -21,7 +21,7 @@
     {
         if (_rendered) { return; }
         
-        string vPath = string.Format("~/themes/{0}/WidgetContainer.cshtml", BlogSettings.Instance.Theme);
+        string vPath = string.Format("~/Custom/Themes/{0}/WidgetContainer.cshtml", BlogSettings.Instance.Theme);
         string parsedRazor = RazorHelpers.ParseRazor(vPath, this);  // 'this' is WidgetContainer.
 
         if (!string.IsNullOrWhiteSpace(parsedRazor))

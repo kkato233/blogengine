@@ -248,7 +248,7 @@ namespace Widgets.Newsletter
             var body = new StringBuilder();
             var urlbase = Path.Combine(
                 Path.Combine(Utils.AbsoluteWebRoot.AbsoluteUri, "themes"), BlogSettings.Instance.Theme);
-            var filePath = string.Format("~/themes/{0}/newsletter.html", BlogSettings.Instance.Theme);
+            var filePath = string.Format("~/Custom/Themes/{0}/newsletter.html", BlogSettings.Instance.Theme);
             filePath = HostingEnvironment.MapPath(filePath);
             if (File.Exists(filePath))
             {
@@ -258,7 +258,7 @@ namespace Widgets.Newsletter
             {
                 // if custom theme doesn't have email template
                 // use email template from standard theme
-                filePath = HostingEnvironment.MapPath("~/themes/Standard/newsletter.html");
+                filePath = HostingEnvironment.MapPath("~/Custom/Themes/Standard/newsletter.html");
                 if (File.Exists(filePath))
                 {
                     body.Append(File.ReadAllText(filePath));

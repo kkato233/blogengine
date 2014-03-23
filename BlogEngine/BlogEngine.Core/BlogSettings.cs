@@ -153,7 +153,7 @@
         /// </summary>
         public static bool IsThemeRazor(string themeName)
         {
-            string path = HostingEnvironment.MapPath(string.Format("~/themes/{0}/site.cshtml", themeName));
+            string path = HostingEnvironment.MapPath(string.Format("~/Custom/Themes/{0}/site.cshtml", themeName));
             return File.Exists(path);
         }
 

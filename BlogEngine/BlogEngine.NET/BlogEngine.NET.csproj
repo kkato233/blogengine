@@ -189,21 +189,21 @@
     <Content Include="setup\VistaDB\VistaDBUpgradeTo1.5.0.0From1.4.5.0.vsql3" />
     <Content Include="setup\VistaDB\VistaDBUpgradeTo1.6From1.5.vsql3" />
     <Content Include="setup\VistaDB\VistaDBWeb.Config" />
-    <Content Include="themes\Garland-Revisited\CommentForm.cshtml" />
-    <Content Include="themes\Garland-Revisited\CommentView.cshtml" />
-    <Content Include="themes\Garland-Revisited\PostNavigation.cshtml" />
-    <Content Include="themes\Garland-Revisited\PostView.cshtml" />
-    <Content Include="themes\Garland-Revisited\RelatedPosts.cshtml" />
-    <Content Include="themes\Garland-Revisited\site.cshtml" />
-    <Content Include="themes\Garland-Revisited\WidgetContainer.cshtml" />
-    <Content Include="themes\RazorHost\page.cshtml" />
-    <Content Include="themes\RazorHost\site.master" />
-    <Content Include="themes\Standard-28\site.master" />
-    <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="themes\Standard\site.master" />
-    <Content Include="themes\TitaniumX\site.master" />
+    <Content Include="Custom\Themes\Garland-Revisited\CommentForm.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\CommentView.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\PostNavigation.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\PostView.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\RelatedPosts.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\site.cshtml" />
+    <Content Include="Custom\Themes\Garland-Revisited\WidgetContainer.cshtml" />
+    <Content Include="Custom\Themes\RazorHost\page.cshtml" />
+    <Content Include="Custom\Themes\RazorHost\site.master" />
+    <Content Include="Custom\Themes\Standard-28\site.master" />
+    <Content Include="Custom\Themes\Standard\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Custom\Themes\Standard\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Custom\Themes\Standard\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Custom\Themes\Standard\site.master" />
+    <Content Include="Custom\Themes\TitaniumX\site.master" />
     <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
     <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
     <Content Include="editors\summernote\editor.cshtml" />
@@ -1360,89 +1360,89 @@
     <Content Include="setup\TestFiles\sample.png" />
     <Content Include="setup\TestFiles\sample.txt" />
     <Content Include="setup\VistaDB\ReadMe.txt" />
-    <Content Include="themes\Garland-Revisited\images\bg-content-left.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-content-right.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-content.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-navigation-item-hover.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-navigation-item.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-navigation.png" />
-    <Content Include="themes\Garland-Revisited\images\bg-tab.png" />
-    <Content Include="themes\Garland-Revisited\images\blockquote.png" />
-    <Content Include="themes\Garland-Revisited\images\blockquote3-img.png" />
-    <Content Include="themes\Garland-Revisited\images\body.png" />
-    <Content Include="themes\Garland-Revisited\images\gradient-inner.png" />
-    <Content Include="themes\Garland-Revisited\images\menu-leaf.gif" />
-    <Content Include="themes\Garland-Revisited\images\user-admin.png" />
-    <Content Include="themes\Garland-Revisited\images\user-student.png" />
-    <Content Include="themes\Garland-Revisited\img\newsletter\bg.jpg" />
-    <Content Include="themes\Garland-Revisited\img\newsletter\header.png" />
-    <Content Include="themes\Garland-Revisited\img\newsletter\logo.png" />
-    <Content Include="themes\Garland-Revisited\newsletter.html" />
-    <Content Include="themes\Garland-Revisited\style.css" />
-    <Content Include="themes\Garland-Revisited\Theme.png" />
-    <Content Include="themes\Garland-Revisited\theme.xml" />
-    <Content Include="themes\RazorHost\CommentForm.ascx" />
-    <Content Include="themes\RazorHost\CommentView.ascx" />
-    <Content Include="themes\RazorHost\PostNavigation.ascx" />
-    <Content Include="themes\RazorHost\PostView.ascx" />
-    <Content Include="themes\RazorHost\RelatedPosts.ascx" />
-    <Content Include="themes\RazorHost\WidgetContainer.ascx" />
-    <Content Include="themes\Standard-28\CommentView.ascx" />
-    <Content Include="themes\Standard-28\img\body.jpg" />
-    <Content Include="themes\Standard-28\img\BtnSearch.png" />
-    <Content Include="themes\Standard-28\img\Footer.png" />
-    <Content Include="themes\Standard-28\img\HeaderBar.jpg" />
-    <Content Include="themes\Standard-28\img\Home.png" />
-    <Content Include="themes\Standard-28\img\newsletter\bg.jpg" />
-    <Content Include="themes\Standard-28\img\newsletter\header.png" />
-    <Content Include="themes\Standard-28\img\newsletter\logo.png" />
-    <Content Include="themes\Standard-28\img\RSS.png" />
-    <Content Include="themes\Standard-28\img\success.png" />
-    <Content Include="themes\Standard-28\include\core.css" />
-    <Content Include="themes\Standard-28\include\html5.js" />
-    <Content Include="themes\Standard-28\include\rtl.css" />
-    <Content Include="themes\Standard-28\include\styles.min.css" />
-    <Content Include="themes\Standard-28\newsletter.html" />
-    <Content Include="themes\Standard-28\PostView.ascx" />
-    <Content Include="themes\Standard-28\theme.png" />
-    <Content Include="themes\Standard-28\theme.xml" />
-    <Content Include="themes\Standard-28\WidgetContainer.ascx" />
-    <Content Include="themes\Standard\CommentForm.ascx" />
-    <Content Include="themes\Standard\CommentView.ascx" />
-    <Content Include="themes\Standard\css\bootstrap.min.css" />
-    <Content Include="themes\Standard\css\main.css" />
-    <Content Include="themes\Standard\css\responsive.css" />
-    <Content Include="themes\Standard\css\rtl.css" />
-    <Content Include="themes\Standard\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="themes\Standard\images\carrow.png" />
-    <Content Include="themes\Standard\images\facebook.png" />
-    <Content Include="themes\Standard\images\googleplus.png" />
-    <Content Include="themes\Standard\images\logo.png" />
-    <Content Include="themes\Standard\images\rss.png" />
-    <Content Include="themes\Standard\images\sarrow.png" />
-    <Content Include="themes\Standard\images\twitter.png" />
-    <Content Include="themes\Standard\js\bootstrap.min.js" />
-    <Content Include="themes\Standard\newsletter.html" />
-    <Content Include="themes\Standard\PostNavigation.ascx" />
-    <Content Include="themes\Standard\PostView.ascx" />
-    <Content Include="themes\Standard\RelatedPosts.ascx" />
-    <Content Include="themes\Standard\theme.png" />
-    <Content Include="themes\Standard\theme.xml" />
-    <Content Include="themes\Standard\WidgetContainer.ascx" />
-    <Content Include="themes\TitaniumX\CommentView.ascx" />
-    <Content Include="themes\TitaniumX\download.png" />
-    <Content Include="themes\TitaniumX\img\contentbg.png" />
-    <Content Include="themes\TitaniumX\img\menubg.png" />
-    <Content Include="themes\TitaniumX\img\newsletter\bg.jpg" />
-    <Content Include="themes\TitaniumX\img\newsletter\header.png" />
-    <Content Include="themes\TitaniumX\img\newsletter\logo.png" />
-    <Content Include="themes\TitaniumX\img\widgetbg.png" />
-    <Content Include="themes\TitaniumX\newsletter.html" />
-    <Content Include="themes\TitaniumX\PostView.ascx" />
-    <Content Include="themes\TitaniumX\style.css" />
-    <Content Include="themes\TitaniumX\theme.png" />
-    <Content Include="themes\TitaniumX\theme.xml" />
-    <Content Include="themes\TitaniumX\WidgetContainer.ascx" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-content-left.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-content-right.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-content.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-navigation-item-hover.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-navigation-item.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-navigation.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\bg-tab.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\blockquote.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\blockquote3-img.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\body.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\gradient-inner.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\menu-leaf.gif" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\user-admin.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\images\user-student.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\img\newsletter\bg.jpg" />
+    <Content Include="Custom\Themes\Garland-Revisited\img\newsletter\header.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\img\newsletter\logo.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\newsletter.html" />
+    <Content Include="Custom\Themes\Garland-Revisited\style.css" />
+    <Content Include="Custom\Themes\Garland-Revisited\Theme.png" />
+    <Content Include="Custom\Themes\Garland-Revisited\theme.xml" />
+    <Content Include="Custom\Themes\RazorHost\CommentForm.ascx" />
+    <Content Include="Custom\Themes\RazorHost\CommentView.ascx" />
+    <Content Include="Custom\Themes\RazorHost\PostNavigation.ascx" />
+    <Content Include="Custom\Themes\RazorHost\PostView.ascx" />
+    <Content Include="Custom\Themes\RazorHost\RelatedPosts.ascx" />
+    <Content Include="Custom\Themes\RazorHost\WidgetContainer.ascx" />
+    <Content Include="Custom\Themes\Standard-28\CommentView.ascx" />
+    <Content Include="Custom\Themes\Standard-28\img\body.jpg" />
+    <Content Include="Custom\Themes\Standard-28\img\BtnSearch.png" />
+    <Content Include="Custom\Themes\Standard-28\img\Footer.png" />
+    <Content Include="Custom\Themes\Standard-28\img\HeaderBar.jpg" />
+    <Content Include="Custom\Themes\Standard-28\img\Home.png" />
+    <Content Include="Custom\Themes\Standard-28\img\newsletter\bg.jpg" />
+    <Content Include="Custom\Themes\Standard-28\img\newsletter\header.png" />
+    <Content Include="Custom\Themes\Standard-28\img\newsletter\logo.png" />
+    <Content Include="Custom\Themes\Standard-28\img\RSS.png" />
+    <Content Include="Custom\Themes\Standard-28\img\success.png" />
+    <Content Include="Custom\Themes\Standard-28\include\core.css" />
+    <Content Include="Custom\Themes\Standard-28\include\html5.js" />
+    <Content Include="Custom\Themes\Standard-28\include\rtl.css" />
+    <Content Include="Custom\Themes\Standard-28\include\styles.min.css" />
+    <Content Include="Custom\Themes\Standard-28\newsletter.html" />
+    <Content Include="Custom\Themes\Standard-28\PostView.ascx" />
+    <Content Include="Custom\Themes\Standard-28\theme.png" />
+    <Content Include="Custom\Themes\Standard-28\theme.xml" />
+    <Content Include="Custom\Themes\Standard-28\WidgetContainer.ascx" />
+    <Content Include="Custom\Themes\Standard\CommentForm.ascx" />
+    <Content Include="Custom\Themes\Standard\CommentView.ascx" />
+    <Content Include="Custom\Themes\Standard\css\bootstrap.min.css" />
+    <Content Include="Custom\Themes\Standard\css\main.css" />
+    <Content Include="Custom\Themes\Standard\css\responsive.css" />
+    <Content Include="Custom\Themes\Standard\css\rtl.css" />
+    <Content Include="Custom\Themes\Standard\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Custom\Themes\Standard\images\carrow.png" />
+    <Content Include="Custom\Themes\Standard\images\facebook.png" />
+    <Content Include="Custom\Themes\Standard\images\googleplus.png" />
+    <Content Include="Custom\Themes\Standard\images\logo.png" />
+    <Content Include="Custom\Themes\Standard\images\rss.png" />
+    <Content Include="Custom\Themes\Standard\images\sarrow.png" />
+    <Content Include="Custom\Themes\Standard\images\twitter.png" />
+    <Content Include="Custom\Themes\Standard\js\bootstrap.min.js" />
+    <Content Include="Custom\Themes\Standard\newsletter.html" />
+    <Content Include="Custom\Themes\Standard\PostNavigation.ascx" />
+    <Content Include="Custom\Themes\Standard\PostView.ascx" />
+    <Content Include="Custom\Themes\Standard\RelatedPosts.ascx" />
+    <Content Include="Custom\Themes\Standard\theme.png" />
+    <Content Include="Custom\Themes\Standard\theme.xml" />
+    <Content Include="Custom\Themes\Standard\WidgetContainer.ascx" />
+    <Content Include="Custom\Themes\TitaniumX\CommentView.ascx" />
+    <Content Include="Custom\Themes\TitaniumX\download.png" />
+    <Content Include="Custom\Themes\TitaniumX\img\contentbg.png" />
+    <Content Include="Custom\Themes\TitaniumX\img\menubg.png" />
+    <Content Include="Custom\Themes\TitaniumX\img\newsletter\bg.jpg" />
+    <Content Include="Custom\Themes\TitaniumX\img\newsletter\header.png" />
+    <Content Include="Custom\Themes\TitaniumX\img\newsletter\logo.png" />
+    <Content Include="Custom\Themes\TitaniumX\img\widgetbg.png" />
+    <Content Include="Custom\Themes\TitaniumX\newsletter.html" />
+    <Content Include="Custom\Themes\TitaniumX\PostView.ascx" />
+    <Content Include="Custom\Themes\TitaniumX\style.css" />
+    <Content Include="Custom\Themes\TitaniumX\theme.png" />
+    <Content Include="Custom\Themes\TitaniumX\theme.xml" />
+    <Content Include="Custom\Themes\TitaniumX\WidgetContainer.ascx" />
     <Content Include="User controls\CommentView.ascx" />
     <Content Include="User controls\Defaults\CommentForm.ascx" />
     <Content Include="User controls\Defaults\PostNavigation.ascx" />
@@ -1685,7 +1685,7 @@
     <Compile Include="Custom\Extensions\Smilies.cs" />
     <Compile Include="Custom\Extensions\StopForumSpam.cs" />
     <Compile Include="Custom\Extensions\TypePadFilter.cs" />
-    <Compile Include="App_Code\Helpers\RazorHelpers.cs" />
+    <Compile Include="AppCode\RazorHelpers.cs" />
     <Compile Include="AppCode\WebUtils.cs" />
     <Compile Include="App_GlobalResources\labels.af.designer.cs">
       <AutoGen>True</AutoGen>
@@ -1929,32 +1929,32 @@
     <Compile Include="search.aspx.designer.cs">
       <DependentUpon>search.aspx</DependentUpon>
     </Compile>
-    <Compile Include="themes\RazorHost\site.master.cs">
+    <Compile Include="Custom\Themes\RazorHost\site.master.cs">
       <DependentUpon>site.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="themes\RazorHost\site.master.designer.cs">
+    <Compile Include="Custom\Themes\RazorHost\site.master.designer.cs">
       <DependentUpon>site.master</DependentUpon>
     </Compile>
-    <Compile Include="themes\Standard-28\site.master.cs">
-      <DependentUpon>site.master</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="themes\Standard-28\site.master.designer.cs">
-      <DependentUpon>site.master</DependentUpon>
-    </Compile>
-    <Compile Include="themes\Standard\site.master.cs">
+    <Compile Include="Custom\Themes\Standard-28\site.master.cs">
       <DependentUpon>site.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="themes\Standard\site.master.designer.cs">
+    <Compile Include="Custom\Themes\Standard-28\site.master.designer.cs">
       <DependentUpon>site.master</DependentUpon>
     </Compile>
-    <Compile Include="themes\TitaniumX\site.master.cs">
+    <Compile Include="Custom\Themes\Standard\site.master.cs">
       <DependentUpon>site.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="themes\TitaniumX\site.master.designer.cs">
+    <Compile Include="Custom\Themes\Standard\site.master.designer.cs">
+      <DependentUpon>site.master</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Themes\TitaniumX\site.master.cs">
+      <DependentUpon>site.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Themes\TitaniumX\site.master.designer.cs">
       <DependentUpon>site.master</DependentUpon>
     </Compile>
     <Compile Include="User controls\CommentView.ascx.cs">

@@ -76,7 +76,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
 
                     var settings = BlogSettings.Instance;
                     string encodedPostTitle = Server.HtmlEncode(Post.Title);
-                    string path = Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostView.ascx";
+                    string path = Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostView.ascx";
 
                     PostViewBase postView = (PostViewBase)LoadControl(path);
                     postView.Post = Post;
@@ -90,7 +90,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                         try
                         {
                             // Try to load RelatedPosts view from theme folder
-                            string relatedPath = Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/RelatedPosts.ascx";
+                            string relatedPath = Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/RelatedPosts.ascx";
                             RelatedPostsBase relatedView = (RelatedPostsBase)LoadControl(relatedPath);
                             relatedView.PostItem = this.Post;
                             phRelatedPosts.Controls.Add(relatedView);
@@ -202,13 +202,13 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                     // Try to load PostNavigation from theme folder
                     var template = BlogSettings.Instance.IsRazorTheme ? "PostNavigation.cshtml" : "PostNavigation.ascx";
 
-                    var path = string.Format("{0}themes/{1}/{2}", 
+                    var path = string.Format("{0}Custom/Themes/{1}/{2}", 
                         Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme, template);
 
                     if (!System.IO.File.Exists(Server.MapPath(path)))
                         path = Utils.ApplicationRelativeWebRoot + "User controls/Defaults/PostNavigation.ascx";
                     else
-                        path = Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostNavigation.ascx";
+                        path = Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostNavigation.ascx";
                     
                     var navView = (PostNavigationBase)LoadControl(path);
                     navView.CurrentPost = this.Post;

@@ -122,7 +122,7 @@
                 return;
             }
 
-            var path = string.Format("{0}themes/{1}/PostView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(this.Request.QueryString["theme"]));
+            var path = string.Format("{0}Custom/Themes/{1}/PostView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(this.Request.QueryString["theme"]));
             var counter = 0;
 
             foreach (Post post in visiblePosts.GetRange(index, stop))

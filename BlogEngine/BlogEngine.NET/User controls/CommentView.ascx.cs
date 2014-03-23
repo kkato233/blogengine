@@ -63,7 +63,7 @@
                     else
                     {
                         var path = string.Format(
-                            "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
+                            "{0}Custom/Themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
                         // test comment control for nesting placeholder (for backwards compatibility with older themes)
                         var commentTester = (CommentViewBase)LoadControl(path);
@@ -372,7 +372,7 @@
             }
 
             var path = string.Format(
-                "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
+                "{0}Custom/Themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
             var control = (CommentViewBase)LoadControl(path);
             control.Comment = comment;
@@ -511,7 +511,7 @@
                 }
 
                 var path = string.Format(
-                    "{0}themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
+                    "{0}Custom/Themes/{1}/CommentView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(null));
 
                 bool canViewUnpublishedPosts = Security.IsAuthorizedTo(AuthorizationCheck.HasAny, new[] { Rights.ViewUnmoderatedComments, Rights.ModerateComments });
 
@@ -676,7 +676,7 @@
 
         private string FromThemeFolder(string file)
         {
-            return Utils.ApplicationRelativeWebRoot + "themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/" + file;
+            return Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/" + file;
         }
 
         /// <summary>
