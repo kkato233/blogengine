@@ -290,12 +290,16 @@ namespace BlogEngine.Core.Packaging
 
             foreach (var dir in source.GetDirectories())
             {
-                var filePath = Path.Combine(target.FullName, dir.Name);
-                var relPath = filePath.Replace(rootPath, "");
+                var dirPath = Path.Combine(target.FullName, dir.Name);
+
+                // App_Code/Extensions moved to Custom/Extensions
+                dirPath = dirPath.Replace("App_Code", "Custom");
+
+                var relPath = dirPath.Replace(rootPath, "");
 
                 // save directory if it is created by package
                 // so we can remove it on package uninstall
-                if (!Directory.Exists(filePath))
+                if (!Directory.Exists(dirPath))
                 {
                     fileOrder++;
                     var fileToCopy = new PackageFile
@@ -313,6 +317,10 @@ namespace BlogEngine.Core.Packaging
             foreach (var file in source.GetFiles())
             {
                 var filePath = Path.Combine(target.FullName, file.Name);
+
+                // App_Code/Extensions moved to Custom/Extensions
+                filePath = filePath.Replace("App_Code", "Custom");
+
                 var relPath = filePath.Replace(rootPath, "");
 
                 file.CopyTo(filePath);

@@ -22,7 +22,7 @@ namespace BlogEngine.Core.Web.Scripting
         /// The _sink.
         /// </summary>
         private readonly Stream sink;
-        static string HtmlOut;
+        string HtmlOut;
 
         /// <summary>
         /// Regex for parsing webresource.axd

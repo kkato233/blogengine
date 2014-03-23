@@ -1666,25 +1666,25 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AppCode\Controls\WidgetZone.cs" />
-    <Compile Include="AppCode\Extensions\AkismetFilter.cs" />
-    <Compile Include="AppCode\Extensions\BBCode.cs" />
-    <Compile Include="AppCode\Extensions\BreakPost.cs" />
-    <Compile Include="AppCode\Extensions\Logger.cs" />
-    <Compile Include="AppCode\Extensions\MediaElementPlayer.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\Recaptcha.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\RecaptchaControl.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\RecaptchaLogger.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\RecaptchaLogItem.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\RecaptchaResponse.cs" />
-    <Compile Include="AppCode\Extensions\Recaptcha\RecaptchaValidator.cs" />
-    <Compile Include="AppCode\Extensions\ResolveLinks.cs" />
-    <Compile Include="AppCode\Extensions\SendCommentMail.cs" />
-    <Compile Include="AppCode\Extensions\SendPings.cs" />
-    <Compile Include="AppCode\Extensions\SimpleCaptcha\SimpleCaptcha.cs" />
-    <Compile Include="AppCode\Extensions\SimpleCaptcha\SimpleCaptchaControl.cs" />
-    <Compile Include="AppCode\Extensions\Smilies.cs" />
-    <Compile Include="AppCode\Extensions\StopForumSpam.cs" />
-    <Compile Include="AppCode\Extensions\TypePadFilter.cs" />
+    <Compile Include="Custom\Extensions\AkismetFilter.cs" />
+    <Compile Include="Custom\Extensions\BBCode.cs" />
+    <Compile Include="Custom\Extensions\BreakPost.cs" />
+    <Compile Include="Custom\Extensions\Logger.cs" />
+    <Compile Include="Custom\Extensions\MediaElementPlayer.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\Recaptcha.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\RecaptchaControl.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\RecaptchaLogger.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\RecaptchaLogItem.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\RecaptchaResponse.cs" />
+    <Compile Include="Custom\Extensions\Recaptcha\RecaptchaValidator.cs" />
+    <Compile Include="Custom\Extensions\ResolveLinks.cs" />
+    <Compile Include="Custom\Extensions\SendCommentMail.cs" />
+    <Compile Include="Custom\Extensions\SendPings.cs" />
+    <Compile Include="Custom\Extensions\SimpleCaptcha\SimpleCaptcha.cs" />
+    <Compile Include="Custom\Extensions\SimpleCaptcha\SimpleCaptchaControl.cs" />
+    <Compile Include="Custom\Extensions\Smilies.cs" />
+    <Compile Include="Custom\Extensions\StopForumSpam.cs" />
+    <Compile Include="Custom\Extensions\TypePadFilter.cs" />
     <Compile Include="App_Code\Helpers\RazorHelpers.cs" />
     <Compile Include="AppCode\WebUtils.cs" />
     <Compile Include="App_GlobalResources\labels.af.designer.cs">
@@ -2197,6 +2197,7 @@
     <Content Include="App_GlobalResources\labels.cs.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.cs.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.da.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2205,14 +2206,17 @@
     <Content Include="App_GlobalResources\labels.de.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.de.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.el-GR.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.el-GR.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.es.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.es.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.et.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2221,6 +2225,7 @@
     <Content Include="App_GlobalResources\labels.fa.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.fa.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.fi.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2229,14 +2234,17 @@
     <Content Include="App_GlobalResources\labels.fr.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.fr.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.he.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.he.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.hr.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.hr.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.hu.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2249,6 +2257,7 @@
     <Content Include="App_GlobalResources\labels.it.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.it.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.ja.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2285,10 +2294,12 @@
     <Content Include="App_GlobalResources\labels.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.ru.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.ru.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.sk.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
@@ -2325,6 +2336,7 @@
     <Content Include="App_GlobalResources\labels.zh-CN.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
       <LastGenOutput>labels.zh-CN.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_GlobalResources\labels.zh-TW.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>

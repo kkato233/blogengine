@@ -1625,7 +1625,7 @@ namespace BlogEngine.Core.Providers
                                 if (!rdr.IsDBNull(0))
                                 {
                                     var email = rdr.GetString(0);
-                                    if (post.NotificationEmails.Contains(email))
+                                    if (!post.NotificationEmails.Contains(email))
                                     {
                                         post.NotificationEmails.Add(email);
                                     }
