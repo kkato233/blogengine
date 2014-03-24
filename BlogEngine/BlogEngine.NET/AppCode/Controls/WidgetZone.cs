@@ -131,7 +131,7 @@ namespace App_Code.Controls
 				System.Web.UI.Page page = new System.Web.UI.Page();
 
 				foreach (XmlNode widget in zone) {
-					var fileName = string.Format("{0}widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, widget.InnerText);
+					var fileName = string.Format("{0}Custom/Widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, widget.InnerText);
 					try {
 						bool isAdminWidget = (fileName.ToLower().IndexOf("/administration/widget.ascx") >= 0);
 						if (!isAdminWidget || (isAdminWidget && Security.IsAuthenticated)) {
@@ -202,7 +202,7 @@ namespace App_Code.Controls
 
             foreach (XmlNode widget in zone)
             {
-                var fileName = string.Format("{0}widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, widget.InnerText);
+                var fileName = string.Format("{0}Custom/Widgets/{1}/widget.ascx", Utils.ApplicationRelativeWebRoot, widget.InnerText);
                 try
                 {
 					//Mod RonC Added this conditional so that the admin widget isn't loaded for non authenticated
@@ -274,7 +274,7 @@ namespace App_Code.Controls
 
             var selectorId = string.Format("widgetselector_{0}", this.zoneName);
             writer.Write("<select id=\"{0}\" class=\"widgetselector\">", selectorId);
-            var di = new DirectoryInfo(HostingEnvironment.MapPath(string.Format("{0}widgets", Utils.ApplicationRelativeWebRoot)));
+            var di = new DirectoryInfo(HostingEnvironment.MapPath(string.Format("{0}Custom/Widgets", Utils.ApplicationRelativeWebRoot)));
             foreach (var dir in di.GetDirectories().Where(dir => File.Exists(Path.Combine(dir.FullName, "widget.ascx"))))
             {
                 writer.Write("<option value=\"{0}\">{1}</option>", dir.Name, dir.Name);

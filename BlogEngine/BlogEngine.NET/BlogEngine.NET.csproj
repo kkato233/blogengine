@@ -214,7 +214,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="Web.sitemap" />
-    <Content Include="widgets\Visitor info\apmlchecker.ashx" />
+    <Content Include="Custom\Widgets\Visitor info\apmlchecker.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\account.css" />
@@ -1448,72 +1448,72 @@
     <Content Include="User controls\Defaults\PostNavigation.ascx" />
     <Content Include="User controls\PostList.ascx" />
     <Content Include="Web.config" />
-    <Content Include="widgets\Administration\screenshot.png" />
-    <Content Include="widgets\Administration\widget.ascx" />
-    <Content Include="widgets\Administration\widget.xml" />
-    <Content Include="widgets\AuthorList\edit.ascx" />
-    <Content Include="widgets\AuthorList\screenshot.png" />
-    <Content Include="widgets\AuthorList\widget.ascx" />
-    <Content Include="widgets\AuthorList\widget.xml" />
-    <Content Include="widgets\Blog List\screenshot.png" />
-    <Content Include="widgets\Blog List\widget.ascx" />
-    <Content Include="widgets\Blog List\widget.xml" />
-    <Content Include="widgets\BlogRoll\screenshot.png" />
-    <Content Include="widgets\BlogRoll\widget.ascx" />
-    <Content Include="widgets\BlogRoll\widget.xml" />
-    <Content Include="widgets\Calendar\screenshot.png" />
-    <Content Include="widgets\Calendar\widget.ascx" />
-    <Content Include="widgets\Calendar\widget.xml" />
-    <Content Include="widgets\Category list\edit.ascx" />
-    <Content Include="widgets\Category list\screenshot.png" />
-    <Content Include="widgets\Category list\widget.ascx" />
-    <Content Include="widgets\Category list\widget.xml" />
-    <Content Include="widgets\LinkList\edit.ascx" />
-    <Content Include="widgets\LinkList\screenshot.png" />
-    <Content Include="widgets\LinkList\widget.ascx" />
-    <Content Include="widgets\LinkList\widget.xml" />
-    <Content Include="widgets\Month List\edit.ascx" />
-    <Content Include="widgets\Month List\screenshot.png" />
-    <Content Include="widgets\Month List\widget.ascx" />
-    <Content Include="widgets\Month List\widget.xml" />
-    <Content Include="widgets\Most comments\edit.ascx" />
-    <Content Include="widgets\Most comments\screenshot.png" />
-    <Content Include="widgets\Most comments\widget.ascx" />
-    <Content Include="widgets\Most comments\widget.xml" />
-    <Content Include="widgets\Newsletter\edit.ascx" />
-    <Content Include="widgets\Newsletter\screenshot.png" />
-    <Content Include="widgets\Newsletter\widget.ascx" />
-    <Content Include="widgets\Newsletter\widget.xml" />
-    <Content Include="widgets\Page List\screenshot.png" />
-    <Content Include="widgets\Page List\widget.ascx" />
-    <Content Include="widgets\Page List\widget.xml" />
-    <Content Include="widgets\RecentComments\edit.ascx" />
-    <Content Include="widgets\RecentComments\screenshot.png" />
-    <Content Include="widgets\RecentComments\widget.ascx" />
-    <Content Include="widgets\RecentComments\widget.xml" />
-    <Content Include="widgets\RecentPosts\edit.ascx" />
-    <Content Include="widgets\RecentPosts\screenshot.png" />
-    <Content Include="widgets\RecentPosts\widget.ascx" />
-    <Content Include="widgets\RecentPosts\widget.xml" />
-    <Content Include="widgets\Search\screenshot.png" />
-    <Content Include="widgets\Search\widget.ascx" />
-    <Content Include="widgets\Search\widget.xml" />
-    <Content Include="widgets\Tag cloud\edit.ascx" />
-    <Content Include="widgets\Tag cloud\screenshot.png" />
-    <Content Include="widgets\Tag cloud\widget.ascx" />
-    <Content Include="widgets\Tag cloud\widget.xml" />
-    <Content Include="widgets\TextBox\edit.ascx" />
-    <Content Include="widgets\TextBox\screenshot.png" />
-    <Content Include="widgets\TextBox\widget.ascx" />
-    <Content Include="widgets\TextBox\widget.xml" />
-    <Content Include="widgets\Twitter\edit.ascx" />
-    <Content Include="widgets\Twitter\screenshot.png" />
-    <Content Include="widgets\Twitter\twitter.ico" />
-    <Content Include="widgets\Twitter\widget.ascx" />
-    <Content Include="widgets\Twitter\widget.xml" />
-    <Content Include="widgets\Visitor info\screenshot.png" />
-    <Content Include="widgets\Visitor info\widget.ascx" />
-    <Content Include="widgets\Visitor info\widget.xml" />
+    <Content Include="Custom\Widgets\Administration\screenshot.png" />
+    <Content Include="Custom\Widgets\Administration\widget.ascx" />
+    <Content Include="Custom\Widgets\Administration\widget.xml" />
+    <Content Include="Custom\Widgets\AuthorList\edit.ascx" />
+    <Content Include="Custom\Widgets\AuthorList\screenshot.png" />
+    <Content Include="Custom\Widgets\AuthorList\widget.ascx" />
+    <Content Include="Custom\Widgets\AuthorList\widget.xml" />
+    <Content Include="Custom\Widgets\Blog List\screenshot.png" />
+    <Content Include="Custom\Widgets\Blog List\widget.ascx" />
+    <Content Include="Custom\Widgets\Blog List\widget.xml" />
+    <Content Include="Custom\Widgets\BlogRoll\screenshot.png" />
+    <Content Include="Custom\Widgets\BlogRoll\widget.ascx" />
+    <Content Include="Custom\Widgets\BlogRoll\widget.xml" />
+    <Content Include="Custom\Widgets\Calendar\screenshot.png" />
+    <Content Include="Custom\Widgets\Calendar\widget.ascx" />
+    <Content Include="Custom\Widgets\Calendar\widget.xml" />
+    <Content Include="Custom\Widgets\Category list\edit.ascx" />
+    <Content Include="Custom\Widgets\Category list\screenshot.png" />
+    <Content Include="Custom\Widgets\Category list\widget.ascx" />
+    <Content Include="Custom\Widgets\Category list\widget.xml" />
+    <Content Include="Custom\Widgets\LinkList\edit.ascx" />
+    <Content Include="Custom\Widgets\LinkList\screenshot.png" />
+    <Content Include="Custom\Widgets\LinkList\widget.ascx" />
+    <Content Include="Custom\Widgets\LinkList\widget.xml" />
+    <Content Include="Custom\Widgets\Month List\edit.ascx" />
+    <Content Include="Custom\Widgets\Month List\screenshot.png" />
+    <Content Include="Custom\Widgets\Month List\widget.ascx" />
+    <Content Include="Custom\Widgets\Month List\widget.xml" />
+    <Content Include="Custom\Widgets\Most comments\edit.ascx" />
+    <Content Include="Custom\Widgets\Most comments\screenshot.png" />
+    <Content Include="Custom\Widgets\Most comments\widget.ascx" />
+    <Content Include="Custom\Widgets\Most comments\widget.xml" />
+    <Content Include="Custom\Widgets\Newsletter\edit.ascx" />
+    <Content Include="Custom\Widgets\Newsletter\screenshot.png" />
+    <Content Include="Custom\Widgets\Newsletter\widget.ascx" />
+    <Content Include="Custom\Widgets\Newsletter\widget.xml" />
+    <Content Include="Custom\Widgets\Page List\screenshot.png" />
+    <Content Include="Custom\Widgets\Page List\widget.ascx" />
+    <Content Include="Custom\Widgets\Page List\widget.xml" />
+    <Content Include="Custom\Widgets\RecentComments\edit.ascx" />
+    <Content Include="Custom\Widgets\RecentComments\screenshot.png" />
+    <Content Include="Custom\Widgets\RecentComments\widget.ascx" />
+    <Content Include="Custom\Widgets\RecentComments\widget.xml" />
+    <Content Include="Custom\Widgets\RecentPosts\edit.ascx" />
+    <Content Include="Custom\Widgets\RecentPosts\screenshot.png" />
+    <Content Include="Custom\Widgets\RecentPosts\widget.ascx" />
+    <Content Include="Custom\Widgets\RecentPosts\widget.xml" />
+    <Content Include="Custom\Widgets\Search\screenshot.png" />
+    <Content Include="Custom\Widgets\Search\widget.ascx" />
+    <Content Include="Custom\Widgets\Search\widget.xml" />
+    <Content Include="Custom\Widgets\Tag cloud\edit.ascx" />
+    <Content Include="Custom\Widgets\Tag cloud\screenshot.png" />
+    <Content Include="Custom\Widgets\Tag cloud\widget.ascx" />
+    <Content Include="Custom\Widgets\Tag cloud\widget.xml" />
+    <Content Include="Custom\Widgets\TextBox\edit.ascx" />
+    <Content Include="Custom\Widgets\TextBox\screenshot.png" />
+    <Content Include="Custom\Widgets\TextBox\widget.ascx" />
+    <Content Include="Custom\Widgets\TextBox\widget.xml" />
+    <Content Include="Custom\Widgets\Twitter\edit.ascx" />
+    <Content Include="Custom\Widgets\Twitter\screenshot.png" />
+    <Content Include="Custom\Widgets\Twitter\twitter.ico" />
+    <Content Include="Custom\Widgets\Twitter\widget.ascx" />
+    <Content Include="Custom\Widgets\Twitter\widget.xml" />
+    <Content Include="Custom\Widgets\Visitor info\screenshot.png" />
+    <Content Include="Custom\Widgets\Visitor info\widget.ascx" />
+    <Content Include="Custom\Widgets\Visitor info\widget.xml" />
     <Content Include="wlwmanifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -1971,207 +1971,207 @@
     <Compile Include="User controls\PostList.ascx.designer.cs">
       <DependentUpon>PostList.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Administration\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Administration\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Administration\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Administration\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\AuthorList\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\AuthorList\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\AuthorList\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\AuthorList\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\AuthorList\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\AuthorList\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\AuthorList\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\AuthorList\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Blog List\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Blog List\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\BlogRoll\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Blog List\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\BlogRoll\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Blog List\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Calendar\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Calendar\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Category list\edit.ascx.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Category list\edit.ascx.designer.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Category list\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\BlogRoll\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Category list\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\BlogRoll\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\LinkList\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\Calendar\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Calendar\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Category list\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\LinkList\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Category list\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\LinkList\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Category list\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\LinkList\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Category list\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Month List\edit.ascx.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Month List\edit.ascx.designer.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Month List\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Month List\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Most comments\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\LinkList\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Most comments\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\LinkList\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Most comments\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\LinkList\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Most comments\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\LinkList\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Newsletter\edit.ascx.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Newsletter\edit.ascx.designer.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Newsletter\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Newsletter\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Page List\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Page List\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\RecentComments\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\Month List\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\RecentComments\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Month List\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\RecentComments\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Month List\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\RecentComments\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Month List\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\RecentPosts\edit.ascx.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\RecentPosts\edit.ascx.designer.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\RecentPosts\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\RecentPosts\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Search\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\Search\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Tag cloud\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\Most comments\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Tag cloud\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Most comments\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Tag cloud\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Most comments\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Tag cloud\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Most comments\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\TextBox\edit.ascx.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\TextBox\edit.ascx.designer.cs">
-      <DependentUpon>edit.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\TextBox\widget.ascx.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="widgets\TextBox\widget.ascx.designer.cs">
-      <DependentUpon>widget.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="widgets\Twitter\edit.ascx.cs">
+    <Compile Include="Custom\Widgets\Newsletter\edit.ascx.cs">
       <DependentUpon>edit.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Twitter\edit.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Newsletter\edit.ascx.designer.cs">
       <DependentUpon>edit.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Twitter\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Newsletter\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Twitter\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Newsletter\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
-    <Compile Include="widgets\Visitor info\widget.ascx.cs">
+    <Compile Include="Custom\Widgets\Page List\widget.ascx.cs">
       <DependentUpon>widget.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="widgets\Visitor info\widget.ascx.designer.cs">
+    <Compile Include="Custom\Widgets\Page List\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentComments\edit.ascx.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentComments\edit.ascx.designer.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentComments\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentComments\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentPosts\edit.ascx.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentPosts\edit.ascx.designer.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentPosts\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\RecentPosts\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Search\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Search\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Tag cloud\edit.ascx.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Tag cloud\edit.ascx.designer.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Tag cloud\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Tag cloud\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\TextBox\edit.ascx.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\TextBox\edit.ascx.designer.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\TextBox\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\TextBox\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Twitter\edit.ascx.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Twitter\edit.ascx.designer.cs">
+      <DependentUpon>edit.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Twitter\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Twitter\widget.ascx.designer.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Widgets\Visitor info\widget.ascx.cs">
+      <DependentUpon>widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Custom\Widgets\Visitor info\widget.ascx.designer.cs">
       <DependentUpon>widget.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
