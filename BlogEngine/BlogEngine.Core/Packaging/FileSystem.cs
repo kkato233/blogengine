@@ -217,7 +217,7 @@ namespace BlogEngine.Core.Packaging
         static List<Package> GetWidgets()
         {
             var installedWidgets = new List<Package>();
-            var path = HttpContext.Current.Server.MapPath(string.Format("{0}widgets/", Utils.ApplicationRelativeWebRoot));
+            var path = HttpContext.Current.Server.MapPath(string.Format("{0}Custom/Widgets/", Utils.ApplicationRelativeWebRoot));
 
             foreach (var p in from d in Directory.GetDirectories(path)
                 let index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1
@@ -242,7 +242,7 @@ namespace BlogEngine.Core.Packaging
 
             var pkgUrl = pkgType == "Theme" ?
                 string.Format("{0}Custom/Themes/{1}/theme.xml", Utils.ApplicationRelativeWebRoot, id) :
-                string.Format("{0}widgets/{1}/widget.xml", Utils.ApplicationRelativeWebRoot, id);
+                string.Format("{0}Custom/Widgets/{1}/widget.xml", Utils.ApplicationRelativeWebRoot, id);
 
             var pkgPath = HttpContext.Current.Server.MapPath(pkgUrl);
             try
@@ -292,8 +292,10 @@ namespace BlogEngine.Core.Packaging
             {
                 var dirPath = Path.Combine(target.FullName, dir.Name);
 
-                // App_Code/Extensions moved to Custom/Extensions
+                // Files moved to Custom folder
                 dirPath = dirPath.Replace("App_Code", "Custom");
+                dirPath = dirPath.Replace("\\themes", "\\Custom\\Themes");
+                dirPath = dirPath.Replace("\\widgets", "\\Custom\\Widgets");
 
                 var relPath = dirPath.Replace(rootPath, "");
 
@@ -310,16 +312,19 @@ namespace BlogEngine.Core.Packaging
                         IsDirectory = true
                     };
                     installedFiles.Add(fileToCopy);
-                }                   
-                CopyDirectory(dir, target.CreateSubdirectory(dir.Name), pkgId, installedFiles);
+                }
+
+                CopyDirectory(dir, Directory.CreateDirectory(dirPath), pkgId, installedFiles);
             }
              
             foreach (var file in source.GetFiles())
             {
                 var filePath = Path.Combine(target.FullName, file.Name);
 
-                // App_Code/Extensions moved to Custom/Extensions
+                // Files moved to Custom folder
                 filePath = filePath.Replace("App_Code", "Custom");
+                filePath = filePath.Replace("\\themes", "\\Custom\\Themes");
+                filePath = filePath.Replace("\\widgets", "\\Custom\\Widgets");
 
                 var relPath = filePath.Replace(rootPath, "");
 
@@ -343,6 +348,12 @@ namespace BlogEngine.Core.Packaging
                     ReplaceInFile(filePath, "BlogSettings.Instance.StorageLocation", "Blog.CurrentInstance.StorageLocation");
                     ReplaceInFile(filePath, "BlogSettings.Instance.FileExtension", "BlogConfig.FileExtension");
                     ReplaceInFile(filePath, "\"login.aspx", "\"account/login.aspx");
+
+                    // fix older themes having reference to /themes/ folder
+                    ReplaceInFile(filePath, "/themes", "/Custom/Themes");
+                    ReplaceInFile(filePath, "themes/", "Custom/Themes/");
+                    ReplaceInFile(filePath, "}themes", "}Custom/Themes");
+                    ReplaceInFile(filePath, "themes{", "Custom/Themes{");
                 }
 
                 installedFiles.Add(fileToCopy);
@@ -381,6 +392,9 @@ namespace BlogEngine.Core.Packaging
             {
                 var url = string.Format("{0}{1}/{2}/{3}",
                 Utils.ApplicationRelativeWebRoot, pkgDir, pkg.Id, img);
+
+                url = url.Replace("/themes", "/Custom/Themes");
+                url = url.Replace("/widgets", "/Custom/Widgets");
 
                 var path = HttpContext.Current.Server.MapPath(url);
 
