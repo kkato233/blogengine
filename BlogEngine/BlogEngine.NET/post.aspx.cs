@@ -206,7 +206,7 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                         Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme, template);
 
                     if (!System.IO.File.Exists(Server.MapPath(path)))
-                        path = Utils.ApplicationRelativeWebRoot + "User controls/Defaults/PostNavigation.ascx";
+                        path = Utils.ApplicationRelativeWebRoot + "Custom/Controls/Defaults/PostNavigation.ascx";
                     else
                         path = Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostNavigation.ascx";
                     

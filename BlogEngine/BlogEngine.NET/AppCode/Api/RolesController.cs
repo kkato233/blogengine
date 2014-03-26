@@ -185,12 +185,7 @@ public class RolesController : ApiController
     {
         try
         {
-            repository.SaveRights(rights, id);
-
-            // admin UI injects rights in JavaScript resource file
-            // so it can be used in Angular scripts. Crear cache on rights update.
-            string cacheKey = "admin.resource.axd - " + BlogSettings.Instance.Culture;
-            BlogEngine.Core.Blog.CurrentInstance.Cache.Remove(cacheKey);      
+            repository.SaveRights(rights, id); 
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

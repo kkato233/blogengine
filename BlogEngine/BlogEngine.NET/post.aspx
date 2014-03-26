@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" ValidateRequest="False" Inherits="post" Codebehind="post.aspx.cs" %>
-<%@ Register Src="User controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
+<%@ Register Src="Custom/Controls/CommentView.ascx" TagName="CommentView" TagPrefix="uc" %>
 <asp:content id="Content1" contentplaceholderid="cphBody" runat="Server">
   
   <asp:PlaceHolder ID="phCommentNotificationUnsubscription" runat="server" visible="false">
