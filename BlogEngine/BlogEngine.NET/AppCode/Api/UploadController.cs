@@ -53,7 +53,7 @@ public class UploadController : ApiController
                 {
                     // upload profile image
                     dir = BlogService.GetDirectory("/avatars");
-                    var dot = file.FileName.IndexOf(".");
+                    var dot = file.FileName.LastIndexOf(".");
                     var ext = dot > 0 ? file.FileName.Substring(dot) : "";
                     var fileName = User.Identity.Name + ext;
 
@@ -87,7 +87,7 @@ public class UploadController : ApiController
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
                     // default media folder
-                    var mediaFolder = "media";
+                    var mediaFolder = "Custom/Media";
 
                     // get the mediaplayer extension and use it's folder
                     var mediaPlayerExtension = BlogEngine.Core.Web.Extensions.ExtensionManager.GetExtension("MediaElementPlayer");

@@ -31,7 +31,7 @@ public class MediaElementPlayer
     private const int _widthDefault = 480;
     private const int _heightDefault = 360;
 	private const bool _enableAutoSize = false;
-    private const string _folderDefault = "media";
+    private const string _folderDefault = "Custom/Media";
 
     /// <summary>
     /// Adds a Flash video player to the post.
@@ -179,7 +179,7 @@ public class MediaElementPlayer
 
 		string startupScript = @"
 <script type=""text/javascript"">
-jQuery(document).ready(function($) {
+$(document).ready(function($) {
 	$('audio.mep, video.mep').mediaelementplayer({defaultVideoWidth:" + width.ToString() + ", defaultVideoHeight:" + height.ToString() + @"});
 });
 </script>	

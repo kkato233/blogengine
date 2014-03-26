@@ -296,6 +296,7 @@ namespace BlogEngine.Core.Packaging
                 dirPath = dirPath.Replace("App_Code", "Custom");
                 dirPath = dirPath.Replace("\\themes", "\\Custom\\Themes");
                 dirPath = dirPath.Replace("\\widgets", "\\Custom\\Widgets");
+                dirPath = dirPath.Replace("\\User controls", "\\Custom\\Controls");
 
                 var relPath = dirPath.Replace(rootPath, "");
 
@@ -325,6 +326,7 @@ namespace BlogEngine.Core.Packaging
                 filePath = filePath.Replace("App_Code", "Custom");
                 filePath = filePath.Replace("\\themes", "\\Custom\\Themes");
                 filePath = filePath.Replace("\\widgets", "\\Custom\\Widgets");
+                filePath = filePath.Replace("\\User controls", "\\Custom\\Controls");
 
                 var relPath = filePath.Replace(rootPath, "");
 
@@ -354,6 +356,9 @@ namespace BlogEngine.Core.Packaging
                     ReplaceInFile(filePath, "themes/", "Custom/Themes/");
                     ReplaceInFile(filePath, "}themes", "}Custom/Themes");
                     ReplaceInFile(filePath, "themes{", "Custom/Themes{");
+
+                    ReplaceInFile(filePath, "/User controls", "/Custom/Controls");
+                    ReplaceInFile(filePath, "User controls/", "Custom/Controls/");
                 }
 
                 installedFiles.Add(fileToCopy);

@@ -146,6 +146,7 @@
     <Content Include="Content\font\fontawesome-webfont.woff" />
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Custom\Media\sample.mp4" />
     <Content Include="editors\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
     <Content Include="editors\bootstrap-wysiwyg\editor.js" />
     <Content Include="editors\bootstrap-wysiwyg\jquery.hotkeys.js" />
@@ -161,7 +162,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="media\sample.flv" />
+    <Content Include="Custom\Media\sample.flv" />
     <Content Include="packages.config" />
     <Content Include="pics\ext.png" />
     <Content Include="pics\pkg.png" />
@@ -1443,10 +1444,10 @@
     <Content Include="Custom\Themes\TitaniumX\theme.png" />
     <Content Include="Custom\Themes\TitaniumX\theme.xml" />
     <Content Include="Custom\Themes\TitaniumX\WidgetContainer.ascx" />
-    <Content Include="User controls\CommentView.ascx" />
-    <Content Include="User controls\Defaults\CommentForm.ascx" />
-    <Content Include="User controls\Defaults\PostNavigation.ascx" />
-    <Content Include="User controls\PostList.ascx" />
+    <Content Include="Custom\Controls\CommentView.ascx" />
+    <Content Include="Custom\Controls\Defaults\CommentForm.ascx" />
+    <Content Include="Custom\Controls\Defaults\PostNavigation.ascx" />
+    <Content Include="Custom\Controls\PostList.ascx" />
     <Content Include="Web.config" />
     <Content Include="Custom\Widgets\Administration\screenshot.png" />
     <Content Include="Custom\Widgets\Administration\widget.ascx" />
@@ -1957,18 +1958,18 @@
     <Compile Include="Custom\Themes\TitaniumX\site.master.designer.cs">
       <DependentUpon>site.master</DependentUpon>
     </Compile>
-    <Compile Include="User controls\CommentView.ascx.cs">
+    <Compile Include="Custom\Controls\CommentView.ascx.cs">
       <DependentUpon>CommentView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="User controls\CommentView.ascx.designer.cs">
+    <Compile Include="Custom\Controls\CommentView.ascx.designer.cs">
       <DependentUpon>CommentView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="User controls\PostList.ascx.cs">
+    <Compile Include="Custom\Controls\PostList.ascx.cs">
       <DependentUpon>PostList.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="User controls\PostList.ascx.designer.cs">
+    <Compile Include="Custom\Controls\PostList.ascx.designer.cs">
       <DependentUpon>PostList.ascx</DependentUpon>
     </Compile>
     <Compile Include="Custom\Widgets\Administration\widget.ascx.cs">
