@@ -54,6 +54,10 @@
             $scope.selFeedFormat = selectedOption($scope.feedOptions, $scope.settings.SyndicationFormat);
             $scope.selCloseDays = selectedOption($scope.closeDaysOptions, $scope.settings.DaysCommentsAreEnabled);
             $scope.selCommentsPerPage = selectedOption($scope.commentsPerPageOptions, $scope.settings.CommentsPerPage);
+            if ($('.summernote').length > 0) {
+                $('.summernote').code($scope.settings.ContactFormMessage);
+                $('.summernote').eq(1).code($scope.settings.ContactThankMessage);
+            }
             spinOff();
         })
         .error(function () {
@@ -75,7 +79,10 @@
         $scope.settings.SyndicationFormat = $scope.selFeedFormat.OptionValue;
         $scope.settings.DaysCommentsAreEnabled = $scope.selCloseDays.OptionValue;
         $scope.settings.CommentsPerPage = $scope.selCommentsPerPage.OptionValue;
-        
+        if ($('.summernote').length > 0) {
+            $scope.settings.ContactFormMessage = $('.summernote').code();
+            $scope.settings.ContactThankMessage = $('.summernote').eq(1).code();
+        }
         dataService.updateItem("/api/settings", $scope.settings)
         .success(function (data) {
             toastr.success($rootScope.lbl.settingsUpdated);
