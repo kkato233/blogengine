@@ -67,6 +67,7 @@ public class BundleConfig
             .Include("~/Content/font-awesome.min.css")
             .Include("~/Content/editor.css")
             .Include("~/Content/app.css")
+            .Include("~/editors/summernote/summernote.css")
           );
 
         bundles.Add(
@@ -99,6 +100,7 @@ public class BundleConfig
             .Include("~/admin/services.js")
             .Include("~/scripts/bootstrap.js")
             .Include("~/scripts/moment.js")
+            .Include("~/editors/summernote/summernote.js")
           );
 
         bundles.Add(

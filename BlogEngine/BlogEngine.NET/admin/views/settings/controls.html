@@ -43,15 +43,28 @@
                         <div class="form-horizontal">
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtContactFormMessage">{{lbl.formMessage}}</label>
-                                <div class="col-md-8">
-                                    <textarea class="form-control xlarge-width small-height" id="txtContactFormMessage" data-ng-model="settings.ContactFormMessage"></textarea>
+                                <div class="col-md-12">
+                                    <textarea class="summernote" id="txtContactFormMessage"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtContactThankMessage">{{lbl.thankYouMessage}}</label>
-                                <div class="col-md-8">
-                                    <textarea class="form-control  xlarge-width small-height" id="txtContactThankMessage" data-ng-model="settings.ContactThankMessage"></textarea>
+                                <div class="col-md-12">
+                                    <textarea class="summernote" id="txtContactThankMessage"></textarea>
                                 </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.summernote').summernote({
+                                            toolbar: [
+                                              ['style', ['bold', 'italic', 'underline', 'clear']],
+                                              ['fontsize', ['fontsize']],
+                                              ['color', ['color']],
+                                              ['para', ['ul', 'ol', 'paragraph']],
+                                              ['view', ['fullscreen','codeview']]
+                                            ]
+                                        });
+                                    });
+                                </script>
                             </div>
                             <div class="col-md-offset-4 col-md-8">
                                 <div class="checkbox">

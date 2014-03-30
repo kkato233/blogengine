@@ -184,6 +184,12 @@
     <Content Include="setup\SQLServer\SQLServerWeb.Config" />
     <Content Include="setup\SQL_CE\SQL_CE_Web.Config" />
     <Content Include="setup\TestFiles\sample.flv" />
+    <Content Include="setup\upgrade\bootstrap.min.css" />
+    <Content Include="setup\upgrade\bootstrap.min.js" />
+    <Content Include="setup\upgrade\jquery-2.0.3.min.js" />
+    <Content Include="setup\upgrade\spinner.gif" />
+    <Content Include="setup\upgrade\Updater.asmx" />
+    <Content Include="setup\upgrade\Updater.js" />
     <Content Include="setup\VistaDB\BlogEngine.vdb3" />
     <Content Include="setup\VistaDB\BlogEngine.vdb4" />
     <Content Include="setup\VistaDB\VistaDB.NET_4.0_Web.Config" />
@@ -208,6 +214,7 @@
     <Content Include="editors\bootstrap-wysiwyg\editor.cshtml" />
     <Content Include="editors\tiny_mce_3_5_8\editor.cshtml" />
     <Content Include="editors\summernote\editor.cshtml" />
+    <Content Include="setup\upgrade\index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2345,6 +2352,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="admin\editor\mini\" />
     <Folder Include="App_Data\datastore\extensions\" />
     <Folder Include="App_Data\files\avatars\" />
     <Folder Include="App_Data\packages\SimpleBlog.1.1.0\" />

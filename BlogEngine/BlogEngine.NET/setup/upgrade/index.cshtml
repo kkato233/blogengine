@@ -1,0 +1,92 @@
+﻿@using System.Web
+@using System.Web.Optimization
+@using BlogEngine.Core
+@{
+    if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages)){
+        Security.RedirectForUnauthorizedRequest();
+    }
+    var curVersion = BlogSettings.Instance.Version();
+    var iCurVersion = int.Parse(curVersion.Replace(".",""));
+}
+<html>
+<head>
+    <title>@BlogSettings.Instance.Name (@Security.CurrentMembershipUser.UserName)</title>
+    <link rel="shortcut icon" href="@Href(Utils.ApplicationRelativeWebRoot + "pics/blogengine.ico")" type="image/x-icon" />
+    <meta charset="utf-8" />
+    <link href="~/setup/upgrade/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/setup/upgrade/jquery-2.0.3.min.js"></script>
+    <script src="~/setup/upgrade/bootstrap.min.js"></script>
+    <script src="~/setup/upgrade/Updater.js"></script>
+    <script type="text/javascript">
+        var AppRoot = '@Utils.ApplicationRelativeWebRoot'
+        var CurrentVersion = '@curVersion'
+    </script>
+</head>
+<body>
+    <script type="text/javascript" src="admin.res.axd"></script>
+    <div id="container" class="app-wrapper @Resources.labels.LangDirection">
+        <div id="wrap">
+            <div class="container upgrade">
+                <div class="page-header clearfix">
+                    <h2 class="page-title pull-left">BlogEngine.NET : upgrade from @curVersion to <span id="spnNewVersion"></span></h2>
+                </div>
+                <div class="row" id="frm">
+                    <div class="col-sm-12">
+                        <div id="msg-warning" class="alert alert-dismissable alert-danger">
+                            <h4 style="margin-left: 26px">Before you begin ***** THIS IS ONLY MOCK-UP, SAFE TO RUN *****</h4>
+                            <ul>
+                                <li>Make sure you backup your site before upgrade</li>
+                                <li>Application needs write permissions on all files/folders for upgrade to work</li>
+                                <li>It is recommended to run upgrade on secondary IIS and then move upgraded site to production</li>
+                            </ul>
+                        </div>
+
+                        <div id="step1" class="alert alert-dismissable alert-info">
+                            <strong>1. Download latest version (depending on your connection, might take a while)</strong>
+                            <img id="spin1" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+                        <div id="step2" class="alert alert-dismissable alert-info">
+                            <strong>2. Extract downloaded files</strong>
+                            <img id="spin2" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+                        <div id="step3" class="alert alert-dismissable alert-info">
+                            <strong>3. Backup current version</strong>
+                            <img id="spin3" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+                        <div id="step4" class="alert alert-dismissable alert-info">
+                            <strong>4. Delete old version</strong>
+                            <img id="spin4" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+                        <div id="step5" class="alert alert-dismissable alert-info">
+                            <strong>5. Install new version</strong>
+                            <img id="spin5" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+
+                        <div id="step9" class="alert alert-dismissable alert-danger">
+                            <strong>There was error during upgrade. Rolling back.</strong>
+                            <img id="spin9" src="~/setup/upgrade/spinner.gif" style="float: right" />
+                        </div>
+
+                        <div id="msg-success" class="alert alert-dismissable alert-warning">
+                            <h4>Completed</h4>
+                            <strong>
+                                Congratulations, your blog has been upgraded!
+                            </strong>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div>
+                            <button id="btnRun" class="btn btn-primary" onclick="upgrade()" type="button">Upgrade</button>
+                            <button id="btnBack" class="btn btn-default" onclick="window.location.assign('../../admin/index.cshtml')" type="button">Return to dashboard</button>
+                            <button id="btnHome" class="btn btn-default" onclick="goHome()" type="button">Go to blog</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
