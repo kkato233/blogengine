@@ -80,6 +80,7 @@
         if ($rootScope.security.showTabDashboard === false) {
             window.location = "../Account/Login.aspx";
         }
+        $("#versionMsg").hide();
         spinOn();
 
         $scope.loadPackages();
@@ -115,11 +116,32 @@
         dataService.getItems('/api/packages', { take: 5, skip: 0 })
         .success(function (data) {
             angular.copy(data, $scope.packages);
+            $scope.checkNewVersion();
             loaded("gal");
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
             loaded("gal");
+        });
+    }
+
+    $scope.checkNewVersion = function () {
+        if (!$scope.security.showTabCustom) {
+            return;
+        }
+        var version = SiteVars.Version.substring(15, 22);
+        $.ajax({
+            url: SiteVars.ApplicationRelativeWebRoot + "setup/upgrade/Updater.asmx/Check",
+            data: "{ version: '" + version + "' }",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.d && data.d.length > 0) {
+                    $("#vNumber").html(data.d);
+                    $("#versionMsg").show();
+                }
+            }
         });
     }
 

@@ -130,6 +130,7 @@ function Delete() {
             if (rt.length > 0) {
                 $("#spin4").hide();
                 ShowError("4", rt);
+                //Rollback();
             }
             else {
                 ShowSuccess("4");
@@ -164,6 +165,7 @@ function Install() {
 }
 
 function Rollback() {
+    $("#step9").show();
     $("#spin9").show();
     $.ajax({
         url: AppRoot + "setup/upgrade/Updater.asmx/Rollback",
@@ -173,10 +175,19 @@ function Rollback() {
         dataType: "json",
         success: function (result) {
             var rt = result.d;
-            ShowSuccess("9");
-            $('#msg-success').show();
-            $("#btnHome").prop("disabled", false);
-            $("#btnBack").prop("disabled", false);
+            if (rt.length > 0) {
+                $("#step9").html("Sorry, roll back failed: " + rt + ". Please check our <a href='https://blogengine.codeplex.com/discussions' target='_new'>forum</a> for solution.");
+                $("#spin9").hide();
+            }
+            else {
+                var rt = result.d;
+                $("#step9").html("Installation has ben rolled back. Please try again and, if it does not work, check our <a href='https://blogengine.codeplex.com/discussions' target='_new'>forum</a> for solution.");
+                $("#step9").removeClass("alert-danger");
+                $("#step9").addClass("alert-success");
+
+                $("#btnHome").prop("disabled", false);
+                $("#btnBack").prop("disabled", false);
+            }
         }
     });
 }

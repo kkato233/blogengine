@@ -18,24 +18,27 @@ using System.Net;
 public class Updater  : WebService {
 
     private StringCollection _ignoreDirs;
+    private List<InstalledLog> _installed;
     private string _root;
-    private string _latestZip;
-    private string _backupZip;
-    private string _downloadUrl = "http://dnbegallery.org/beupgrade/file.axd?file=/2931.zip";
-    private string _versionsTxt = "http://dnbegallery.org/beupgrade/file.axd?file=/versions.txt";
-    private bool _test = true;
+    private string _newZip;
+    private string _oldZip;
+    private string _downloadUrl = "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/{0}.zip";
+    private string _versionsTxt = "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/versions.txt";
+    private bool _test = false;    // when set to "true" will run in test mode without actually updating site
     
     public Updater()
     {
         _root = System.Web.Hosting.HostingEnvironment.MapPath("~/");
         if (_root.EndsWith("\\")) _root = _root.Substring(0, _root.Length - 1);
 
-        _latestZip = _root + "\\setup\\upgrade\\backup\\latest.zip";
-        _backupZip = _root + "\\setup\\upgrade\\backup\\backup.zip";
+        _newZip = _root + "\\setup\\upgrade\\backup\\new.zip";
+        _oldZip = _root + "\\setup\\upgrade\\backup\\old.zip";
         
         _ignoreDirs = new StringCollection();
         _ignoreDirs.Add(_root + "\\Custom");
         _ignoreDirs.Add(_root + "\\setup\\upgrade");
+        
+        _installed = new List<InstalledLog>();
     }
     
     [WebMethod]
@@ -47,12 +50,20 @@ public class Updater  : WebService {
             Stream stream = client.OpenRead(_versionsTxt);
             StreamReader reader = new StreamReader(stream);
             string line = "";
+            
             while (reader.Peek() >= 0)
             {
                 line = reader.ReadLine();
-                if (!string.IsNullOrEmpty(version) && line.StartsWith(version) && line.Contains("|"))
+                if (!string.IsNullOrEmpty(version) && line.Contains("|"))
                 {
-                    return line.Substring(line.LastIndexOf("|") + 1);
+                    var iCurrent = int.Parse(version.Replace(".", ""));
+                    var iFrom = int.Parse(line.Substring(0, line.IndexOf("|")).Replace(".", ""));
+                    var iTo = int.Parse(line.Substring(line.LastIndexOf("|") + 1).Replace(".", ""));
+                    
+                    if (iCurrent >= iFrom  && iCurrent < iTo)
+                    {
+                        return line.Substring(line.LastIndexOf("|") + 1);
+                    }
                 }
             }
             return "";
@@ -76,15 +87,15 @@ public class Updater  : WebService {
             if (!Directory.Exists(_root + "\\setup\\upgrade\\backup"))
                 Directory.CreateDirectory(_root + "\\setup\\upgrade\\backup");
 
-            if (File.Exists(_latestZip))
-                File.Delete(_latestZip);
+            if (File.Exists(_newZip))
+                File.Delete(_newZip);
             
             DateTime startTime = DateTime.UtcNow;
-            WebRequest request = System.Net.WebRequest.Create(_downloadUrl);
+            WebRequest request = System.Net.WebRequest.Create(string.Format(_downloadUrl, version.Replace(".", "")));
             WebResponse response = request.GetResponse();
             using (Stream responseStream = response.GetResponseStream())
             {
-                using (Stream fileStream = File.OpenWrite(_latestZip))
+                using (Stream fileStream = File.OpenWrite(_newZip))
                 {
                     byte[] buffer = new byte[4096];
                     int bytesRead = responseStream.Read(buffer, 0, 4096);
@@ -125,7 +136,7 @@ public class Updater  : WebService {
             if (!Directory.Exists(outFolder))
                 Directory.CreateDirectory(outFolder);
                      
-            FileStream fs = File.OpenRead(_latestZip);
+            FileStream fs = File.OpenRead(_newZip);
             zf = new ZipFile(fs);
 
             foreach (ZipEntry zipEntry in zf)
@@ -182,7 +193,10 @@ public class Updater  : WebService {
             if (!System.IO.Directory.Exists(backupDir))
                 System.IO.Directory.CreateDirectory(backupDir);
 
-            var fsOut = File.Create(_backupZip);
+            if (File.Exists(_oldZip))
+                File.Delete(_oldZip);
+            
+            var fsOut = File.Create(_oldZip);
             var zipStream = new ZipOutputStream(fsOut);
 
             zipStream.SetLevel(3);
@@ -209,22 +223,27 @@ public class Updater  : WebService {
             System.Threading.Thread.Sleep(2000);
             return "";
         }
-        
         try
-        {
-            DeleteDir("\\Account");
-            DeleteDir("\\admin");
-            DeleteDir("\\api");          
-            DeleteDir("\\editors");
-            DeleteDir("\\fonts");
-            DeleteDir("\\Modules");
-            DeleteDir("\\pics");
-            DeleteDir("\\setup\\Mono");
-            DeleteDir("\\setup\\MySQL");
-            DeleteDir("\\setup\\SQL_CE");
-            DeleteDir("\\setup\\SQLite");
-            DeleteDir("\\setup\\SQLServer");
-            DeleteDir("\\setup\\VistaDB");
+        {       
+            ReplaceDir("\\Account");
+            ReplaceDir("\\admin");          
+            ReplaceDir("\\api");
+            ReplaceDir("\\editors");
+            ReplaceDir("\\fonts");
+            ReplaceDir("\\Modules");
+            ReplaceDir("\\pics");
+
+            ReplaceDir("\\setup\\Mono");
+            ReplaceDir("\\setup\\MySQL");
+            ReplaceDir("\\setup\\SQL_CE");
+            ReplaceDir("\\setup\\SQLite");
+            ReplaceDir("\\setup\\SQLServer");
+            ReplaceDir("\\setup\\VistaDB");
+
+            ReplaceDir("\\App_GlobalResources");
+            ReplaceDir("\\Scripts");
+            ReplaceDir("\\Content");
+            ReplaceDir("\\App_Code");
             
             return "";
         }
@@ -242,29 +261,8 @@ public class Updater  : WebService {
             System.Threading.Thread.Sleep(2000);
             return "";
         }
-        
         try
         {
-            CopyDir("Account");
-            CopyDir("admin");
-            CopyDir("api");
-            CopyDir("editors");
-            CopyDir("fonts");
-            CopyDir("Modules");
-            CopyDir("pics");
-            
-            CopyDir("setup\\Mono");
-            CopyDir("setup\\MySQL");
-            CopyDir("setup\\SQL_CE");
-            CopyDir("setup\\SQLite");
-            CopyDir("setup\\SQLServer");
-            CopyDir("setup\\VistaDB");
-
-            ReplaceDir("App_GlobalResources");
-            ReplaceDir("Scripts");
-            ReplaceDir("Content");
-            ReplaceDir("App_Code");
-
             ReplaceFile("archive.aspx");
             ReplaceFile("contact.aspx");
             ReplaceFile("default.aspx");
@@ -277,7 +275,12 @@ public class Updater  : WebService {
             ReplaceFile("wlwmanifest.xml");
 
             ReplaceFilesInDir("bin");
-            
+
+            //TODO: DB providers
+            ReplaceFile("web.config");
+
+            Directory.Delete(_root + "\\setup\\upgrade\\backup\\be", true);
+          
             return "";
         }
         catch (Exception ex)
@@ -289,47 +292,87 @@ public class Updater  : WebService {
     [WebMethod]
     public string Rollback()
     {
-        System.Threading.Thread.Sleep(2000);
-        return "";
+        try
+        {
+            foreach (var item in _installed)
+            {
+                if (item.IsDirectory)
+                {
+                    var source = new DirectoryInfo(item.To);
+                    var target = new DirectoryInfo(item.From);
+
+                    Log(source.FullName, target.FullName, true);
+                    CopyRecursive(source, target);
+                }
+                else
+                {
+                    File.Copy(item.To, item.From, true);  
+                }
+            }
+            return "";
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
     }
 
     //----------------------------------------------
 
-    void CopyDir(string dir)
-    {
-        var source = new DirectoryInfo(_root + "\\setup\\upgrade\\backup\\be\\" + dir);
-        var target = new DirectoryInfo(_root + "\\" + dir);
-
-        CopyDirectory(source, target);
-    }
-
     void ReplaceDir(string dir)
     {
-        Directory.Delete(_root + "\\" + dir, true);
+        DeleteDir(dir);
         CopyDir(dir);
     }
 
     void DeleteDir(string dir)
     {
-        Directory.Delete(_root + dir, true);
+        Log(dir, "", true, Operation.Delete);
+        for (int i = 0; i < 3; i++)
+        {
+            try
+            {
+                Directory.Delete(_root + dir, true);
+                return;
+            }
+            catch (Exception)
+            {
+                System.Threading.Thread.Sleep(2000);
+            }
+        }
+    }
+    
+    void CopyDir(string dir)
+    {
+        var source = new DirectoryInfo(_root + "\\setup\\upgrade\\backup\\be\\" + dir);
+        var target = new DirectoryInfo(_root + "\\" + dir);
+        
+        Log(source.FullName, target.FullName, true);
+        CopyRecursive(source, target);
     }
 
-    void DeleteFile(string file)
-    {
-        File.Delete(_root + file);
-    }
+    //------------------------------------------------
 
     void ReplaceFile(string file)
     {
         string sourceFile = _root + "\\setup\\upgrade\\backup\\be\\" + file;
         string targetFile = _root + "\\" + file;
 
-        BlogEngine.Core.Utils.Log(string.Format("Replace: {0} from: {1}", sourceFile, targetFile));
+        DeleteFile(targetFile);
+        CopyFile(sourceFile, targetFile);
+    }
 
-        if (File.Exists(targetFile))
-            File.Delete(targetFile);
+    void DeleteFile(string file)
+    {
+        Log(file, "", false, Operation.Delete);
+        if (File.Exists(file))
+            File.Delete(file);
+    }
 
-        File.Copy(sourceFile, targetFile);
+    void CopyFile(string from, string to)
+    {
+        Log(from, to);
+        File.Copy(from, to);
     }
 
     void ReplaceFilesInDir(string dir)
@@ -343,6 +386,8 @@ public class Updater  : WebService {
             ReplaceFile(dir + "\\" + fileName);
         }
     }
+    
+    //---------------------------------------------------
 
     void CompressFolder(string path, ZipOutputStream zipStream, int folderOffset)
     {
@@ -414,7 +459,7 @@ public class Updater  : WebService {
         }
     }
 
-    static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
+    static void CopyRecursive(DirectoryInfo source, DirectoryInfo target)
     {
         var rootPath = HttpContext.Current.Server.MapPath(BlogEngine.Core.Utils.RelativeWebRoot);
 
@@ -424,14 +469,9 @@ public class Updater  : WebService {
         foreach (var dir in source.GetDirectories())
         {
             var dirPath = Path.Combine(target.FullName, dir.Name);
-
-            // Files moved to Custom folder
-            //dirPath = dirPath.Replace("App_Code", "Custom");
-            //dirPath = dirPath.Replace("\\themes", "\\Custom\\Themes");
-
             var relPath = dirPath.Replace(rootPath, "");
 
-            CopyDirectory(dir, Directory.CreateDirectory(dirPath));
+            CopyRecursive(dir, Directory.CreateDirectory(dirPath));
         }
 
         foreach (var file in source.GetFiles())
@@ -448,4 +488,32 @@ public class Updater  : WebService {
     {
         return _ignoreDirs.Contains(item) ? true : false;
     }
+
+    void Log(string from, string to = "", bool directory = false, Operation action = Operation.Copy)
+    {
+        _installed.Add(new InstalledLog { IsDirectory = directory, Action = action, From = from, To = to });
+        
+        string s = action == Operation.Copy ? "UPGRADE: Copy " : "UPGRADE: Delete ";
+        s = s + (directory ? "directory " : "file ");
+        
+        if (action == Operation.Copy)
+            BlogEngine.Core.Utils.Log(string.Format("{0} from {1} to {2}", s, from, to));
+        else
+            BlogEngine.Core.Utils.Log(string.Format("{0} from {1}", s, from));   
+    }
+}
+
+public class InstalledLog
+{
+    public InstalledLog(){}
+    public Operation Action { get; set; }
+    public bool IsDirectory { get; set; }
+    public string From { get; set; }
+    public string To { get; set; }
+}
+
+public enum Operation
+{
+    Copy,
+    Delete
 }
