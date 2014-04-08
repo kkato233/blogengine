@@ -134,7 +134,8 @@ namespace BlogEngine.Core
                                 { "trackback", "http://madskills.com/public/xml/rss/module/trackback/" },
                                 { "wfw", "http://wellformedweb.org/CommentAPI/" },
                                 { "slash", "http://purl.org/rss/1.0/modules/slash/" },
-                                { "geo", "http://www.w3.org/2003/01/geo/wgs84_pos#" }
+                                { "geo", "http://www.w3.org/2003/01/geo/wgs84_pos#" },
+                                { "betag", "http://dotnetblogengine.net/schemas/tags"}
                             });
             }
         }
@@ -533,6 +534,18 @@ namespace BlogEngine.Core
             }
 
             // ------------------------------------------------------------
+            // Write entry tag elements
+            // ------------------------------------------------------------
+            if (BlogSettings.Instance.EnableTagExport && publishable.Categories != null)
+            {
+                foreach (var tag in publishable.Tags)
+                {
+                    writer.WriteElementString("betag", "tag", "http://dotnetblogengine.net/schemas/tags", tag);
+                }
+            }
+
+
+            // ------------------------------------------------------------
             // Write Dublin Core syndication extension elements
             // ------------------------------------------------------------
             if (!String.IsNullOrEmpty(publishable.Author))
@@ -706,6 +719,17 @@ namespace BlogEngine.Core
                 foreach (var category in publishable.Categories)
                 {
                     writer.WriteElementString("category", category.Title);
+                }
+            }
+
+            // ------------------------------------------------------------
+            // Write channel item tag elements
+            // ------------------------------------------------------------
+            if (BlogSettings.Instance.EnableTagExport && publishable.Categories != null)
+            {
+                foreach (var tag in publishable.Tags)
+                {
+                    writer.WriteElementString("betag", "tag", "http://dotnetblogengine.net/schemas/tags", tag);
                 }
             }
 
