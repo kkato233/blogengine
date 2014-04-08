@@ -517,6 +517,15 @@
         }
         private StateList<Category> categories = new StateList<Category>();
 
+        StateList<string> IPublishable.Tags
+        {
+            get
+            {
+                return tags;
+            }
+        }
+        private StateList<string> tags = new StateList<string>();
+
         #endregion
 
         #region Public Methods
