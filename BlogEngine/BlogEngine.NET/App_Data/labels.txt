@@ -259,6 +259,7 @@ enableSearchHighlight
 enableSearchHighlightDescription
 enableSelfRegistration
 enableSsl
+enableTagExport
 enableTrackbacks
 endorsment
 enforce

@@ -380,6 +380,15 @@
 
         #endregion
 
+        #region Tags Export
+
+        /// <summary>
+        ///     Enable exporting of tags in the RSS syndication feed.
+        /// </summary>
+        public bool EnableTagExport { get; set; }
+
+        #endregion
+
         #region SyndicationFormat
 
         /// <summary>

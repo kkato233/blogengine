@@ -2472,7 +2472,7 @@
   </data>
   <data name="defaultMinTag" xml:space="preserve">
     <value>1 (default)</value>
-  </data>    
+  </data>
   <data name="noNotesYet" xml:space="preserve">
     <value>You do not have any notes yet.</value>
   </data>
@@ -2499,5 +2499,8 @@
   </data>
   <data name="addToPost" xml:space="preserve">
     <value>Add to post</value>
+  </data>
+  <data name="enableTagExport" xml:space="preserve">
+    <value>Enable Tag Export</value>
   </data>
 </root>

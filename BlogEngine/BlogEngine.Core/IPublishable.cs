@@ -31,6 +31,8 @@
         /// <value>The categories.</value>
         StateList<Category> Categories { get; }
 
+        StateList<string> Tags { get; }
+
         /// <summary>
         ///     Gets the content.
         /// </summary>

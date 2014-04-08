@@ -396,6 +396,7 @@ namespace BlogEngine.Core.Web
             AddResource("enableSearchHighlightDescription");
             AddResource("enableSelfRegistration");
             AddResource("enableSsl");
+            AddResource("enableTagExport");
             AddResource("enableTrackbacks");
             AddResource("endorsment");
             AddResource("enforce");

@@ -67,6 +67,7 @@ namespace BlogEngine.Core.Data
             ns.PostsPerFeed = bs.PostsPerFeed;
             ns.EnableEnclosures = bs.EnableEnclosures;
             ns.SyndicationFormat = bs.SyndicationFormat;
+            ns.EnableTagExport = bs.EnableTagExport;
 
             // email
             ns.Email = bs.Email;
@@ -180,6 +181,7 @@ namespace BlogEngine.Core.Data
             bs.PostsPerFeed = ns.PostsPerFeed;
             bs.EnableEnclosures = ns.EnableEnclosures;
             bs.SyndicationFormat = ns.SyndicationFormat;
+            bs.EnableTagExport = ns.EnableTagExport;
 
             // email
             bs.Email = ns.Email;
