@@ -5,6 +5,7 @@
   <showpostnavigation>True</showpostnavigation>
   <mobiletheme>Standard</mobiletheme>
   <enablehttpcompression>False</enablehttpcompression>
+  <disqusaddcommentstopages>False</disqusaddcommentstopages>
   <htmlheader />
   <theme>Standard</theme>
   <emailsubjectprefix>Weblog</emailsubjectprefix>
@@ -14,7 +15,7 @@
   <feedauthor />
   <description>Short description of the blog</description>
   <enablepingbacksend>True</enablepingbacksend>
-  <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
+  <enabletagexport>True</enabletagexport>
   <commentblacklistcount>2</commentblacklistcount>
   <iscocommentenabled>False</iscocommentenabled>
   <compresswebresource>False</compresswebresource>
@@ -41,14 +42,14 @@
   <useblognameinpagetitles>True</useblognameinpagetitles>
   <removeextensionsfromurls>True</removeextensionsfromurls>
   <smtpusername>username</smtpusername>
-  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablepasswordreset>True</enablepasswordreset>
-  <disqusaddcommentstopages>False</disqusaddcommentstopages>
+  <enableerrorlogging>True</enableerrorlogging>
   <alternatefeedurl />
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
+  <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
   <enablecommentsmoderation>True</enablecommentsmoderation>
-  <enableerrorlogging>True</enableerrorlogging>
+  <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablereferrertracking>False</enablereferrertracking>
   <disquswebsitename />
   <handlewwwsubdomain />

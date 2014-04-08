@@ -314,6 +314,17 @@
         }
 
         /// <summary>
+        /// Gets Categories.
+        /// </summary>
+        StateList<string> IPublishable.Tags
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Gets DateModified.
         /// </summary>
         DateTime IPublishable.DateModified

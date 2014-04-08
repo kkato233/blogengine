@@ -133,6 +133,7 @@
         public string Language { get; set; }
         public int PostsPerFeed { get; set; }
         public bool EnableEnclosures { get; set; }
+        public bool EnableTagExport { get; set; }
         public string SyndicationFormat { get; set; }
 
         // email
