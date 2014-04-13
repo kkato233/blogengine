@@ -122,6 +122,8 @@
     <Content Include="Account\Logout.cshtml" />
     <Content Include="Account\Web.Config" />
     <Content Include="admin\admin.master" />
+    <Content Include="admin\controllers\pings.js" />
+    <Content Include="admin\controllers\blogroll.js" />
     <Content Include="admin\controllers\files.js" />
     <Content Include="admin\editor\page.cshtml" />
     <Content Include="admin\editor\post.cshtml" />
@@ -132,6 +134,10 @@
     <Content Include="admin\index.cshtml" />
     <Content Include="admin\views\content\files.html" />
     <Content Include="admin\views\custom\packages.html" />
+    <Content Include="admin\views\settings\blogroll.html" />
+    <Content Include="admin\views\settings\pings.html" />
+    <Content Include="admin\views\settings\search.html" />
+    <Content Include="admin\views\shared\_controls.html" />
     <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
     <Content Include="App_Code\Helpers\ControlsHelper.cshtml" />
@@ -273,7 +279,6 @@
     <Content Include="admin\views\settings\email.html" />
     <Content Include="admin\views\settings\feed.html" />
     <Content Include="admin\views\settings\importexport.html" />
-    <Content Include="admin\views\settings\pingservices.html" />
     <Content Include="admin\views\shared\_footer.html" />
     <Content Include="admin\views\shared\_nav.html" />
     <Content Include="admin\views\shared\_navcustom.html" />
@@ -1623,6 +1628,7 @@
     <Compile Include="api\TagMiniView.aspx.designer.cs">
       <DependentUpon>TagMiniView.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\Api\BlogRollController.cs" />
     <Compile Include="AppCode\Api\BlogsController.cs" />
     <Compile Include="AppCode\Api\CategoriesController.cs" />
     <Compile Include="AppCode\Api\CommentsController.cs" />

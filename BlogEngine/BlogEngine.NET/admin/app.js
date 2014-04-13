@@ -26,10 +26,14 @@
 		.when("/settings/advanced", { templateUrl: "views/settings/advanced.html" })
 		.when("/settings/feed", { templateUrl: "views/settings/feed.html" })
 		.when("/settings/email", { templateUrl: "views/settings/email.html" })
+
 		.when("/settings/controls", { templateUrl: "views/settings/controls.html" })
+        .when("/settings/search", { templateUrl: "views/settings/search.html" })
+        .when("/settings/blogroll", { templateUrl: "views/settings/blogroll.html" })
+        .when("/settings/pings", { templateUrl: "views/settings/pings.html" })
+
 		.when("/settings/customecode", { templateUrl: "views/settings/customecode.html" })
 		.when("/settings/comments", { templateUrl: "views/settings/comment.html" })
-		.when("/settings/pingservices", { templateUrl: "views/settings/pingservices.html" })
 		.when("/settings/importexport", { templateUrl: "views/settings/importexport.html" })
         .otherwise({ redirectTo: "/" });
     }];
