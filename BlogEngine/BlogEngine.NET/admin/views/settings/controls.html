@@ -9,7 +9,58 @@
                 </h2>
                 <button data-ng-click="save()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</button>
             </div>
+            <div class="toolbar-grid clearfix">
+                <div class="pull-left">&nbsp;</div>
+                <div data-ng-include src="'views/shared/_controls.html'"></div>
+            </div>
             <div class="row">
+                <div class="col-sm-6">
+                    <div class="well clearfix">
+                        <h4>{{lbl.contactForm}}</h4>
+                        <hr />
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactFormMessage">{{lbl.formMessage}}</label>
+                                <div class="col-md-12">
+                                    <textarea class="summernote" id="txtContactFormMessage"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4" for="txtContactThankMessage">{{lbl.thankYouMessage}}</label>
+                                <div class="col-md-12">
+                                    <textarea class="summernote" id="txtContactThankMessage"></textarea>
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.summernote').summernote({
+                                            toolbar: [
+                                              ['style', ['bold', 'italic', 'underline', 'clear']],
+                                              ['fontsize', ['fontsize']],
+                                              ['color', ['color']],
+                                              ['para', ['ul', 'ol', 'paragraph']],
+                                              ['view', ['fullscreen', 'codeview']]
+                                            ]
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-md-offset-4 col-md-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableContactAttachments" data-ng-model="settings.EnableContactAttachments" />
+                                        {{lbl.enableAttachments}}
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="ckEnableRecaptchaOnContactForm" data-ng-model="settings.EnableRecaptchaOnContactForm" />
+                                        {{lbl.enableRecaptcha}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                     <div class="well clearfix">
                         <h4>{{lbl.recentPosts}}</h4>
@@ -38,53 +89,6 @@
                         </div>
                     </div>
                     <div class="well clearfix">
-                        <h4>{{lbl.contactForm}}</h4>
-                        <hr />
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-4" for="txtContactFormMessage">{{lbl.formMessage}}</label>
-                                <div class="col-md-12">
-                                    <textarea class="summernote" id="txtContactFormMessage"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4" for="txtContactThankMessage">{{lbl.thankYouMessage}}</label>
-                                <div class="col-md-12">
-                                    <textarea class="summernote" id="txtContactThankMessage"></textarea>
-                                </div>
-                                <script>
-                                    $(document).ready(function () {
-                                        $('.summernote').summernote({
-                                            toolbar: [
-                                              ['style', ['bold', 'italic', 'underline', 'clear']],
-                                              ['fontsize', ['fontsize']],
-                                              ['color', ['color']],
-                                              ['para', ['ul', 'ol', 'paragraph']],
-                                              ['view', ['fullscreen','codeview']]
-                                            ]
-                                        });
-                                    });
-                                </script>
-                            </div>
-                            <div class="col-md-offset-4 col-md-8">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableContactAttachments" data-ng-model="settings.EnableContactAttachments" />
-                                        {{lbl.enableAttachments}}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableRecaptchaOnContactForm" data-ng-model="settings.EnableRecaptchaOnContactForm" />
-                                        {{lbl.enableRecaptcha}}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="well clearfix">
                         <h4>{{lbl.recentComments}}</h4>
                         <hr />
                         <div class="form-horizontal">
@@ -92,44 +96,6 @@
                                 <label class="control-label col-md-4" for="txtNumberOfRecentComments">{{lbl.numberOfComments}}</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" id="txtNumberOfRecentComments" name="txtNumberOfRecentComments" data-ng-model="settings.NumberOfRecentComments" placeholder="10" title="Number of recent comments" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="well clearfix">
-                        <h4>{{lbl.searchField}}</h4>
-                        <hr />
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-4" for="txtSearchButtonText">{{lbl.buttonText}}</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="txtSearchButtonText" data-ng-model="settings.SearchButtonText" placeholder="Search button" title="Search button" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4" for="txtSearchCommentLabelText">{{lbl.searchFieldText}}</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="txtSearchCommentLabelText" data-ng-model="settings.SearchCommentLabelText" placeholder="Search label" title="Search label" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-4" for="txtSearchDefaultText">{{lbl.commentLabelText}}</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" id="txtSearchDefaultText" data-ng-model="settings.SearchDefaultText" placeholder="Search text" title="Search text" />
-                                </div>
-                            </div>
-                            <div class="col-md-offset-4 col-md-8">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableCommentSearch" data-ng-model="settings.EnableCommentSearch" />
-                                        {{lbl.enableCommentSearch}}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckShowIncludeCommentsOption" data-ng-model="settings.ShowIncludeCommentsOption" />
-                                        {{lbl.showIncludeComments}}
-                                    </label>
                                 </div>
                             </div>
                         </div>

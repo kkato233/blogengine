@@ -95,6 +95,8 @@ public class BundleConfig
             .Include("~/admin/controllers/roles.js")
             .Include("~/admin/controllers/profile.js")
             .Include("~/admin/controllers/settings.js")
+            .Include("~/admin/controllers/blogroll.js")
+            .Include("~/admin/controllers/pings.js")
             .Include("~/admin/controllers/packages.js")
             .Include("~/admin/controllers/common.js")
             .Include("~/admin/services.js")
