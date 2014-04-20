@@ -97,51 +97,51 @@ namespace App_Code.Controls
         /// </summary>
         /// <param name="cell">A <see cref="T:System.Web.UI.WebControls.TableCell"/> that contains information about the cell to render.</param>
         /// <param name="day">A <see cref="T:System.Web.UI.WebControls.CalendarDay"/> that contains information about the day to render.</param>
-        protected override void OnDayRender(TableCell cell, CalendarDay day)
-        {
-            if (day.IsToday)
-            {
-                cell.Attributes["id"] += "today";
-            }
-
-            var list = Post.GetPostsByDate(day.Date, day.Date);
-            if (list.Count > 0)
-            {
-                cell.Controls.Clear();
-                if (this.ShowPostTitles)
-                {
-                    cell.Controls.Add(new LiteralControl(day.DayNumberText));
-                    foreach (var a in
-                        list.Where(post => post.IsVisible).Select(post => new HtmlAnchor { InnerHtml = string.Format("<br /><br />{0}", post.Title), HRef = post.RelativeOrAbsoluteLink }))
-                    {
-                        cell.Controls.Add(a);
-                    }
-                }
-                else
-                {
-                    if (list[0].IsVisible)
-                    {
-                        var a = new HtmlAnchor
-                            {
-                                InnerHtml = day.DayNumberText,
-                                HRef =
-                                    string.Format("{0}{1}/{2}/{3}/default{4}", Utils.RelativeOrAbsoluteWebRoot, day.Date.Year, day.Date.ToString("MM"), day.Date.ToString("dd"), BlogConfig.FileExtension)
-                            };
-                        a.Attributes["class"] = "exist";
-                        cell.Controls.Add(a);
-                    }
-                    else
-                    {
-                        cell.Text = day.DayNumberText;
-                    }
-                }
-            }
-            else
-            {
-                cell.Controls.Clear();
-                cell.Text = day.DayNumberText;
-            }
-        }
+		protected override void OnDayRender(TableCell cell, CalendarDay day)
+		{
+			if (day.IsToday)
+			{
+				cell.Attributes["id"] += "today";
+			}
+			DateTime date = day.Date;
+			var list = Post.GetPostsByDate(date, date);
+			if (list.Count > 0)
+			{
+				cell.Controls.Clear();
+				if (this.ShowPostTitles)
+				{
+					cell.Controls.Add(new LiteralControl(day.DayNumberText));
+					foreach (var a in
+						list.Where(post => post.IsVisible).Select(post => new HtmlAnchor { InnerHtml = string.Format("<br /><br />{0}", post.Title), HRef = post.RelativeOrAbsoluteLink }))
+					{
+						cell.Controls.Add(a);
+					}
+				}
+				else
+				{
+					if (list[0].IsVisible)
+					{
+						var a = new HtmlAnchor
+							{
+								InnerHtml = day.DayNumberText,
+								HRef =
+									string.Format("{0}{1}/{2}/{3}/default{4}", Utils.RelativeOrAbsoluteWebRoot, date.Year, date.Month.ToString("00"), date.Day.ToString("00"), BlogConfig.FileExtension)
+							};
+						a.Attributes["class"] = "exist";
+						cell.Controls.Add(a);
+					}
+					else
+					{
+						cell.Text = day.DayNumberText;
+					}
+				}
+			}
+			else
+			{
+				cell.Controls.Clear();
+				cell.Text = day.DayNumberText;
+			}
+		}
 
         /// <summary>
         /// Raises the <see cref="E:System.Web.UI.Control.Load"/> event.

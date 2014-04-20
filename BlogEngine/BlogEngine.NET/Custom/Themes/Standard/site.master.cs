@@ -11,7 +11,9 @@ public partial class StandardSite : System.Web.UI.MasterPage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+		//TO fix the bug related TO Perisan Culture
+		if (System.Threading.Thread.CurrentThread.CurrentCulture.LCID == 1065)
+			System.Threading.Thread.CurrentThread.CurrentCulture = new PersianCulture();
         // for supported of RTL languages
         if (Resources.labels.LangDirection.Equals("rtl", StringComparison.OrdinalIgnoreCase))
         {
