@@ -16,10 +16,10 @@
   <description>Short description of the blog</description>
   <enablepingbacksend>True</enablepingbacksend>
   <enabletagexport>True</enabletagexport>
-  <commentblacklistcount>2</commentblacklistcount>
+  <commentblacklistcount>3</commentblacklistcount>
   <iscocommentenabled>False</iscocommentenabled>
   <compresswebresource>False</compresswebresource>
-  <commentwhitelistcount>1</commentwhitelistcount>
+  <commentwhitelistcount>2</commentwhitelistcount>
   <addiptowhitelistfilteronapproval>False</addiptowhitelistfilteronapproval>
   <themecookiename>theme</themecookiename>
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>

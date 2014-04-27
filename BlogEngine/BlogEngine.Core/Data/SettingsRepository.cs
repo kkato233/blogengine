@@ -120,6 +120,14 @@ namespace BlogEngine.Core.Data
             ns.DisqusAddCommentsToPages = bs.DisqusAddCommentsToPages;
             ns.DisqusWebsiteName = bs.DisqusWebsiteName;
 
+            // custom filters
+            ns.CommentWhiteListCount = bs.CommentWhiteListCount;
+            ns.CommentBlackListCount = bs.CommentBlackListCount;
+            ns.AddIpToWhitelistFilterOnApproval = bs.AddIpToWhitelistFilterOnApproval;
+            ns.TrustAuthenticatedUsers = bs.TrustAuthenticatedUsers;
+            ns.BlockAuthorOnCommentDelete = bs.BlockAuthorOnCommentDelete;
+            ns.AddIpToBlacklistFilterOnRejection = bs.AddIpToBlacklistFilterOnRejection;
+
             return ns;
         }
 
@@ -233,6 +241,14 @@ namespace BlogEngine.Core.Data
             bs.DisqusDevMode = ns.DisqusDevMode;
             bs.DisqusAddCommentsToPages = ns.DisqusAddCommentsToPages;
             bs.DisqusWebsiteName = ns.DisqusWebsiteName;
+
+            // custom filters
+            bs.CommentWhiteListCount = ns.CommentWhiteListCount;
+            bs.CommentBlackListCount = ns.CommentBlackListCount;
+            bs.AddIpToWhitelistFilterOnApproval = ns.AddIpToWhitelistFilterOnApproval;
+            bs.TrustAuthenticatedUsers = ns.TrustAuthenticatedUsers;
+            bs.BlockAuthorOnCommentDelete = ns.BlockAuthorOnCommentDelete;
+            bs.AddIpToBlacklistFilterOnRejection = ns.AddIpToBlacklistFilterOnRejection;
 
             bs.Save();
             return true;
