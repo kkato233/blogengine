@@ -146,6 +146,8 @@
     <Compile Include="Compilation\ReflectExpressionBuilder.cs" />
     <Compile Include="Compilation\ServerVariableExpressionBuilder.cs" />
     <Compile Include="Compilation\SessionExpressionBuilder.cs" />
+    <Compile Include="Data\CommentFilterRepository.cs" />
+    <Compile Include="Data\Contracts\ICommentFilterRepository.cs" />
     <Compile Include="Data\Contracts\ICustomFieldRepository.cs" />
     <Compile Include="Data\Contracts\IFileManagerRepository.cs" />
     <Compile Include="Data\Contracts\IRolesRepository.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="Data\Models\BlogItem.cs" />
     <Compile Include="Data\Models\CategoryItem.cs" />
     <Compile Include="Data\Models\CommentDetail.cs" />
+    <Compile Include="Data\Models\CommentFilterItem.cs" />
     <Compile Include="Data\Models\CommentItem.cs" />
     <Compile Include="Data\Models\CustomFilter.cs" />
     <Compile Include="Data\Models\Enums.cs" />

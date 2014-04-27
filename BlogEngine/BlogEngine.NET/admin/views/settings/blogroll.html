@@ -82,7 +82,7 @@
             </div>
             <div class="toolbar-grid clearfix">
                 <div class="pull-left">
-                    <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                    <button ng-click="processChecked('delete')" ng-disabled="hasChecked() === false" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
                 </div>
                 <div data-ng-include src="'views/shared/_controls.html'"></div>
             </div>
@@ -95,7 +95,7 @@
                         </th>
                         <th class="table-item-title hmax768">{{lbl.title}}</th>
                         <th class="hmax768">{{lbl.description}}</th>
-                        <th class="hmax768">XFN</th>
+                        <th class="hmax768">XFN <a href="http://gmpg.org/xfn/intro" title="XFN" target="_new"><i class="fa fa-info-circle"></i></a></th>
                     </tr>
                 </thead>
                 <tbody>
