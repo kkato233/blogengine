@@ -1684,6 +1684,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="AppCode\Controls\WidgetZone.cs" />
+    <Compile Include="AppCode\PersianCulture.cs" />
     <Compile Include="Custom\Extensions\AkismetFilter.cs" />
     <Compile Include="Custom\Extensions\BBCode.cs" />
     <Compile Include="Custom\Extensions\BreakPost.cs" />
