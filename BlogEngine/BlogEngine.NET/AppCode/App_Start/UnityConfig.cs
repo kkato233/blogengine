@@ -29,6 +29,7 @@ public class UnityConfig
         unity.RegisterType<UsersController>();
         unity.RegisterType<RolesController>();
         unity.RegisterType<FileManagerController>();
+        unity.RegisterType<CommentFilterController>();
 
         unity.RegisterType<ISettingsRepository, SettingsRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IPostRepository, PostRepository>(new HierarchicalLifetimeManager());
@@ -45,6 +46,7 @@ public class UnityConfig
         unity.RegisterType<IUsersRepository, UsersRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IRolesRepository, RolesRepository>(new HierarchicalLifetimeManager());
         unity.RegisterType<IFileManagerRepository, FileManagerRepository>(new HierarchicalLifetimeManager());
+        unity.RegisterType<ICommentFilterRepository, CommentFilterRepository>(new HierarchicalLifetimeManager());
 
         config.DependencyResolver = new IoCContainer(unity);
     }

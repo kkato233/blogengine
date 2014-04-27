@@ -278,14 +278,6 @@
                 foreach (DataRow row in dt.Rows)
                 {
                     var action = row["Action"].ToString();
-
-                    if (action == "Delete")
-                    {
-                        comment.IsApproved = false;
-                        comment.ModeratedBy = "Delete";
-                        return true;
-                    }
-
                     var subject = row["Subject"].ToString();
                     var oper = row["Operator"].ToString();
                     var filter = row["Filter"].ToString().Trim().ToLower(CultureInfo.InvariantCulture);
@@ -389,6 +381,13 @@
                     if (!match)
                     {
                         continue;
+                    }
+
+                    if (action == "Delete")
+                    {
+                        comment.IsApproved = false;
+                        comment.ModeratedBy = "Delete";
+                        return true;
                     }
 
                     comment.IsApproved = action != "Block";

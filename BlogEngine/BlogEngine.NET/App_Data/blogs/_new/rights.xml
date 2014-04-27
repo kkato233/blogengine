@@ -4,6 +4,9 @@
   <right name="ViewDetailedErrorMessages">
     <role name="Administrators" />
   </right>
+  <right name="ViewDashboard">
+    <role name="Administrators" />
+  </right>
   <right name="AccessAdminPages">
     <role name="Administrators" />
     <role name="Editors" />
@@ -122,6 +125,18 @@
     <role name="Editors" />
   </right>
   <right name="EditOtherUsers">
+    <role name="Administrators" />
+  </right>
+  <right name="ManageExtensions">
+    <role name="Administrators" />
+  </right>
+  <right name="ManageWidgets">
+    <role name="Administrators" />
+  </right>
+  <right name="ManageThemes">
+    <role name="Administrators" />
+  </right>
+  <right name="ManagePackages">
     <role name="Administrators" />
   </right>
 </rights>
