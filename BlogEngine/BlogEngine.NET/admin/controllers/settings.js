@@ -29,6 +29,22 @@
         { "OptionName": "20", "OptionValue": "20", "IsSelected": false },
         { "OptionName": "50", "OptionValue": "50", "IsSelected": false }
     ];
+    $scope.whiteListOptions = [
+        { "OptionName": "0", "OptionValue": "0", "IsSelected": false },
+        { "OptionName": "1", "OptionValue": "1", "IsSelected": false },
+        { "OptionName": "2", "OptionValue": "2", "IsSelected": false },
+        { "OptionName": "3", "OptionValue": "3", "IsSelected": false },
+        { "OptionName": "4", "OptionValue": "4", "IsSelected": false },
+        { "OptionName": "5", "OptionValue": "5", "IsSelected": false }
+    ];
+    $scope.blackListOptions = [
+        { "OptionName": "0", "OptionValue": "0", "IsSelected": false },
+        { "OptionName": "1", "OptionValue": "1", "IsSelected": false },
+        { "OptionName": "2", "OptionValue": "2", "IsSelected": false },
+        { "OptionName": "3", "OptionValue": "3", "IsSelected": false },
+        { "OptionName": "4", "OptionValue": "4", "IsSelected": false },
+        { "OptionName": "5", "OptionValue": "5", "IsSelected": false }
+    ];
 
     $scope.load = function () {
         spinOn();
@@ -54,6 +70,10 @@
             $scope.selFeedFormat = selectedOption($scope.feedOptions, $scope.settings.SyndicationFormat);
             $scope.selCloseDays = selectedOption($scope.closeDaysOptions, $scope.settings.DaysCommentsAreEnabled);
             $scope.selCommentsPerPage = selectedOption($scope.commentsPerPageOptions, $scope.settings.CommentsPerPage);
+
+            $scope.whiteListSelected = selectedOption($scope.whiteListOptions, $scope.settings.CommentWhiteListCount);
+            $scope.blackListSelected = selectedOption($scope.blackListOptions, $scope.settings.CommentBlackListCount);
+
             if ($('.summernote').length > 0) {
                 $('.summernote').code($scope.settings.ContactFormMessage);
                 $('.summernote').eq(1).code($scope.settings.ContactThankMessage);
@@ -79,6 +99,10 @@
         $scope.settings.SyndicationFormat = $scope.selFeedFormat.OptionValue;
         $scope.settings.DaysCommentsAreEnabled = $scope.selCloseDays.OptionValue;
         $scope.settings.CommentsPerPage = $scope.selCommentsPerPage.OptionValue;
+
+        $scope.settings.CommentWhiteListCount = $scope.whiteListSelected.OptionValue;
+        $scope.settings.CommentBlackListCount = $scope.blackListSelected.OptionValue;
+
         if ($('.summernote').length > 0) {
             $scope.settings.ContactFormMessage = $('.summernote').code();
             $scope.settings.ContactThankMessage = $('.summernote').eq(1).code();

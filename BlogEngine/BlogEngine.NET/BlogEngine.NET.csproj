@@ -122,6 +122,7 @@
     <Content Include="Account\Logout.cshtml" />
     <Content Include="Account\Web.Config" />
     <Content Include="admin\admin.master" />
+    <Content Include="admin\controllers\commentfilters.js" />
     <Content Include="admin\controllers\pings.js" />
     <Content Include="admin\controllers\blogroll.js" />
     <Content Include="admin\controllers\files.js" />
@@ -135,8 +136,11 @@
     <Content Include="admin\views\content\files.html" />
     <Content Include="admin\views\custom\packages.html" />
     <Content Include="admin\views\settings\blogroll.html" />
+    <Content Include="admin\views\settings\comments\filters.html" />
+    <Content Include="admin\views\settings\comments\index.html" />
     <Content Include="admin\views\settings\pings.html" />
     <Content Include="admin\views\settings\search.html" />
+    <Content Include="admin\views\shared\_settingcomments.html" />
     <Content Include="admin\views\shared\_controls.html" />
     <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
@@ -273,7 +277,6 @@
     <Content Include="admin\views\dashboard.html" />
     <Content Include="admin\views\settings\advanced.html" />
     <Content Include="admin\views\settings\basic.html" />
-    <Content Include="admin\views\settings\comment.html" />
     <Content Include="admin\views\settings\controls.html" />
     <Content Include="admin\views\settings\customecode.html" />
     <Content Include="admin\views\settings\email.html" />
@@ -1628,6 +1631,7 @@
     <Compile Include="api\TagMiniView.aspx.designer.cs">
       <DependentUpon>TagMiniView.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AppCode\Api\CommentFilterController.cs" />
     <Compile Include="AppCode\Api\BlogRollController.cs" />
     <Compile Include="AppCode\Api\BlogsController.cs" />
     <Compile Include="AppCode\Api\CategoriesController.cs" />
@@ -2362,6 +2366,7 @@
     <Folder Include="App_Data\datastore\extensions\" />
     <Folder Include="App_Data\files\avatars\" />
     <Folder Include="App_Data\packages\SimpleBlog.1.1.0\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
