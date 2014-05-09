@@ -10,7 +10,6 @@
     }
 
     $scope.load = function () {
-        spinOn();
         var p = { type: 5, take: 0, skip: 0, filter: "", order: "" };
         dataService.getItems('/api/comments', p)
         .success(function (data) {
@@ -19,11 +18,10 @@
             if ($scope.filter) {
                 $scope.setFilter();
             }
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function (data) {
             toastr.error($rootScope.lbl.errorGettingTags);
-            spinOff();
         });
     }
 

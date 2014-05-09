@@ -13,18 +13,16 @@
     }
 
     $scope.load = function () {
-        spinOn();
         var p = { take: 0, skip: 0, postId: "" };
         dataService.getItems('/api/tags', p)
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter);
-                spinOff();
-            })
-            .error(function (data) {
-                toastr.success($rootScope.lbl.errorGettingTags);
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            rowSpinOff($scope.items);
+        })
+        .error(function (data) {
+            toastr.success($rootScope.lbl.errorGettingTags);
+        });
     }
 
     $scope.load();

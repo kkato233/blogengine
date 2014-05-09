@@ -41,6 +41,15 @@ function loaded(id) {
     $("#" + id + "-spinner").addClass("loaded");
 }
 
+function rowSpinOff(items) {
+    if (items.length > 0) {
+        $('#tr-spinner').hide();
+    }
+    else {
+        $('#div-spinner').html(BlogAdmin.i18n.empty);
+    }
+}
+
 function selectedOption(arr, val) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i].OptionValue == val) return arr[i];

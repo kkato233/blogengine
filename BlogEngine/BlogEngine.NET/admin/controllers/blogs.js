@@ -30,17 +30,15 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
     }
 
     $scope.load = function (callback) {
-        spinOn();
         dataService.getItems('/api/blogs', { take: 0, skip: 0, filter: "1 == 1", order: "Name" })
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             callback;
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingBlogs);
-            spinOff();
         });
     }
 

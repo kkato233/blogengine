@@ -20,7 +20,6 @@
     }
 
     $scope.load = function () {
-        spinOn();
         dataService.getItems('/api/lookups')
             .success(function (data) { angular.copy(data, $scope.lookups); })
             .error(function () { toastr.error("Error loading lookups"); });
@@ -30,11 +29,10 @@
             .success(function (data) {
                 angular.copy(data, $scope.items);
                 gridInit($scope, $filter);
-                spinOff();
+                rowSpinOff($scope.items);
             })
             .error(function () {
                 toastr.error($rootScope.lbl.errorLoadingCategories);
-                spinOff();
             });
     }
 

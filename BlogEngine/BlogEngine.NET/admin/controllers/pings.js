@@ -11,17 +11,15 @@ angular.module('blogAdmin').controller('PingSericesController', ["$rootScope", "
     }
 
     $scope.load = function (callback) {
-        spinOn();
         dataService.getItems('/api/pingservices', { })
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             callback;
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingBlogs);
-            spinOff();
         });
     }
 

@@ -91,14 +91,18 @@
             </thead>
             <tbody data-bind="foreach: items">
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td> <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /> </td>
+                    <td> <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Id === activeTheme.Theme || item.Id === activeTheme.Mobile" /> </td>
                     <td class="table-item-avatar"><img src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
-                        <div class="text-ellipsis pull-left"> <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> <span class="item-description hmax480">{{item.Description}}</span> </div>
+                        <div class="text-ellipsis pull-left"> 
+                            <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> 
+                            <span class="item-description hmax480">{{item.Description}}</span> 
+                        </div>
                     </td>
                     <td>{{item.LocalVersion}}</td>
                     <td class="hmax768" title="{{item.Authors}}"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
                 </tr>
+                <tr id="tr-spinner"><td colspan="5"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
             </tbody>
         </table>
         <div class="text-right pagination-wrapper">

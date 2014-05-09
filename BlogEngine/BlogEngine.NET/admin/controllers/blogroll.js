@@ -53,17 +53,15 @@ angular.module('blogAdmin').controller('BlogRollController', ["$rootScope", "$sc
     }
 
     $scope.load = function (callback) {
-        spinOn();
         dataService.getItems('/api/blogroll', { })
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             callback;
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingBlogs);
-            spinOff();
         });
     }
 

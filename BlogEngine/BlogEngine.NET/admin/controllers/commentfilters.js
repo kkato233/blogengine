@@ -6,19 +6,17 @@ angular.module('blogAdmin').controller('CommentFilterController', ["$rootScope",
     $scope.focusInput = false;
 
     $scope.load = function (callback) {
-        spinOn();
         dataService.getItems('/api/commentfilter', { take: 0, skip: 0 })
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             $('#txtFilter').val('');
             $('#txtFilter').focus();
+            rowSpinOff($scope.items);
             callback;
-            spinOff();
         })
         .error(function () {
             toastr.error($rootScope.lbl.failed);
-            spinOff();
         });
     }
 
