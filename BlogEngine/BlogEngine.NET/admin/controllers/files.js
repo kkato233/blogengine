@@ -8,18 +8,16 @@
     $scope.focusInput = false;
 
     $scope.load = function (path) {
-        spinOn();
         var p = path ? { take: 0, skip: 0, path: path } : { take: 0, skip: 0 };
         dataService.getItems('/api/filemanager', p)
             .success(function (data) {
                 angular.copy(data, $scope.items);
                 gridInit($scope, $filter);
                 $scope.currentPath = path;
-                spinOff();
+                rowSpinOff($scope.items);
             })
             .error(function (data) {
                 toastr.error($rootScope.lbl.Error);
-                spinOff();
             });
     }
 

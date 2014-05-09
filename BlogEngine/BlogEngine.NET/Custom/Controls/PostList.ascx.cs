@@ -142,7 +142,7 @@
                 counter++;
             }
 
-            if (index + stop == this.Posts.Count)
+            if (index + stop >= visiblePosts.Count)
             {
                 this.hlPrev.Visible = false;
             }

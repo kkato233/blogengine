@@ -3,7 +3,6 @@
     $scope.filter = ($location.search()).fltr;
 
     $scope.load = function () {
-        spinOn();
         var url = '/api/pages';
         var p = { take: 0, skip: 0 }
         dataService.getItems('/api/pages', p)
@@ -13,11 +12,10 @@
             if ($scope.filter) {
                 $scope.setFilter($scope.filter);
             }
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPages);
-            spinOff();
         });
     }
 

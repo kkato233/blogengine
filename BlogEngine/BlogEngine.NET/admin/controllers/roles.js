@@ -6,17 +6,15 @@
     $scope.focusInput = false;
 
     $scope.load = function () {
-        spinOn();
         dataService.getItems('/api/roles', { take: 0, skip: 0 })
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter);
-                spinOff();
-            })
-            .error(function () {
-                toastr.error($rootScope.lbl.errorLoadingRoles);
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            rowSpinOff($scope.items);
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingRoles);
+        });
     }
 
     $scope.loadRightsForm = function (id) {

@@ -13,6 +13,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.id = ($location.search()).id;
     $scope.theme = ($location.search()).id;
     $scope.selectedFeed = $rootScope.SiteVars.GalleryFeedUrl;
+    $scope.activeTheme = ActiveTheme;
     
     if ($scope.id) {
         $("#modal-theme-edit").modal();
@@ -40,16 +41,14 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     }
 
     $scope.loadPackages = function () {
-        spinOn();
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
         .success(function (data) {
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
-            spinOff();
+            rowSpinOff($scope.items);
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
-            spinOff();
         });
     }
 

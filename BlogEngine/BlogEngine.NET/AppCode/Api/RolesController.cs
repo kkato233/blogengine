@@ -16,7 +16,7 @@ public class RolesController : ApiController
         this.repository = repository;
     }
 
-    public IEnumerable<BlogEngine.Core.Data.Models.RoleItem> Get(int take = 10, int skip = 0, string filter = "", string order = "")
+    public IEnumerable<RoleItem> Get(int take = 10, int skip = 0, string filter = "", string order = "")
     {
         try
         {

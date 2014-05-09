@@ -102,7 +102,11 @@
             .error(function () { toastr.error($rootScope.lbl.errorLoadingRecentComments); });
 
         dataService.getItems('/api/logs/getlog/file')
-            .success(function (data) { angular.copy(data, $scope.logItems); })
+            .success(function (data) {
+                angular.copy(data, $scope.logItems);
+                if ($scope.logItems.length > 0) { $('#tr-log-spinner').hide(); }
+                else { $('#div-log-spinner').html($rootScope.lbl.empty); }
+            })
             .error(function (data) { toastr.error($rootScope.lbl.errorGettingLogFile); });
 
         $scope.loadTrash();
@@ -112,16 +116,15 @@
         if (!$scope.security.showTabCustom) {
             return;
         }
-        loading("gal");
         dataService.getItems('/api/packages', { take: 5, skip: 0 })
         .success(function (data) {
             angular.copy(data, $scope.packages);
             $scope.checkNewVersion();
-            loaded("gal");
+            if ($scope.packages.length > 0) { $('#tr-gal-spinner').hide(); }
+            else { $('#div-gal-spinner').html(BlogAdmin.i18n.empty); }
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
-            loaded("gal");
         });
     }
 

@@ -10,17 +10,15 @@
         if (!$scope.security.canManageUsers == true) {
             window.location.replace("../Account/Login.aspx");
         }
-        spinOn();
         dataService.getItems('/api/users', { take: 0, skip: 0, filter: "1 == 1", order: "UserName" })
-            .success(function (data) {
-                angular.copy(data, $scope.items);
-                gridInit($scope, $filter);
-                spinOff();
-            })
-            .error(function () {
-                toastr.error($rootScope.lbl.errorLoadingUsers);
-                spinOff();
-            });
+        .success(function (data) {
+            angular.copy(data, $scope.items);
+            gridInit($scope, $filter);
+            rowSpinOff($scope.items);
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingUsers);
+        });
     }
 
     $scope.loadEditForm = function (id) {

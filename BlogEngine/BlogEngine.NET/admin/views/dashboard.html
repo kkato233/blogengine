@@ -131,8 +131,10 @@
                                 <span class="text-ellipsis">{{pkg.Description}}</span>
                             </div>
                         </li>
+                        <li class="list-group-item clearfix" id="tr-gal-spinner">
+                            <div id="div-gal-spinner"><i class="fa fa-spinner fa-spin"></i></div>
+                        </li>
                     </ul>
-                    <div id="gal-spinner" class="loaded text-center"><div><i class="fa fa-spinner fa-spin"></i></div></div>
                 </div>
                 <div data-ng-if="security.viewErrorMessages" class="panel panel-default">
                     <div class="panel-heading">
@@ -144,7 +146,9 @@
                         <li data-ng-if="logItems.length > 0" class="list-group-item">
                             <a href="" data-ng-click="openLogFile()">{{lbl.loggedMessages}}</a>
                         </li>
-                        <li ng-if="logItems.length == 0" class="list-group-item">{{lbl.empty}}</li>
+                        <li class="list-group-item clearfix" id="tr-log-spinner">
+                            <div id="div-log-spinner"><i class="fa fa-spinner fa-spin"></i></div>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -438,7 +438,10 @@
                     {
                         foreach (var pair in this.users[b.Id])
                         {
-                            membershipUserCollection.Add(pair.Value);
+                            if (membershipUserCollection[pair.Key] == null)
+                            {
+                                membershipUserCollection.Add(pair.Value);
+                            }
                         }
                     }
                 }
