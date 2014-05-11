@@ -726,6 +726,7 @@ namespace BlogEngine.Core
                 }
 
                 uri.Path = RelativeWebRoot;
+                uri.Scheme = context.Request.Url.Scheme; // added for https support
 
                 absoluteWebRoot = uri.Uri;
                 context.Items[contextItemKey] = absoluteWebRoot;
