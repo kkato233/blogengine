@@ -72,7 +72,7 @@ public class BundleConfig
 
         bundles.Add(
           new ScriptBundle("~/scripts/blogadmin")
-            .Include("~/scripts/jquery-2.0.3.js")
+            .Include("~/scripts/jquery-2.1.0.js")
             .Include("~/scripts/jquery.form.js")
             .Include("~/scripts/jquery.validate.js")
             .Include("~/scripts/toastr.js")
@@ -108,7 +108,7 @@ public class BundleConfig
 
         bundles.Add(
           new ScriptBundle("~/scripts/wysiwyg")
-            .Include("~/scripts/jquery-2.0.3.js")
+            .Include("~/scripts/jquery-2.1.0.js")
             .Include("~/scripts/jquery.form.js")
             .Include("~/scripts/jquery.validate.js")
             .Include("~/scripts/toastr.js")
