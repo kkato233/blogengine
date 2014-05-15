@@ -258,6 +258,8 @@ public class Updater  : WebService {
     {
         if (_test)
         {
+            CopyWebConfig();
+            
             System.Threading.Thread.Sleep(2000);
             return "";
         }
@@ -276,8 +278,7 @@ public class Updater  : WebService {
 
             ReplaceFilesInDir("bin");
 
-            //TODO: DB providers
-            ReplaceFile("web.config");
+            CopyWebConfig();
 
             Directory.Delete(_root + "\\setup\\upgrade\\backup\\be", true);
           
@@ -287,6 +288,64 @@ public class Updater  : WebService {
         {
             return ex.Message;
         }
+    }
+
+    public void CopyWebConfig()
+    {
+        string webConfig = _root + "\\web.config";
+        StreamReader reader = new StreamReader(webConfig);
+        string content = reader.ReadToEnd();
+        reader.Close();
+
+        if (content.Contains("defaultProvider=\"DbBlogProvider"))
+        {
+            ReplaceDbConfig(content);
+        }
+        else
+        {
+            ReplaceFile("web.config");
+            return;
+        }
+    }
+
+    void ReplaceDbConfig(string content)
+    {
+        string oldCon = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["BlogEngine"].ConnectionString;
+        string conPrv = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["BlogEngine"].ProviderName;
+        string sourceFile = _root + "\\setup\\upgrade\\backup\\be\\web.config";
+        string defCon = "";
+
+        if (conPrv == "System.Data.SqlServerCe")
+        {
+            sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\SQL_CE\\SQL_CE_Web.Config";
+            defCon = @"Data Source=|DataDirectory|BlogEngine.sdf;";
+        }
+        else if (conPrv == "MySql.Data.MySqlClient")
+        {
+            sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\MySQL\\MySQLWeb.Config";
+            defCon = @"Server=MySqlServer;Database=blogengine;Uid=beUser;Pwd=password;";
+        }
+        else if (conPrv == "System.Data.SqlClient")
+        {
+            sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\SQLServer\\SQLServerWeb.Config";
+            defCon = @"Server=.\SQLEXPRESS;Database=BlogEngine;Trusted_Connection=True;";
+        }
+
+        string targetFile = _root + "\\Web.config";
+
+        DeleteFile(targetFile);
+        CopyFile(sourceFile, targetFile);
+
+        // replace connection string
+        StreamReader reader = new StreamReader(targetFile);
+        string webContent = reader.ReadToEnd();
+        reader.Close();
+
+        webContent = webContent.Replace(defCon, oldCon);
+
+        StreamWriter writer = new StreamWriter(targetFile);
+        writer.Write(webContent);
+        writer.Close();
     }
 
     [WebMethod]
