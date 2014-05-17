@@ -1,11 +1,11 @@
-﻿Running BlogEngine.NET 2.7 using SQL Server 2005/2008/2012:
+﻿Running BlogEngine.NET using SQL Server 2005 and up:
 
 If you wish to use SQL Server to store all your blog data, this folder has all the 
-information you'll likely need.  The scripts included here are for SQL Server 2005/2008.
+information you'll likely need.  The scripts included here are for SQL Server 2005 and up.
 They could be modified to be used with earlier or later versions if needed.
 
-Included is the Initial Setup script for use with new installation of 2.7.  Also,
-included is an upgrade script for users of BlogEngine 2.5.  In addition, you 
+Included is the Initial Setup script for use with new installation of 3.0.  Also,
+included is an upgrade script for earlier versions.  In addition, you 
 will find a sample web.config file with the needed changes to use SQL Server.
 
 Instructions for new setup:

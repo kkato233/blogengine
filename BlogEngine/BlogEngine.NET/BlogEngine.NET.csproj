@@ -144,7 +144,6 @@
     <Content Include="admin\views\shared\_controls.html" />
     <Content Include="admin\views\shared\_filestable.html" />
     <Content Include="admin\Web.Config" />
-    <Content Include="App_Code\Helpers\ControlsHelper.cshtml" />
     <Content Include="admin\editor\_filemgr.cshtml" />
     <Content Include="admin\editor\_uploadbtns.cshtml" />
     <None Include="App_Data\PublishProfiles\be.pubxml" />
@@ -478,6 +477,8 @@
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="setup\Mono\mono_setup.sh" />
+    <Content Include="setup\MySQL\MySQLSetup3.0.0.sql" />
+    <Content Include="setup\MySQL\MySQLUpgradeFrom2.6To3.0.sql" />
     <Content Include="setup\MySQL\MySQLWeb.Config" />
     <Content Include="setup\SQLite\BlogEngine.s3db" />
     <Content Include="setup\SQLite\SQLiteWeb.Config" />

@@ -1,28 +1,30 @@
-Running BlogEngine.NET 2.7 using SQLite:
+Running BlogEngine.NET using SQLite:
 
 If you wish to use SQLite to store all your blog data, this is the guide for you.
 Included in this folder is a default SQLite database, that you can use to get you 
 started with your blog.  In addition, you will find a sample web.config file with
 the needed changes to use SQLite and an upgrade scripts for current SQLite users 
-who wish to upgrade from 1.4.5, 1.5, 1.6, 2.0, 2.5 or 2.6.
+who wish to upgrade from previous version.
 
 Instructions for new setup:
 
-1. Download the SQLite ADO Providers Binaries from the ADO.NET 2.0 Provider for 
-SQLite project. http://sourceforge.net/projects/sqlite-dotnet2/
-2. Find the System.Data.SQLite.DLL from the download and copy it to your blog's bin folder.
-3. Copy BlogEngine.s3db from the SQLite folder to your App_Data folder.
-4. Rename SQLiteWeb.Config to Web.config and copy it to your blog folder.  (This will
+1. Copy System.Data.SQLite.DLL from the /setup/SQLite to your blog's bin folder.
+2. Copy BlogEngine.s3db from the SQLite folder to your App_Data folder.
+3. Rename SQLiteWeb.Config to Web.config and copy it to your blog folder.  (This will
 overwrite your existing web.config file.  If this is not a new installation, make sure 
 you have a backup).
-5. Surf out to your Blog and see the welcome post.
-6. Login with the username Admin and password admin.  Change the password.  Note: This 
+4. Surf out to your Blog and see the welcome post.
+5. Login with the username Admin and password admin.  Change the password.  Note: This 
 data is case sensitive.
 
 Upgrading from 2.6
 
- - There are no changes between 2.6 and 2.7.  If you are upgrading from 2.5 or prior, see
-   upgrade notes below.
+1. If you don't already have SQLite Admin tool installed, you'll need to get one. SQLite
+Admin has worked great for me.  (http://sqliteadmin.orbmu2k.de/)
+2. Open your BlogEngine.s3db database.  (You will likely need to copy your BlogEngine.s3db
+file from your web server, perform the update, and copy it back out after these changes
+depending on your setup.)
+3. Execute the upgrade script for 2.6 to 3.0 against the database.
 
 Upgrading from 2.5
 
