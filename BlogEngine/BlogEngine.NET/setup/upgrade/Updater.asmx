@@ -323,7 +323,12 @@ public class Updater  : WebService {
         else if (conPrv == "MySql.Data.MySqlClient")
         {
             sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\MySQL\\MySQLWeb.Config";
-            defCon = @"Server=MySqlServer;Database=blogengine;Uid=beUser;Pwd=password;";
+            defCon = @"Server=localhost;Database=blogengine;Uid=beUser;Pwd=password;";
+        }
+        else if (conPrv == "System.Data.SQLite")
+        {
+            sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\SQLite\\SQLiteWeb.Config";
+            defCon = @"Data Source=|DataDirectory|\BlogEngine.s3db;Version=3;BinaryGUID=False;";
         }
         else if (conPrv == "System.Data.SqlClient")
         {

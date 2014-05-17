@@ -2993,7 +2993,18 @@ namespace BlogEngine.Core.Providers
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("select count(*) from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key", this.tablePrefix, this.parmPrefix);
+                    string conPrv = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["BlogEngine"].ProviderName;
+                    var q1 = "select count(*) from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key";
+                    var q2 = "insert into {0}CustomFields (CustomType, BlogId, ObjectId, [Key], [Value], [Attribute]) values ({1}customtype, {1}blogid, {1}objectid, {1}key, {1}value, {1}attribute)";
+                    var q3 = "update {0}CustomFields set Value = {1}value, Attribute = {1}attribute where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key";
+                    if (conPrv == "MySql.Data.MySqlClient")
+                    {
+                        q1 = "select count(*) from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and `Key` = {1}key";
+                        q2 = "insert into {0}CustomFields (CustomType, BlogId, ObjectId, `Key`, `Value`, `Attribute`) values ({1}customtype, {1}blogid, {1}objectid, {1}key, {1}value, {1}attribute)";
+                        q3 = "update {0}CustomFields set Value = {1}value, Attribute = {1}attribute where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and `Key` = {1}key";
+                    }
+
+                    var sqlQuery = string.Format(q1, this.tablePrefix, this.parmPrefix);
                     object cnt;
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
@@ -3007,9 +3018,9 @@ namespace BlogEngine.Core.Providers
                     }
 
                     if (int.Parse(cnt.ToString()) > 0)
-                        sqlQuery = string.Format("update {0}CustomFields set Value = {1}value, Attribute = {1}attribute where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key", this.tablePrefix, this.parmPrefix);
+                        sqlQuery = string.Format(q3, this.tablePrefix, this.parmPrefix);
                     else
-                        sqlQuery = string.Format("insert into {0}CustomFields (CustomType, BlogId, ObjectId, [Key], [Value], [Attribute]) values ({1}customtype, {1}blogid, {1}objectid, {1}key, {1}value, {1}attribute)", this.tablePrefix, this.parmPrefix);
+                        sqlQuery = string.Format(q2, this.tablePrefix, this.parmPrefix);
 
                     using (var cmd = conn.CreateTextCommand(sqlQuery))
                     {
@@ -3032,11 +3043,17 @@ namespace BlogEngine.Core.Providers
         public override List<CustomField> FillCustomFields()
         {
             var items = new List<CustomField>();
+            string conPrv = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["BlogEngine"].ProviderName;
+            var q = "SELECT CustomType, BlogId, ObjectId, [Key], [Value], [Attribute] FROM {0}CustomFields where BlogId = '{1}'";
+            if (conPrv == "MySql.Data.MySqlClient")
+            {
+                q = "SELECT CustomType, BlogId, ObjectId, `Key`, `Value`, `Attribute` FROM {0}CustomFields where BlogId = '{1}'";
+            }
             using (var conn = this.CreateConnection())
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT CustomType, BlogId, ObjectId, [Key], [Value], [Attribute] FROM {0}CustomFields where BlogId = '{1}'", tablePrefix, Blog.CurrentInstance.Id.ToString())))
+                    using (var cmd = conn.CreateTextCommand(string.Format(q, tablePrefix, Blog.CurrentInstance.Id.ToString())))
                     {
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -3069,9 +3086,13 @@ namespace BlogEngine.Core.Providers
             {
                 if (conn.HasConnection)
                 {
-                    var sqlQuery = string.Format("delete from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key", this.tablePrefix, this.parmPrefix);
-
-                    using (var cmd = conn.CreateTextCommand(sqlQuery))
+                    string conPrv = System.Web.Configuration.WebConfigurationManager.ConnectionStrings["BlogEngine"].ProviderName;
+                    var sqlQuery = "delete from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and [Key] = {1}key";
+                    if (conPrv == "MySql.Data.MySqlClient")
+                    {
+                        sqlQuery = "delete from {0}CustomFields where CustomType = {1}customtype and BlogId = {1}blogid and ObjectId = {1}objectid and `Key` = {1}key";
+                    }
+                    using (var cmd = conn.CreateTextCommand(string.Format(sqlQuery, this.tablePrefix, this.parmPrefix)))
                     {
                         var p = cmd.Parameters;
                         p.Add(conn.CreateParameter(FormatParamName("customtype"), field.CustomType));

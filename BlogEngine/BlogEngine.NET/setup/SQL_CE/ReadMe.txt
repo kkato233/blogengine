@@ -2,7 +2,7 @@ Running BlogEngine.NET using SQL CE 4.0
 
 If you wish to use SQL CE to store all your blog data, this folder has all the information you'll 
 likely need.  The BlogEngine.sdf is already setup with the DB tables and initial data needed
-to get started with BlogEngine.NET.  Although not needed, SQL_CE_Setup_2.7.sql is provided
+to get started with BlogEngine.NET.  Although not needed, SQL_CE_Setup_2.9.sql is provided
 for reference.  This was the setup script used to create the BlogEngine.sdf file.
 
 Instructions for New Setup
