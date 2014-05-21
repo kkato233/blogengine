@@ -125,4 +125,13 @@
         return false;
     }
 
+    function rowSpinOff(items) {
+        if (items.length > 0) {
+            $('#tr-spinner').hide();
+        }
+        else {
+            $('#div-spinner').html(BlogAdmin.i18n.empty);
+        }
+    }
+
 }]);

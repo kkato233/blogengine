@@ -481,6 +481,7 @@
     <Content Include="setup\MySQL\MySQLUpgradeFrom2.6To3.0.sql" />
     <Content Include="setup\MySQL\MySQLWeb.Config" />
     <Content Include="setup\SQLite\BlogEngine.s3db" />
+    <Content Include="setup\SQLite\SQLiteUpgradeFrom2.6To3.0.txt" />
     <Content Include="setup\SQLite\SQLiteWeb.Config" />
     <Content Include="setup\SQLServer\SQLServerWeb.Config" />
     <Content Include="setup\SQL_CE\SQL_CE_Web.Config" />
@@ -1361,12 +1362,12 @@
     <Content Include="setup\SQLServer\MSSQLSetup2.6.0.0.sql" />
     <Content Include="setup\SQLServer\MSSQLSetup2.7.0.0.sql" />
     <Content Include="setup\SQLServer\MSSQLSetup2.8.0.0.sql" />
-    <Content Include="setup\SQLServer\MSSQLSetup2.9.0.0.sql" />
+    <Content Include="setup\SQLServer\MSSQLSetup3.0.0.0.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeFrom1.5To1.6.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeFrom1.6To2.0.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeFrom2.0to2.5.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeFrom2.5to2.6.sql" />
-    <Content Include="setup\SQLServer\MSSQLUpgradeFrom2.8to2.9.sql" />
+    <Content Include="setup\SQLServer\MSSQLUpgradeFrom2.8to3.0.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeTo1.4.5.0From1.3.x.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeTo1.4.5.0From1.4.0.0.sql" />
     <Content Include="setup\SQLServer\MSSQLUpgradeTo1.5.0.0From1.4.5.0.sql" />
@@ -1378,10 +1379,10 @@
     <Content Include="setup\SQL_CE\SQL_CE_Setup_2.6.sql" />
     <Content Include="setup\SQL_CE\SQL_CE_Setup_2.7.sql" />
     <Content Include="setup\SQL_CE\SQL_CE_Setup_2.8.sql" />
-    <Content Include="setup\SQL_CE\SQL_CE_Setup_2.9.sql" />
+    <Content Include="setup\SQL_CE\SQL_CE_Setup_3.0.sql" />
     <Content Include="setup\SQL_CE\SQL_CE_UpgradeFrom2.0to2.5.sql" />
     <Content Include="setup\SQL_CE\SQL_CE_UpgradeFrom2.5to2.6.sql" />
-    <Content Include="setup\SQL_CE\SQL_CE_UpgradeFrom2.6to2.9.sql" />
+    <Content Include="setup\SQL_CE\SQL_CE_UpgradeFrom2.6to3.0.sql" />
     <Content Include="setup\TestFiles\sample.png" />
     <Content Include="setup\TestFiles\sample.txt" />
     <Content Include="setup\VistaDB\ReadMe.txt" />
