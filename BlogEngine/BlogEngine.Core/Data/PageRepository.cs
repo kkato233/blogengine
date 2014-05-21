@@ -149,17 +149,25 @@ namespace BlogEngine.Core.Data
             if (page.Slug != detail.Slug)
                 page.Slug = GetUniqueSlug(detail.Slug);
 
-            if (detail.Parent != null && detail.Parent.OptionValue != null)
+            if (detail.Parent.OptionValue == "none")
             {
-                try
+                page.Parent = Guid.Empty;
+            }
+            else
+            {
+                if (detail.Parent != null && detail.Parent.OptionValue != null)
                 {
-                    page.Parent = Guid.Parse(detail.Parent.OptionValue);
-                }
-                catch (Exception)
-                {
-                    Utils.Log("Error parsing parent ID while saving page");
+                    try
+                    {
+                        page.Parent = Guid.Parse(detail.Parent.OptionValue);
+                    }
+                    catch (Exception)
+                    {
+                        Utils.Log("Error parsing parent ID while saving page");
+                    }
                 }
             }
+
             page.Save();
             return true;
         }

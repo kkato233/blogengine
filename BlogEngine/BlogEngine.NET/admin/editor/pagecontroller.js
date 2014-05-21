@@ -12,8 +12,15 @@
         dataService.getItems(lookupsUrl)
         .success(function (data) {
             angular.copy(data, $scope.lookups);
+
+            $scope.lookups.PageList.unshift({ OptionName: '-- none --', OptionValue: 'none' });
+
             if ($scope.id) {
                 $scope.loadPage();
+            }
+            else {
+                $scope.page.Parent = { OptionName: '-- none --', OptionValue: 'none' };
+                $scope.selectedParent = selectedOption($scope.lookups.PageList, $scope.page.Parent.OptionValue);
             }
         })
         .error(function () {
@@ -27,10 +34,16 @@
         dataService.getItems(url)
         .success(function (data) {
             angular.copy(data, $scope.page);
-            if ($scope.page.Parent != null) {
-                $scope.selectedParent = selectedOption($scope.lookups.PageList, $scope.page.Parent.OptionValue);
-                var x = $scope.selectedParent;
+            // add "none" option
+            if ($scope.page.Parent == null) {
+                $scope.page.Parent = { OptionName: '-- none --', OptionValue: 'none' };
             }
+            // remove self to avoid self-parenting
+            $scope.removeSelf();
+
+            $scope.selectedParent = selectedOption($scope.lookups.PageList, $scope.page.Parent.OptionValue);
+            var x = $scope.selectedParent;
+
             editorSetHtml($scope.page.Content);
             spinOff();
         })
@@ -125,6 +138,14 @@
             }
         });
     });
+
+    $scope.removeSelf = function () {
+        for (var i = 0; i < $scope.lookups.PageList.length; i++) {
+            if ($scope.lookups.PageList[i].OptionValue === $scope.id) {
+                $scope.lookups.PageList.splice(i, 1);
+            }
+        }
+    }
 }]);
 
 var newPage = {

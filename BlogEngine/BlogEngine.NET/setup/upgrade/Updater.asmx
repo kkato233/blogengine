@@ -76,7 +76,7 @@ public class Updater  : WebService {
     
     [WebMethod]
     public string Download(string version)
-    {
+    {      
         if (_test)
         {
             System.Threading.Thread.Sleep(2000);
@@ -122,7 +122,7 @@ public class Updater  : WebService {
 
     [WebMethod]
     public string Extract()
-    {
+    {     
         if (_test)
         {
             System.Threading.Thread.Sleep(2000);
@@ -178,7 +178,7 @@ public class Updater  : WebService {
 
     [WebMethod]
     public string Backup()
-    {
+    {      
         if (_test)
         {
             System.Threading.Thread.Sleep(2000);
@@ -232,7 +232,7 @@ public class Updater  : WebService {
             ReplaceDir("\\fonts");
             ReplaceDir("\\Modules");
             ReplaceDir("\\pics");
-
+            
             ReplaceDir("\\setup\\Mono");
             ReplaceDir("\\setup\\MySQL");
             ReplaceDir("\\setup\\SQL_CE");
@@ -243,7 +243,6 @@ public class Updater  : WebService {
             ReplaceDir("\\App_GlobalResources");
             ReplaceDir("\\Scripts");
             ReplaceDir("\\Content");
-            ReplaceDir("\\App_Code");
             
             return "";
         }
@@ -315,17 +314,17 @@ public class Updater  : WebService {
         string sourceFile = _root + "\\setup\\upgrade\\backup\\be\\web.config";
         string defCon = "";
 
-        if (conPrv == "System.Data.SqlServerCe")
+        if (conPrv.StartsWith("System.Data.SqlServerCe"))
         {
             sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\SQL_CE\\SQL_CE_Web.Config";
             defCon = @"Data Source=|DataDirectory|BlogEngine.sdf;";
         }
-        else if (conPrv == "MySql.Data.MySqlClient")
+        else if (conPrv.StartsWith("MySql.Data.MySqlClient"))
         {
             sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\MySQL\\MySQLWeb.Config";
             defCon = @"Server=localhost;Database=blogengine;Uid=beUser;Pwd=password;";
         }
-        else if (conPrv == "System.Data.SQLite")
+        else if (conPrv.StartsWith("System.Data.SQLite"))
         {
             sourceFile = _root + "\\setup\\upgrade\\backup\\be\\setup\\SQLite\\SQLiteWeb.Config";
             defCon = @"Data Source=|DataDirectory|\BlogEngine.s3db;Version=3;BinaryGUID=False;";

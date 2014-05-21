@@ -130,7 +130,6 @@ function Delete() {
             if (rt.length > 0) {
                 $("#spin4").hide();
                 ShowError("4", rt);
-                //Rollback();
             }
             else {
                 ShowSuccess("4");
@@ -205,6 +204,8 @@ function ShowError(item, msg) {
     $("#step" + item).find("strong").html(msg);
     $("#btnHome").prop("disabled", false);
     $("#btnBack").prop("disabled", false);
+    // TODO:
+    //Rollback();
 }
 
 function goHome() {
