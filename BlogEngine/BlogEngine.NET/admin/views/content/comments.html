@@ -49,7 +49,7 @@
                     <td>
                         <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" data-ng-disabled="item.HasChildren || item.Email === 'pingback'" />
                     </td>
-                    <td class="table-item-avatar hmax768"><img src="{{item.Avatar}}" alt="{{item.Author}}" title="{{item.Author}}" /></td>
+                    <td class="table-item-avatar hmax768"><img ng-src="{{item.Avatar}}" alt="{{item.Author}}" title="{{item.Author}}" /></td>
                     <td class="table-item-title">
                         <a title=" {{item.title}}" class="pull-left" target="_blank" href="{{item.RelativeLink}}"> <span class="text-ellipsis">{{item.Title}}</span></a>
                         <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.RelativeLink}}"> <i class="fa fa-external-link"></i> </a>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using BlogEngine.Core.GalleryServer;
 using BlogEngine.Core.Data.Models;
+using NuGet;
+using System.Globalization;
 
 namespace BlogEngine.Core.Packaging
 {
@@ -47,48 +49,82 @@ namespace BlogEngine.Core.Packaging
         {
             try
             {
-                foreach (var pkg in GetAllPublishedPackages().ToList())
+                if (BlogSettings.Instance.GalleryFeedUrl == "http://dnbegallery.org/feed/FeedService.svc")
                 {
-                    //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", pkg.Id, pkg.Version, pkg.IsLatestVersion, pkg.IconUrl));
-
-                    var jp = new Package
+                    foreach (var pkg in GetAllPublishedPackages().ToList())
                     {
-                        Id = string.IsNullOrEmpty(pkg.Id) ? pkg.Title : pkg.Id,
-                        PackageType = pkg.PackageType,
-                        Authors = string.IsNullOrEmpty(pkg.Authors) ? "unknown" : pkg.Authors,
-                        Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
-                        DownloadCount = pkg.DownloadCount,
-                        LastUpdated = pkg.LastUpdated == DateTime.MinValue ? pkg.Published.ToString("yyyy-MM-dd HH:mm") : pkg.LastUpdated.ToString("yyyy-MM-dd HH:mm"), // format for sort order to work with strings
-                        Title = pkg.Title,
-                        OnlineVersion = pkg.Version,
-                        Website = pkg.ProjectUrl,
-                        Tags = pkg.Tags,
-                        IconUrl = pkg.IconUrl
-                    };
+                        //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", pkg.Id, pkg.Version, pkg.IsLatestVersion, pkg.IconUrl));
 
-                    // for themes or widgets, get screenshot instead of icon
-                    // also get screenshot if icon is missing for package
-                    if(pkg.Screenshots != null && pkg.Screenshots.Count > 0)
-                    {
-                        if ((pkg.PackageType == Constants.Theme || pkg.PackageType == Constants.Widget) || string.IsNullOrEmpty(pkg.IconUrl))
+                        var jp = new Package
                         {
-                            jp.IconUrl = pkg.Screenshots[0].ScreenshotUri;
+                            Id = string.IsNullOrEmpty(pkg.Id) ? pkg.Title : pkg.Id,
+                            PackageType = pkg.PackageType,
+                            Authors = string.IsNullOrEmpty(pkg.Authors) ? "unknown" : pkg.Authors,
+                            Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
+                            DownloadCount = pkg.DownloadCount,
+                            LastUpdated = pkg.LastUpdated == DateTime.MinValue ? pkg.Published.ToString("yyyy-MM-dd HH:mm") : pkg.LastUpdated.ToString("yyyy-MM-dd HH:mm"), // format for sort order to work with strings
+                            Title = pkg.Title,
+                            OnlineVersion = pkg.Version,
+                            Website = pkg.ProjectUrl,
+                            Tags = pkg.Tags,
+                            IconUrl = pkg.IconUrl
+                        };
+
+                        // for themes or widgets, get screenshot instead of icon
+                        // also get screenshot if icon is missing for package
+                        if (pkg.Screenshots != null && pkg.Screenshots.Count > 0)
+                        {
+                            if ((pkg.PackageType == Constants.Theme || pkg.PackageType == Constants.Widget) || string.IsNullOrEmpty(pkg.IconUrl))
+                            {
+                                jp.IconUrl = pkg.Screenshots[0].ScreenshotUri;
+                            }
+                        }
+
+                        // if both icon and screenshot missing, get default image for package type
+                        if (string.IsNullOrEmpty(jp.IconUrl))
+                            jp.IconUrl = DefaultThumbnail(pkg.PackageType);
+
+                        if (!string.IsNullOrEmpty(jp.IconUrl) && !jp.IconUrl.StartsWith("http:"))
+                            jp.IconUrl = Constants.GalleryUrl + jp.IconUrl;
+
+                        if (!string.IsNullOrWhiteSpace(pkg.GalleryDetailsUrl))
+                            jp.PackageUrl = PackageUrl(pkg.PackageType, pkg.Id);
+
+                        //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", jp.Id, jp.OnlineVersion, jp.PackageType, jp.IconUrl));
+
+                        packages.Add(jp);
+                    }
+                }
+                else
+                {
+                    var packs = GetNugetPackages().ToList();
+                    foreach (var pkg in packs)
+                    {
+                        if (pkg.IsLatestVersion)
+                        {
+                            var jp = new Package
+                            {
+                                Id = pkg.Id,
+                                Authors = pkg.Authors == null ? "unknown" : string.Join(", ", pkg.Authors),
+                                Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
+                                DownloadCount = pkg.DownloadCount,
+                                LastUpdated = pkg.Published != null ? pkg.Published.Value.ToString("yyyy-MM-dd HH:mm") : "", // format for sort order to work with strings
+                                Title = pkg.Title,
+                                OnlineVersion = pkg.Version.ToString(),
+                                Website = pkg.ProjectUrl == null ? null : pkg.ProjectUrl.ToString(),
+                                Tags = pkg.Tags,
+                                IconUrl = pkg.IconUrl == null ? null : pkg.IconUrl.ToString()
+                            };
+
+                            if (!string.IsNullOrEmpty(jp.IconUrl) && !jp.IconUrl.StartsWith("http:"))
+                                jp.IconUrl = Constants.GalleryUrl + jp.IconUrl;
+
+                            if (string.IsNullOrEmpty(jp.IconUrl))
+                                jp.IconUrl = DefaultThumbnail("");
+
+                            packages.Add(jp);
                         }
                     }
-
-                    // if both icon and screenshot missing, get default image for package type
-                    if (string.IsNullOrEmpty(jp.IconUrl))
-                        jp.IconUrl = DefaultThumbnail(pkg.PackageType);
-
-                    if (!string.IsNullOrEmpty(jp.IconUrl) && !jp.IconUrl.StartsWith("http:"))
-                        jp.IconUrl = Constants.GalleryUrl + jp.IconUrl;
-
-                    if (!string.IsNullOrWhiteSpace(pkg.GalleryDetailsUrl))
-                        jp.PackageUrl = PackageUrl(pkg.PackageType, pkg.Id);
-
-                    //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", jp.Id, jp.OnlineVersion, jp.PackageType, jp.IconUrl));
-
-                    packages.Add(jp);
                 }
             }
             catch (Exception ex)
@@ -147,14 +183,8 @@ namespace BlogEngine.Core.Packaging
                 var galleryFeedContext = new GalleryFeedContext(new Uri(BlogSettings.Instance.GalleryFeedUrl)) { IgnoreMissingProperties = true };
 
                 // dnbegallery.org overrides feed with additional values in "screenshots" section
-                var pkgs = BlogSettings.Instance.GalleryFeedUrl == "http://dnbegallery.org/feed/FeedService.svc" ?
-                (new[] { packagingSource }).SelectMany(source =>
-                {
+                var pkgs = (new[] { packagingSource }).SelectMany(source => {
                     return galleryFeedContext.Packages.Expand("Screenshots").OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
-                }) :
-                (new[] { packagingSource }).SelectMany(source =>
-                {
-                    return galleryFeedContext.Packages.OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
                 });
 
                 cnt = pkgs.Count();
@@ -163,6 +193,12 @@ namespace BlogEngine.Core.Packaging
             } while (cnt > 0);
 
             return allPacks;
+        }
+
+        static IEnumerable<IPackage> GetNugetPackages()
+        {
+            var rep = PackageRepositoryFactory.Default.CreateRepository(BlogSettings.Instance.GalleryFeedUrl);
+            return rep.GetPackages();
         }
 
         static string DefaultThumbnail(string packageType)
@@ -176,7 +212,7 @@ namespace BlogEngine.Core.Packaging
                 case "Widget":
                     return string.Format("{0}pics/Widget.png", Utils.ApplicationRelativeWebRoot);
             }
-            return string.Empty;
+            return string.Format("{0}pics/pkg.png", Utils.ApplicationRelativeWebRoot);
         }
    
     }

@@ -247,7 +247,7 @@ namespace BlogEngine.Core.Data
         static void DeleteThemeCustomFields(string theme)
         {
             var p = CachedPackages.FirstOrDefault(pkg => pkg.Id == theme);
-            if (p.PackageType.ToLower() == "theme")
+            if (p.PackageType != null && p.PackageType.ToLower() == "theme")
             {
                 var fields = BlogEngine.Core.Providers.BlogService.FillCustomFields();
 
