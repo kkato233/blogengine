@@ -74,7 +74,15 @@
             </div>
         </form>
     </div>
-    <div id="footer" data-ng-include src="'../views/shared/_footer.html'"></div>
+    <div id="footer">
+        <div class="container">
+            <div class="BlogEngine-app pull-left">
+                <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET @BlogSettings.Instance.Version()</a> |
+                <a href="http://dotnetblogengine.net/Donate.aspx" target="_new" id="donate">@Resources.labels.makeDonation</a>
+            </div>
+            <a class="logo-brand pull-right" target="_blank" href="http://dotnetblogengine.net/"><img src="~/Content/images/logo-footer.png" alt="BlogEngine.NET" /></a>
+        </div>
+    </div>
     @Scripts.Render("~/scripts/wysiwyg")
 </body>
 </html>
