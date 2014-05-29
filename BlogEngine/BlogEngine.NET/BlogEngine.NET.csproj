@@ -492,6 +492,7 @@
     <Content Include="setup\upgrade\spinner.gif" />
     <Content Include="setup\upgrade\Updater.asmx" />
     <Content Include="setup\upgrade\Updater.js" />
+    <Content Include="setup\upgrade\version.txt" />
     <Content Include="setup\VistaDB\BlogEngine.vdb3" />
     <Content Include="setup\VistaDB\BlogEngine.vdb4" />
     <Content Include="setup\VistaDB\VistaDB.NET_4.0_Web.Config" />
@@ -1473,7 +1474,9 @@
     <Content Include="Custom\Controls\Defaults\CommentForm.ascx" />
     <Content Include="Custom\Controls\Defaults\PostNavigation.ascx" />
     <Content Include="Custom\Controls\PostList.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Custom\Widgets\Administration\screenshot.png" />
     <Content Include="Custom\Widgets\Administration\widget.ascx" />
     <Content Include="Custom\Widgets\Administration\widget.xml" />
@@ -1653,6 +1656,7 @@
     <Compile Include="AppCode\Api\LogsController.cs" />
     <Compile Include="AppCode\Api\LookupsController.cs" />
     <Compile Include="AppCode\Api\PackagesController.cs" />
+    <Compile Include="AppCode\Api\SetupController.cs" />
     <Compile Include="AppCode\Api\PagerController.cs" />
     <Compile Include="AppCode\Api\PagesController.cs" />
     <Compile Include="AppCode\Api\PingServicesController.cs" />

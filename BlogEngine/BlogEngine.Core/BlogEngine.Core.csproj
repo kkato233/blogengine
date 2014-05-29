@@ -201,6 +201,7 @@
     <Compile Include="Data\RolesRepository.cs" />
     <Compile Include="Data\Services\Avatar.cs" />
     <Compile Include="Data\Services\CustomFieldsParser.cs" />
+    <Compile Include="Data\Services\Updater.cs" />
     <Compile Include="Data\SettingsRepository.cs" />
     <Compile Include="Data\StatsRepository.cs" />
     <Compile Include="Data\UsersRepository.cs" />
