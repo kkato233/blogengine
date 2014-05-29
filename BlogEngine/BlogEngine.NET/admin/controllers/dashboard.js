@@ -134,14 +134,13 @@
         }
         var version = SiteVars.Version.substring(15, 22);
         $.ajax({
-            url: SiteVars.ApplicationRelativeWebRoot + "setup/upgrade/Updater.asmx/Check",
-            data: "{ version: '" + version + "' }",
-            type: "POST",
+            url: SiteVars.ApplicationRelativeWebRoot + "api/setup?version=" + version,
+            type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                if (data.d && data.d.length > 0) {
-                    $("#vNumber").html(data.d);
+                if (data && data.length > 0) {
+                    $("#vNumber").html(data);
                     $("#versionMsg").show();
                 }
             }

@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.TagCloud.Edit" Codebehind="edit.ascx.cs" %>
-<%@ Reference VirtualPath="~/widgets/Tag cloud/widget.ascx" %>
+<%@ Reference VirtualPath="~/Custom/Widgets/Tag cloud/widget.ascx" %>
 
 <label for="<%=ddlMinimumPosts.ClientID %>"><%=Resources.labels.tagMinimumPosts %></label><br />
 <asp:DropDownList runat="server" ID="ddlMinimumPosts">
