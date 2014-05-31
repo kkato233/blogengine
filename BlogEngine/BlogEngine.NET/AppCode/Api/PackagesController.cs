@@ -53,40 +53,53 @@ public class PackagesController : ApiController
     }
 
     [HttpPut]
-    public bool ProcessChecked([FromBody]List<Package> items)
+    public HttpResponseMessage ProcessChecked([FromBody]List<Package> items)
     {
-        if (items == null || items.Count == 0)
-            throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
-
-        var action = Request.GetRouteData().Values["id"].ToString();
-
-        if (items != null && items.Count > 0)
+        try
         {
-            try
+            if (items == null || items.Count == 0)
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+            var action = Request.GetRouteData().Values["id"].ToString();
+
+            if (items != null && items.Count > 0)
             {
-                if (action == "install")
+                try
                 {
-                    foreach (var item in items)
+                    if (action == "install")
                     {
-                        repository.Install(item.Id);
+                        foreach (var item in items)
+                        {
+                            if (!repository.Install(item.Id))
+                                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                        }
                     }
+                    if (action == "uninstall")
+                    {
+                        foreach (var item in items)
+                        {
+                            if (!repository.Uninstall(item.Id))
+                                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                        }
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
-                if (action == "uninstall")
+                catch (System.Exception ex)
                 {
-                    foreach (var item in items)
-                    {
-                        repository.Uninstall(item.Id);
-                    }
+                    BlogEngine.Core.Utils.Log("Error processing package", ex);
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
                 }
-                return true;
             }
-            catch (System.Exception ex)
-            {
-                BlogEngine.Core.Utils.Log("Error processing package", ex);
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
-        return false;
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
     }
 
     [HttpPut]

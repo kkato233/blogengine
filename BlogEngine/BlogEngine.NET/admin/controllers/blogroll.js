@@ -115,18 +115,7 @@ angular.module('blogAdmin').controller('BlogRollController', ["$rootScope", "$sc
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        dataService.processChecked("/api/blogroll/processchecked/delete", $scope.items)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/blogroll/processchecked/", "delete", $scope, dataService);
     }
 
     $scope.load();

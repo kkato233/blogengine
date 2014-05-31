@@ -106,18 +106,7 @@
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        dataService.processChecked("/api/roles/processchecked/" + action, $scope.items)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/roles/processchecked/", action, $scope, dataService);
     }
 
     $scope.delete = function (id) {

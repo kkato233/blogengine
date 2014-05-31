@@ -47,18 +47,7 @@ angular.module('blogAdmin').controller('PingSericesController', ["$rootScope", "
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        dataService.processChecked("/api/pingservices/processchecked/delete", $scope.items)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/pingservices/processchecked/", action, $scope, dataService);
     }
 
     $scope.load();

@@ -80,10 +80,19 @@
 
             if (Utils.IsCurrentRequestForHomepage)
             {
-                var front = Page.GetFrontPage();
-                if (front != null)
+                // custom front page
+                if (!string.IsNullOrEmpty(BlogSettings.CustomFrontPage))
                 {
-                    url = front.RelativeLink.ToUpperInvariant();
+                    url = Utils.RelativeOrAbsoluteWebRoot + BlogSettings.CustomFrontPage;
+                    context.RewritePath(url, false);
+                }
+                else
+                {
+                    var front = Page.GetFrontPage();
+                    if (front != null)
+                    {
+                        url = front.RelativeLink.ToUpperInvariant();
+                    }
                 }
             }
 

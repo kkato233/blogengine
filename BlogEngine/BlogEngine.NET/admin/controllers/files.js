@@ -59,6 +59,9 @@
                 $scope.load($scope.currentPath);
                 gridInit($scope, $filter);
                 toastr.success($rootScope.lbl.completed);
+                if ($('#chkAll')) {
+                    $('#chkAll').prop('checked', false);
+                }
                 spinOff();
             })
             .error(function () {

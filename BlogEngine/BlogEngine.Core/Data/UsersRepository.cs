@@ -160,9 +160,6 @@ namespace BlogEngine.Core.Data
             if (string.IsNullOrEmpty(id))
                 return false;
 
-            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.DeleteUserSelf))
-                throw new System.UnauthorizedAccessException();
-
             bool isSelf = id.Equals(Security.CurrentUser.Identity.Name, StringComparison.OrdinalIgnoreCase);
 
             if (isSelf && !Security.IsAuthorizedTo(Rights.DeleteUserSelf))

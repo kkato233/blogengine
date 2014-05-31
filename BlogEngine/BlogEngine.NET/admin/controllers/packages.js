@@ -14,12 +14,14 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.theme = ($location.search()).id;
     $scope.selectedFeed = $rootScope.SiteVars.GalleryFeedUrl;
     $scope.activeTheme = ActiveTheme;
+    $scope.themesPage = false;
     
     if ($scope.id) {
         $("#modal-theme-edit").modal();
     }
     if ($location.path().indexOf("/custom/themes") == 0) {
         $scope.fltr = 'themes';
+        $scope.themesPage = true;
     }
     if ($location.path().indexOf("/custom/widgets") == 0) {
         $scope.fltr = 'widgets';
@@ -110,30 +112,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        var i = $scope.items.length;
-        var checked = [];
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                checked.push(item);
-            }
-        }
-        if (checked.length < 1) {
-            spinOff();
-            return false;
-        }
-        dataService.processChecked("/api/packages/processchecked/" + action, checked)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/packages/processchecked/", action, $scope, dataService);
     }
 
     $scope.hasChecked = function () {

@@ -57,6 +57,7 @@
         }
         scope.currentPage = 0;
         scope.groupToPages();
+        scope.rowSpinOff(scope.filteredItems);
     };
 
     scope.groupToPages = function () {
@@ -119,6 +120,7 @@
         }
         scope.currentPage = 0;
         scope.groupToPages();
+        scope.rowSpinOff(scope.filteredItems);
         return false;
     };
 
@@ -136,6 +138,13 @@
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
+            // for themes, do not check current
+            else if (scope.themesPage) {
+                if (scope.pagedItems[scope.currentPage][i].Id != scope.activeTheme.Theme && 
+                    scope.pagedItems[scope.currentPage][i].Id != scope.activeTheme.Mobile) {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
             else {
                 // for others toggle all
                 scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
@@ -149,6 +158,16 @@
 
         $('#chkAll').prop('checked', false);
     };
+
+    scope.rowSpinOff = function (items) {
+        if (items.length > 0) {
+            $('#tr-spinner').hide();
+        }
+        else {
+            $('#tr-spinner').show();
+            $('#div-spinner').html(BlogAdmin.i18n.empty);
+        }
+    }
 
     scope.search();
 }

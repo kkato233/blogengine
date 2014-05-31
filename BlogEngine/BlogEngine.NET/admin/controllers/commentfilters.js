@@ -44,30 +44,7 @@ angular.module('blogAdmin').controller('CommentFilterController', ["$rootScope",
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        var i = $scope.items.length;
-        var checked = [];
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                checked.push(item);
-            }
-        }
-        if (checked.length < 1) {
-            spinOff();
-            return false;
-        }
-        dataService.processChecked("/api/commentfilter/processchecked/" + action, checked)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/commentfilter/processchecked/", action, $scope, dataService);
     }
 
     $scope.load();

@@ -81,30 +81,7 @@ angular.module('blogAdmin').controller('BlogsController', ["$rootScope", "$scope
     }
 
     $scope.processChecked = function (action) {
-        spinOn();
-        var i = $scope.items.length;
-        var checked = [];
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                checked.push(item);
-            }
-        }
-        if (checked.length < 1) {
-            spinOff();
-            return false;
-        }
-        dataService.processChecked("/api/blogs/processchecked/" + action, $scope.items)
-        .success(function (data) {
-            $scope.load();
-            gridInit($scope, $filter);
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+        processChecked("/api/blogs/processchecked/", action, $scope, dataService);
     }
 
     $scope.load();
