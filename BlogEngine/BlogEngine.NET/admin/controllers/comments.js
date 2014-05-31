@@ -18,7 +18,7 @@
             if ($scope.filter) {
                 $scope.setFilter();
             }
-            rowSpinOff($scope.items);
+            rowSpinOff($scope.filteredItems);
         })
         .error(function (data) {
             toastr.error($rootScope.lbl.errorGettingTags);
@@ -39,29 +39,8 @@
 
     $scope.load();
 	
-	$scope.processChecked = function (action) {
-	    spinOn();
-	    var i = $scope.items.length;
-	    var checked = [];
-	    while (i--) {
-	        var item = $scope.items[i];
-	        if (item.IsChecked === true) {
-	            checked.push(item);
-	        }
-	    }
-	    if (checked.length < 1) {
-	        return false;
-	    }
-        dataService.processChecked("/api/comments/processchecked/" + action, checked)
-        .success(function (data) {
-            $scope.load();
-            toastr.success($rootScope.lbl.completed);
-            spinOff();
-        })
-        .error(function () {
-            toastr.error($rootScope.lbl.failed);
-            spinOff();
-        });
+    $scope.processChecked = function (action) {
+        processChecked("/api/comments/processchecked/", action, $scope, dataService);
 	}
 
 	$scope.deleteAll = function () {

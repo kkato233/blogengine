@@ -72,3 +72,31 @@ function webRoot(url) {
         return result + url;
     }
 }
+
+function processChecked(url, action, scope, dataService) {
+    spinOn();
+    var i = scope.items.length;
+    var checked = [];
+    while (i--) {
+        var item = scope.items[i];
+        if (item.IsChecked === true) {
+            checked.push(item);
+        }
+    }
+    if (checked.length < 1) {
+        return false;
+    }
+    dataService.processChecked(url + action, checked)
+    .success(function (data) {
+        scope.load();
+        toastr.success(BlogAdmin.i18n.completed);
+        if ($('#chkAll')) {
+            $('#chkAll').prop('checked', false);
+        }
+        spinOff();
+    })
+    .error(function (data) {
+        toastr.error(BlogAdmin.i18n.failed);
+        spinOff();
+    });
+}

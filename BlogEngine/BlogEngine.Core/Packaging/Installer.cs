@@ -27,7 +27,7 @@ namespace BlogEngine.Core.Packaging
         /// Install package
         /// </summary>
         /// <param name="pkgId"></param>
-        public static JsonResponse InstallPackage(string pkgId)
+        public static bool InstallPackage(string pkgId)
         {
             try
             {
@@ -61,10 +61,10 @@ namespace BlogEngine.Core.Packaging
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage(" + pkgId + ")", ex);
                 UninstallPackage(pkgId);
-                throw;
+                return false;
             }
 
-            return new JsonResponse { Success = true, Message = "Package successfully installed" };
+            return true;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace BlogEngine.Core.Packaging
         /// </summary>
         /// <param name="pkgId"></param>
         /// <returns></returns>
-        public static JsonResponse UninstallPackage(string pkgId)
+        public static bool UninstallPackage(string pkgId)
         {
             try
             {
@@ -85,7 +85,9 @@ namespace BlogEngine.Core.Packaging
                 var package = _repository.FindPackage(pkgId);
 
                 if (package == null)
-                    return new JsonResponse { Success = false, Message = "Package " + pkgId + " not found" };
+                {
+                    throw new ApplicationException("Package not found");
+                }
 
                 packageManager.UninstallPackage(package, true);
 
@@ -101,10 +103,10 @@ namespace BlogEngine.Core.Packaging
             catch (Exception ex)
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.UninstallPackage(" + pkgId + ")", ex);
-                return new JsonResponse { Success = false, Message = "Error uninstalling package, see logs for details" };
+                return false;
             }
 
-            return new JsonResponse { Success = true, Message = "Package successfully uninstalled" };
+            return true;
         }
 
     }

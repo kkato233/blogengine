@@ -10,6 +10,7 @@
     using BlogEngine.Core.Providers;
     using System.Web.Hosting;
     using System.IO;
+    using System.Web.Caching;
 
     /// <summary>
     /// Represents the configured settings for the blog engine.
@@ -1327,6 +1328,45 @@
             set { _galleryFeedUrl = value; }
         }
 
+        #endregion
+
+        #region Custom front page
+        /// <summary>
+        /// When file with name "FrontPage.aspx" or "FrontPage.cshtml"
+        /// exists in the blog root, use it as custom front page
+        /// </summary>
+        public static string CustomFrontPage
+        {
+            get
+            {
+                // uncomment this line to disable caching for debugging
+                // Blog.CurrentInstance.Cache.Remove(cacheKey);
+                string cacheKey = "Blog-Custom-Front-Page";
+
+                if (Blog.CurrentInstance.Cache[cacheKey] == null)
+                {
+                    Blog.CurrentInstance.Cache.Add(
+                        cacheKey,
+                        GetCustomFrontPage(),
+                        null,
+                        Cache.NoAbsoluteExpiration,
+                        new TimeSpan(0, 15, 0),
+                        CacheItemPriority.Low,
+                        null);
+                }
+                return Blog.CurrentInstance.Cache[cacheKey].ToString();
+            }
+        }
+        static string GetCustomFrontPage()
+        {
+            string razorPath = HostingEnvironment.MapPath("~/FrontPage.cshtml");
+            string aspxPath = HostingEnvironment.MapPath("~/FrontPage.aspx");
+
+            if(File.Exists(razorPath)) return "FrontPage.cshtml";
+            if (File.Exists(aspxPath)) return "FrontPage.aspx";
+
+            return "";
+        }
         #endregion
 
         #region "Methods"

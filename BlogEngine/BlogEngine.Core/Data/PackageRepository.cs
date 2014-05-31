@@ -140,7 +140,7 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAdministrator || !Blog.CurrentInstance.IsPrimary)
                 throw new System.UnauthorizedAccessException();
 
-            return Installer.InstallPackage(id).Success;
+            return Installer.InstallPackage(id);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace BlogEngine.Core.Data
 
             DeleteThemeCustomFields(id);
 
-            return Installer.UninstallPackage(id).Success;
+            return Installer.UninstallPackage(id);
         }
 
         #region Private methods
@@ -247,7 +247,7 @@ namespace BlogEngine.Core.Data
         static void DeleteThemeCustomFields(string theme)
         {
             var p = CachedPackages.FirstOrDefault(pkg => pkg.Id == theme);
-            if (p.PackageType != null && p.PackageType.ToLower() == "theme")
+            if (p != null && p.PackageType != null && p.PackageType.ToLower() == "theme")
             {
                 var fields = BlogEngine.Core.Providers.BlogService.FillCustomFields();
 

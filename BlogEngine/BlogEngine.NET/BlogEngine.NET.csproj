@@ -178,6 +178,7 @@
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Custom\Media\sample.flv" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="FrontPageExample.aspx" />
     <Content Include="packages.config" />
     <Content Include="pics\ext.png" />
     <Content Include="pics\pkg.png" />
@@ -1939,6 +1940,13 @@
     </Compile>
     <Compile Include="error404.aspx.designer.cs">
       <DependentUpon>error404.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FrontPageExample.aspx.cs">
+      <DependentUpon>FrontPageExample.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FrontPageExample.aspx.designer.cs">
+      <DependentUpon>FrontPageExample.aspx</DependentUpon>
     </Compile>
     <Compile Include="page.aspx.cs">
       <DependentUpon>page.aspx</DependentUpon>
