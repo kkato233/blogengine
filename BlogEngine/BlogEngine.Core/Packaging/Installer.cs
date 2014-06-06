@@ -48,7 +48,8 @@ namespace BlogEngine.Core.Packaging
                 var iPkg = new InstalledPackage { PackageId = package.Id, Version = package.Version.ToString() };
                 BlogService.InsertPackage(iPkg);
 
-                var packageFiles = FileSystem.InstallPackage(package.Id, package.Version.ToString());
+                var packageFiles = FileSystem.InstallPackage(package);
+
                 BlogService.InsertPackageFiles(packageFiles);
 
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);

@@ -87,9 +87,10 @@
                     <th class="table-item-title table-item-w70">{{lbl.title}} <a data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
                     <th>{{lbl.version}}</th>
                     <th class="hmax768">{{lbl.author}}</th>
+                    <th class="hmax768">{{lbl.doDelete}}</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: items">
+            <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                     <td> <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Id === activeTheme.Theme || item.Id === activeTheme.Mobile" /> </td>
                     <td class="table-item-avatar"><img ng-src="{{item.IconUrl}}" /></td>
@@ -101,8 +102,9 @@
                     </td>
                     <td>{{item.LocalVersion}}</td>
                     <td class="hmax768" title="{{item.Authors}}"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
+                    <td><a title="Uninstall package" href="" ng-click="uninstallPackage(item.Id)"><i class="fa fa-times"></i></a></td>
                 </tr>
-                <tr id="tr-spinner"><td colspan="5"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
+                <tr id="tr-spinner"><td colspan="6"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
             </tbody>
         </table>
         <div class="text-right pagination-wrapper">

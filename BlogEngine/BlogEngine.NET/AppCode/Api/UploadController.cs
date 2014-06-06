@@ -23,6 +23,7 @@ public class UploadController : ApiController
         if (file != null && file.ContentLength > 0)
         {
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
+            var fileName = new FileInfo(file.FileName).Name; // to work in IE and others
 
             if (!string.IsNullOrEmpty(dirPath))
                 dirName = dirPath;
@@ -31,7 +32,7 @@ public class UploadController : ApiController
             {
                 string[] ImageExtensnios = { ".jpg", ".png", ".jpeg", ".tiff", ".gif", ".bmp" };
 
-                if (ImageExtensnios.Any(x => file.FileName.ToLower().Contains(x.ToLower())))
+                if (ImageExtensnios.Any(x => fileName.ToLower().Contains(x.ToLower())))
                     action = "image";
                 else
                     action = "file";
@@ -53,23 +54,23 @@ public class UploadController : ApiController
                 {
                     // upload profile image
                     dir = BlogService.GetDirectory("/avatars");
-                    var dot = file.FileName.LastIndexOf(".");
-                    var ext = dot > 0 ? file.FileName.Substring(dot) : "";
-                    var fileName = User.Identity.Name + ext;
+                    var dot = fileName.LastIndexOf(".");
+                    var ext = dot > 0 ? fileName.Substring(dot) : "";
+                    var profileFileName = User.Identity.Name + ext;
 
-                    var imgPath = HttpContext.Current.Server.MapPath(dir.FullPath + "/" + fileName);
+                    var imgPath = HttpContext.Current.Server.MapPath(dir.FullPath + "/" + profileFileName);
                     var image = Image.FromStream(file.InputStream);
                     Image thumb = image.GetThumbnailImage(80, 80, () => false, IntPtr.Zero);
                     thumb.Save(imgPath);
 
-                    return Request.CreateResponse(HttpStatusCode.Created, fileName);
+                    return Request.CreateResponse(HttpStatusCode.Created, profileFileName);
                 }
             }
             if (action == "image")
             {
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts))
                 {
-                    var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
+                    var uploaded = BlogService.UploadFile(file.InputStream, fileName, dir, true);
                     return Request.CreateResponse(HttpStatusCode.Created, uploaded.AsImage.ImageUrl);
                 }
             }
@@ -77,8 +78,8 @@ public class UploadController : ApiController
             {
                 if (Security.IsAuthorizedTo(Rights.EditOwnPosts)) 
                 {
-                    var uploaded = BlogService.UploadFile(file.InputStream, file.FileName, dir, true);
-                    retUrl = uploaded.FileDownloadPath + "|" + file.FileName + " (" + BytesToString(uploaded.FileSize) + ")";
+                    var uploaded = BlogService.UploadFile(file.InputStream, fileName, dir, true);
+                    retUrl = uploaded.FileDownloadPath + "|" + fileName + " (" + BytesToString(uploaded.FileSize) + ")";
                     return Request.CreateResponse(HttpStatusCode.Created, retUrl);
                 }
             }
@@ -94,7 +95,7 @@ public class UploadController : ApiController
                     mediaFolder = mediaPlayerExtension.Settings[0].GetSingleValue("folder");
 
                     var folder = Utils.ApplicationRelativeWebRoot + mediaFolder + "/";
-                    var fileName = file.FileName;
+                    //var fileName = file.FileName;
 
                     UploadVideo(folder, file, fileName);
 

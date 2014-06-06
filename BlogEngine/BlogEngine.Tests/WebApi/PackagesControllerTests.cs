@@ -71,7 +71,7 @@ namespace BlogEngine.Tests.WebApi
             items.Add(new Package() { Id = "test" });
 
             var result = _ctrl.ProcessChecked(items);
-            Assert.IsTrue(result);
+            Assert.IsTrue(result.IsSuccessStatusCode);
         }
     }
 }

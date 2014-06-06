@@ -104,17 +104,16 @@
         dataService.uploadFile("/api/upload?action=" + action, fd)
         .success(function (data) {
             toastr.success("Uploaded");
-            var editorHtml = editorGetHtml();
             if (action === "image") {
-                editorSetHtml(editorHtml + '<img src=' + data + ' />');
+                insertAtCursor('<img src=' + data + ' />');
             }
             if (action === "video") {
-                editorSetHtml(editorHtml + '<p>[video src=' + data + ']</p>');
+                insertAtCursor('<p>[video src=' + data + ']</p>');
             }
             if (action === "file") {
                 var res = data.split("|");
                 if (res.length === 2) {
-                    editorSetHtml(editorHtml + '<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
+                    insertAtCursor('<a href="' + res[0].replace('"', '') + '">' + res[1].replace('"', '') + '</a>');
                 }
             }
         })

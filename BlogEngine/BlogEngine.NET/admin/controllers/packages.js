@@ -115,6 +115,33 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         processChecked("/api/packages/processchecked/", action, $scope, dataService);
     }
 
+    $scope.installPackage = function (pkgId) {
+        spinOn();
+        dataService.updateItem("/api/packages/install/" + pkgId, pkgId)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            spinOff();
+        });
+    }
+
+    $scope.uninstallPackage = function (pkgId) {
+        spinOn();
+        dataService.updateItem("/api/packages/uninstall/" + pkgId, pkgId)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            spinOff();
+            $scope.load();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            spinOff();
+        });
+    }
+
     $scope.hasChecked = function () {
         var i = $scope.items.length;
         var checked = [];
