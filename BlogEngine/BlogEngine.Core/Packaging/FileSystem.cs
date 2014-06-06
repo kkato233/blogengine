@@ -3,9 +3,9 @@ using BlogEngine.Core.Providers;
 using BlogEngine.Core.Web.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Hosting;
@@ -101,15 +101,15 @@ namespace BlogEngine.Core.Packaging
         /// </summary>
         /// <param name="pkgId">Package Id</param>
         /// <param name="version">Package Version</param>
-        public static List<PackageFile> InstallPackage(string pkgId, string version)
+        public static List<PackageFile> InstallPackage(NuGet.IPackage package)
         {
-            var packgeFiles = new List<PackageFile>();
+            var packageFiles = new List<PackageFile>();
 
             var content = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
-                string.Format("App_Data/packages/{0}.{1}/content", pkgId, version));
+                string.Format("App_Data/packages/{0}.{1}/content", package.Id, package.Version));
 
             var lib = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot +
-                string.Format("App_Data/packages/{0}.{1}/lib", pkgId, version));
+                string.Format("App_Data/packages/{0}.{1}/lib", package.Id, package.Version));
 
             var root = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot);
             var bin = HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "bin");
@@ -119,10 +119,15 @@ namespace BlogEngine.Core.Packaging
             var target = new DirectoryInfo(root);
             
             fileOrder = 0;
-            CopyDirectory(source, target, pkgId, packgeFiles);
 
-            // clear after install
-            ForceDeleteDirectory(content);
+            if (Directory.Exists(content))
+            {
+                CopyDirectory(source, target, package.Id, packageFiles);
+
+                CreateManifestIfNotExists(package, packageFiles);
+                // clear after install
+                ForceDeleteDirectory(content);
+            }
 
             // copy DLLs from lib to bin
             if (Directory.Exists(lib))
@@ -131,13 +136,13 @@ namespace BlogEngine.Core.Packaging
                 target = new DirectoryInfo(bin);
 
                 fileOrder = 0;
-                CopyDirectory(source, target, pkgId, packgeFiles);
+                CopyDirectory(source, target, package.Id, packageFiles);
 
                 // clear after install
                 ForceDeleteDirectory(lib);
             }
 
-            return packgeFiles;
+            return packageFiles;
         }
 
         /// <summary>
@@ -282,6 +287,47 @@ namespace BlogEngine.Core.Packaging
                 Utils.Log("Packaging.FileSystem.GetPackageManifest", ex);
             }
             return null;
+        }
+
+        public static void CreateManifestIfNotExists(NuGet.IPackage package, List<PackageFile> packageFiles)
+        {
+            var shortPath = "";
+            var type = PackageType(packageFiles);
+
+            if (type == "theme")
+                shortPath = string.Format(@"{Custom\Themes\{0}\theme.xml", package.Id);
+
+            if(type == "widget")
+                shortPath = string.Format(@"Custom\Widgets\{0}\widget.xml", package.Id);
+
+            if (string.IsNullOrEmpty(shortPath))
+                return;
+
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot), shortPath);
+
+            if (File.Exists(path))
+                return;
+
+            using (var writer = new XmlTextWriter(path, Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("metadata");
+
+                writer.WriteElementString("id", package.Id);
+                writer.WriteElementString("description", package.Description);
+
+                writer.WriteElementString("authors", string.Join(", ", package.Authors));
+                
+                writer.WriteElementString("website", package.ProjectUrl == null ? "" : package.ProjectUrl.ToString());
+                writer.WriteElementString("version", package.Version.ToString());
+                writer.WriteElementString("iconurl", package.IconUrl == null ? "" : package.IconUrl.ToString());
+
+                writer.WriteEndElement();
+            }
+            var idx = packageFiles.Count + 1;
+            packageFiles.Add(new PackageFile { PackageId = package.Id, FileOrder = idx, FilePath = shortPath, IsDirectory = false });
         }
 
         static void CopyDirectory(DirectoryInfo source, DirectoryInfo target, string pkgId, List<PackageFile> installedFiles)
@@ -458,6 +504,20 @@ namespace BlogEngine.Core.Packaging
                 }
             }
             return map;
+        }
+
+        static string PackageType(List<PackageFile> files)
+        {
+            foreach (var pkg in files)
+            {
+                if (pkg.FilePath.Contains(@"Custom\Themes"))
+                    return "theme";
+                if (pkg.FilePath.Contains(@"Custom\Widgets"))
+                    return "widget";
+                if (pkg.FilePath.Contains(@"Custom\Extensions"))
+                    return "extension";
+            }
+            return "extension";
         }
 
         #endregion

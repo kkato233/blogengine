@@ -116,4 +116,47 @@ public class PackagesController : ApiController
             throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
     }
+
+    [HttpPut]
+    public HttpResponseMessage Install(string id)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+            repository.Install(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    [HttpPut]
+    public HttpResponseMessage Uninstall(string id)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new HttpResponseException(HttpStatusCode.ExpectationFailed);
+
+            repository.Uninstall(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
 }

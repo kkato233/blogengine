@@ -68,7 +68,7 @@
                     <th class="hmax479">{{lbl.parent}}</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: posts">
+            <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                     <td><input type="checkbox" id="{{item.Slug}}" ng-model="item.IsChecked" /></td>
                     <td class="table-item-title">

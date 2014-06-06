@@ -42,7 +42,7 @@
                     <th class="mw-100">{{lbl.count}}</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: posts">
+            <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
                     <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
                     <td class="table-item-title">
