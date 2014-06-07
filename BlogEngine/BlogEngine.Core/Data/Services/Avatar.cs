@@ -48,10 +48,13 @@ namespace BlogEngine.Core.Data.Services
 
         static string ThemeNoAvatar(string email)
         {
-            var themeAvatar = HttpContext.Current.Server.MapPath(string.Format(
-                "{0}Custom/Themes/{1}/noavatar.jpg", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme));
+            var themeAvatar = string.Format(
+                "{0}Custom/Themes/{1}/noavatar.jpg", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.Theme);
 
-            return System.IO.File.Exists(themeAvatar) ? themeAvatar : "";
+            if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(themeAvatar)))
+                return themeAvatar;
+
+            return "";
         }
 
         static string Gravatar(string email)
