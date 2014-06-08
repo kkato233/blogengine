@@ -35,6 +35,7 @@
   <language>en-US</language>
   <smtpserver>mail.example.com</smtpserver>
   <disqusdevmode>False</disqusdevmode>
+  <customfrontpage />
   <postsperpage>10</postsperpage>
   <enabletrackbackreceive>True</enabletrackbackreceive>
   <enableopensearch>True</enableopensearch>
@@ -82,7 +83,7 @@
   <enablepingbackreceive>True</enablepingbackreceive>
   <showlivepreview>True</showlivepreview>
   <enablequicknotes>True</enablequicknotes>
-  <galleryfeedurl>http://dnbegallery.org/feed/FeedService.svc</galleryfeedurl>
+  <galleryfeedurl>http://dnbegallery.org/v01/nuget</galleryfeedurl>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <enablerelatedposts>True</enablerelatedposts>

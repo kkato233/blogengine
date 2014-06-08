@@ -142,6 +142,20 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         });
     }
 
+    $scope.refreshGalleryList = function () {
+        spinOn();
+        dataService.updateItem("/api/packages/refresh/list", { })
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            spinOff();
+            $scope.load();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            spinOff();
+        });
+    }
+
     $scope.hasChecked = function () {
         var i = $scope.items.length;
         var checked = [];
