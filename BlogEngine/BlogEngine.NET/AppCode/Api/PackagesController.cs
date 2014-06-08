@@ -159,4 +159,19 @@ public class PackagesController : ApiController
         }
     }
 
+    [HttpPut]
+    public bool Refresh()
+    {
+        try
+        {
+            BlogEngine.Core.Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            BlogEngine.Core.Utils.Log("Error refreshing gallery cache", ex);
+            throw new HttpResponseException(HttpStatusCode.InternalServerError);
+        }
+    }
+
 }

@@ -117,9 +117,12 @@
             <h2 class="page-title pull-left">
                 {{lbl.gallery}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
             </h2>
-            <div class="pull-right" style="width: 240px; margin-top: 15px">
+            <div class="pull-right" style="width: 280px; margin-top: 15px">
                 <select id="selGalleryFeed" class="form-control pull-left" style="width: 190px" data-ng-options="o.OptionName for o in galleryFeeds" data-ng-model="selectedFeedObject" ng-change="changeFeed()"></select>
-                <button type="button" data-ng-click="loadEditForm()" class="btn btn-default pull-right" style="width: 40px; margin-top: 3px"><i class="fa fa-cog"></i></button>
+                <div class="pull-right" style="width: 85px">
+                    <button title="Settings" type="button" data-ng-click="loadEditForm()" class="btn btn-default" style="width: 32px; margin-top: 3px"><i class="fa fa-cog"></i></button>
+                    <button title="Refresh" type="button" data-ng-click="refreshGalleryList()" class="btn btn-default" style="width: 32px; margin-top: 3px"><i class="fa fa-refresh"></i></button>
+                </div>
             </div>
         </div>
         <div class="toolbar-grid clearfix">
