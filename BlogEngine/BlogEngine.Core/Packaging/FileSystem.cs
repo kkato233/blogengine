@@ -289,13 +289,18 @@ namespace BlogEngine.Core.Packaging
             return null;
         }
 
+        /// <summary>
+        /// Creates manifest file for theme or widget to save package metadata
+        /// </summary>
+        /// <param name="package">Package</param>
+        /// <param name="packageFiles">Installed files</param>
         public static void CreateManifestIfNotExists(NuGet.IPackage package, List<PackageFile> packageFiles)
         {
             var shortPath = "";
             var type = PackageType(packageFiles);
 
             if (type == "theme")
-                shortPath = string.Format(@"{Custom\Themes\{0}\theme.xml", package.Id);
+                shortPath = string.Format(@"Custom\Themes\{0}\theme.xml", package.Id);
 
             if(type == "widget")
                 shortPath = string.Format(@"Custom\Widgets\{0}\widget.xml", package.Id);
@@ -436,8 +441,8 @@ namespace BlogEngine.Core.Packaging
 
         static string DefaultIconUrl(Package pkg)
         {
-            var validImages = new List<string> {"screenshot.jpg", "screenshot.png", "theme.jpg", "theme.png"};
-            var pkgDir = pkg.PackageType == "Widget" ? "widgets" : "themes";
+            var validImages = new List<string> {"icon.jpg", "icon.png", "icon.gif", "screenshot.jpg", "screenshot.png", "theme.jpg", "theme.png"};
+            var pkgDir = pkg.PackageType == "Widget" ? "Custom/Widgets" : "Custom/Themes";
 
             foreach (var img in validImages)
             {
