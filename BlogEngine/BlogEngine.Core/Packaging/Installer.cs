@@ -62,7 +62,7 @@ namespace BlogEngine.Core.Packaging
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.InstallPackage(" + pkgId + ")", ex);
                 UninstallPackage(pkgId);
-                return false;
+                throw;
             }
 
             return true;
@@ -104,7 +104,7 @@ namespace BlogEngine.Core.Packaging
             catch (Exception ex)
             {
                 Utils.Log("BlogEngine.Core.Packaging.Installer.UninstallPackage(" + pkgId + ")", ex);
-                return false;
+                throw;
             }
 
             return true;

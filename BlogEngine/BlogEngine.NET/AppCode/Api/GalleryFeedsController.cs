@@ -13,14 +13,17 @@ public class GalleryFeedsController : ApiController
 {
     const string _metaExtension = "MetaExtension";
     const string _galleryFeeds = "GalleryFeeds";
-    const string _feedService = "http://dnbegallery.org/feed/FeedService.svc";
-
+    
     public IEnumerable<SelectOption> Get()
     {
         try
         {
             var feeds = new List<SelectOption>();
             var feedSets = ExtensionManager.GetSettings(_metaExtension, _galleryFeeds);
+            var feedService = "http://dnbegallery.org/v01/nuget";
+
+            if (!string.IsNullOrEmpty(BlogSettings.Instance.GalleryFeedUrl))
+                feedService = BlogSettings.Instance.GalleryFeedUrl;
 
             if (feedSets == null)
             {
@@ -28,7 +31,7 @@ public class GalleryFeedsController : ApiController
                 settings.AddParameter("OptionName", "Title", 150, true, true);
                 settings.AddParameter("OptionValue");
 
-                settings.AddValues(new[] { "DnbeGallery.org", _feedService });
+                settings.AddValues(new[] { "DnbeGallery.org", feedService });
 
                 feedSets = ExtensionManager.InitSettings(_metaExtension, settings);
                 ExtensionManager.SaveSettings(_metaExtension, feedSets);
