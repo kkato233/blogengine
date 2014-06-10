@@ -181,9 +181,9 @@ namespace BlogEngine.Core.Packaging
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(pkg.LocalVersion))
+            if (pkg != null && !string.IsNullOrWhiteSpace(pkg.OnlineVersion))
             {
-                var pkgDir = string.Format("{0}.{1}", pkgId, pkg.LocalVersion);
+                var pkgDir = string.Format("{0}.{1}", pkgId, pkg.OnlineVersion);
 
                 // clean up removing installed version
                 pkgDir = HttpContext.Current.Server.MapPath(string.Format("{0}App_Data/packages/{1}", Utils.ApplicationRelativeWebRoot, pkgDir));

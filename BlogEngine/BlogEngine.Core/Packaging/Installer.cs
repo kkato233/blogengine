@@ -77,24 +77,20 @@ namespace BlogEngine.Core.Packaging
         {
             try
             {
+                FileSystem.UninstallPackage(pkgId);
+
+                BlogService.DeletePackage(pkgId);
+
+                // if installed from gallery, also remove NuGet package files
                 var packageManager = new PackageManager(
                     _repository,
                     new DefaultPackagePathResolver(BlogSettings.Instance.GalleryFeedUrl),
                     new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
                 );
-
                 var package = _repository.FindPackage(pkgId);
 
-                if (package == null)
-                {
-                    throw new ApplicationException("Package not found");
-                }
-
-                packageManager.UninstallPackage(package, true);
-
-                FileSystem.UninstallPackage(package.Id);
-
-                BlogService.DeletePackage(pkgId);
+                if (package != null)
+                    packageManager.UninstallPackage(package, true);
 
                 // reset cache
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
@@ -103,7 +99,7 @@ namespace BlogEngine.Core.Packaging
             }
             catch (Exception ex)
             {
-                Utils.Log("BlogEngine.Core.Packaging.Installer.UninstallPackage(" + pkgId + ")", ex);
+                Utils.Log(string.Format("Error unistalling package {0}: {1}"), pkgId, ex.Message);
                 throw;
             }
 
