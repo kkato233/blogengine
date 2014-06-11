@@ -72,6 +72,11 @@ namespace BlogEngine.Core.Data
             return filterList;
         }
 
+        /// <summary>
+        /// Find by id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns>Comment filter</returns>
         public CommentFilterItem FindById(Guid id)
         {
             throw new NotImplementedException();
@@ -87,47 +92,93 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
 
-            Filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
-            string id = Guid.NewGuid().ToString();
-
-            int parLen = Filters.Parameters[0].Values.Count;
-            for (int i = 0; i < parLen; i++)
+            try
             {
-                bool exists = 
-                    Filters.Parameters[1].Values[i] == item.Action &&
-                    Filters.Parameters[2].Values[i] == item.Subject &&
-                    Filters.Parameters[3].Values[i] == item.Operation &&
-                    Filters.Parameters[4].Values[i] == item.Filter;
-                if (exists)
-                {
-                    throw new System.ApplicationException("Item already exists");
-                }
-            }
+                Filters = ExtensionManager.GetSettings("MetaExtension", "BeCommentFilters");
+                string id = Guid.NewGuid().ToString();
 
-            string[] f = new string[] { 
+                int parLen = Filters.Parameters[0].Values.Count;
+                for (int i = 0; i < parLen; i++)
+                {
+                    bool exists =
+                        Filters.Parameters[1].Values[i] == item.Action &&
+                        Filters.Parameters[2].Values[i] == item.Subject &&
+                        Filters.Parameters[3].Values[i] == item.Operation &&
+                        Filters.Parameters[4].Values[i] == item.Filter;
+                    if (exists)
+                    {
+                        throw new System.ApplicationException("Item already exists");
+                    }
+                }
+
+                string[] f = new string[] { 
                     id, 
                     item.Action, 
                     item.Subject, 
                     item.Operation, 
                     item.Filter };
 
-            Filters.AddValues(f);
-            ExtensionManager.SaveSettings("MetaExtension", Filters);
+                Filters.AddValues(f);
+                ExtensionManager.SaveSettings("MetaExtension", Filters);
 
-            return new CommentFilterItem {
-                Id = Guid.Parse(id),
-                Action = item.Action,
-                Subject = item.Subject,
-                Operation = item.Operation,
-                Filter = item.Filter
-            };
+                return new CommentFilterItem
+                {
+                    Id = Guid.Parse(id),
+                    Action = item.Action,
+                    Subject = item.Subject,
+                    Operation = item.Operation,
+                    Filter = item.Filter
+                };
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error adding new comment filter", ex);
+                throw;
+            }
         }
 
+        /// <summary>
+        /// Update filter
+        /// </summary>
+        /// <param name="item">Filter</param>
+        /// <returns>True on success</returns>
         public bool Update(CommentFilterItem item)
         {
             return true;
         }
 
+        /// <summary>
+        /// Remove all filters
+        /// </summary>
+        /// <returns>True on success</returns>
+        public bool RemoveAll()
+        {
+            try
+            {
+                for (int i = 0; i < Filters.Parameters.Count; i++)
+                {
+                    var p = Filters.Parameters[i];
+                    for (int j = p.Values.Count; j-- > 0; )
+                    {
+                        p.DeleteValue(j);
+                    }
+                }
+                ExtensionManager.SaveSettings("MetaExtension", Filters);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error removing all comment filters", ex);
+                throw;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Remove filter by id
+        /// </summary>
+        /// <param name="id">Filter id</param>
+        /// <returns>True on success</returns>
         public bool Remove(Guid id)
         {
             int idx = 0;
