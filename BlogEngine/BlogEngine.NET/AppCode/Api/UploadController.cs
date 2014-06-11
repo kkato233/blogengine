@@ -25,6 +25,10 @@ public class UploadController : ApiController
             var dirName = string.Format("/{0}/{1}", DateTime.Now.ToString("yyyy"), DateTime.Now.ToString("MM"));
             var fileName = new FileInfo(file.FileName).Name; // to work in IE and others
 
+            // iOS sends all images as "image.jpg" or "image.png"
+            fileName = fileName.Replace("image.jpg", DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg");
+            fileName = fileName.Replace("image.png", DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png");
+
             if (!string.IsNullOrEmpty(dirPath))
                 dirName = dirPath;
 

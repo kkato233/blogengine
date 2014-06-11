@@ -70,8 +70,13 @@
                 </div>
 
                 <div data-ng-controller="CommentFilterController" class="well">
-                    <h4>{{lbl.filters}}</h4>
-                    <hr />
+                    <div>
+                        <h4>{{lbl.filters}}</h4>
+                        <button data-ng-click="deleteAll()" class="btn btn-sm btn-danger pull-right" type="button" style="margin-top: -20px">
+                            <i class="fa fa-times"></i>{{lbl.deleteAll}}
+                        </button>
+                        <hr />
+                    </div>
                     <form id="form" action="">
                         <table style="margin-bottom: 15px;">
                             <tr>

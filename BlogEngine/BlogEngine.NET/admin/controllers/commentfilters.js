@@ -43,6 +43,20 @@ angular.module('blogAdmin').controller('CommentFilterController', ["$rootScope",
         });
     }
 
+    $scope.deleteAll = function () {
+        spinOn();
+        dataService.updateItem("/api/commentfilter/deleteall/foo", $scope.editItem)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            $scope.load();
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            spinOff();
+        });
+    }
+
     $scope.processChecked = function (action) {
         processChecked("/api/commentfilter/processchecked/", action, $scope, dataService);
     }

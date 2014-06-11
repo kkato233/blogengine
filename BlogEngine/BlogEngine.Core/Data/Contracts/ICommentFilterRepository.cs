@@ -42,5 +42,10 @@ namespace BlogEngine.Core.Data.Contracts
         /// <param name="id">ID</param>
         /// <returns>True on success</returns>
         bool Remove(Guid id);
+        /// <summary>
+        /// Remove all
+        /// </summary>
+        /// <returns>True on success</returns>
+        bool RemoveAll();
     }
 }
