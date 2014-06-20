@@ -14,34 +14,6 @@ namespace BlogEngine.Core.Packaging
     public static class Gallery
     {
         /// <summary>
-        /// Type of sort order
-        /// </summary>
-        public enum OrderType
-        {
-            /// <summary>
-            /// Most downloaded
-            /// </summary>
-            Downloads,
-            /// <summary>
-            /// Newest
-            /// </summary>
-            Newest,
-            /// <summary>
-            /// Heighest rated
-            /// </summary>
-            Rating,
-            /// <summary>
-            /// Alphabetical
-            /// </summary>
-            Alphanumeric
-        }
-
-        /// <summary>
-        /// Gallery pager
-        /// </summary>
-        public static Pager GalleryPager;
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="packages"></param>
@@ -168,6 +140,8 @@ namespace BlogEngine.Core.Packaging
             return string.Empty;
         }
 
+        #region Private methods
+
         static IEnumerable<PublishedPackage> GetAllPublishedPackages()
         {
             var packagingSource = new PackagingSource { FeedUrl = BlogSettings.Instance.GalleryFeedUrl };
@@ -214,6 +188,7 @@ namespace BlogEngine.Core.Packaging
             }
             return string.Format("{0}pics/pkg.png", Utils.ApplicationRelativeWebRoot);
         }
-   
+
+        #endregion
     }
 }

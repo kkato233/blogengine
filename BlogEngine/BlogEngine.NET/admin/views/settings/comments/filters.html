@@ -72,7 +72,7 @@
                 <div data-ng-controller="CommentFilterController" class="well">
                     <div>
                         <h4>{{lbl.filters}}</h4>
-                        <button data-ng-click="deleteAll()" class="btn btn-sm btn-danger pull-right" type="button" style="margin-top: -20px">
+                        <button ng-disabled="items.length === 0" data-ng-click="deleteAll()" class="btn btn-sm btn-danger pull-right" type="button" style="margin-top: -20px">
                             <i class="fa fa-times"></i>{{lbl.deleteAll}}
                         </button>
                         <hr />
@@ -80,7 +80,7 @@
                     <form id="form" action="">
                         <table style="margin-bottom: 15px;">
                             <tr>
-                                <td><button ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</button></td>
+                                <td><button ng-disabled="itemsChecked() === false" ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</button></td>
                                 <td style="padding: 0 20px"><input type="text" ng-model="query" ng-change="search()" class="form-control" placeholder="{{lbl.search}}"></td>
                                 <td>
                                     <select class="form-control" id="ddAction" name="ddAction">

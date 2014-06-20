@@ -78,19 +78,14 @@ namespace BlogEngine.Core.Packaging
             try
             {
                 FileSystem.UninstallPackage(pkgId);
+                Utils.Log(string.Format("Uninstalled package {0}: installed package files removed. ", pkgId));
 
+                // remove packagefiles.xml and packages.xml (or DB records)
                 BlogService.DeletePackage(pkgId);
+                Utils.Log(string.Format("Uninstalled package {0}: package records removed. ", pkgId));
 
-                // if installed from gallery, also remove NuGet package files
-                var packageManager = new PackageManager(
-                    _repository,
-                    new DefaultPackagePathResolver(BlogSettings.Instance.GalleryFeedUrl),
-                    new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
-                );
-                var package = _repository.FindPackage(pkgId);
-
-                if (package != null)
-                    packageManager.UninstallPackage(package, true);
+                UninstallGalleryPackage(pkgId);
+                Utils.Log(string.Format("Uninstalled package {0}: NuGet file removed. ", pkgId));
 
                 // reset cache
                 Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
@@ -104,6 +99,20 @@ namespace BlogEngine.Core.Packaging
             }
 
             return true;
+        }
+
+        private static void UninstallGalleryPackage(string pkgId)
+        {
+            // if installed from gallery, also remove NuGet package files
+            var packageManager = new PackageManager(
+                _repository,
+                new DefaultPackagePathResolver(BlogSettings.Instance.GalleryFeedUrl),
+                new PhysicalFileSystem(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot + "App_Data/packages"))
+            );
+            var package = _repository.FindPackage(pkgId);
+
+            if (package != null)
+                packageManager.UninstallPackage(package, true);
         }
 
     }

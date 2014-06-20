@@ -152,6 +152,13 @@ namespace BlogEngine.Core.Packaging
         public static void UninstallPackage(string pkgId)
         {
             var installedFiles = BlogService.InstalledFromGalleryPackageFiles(pkgId);
+
+            if (installedFiles.Count == 0)
+            {
+                Utils.Log(string.Format("Can not find any files installed for package: {0}", pkgId));
+                throw new ApplicationException("No files to uninstall");
+            }
+
             var repo = new BlogEngine.Core.Data.PackageRepository();
             var pkg = repo.FindById(pkgId);
             

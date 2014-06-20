@@ -156,18 +156,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         });
     }
 
-    $scope.hasChecked = function () {
-        var i = $scope.items.length;
-        var checked = [];
-        while (i--) {
-            var item = $scope.items[i];
-            if (item.IsChecked === true) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     $scope.addFeed = function () {
         if (!$('#form').valid()) {
             return false;

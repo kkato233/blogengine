@@ -127,7 +127,7 @@
         </div>
         <div class="toolbar-grid clearfix">
             <div ng-if="IsPrimary" class="pull-left">
-                <button ng-disabled="hasChecked() === false" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
+                <button ng-disabled="itemsChecked() === false" ng-click="processChecked('install')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.install}}</button>
             </div>
             <div class="pull-right btn-flt-r hmin767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button></div>
             <div class="pull-right filterbar flt-r clearfix">

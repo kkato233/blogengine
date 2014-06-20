@@ -9,10 +9,10 @@
         </div>
         <div class="toolbar-grid clearfix">
             <div class="pull-left">
-                <button ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
-                <button ng-if="filter === 'pnd' || filter === 'spm'" ng-click="deleteAll()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.deleteAll}}</button>
-                <button ng-if="filter != 'apr' && filter != 'png'" ng-click="processChecked('approve')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.approve}}</button>
-                <button ng-if="filter != 'spm' && filter != 'png'" ng-click="processChecked('unapprove')" class="btn btn-info btn-sm"><i class="fa fa-minus"></i>{{lbl.unapprove}}</button>
+                <button ng-disabled="itemsChecked() === false" ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                <button ng-disabled="items.length === 0" ng-if="filter === 'pnd' || filter === 'spm'" ng-click="deleteAll()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.deleteAll}}</button>
+                <button ng-disabled="itemsChecked() === false" ng-if="filter != 'apr' && filter != 'png'" ng-click="processChecked('approve')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.approve}}</button>
+                <button ng-disabled="itemsChecked() === false" ng-if="filter != 'spm' && filter != 'png'" ng-click="processChecked('unapprove')" class="btn btn-info btn-sm"><i class="fa fa-minus"></i>{{lbl.unapprove}}</button>
             </div>
             <div class="pull-right btn-flt-r hmin767"><button class="btn btn-default btn-sm"><i class="fa fa-cog fa-lg"></i><span>{{lbl.filter}}</span></button></div>
             <div class="pull-right filterbar flt-r clearfix">

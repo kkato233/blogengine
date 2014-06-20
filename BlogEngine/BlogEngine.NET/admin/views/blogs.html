@@ -113,7 +113,7 @@
         </div>
         <div class="toolbar-grid clearfix">
             <div class="pull-left">
-                <button ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
+                <button ng-disabled="itemsChecked() === false" ng-click="processChecked('delete')" class="btn btn-sm btn-danger"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
             </div>
             <div class="pull-right">
                 <input type="text" ng-model="query" ng-change="search()" class="form-control input-sm pull-right" placeholder="{{lbl.search}}">
