@@ -152,6 +152,18 @@
         }  
     };
 
+    scope.itemsChecked = function () {
+        var i = scope.filteredItems.length;
+        var checked = [];
+        while (i--) {
+            var item = scope.filteredItems[i];
+            if (item.IsChecked === true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function clearChecks() {
         for (var i = 0; i < scope.items.length; i++)
             scope.items[i].IsChecked = false;
