@@ -204,35 +204,12 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(Rights.ModerateComments))
                 throw new System.UnauthorizedAccessException();
 
-            var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
+            if (commentType == "pending")
+                DeletePending();
 
-            foreach (var p in posts.ToArray())
-            {
-                if (commentType == "pending")
-                {
-                    foreach (var c in p.NotApprovedComments)
-                    {
-                        if (!c.IsSpam && !c.IsDeleted)
-                        {
-                            p.RemoveComment(c);
-                            p.DateModified = DateTime.Now;
-                            p.Save();
-                        }
-                    }  
-                }
-                if (commentType == "spam")
-                {
-                    foreach (var c in p.SpamComments)
-                    {
-                        if (!c.IsDeleted)
-                        {
-                            p.RemoveComment(c);
-                            p.DateModified = DateTime.Now;
-                            p.Save();
-                        }
-                    } 
-                }
-            }
+            if (commentType == "spam")
+                DeleteSpam();
+
             return true;
         }
 
@@ -293,7 +270,43 @@ namespace BlogEngine.Core.Data
             var website = comment.Website == null ? "" : comment.Website.ToString();
             return Services.Avatar.GetSrc(comment.Email, website);
         }
-        
+
+        // delete all pending comments
+        private void DeletePending()
+        {
+            var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
+            foreach (var p in posts.ToArray())
+            {
+                if (p.NotApprovedComments.Where(c => !c.IsSpam && !c.IsDeleted).Count() > 0)
+                {
+                    foreach (var c in p.NotApprovedComments)
+                    {
+                        if (!c.IsSpam && !c.IsDeleted) p.RemoveComment(c);
+                    }
+                    p.DateModified = DateTime.Now;
+                    p.Save();
+                }
+            }
+        }
+
+        // delete all spam comments
+        private void DeleteSpam()
+        {
+            var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
+            foreach (var p in posts.ToArray())
+            {
+                if (p.SpamComments.Where(c => !c.IsDeleted).Count() > 0)
+                {
+                    foreach (var c in p.SpamComments)
+                    {
+                        if (!c.IsDeleted) p.RemoveComment(c);
+                    }
+                    p.DateModified = DateTime.Now;
+                    p.Save();
+                }
+            }
+        }
+
         #endregion
     }
 }

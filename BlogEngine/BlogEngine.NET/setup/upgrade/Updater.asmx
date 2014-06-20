@@ -277,6 +277,8 @@ public class Updater  : WebService {
 
             ReplaceFilesInDir("bin");
 
+            ReplaceLabelsFile();
+
             CopyWebConfig();
 
             Directory.Delete(_root + "\\setup\\upgrade\\backup\\be", true);
@@ -304,6 +306,18 @@ public class Updater  : WebService {
         {
             ReplaceFile("web.config");
             return;
+        }
+    }
+
+    void ReplaceLabelsFile()
+    {
+        string sourceFile = _root + "\\setup\\upgrade\\backup\\be\\App_Data\\labels.txt";
+        string targetFile = _root + "\\App_Data\\labels.txt";
+
+        if (File.Exists(sourceFile) && File.Exists(targetFile))
+        {
+            File.Delete(targetFile);
+            File.Copy(sourceFile, targetFile);
         }
     }
 

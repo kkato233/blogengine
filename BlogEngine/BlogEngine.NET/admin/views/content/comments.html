@@ -10,7 +10,7 @@
         <div class="toolbar-grid clearfix">
             <div class="pull-left">
                 <button ng-disabled="itemsChecked() === false" ng-click="processChecked('delete')" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.doDelete}}</button>
-                <button ng-disabled="items.length === 0" ng-if="filter === 'pnd' || filter === 'spm'" ng-click="deleteAll()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.deleteAll}}</button>
+                <button ng-disabled="filteredItems.length === 0" ng-if="filter === 'pnd' || filter === 'spm'" ng-click="deleteAll()" class="btn btn-danger btn-sm"><i class="fa fa-times"></i>{{lbl.deleteAll}}</button>
                 <button ng-disabled="itemsChecked() === false" ng-if="filter != 'apr' && filter != 'png'" ng-click="processChecked('approve')" class="btn btn-success btn-sm"><i class="fa fa-check"></i>{{lbl.approve}}</button>
                 <button ng-disabled="itemsChecked() === false" ng-if="filter != 'spm' && filter != 'png'" ng-click="processChecked('unapprove')" class="btn btn-info btn-sm"><i class="fa fa-minus"></i>{{lbl.unapprove}}</button>
             </div>
