@@ -111,7 +111,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td><input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" /></td>
+                    <td><input type="checkbox" ng-disabled="item.OnlineVersion === ''" id="{{item.Id}}" data-ng-model="item.IsChecked" /></td>
                     <td class="table-item-avatar hmax768"><img ng-src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
                         <div class="text-ellipsis pull-left">
@@ -123,7 +123,7 @@
                     <td class="hmax768" data-ng-bind-html="item.Authors"></td>
                     <td><input type="checkbox" data-ng-model="item.Enabled" data-ng-disabled="true" /></td>
                     <td class="hmax992" data-ng-if="item.Location != 'G'">{{item.Priority}}</td>
-                    <td><a title="Uninstall package" href="" ng-click="uninstallPackage(item.Id)"><i class="fa fa-times"></i></a></td>
+                    <td><a ng-if="item.OnlineVersion != ''" title="Uninstall package" href="" ng-click="uninstallPackage(item.Id)"><i class="fa fa-times"></i></a>&nbsp;</td>
                 </tr>
                 <tr id="tr-spinner"><td colspan="8"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
             </tbody>

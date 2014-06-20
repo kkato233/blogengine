@@ -84,6 +84,7 @@ namespace BlogEngine.Core.Packaging
                     Title = x.Name,
                     Description = x.Description,
                     LocalVersion = x.Version,
+                    OnlineVersion = GetInstalledVersion(extId),
                     Authors = x.Author,
                     IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
                     Enabled = x.Enabled,
@@ -221,6 +222,8 @@ namespace BlogEngine.Core.Packaging
                 if (string.IsNullOrEmpty(p.Title))
                     p.Title = p.Id;
 
+                p.OnlineVersion = GetInstalledVersion(p.Id);
+
                 installedThemes.Add(p);
             }
             return installedThemes;
@@ -242,6 +245,8 @@ namespace BlogEngine.Core.Packaging
 
                 if (string.IsNullOrEmpty(p.Title))
                     p.Title = p.Id;
+
+                p.OnlineVersion = GetInstalledVersion(p.Id);
 
                 installedWidgets.Add(p);
             }
@@ -530,6 +535,12 @@ namespace BlogEngine.Core.Packaging
                     return "extension";
             }
             return "extension";
+        }
+
+        static string GetInstalledVersion(string pkgId)
+        {
+            var pkg = BlogService.InstalledFromGalleryPackages().Where(p => p.PackageId == pkgId).FirstOrDefault();
+            return pkg == null ? "" : pkg.Version;
         }
 
         #endregion

@@ -138,10 +138,18 @@
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
-            // for themes, do not check current
+            // for themes, do not check current or not installed from gallery
             else if (scope.themesPage) {
                 if (scope.pagedItems[scope.currentPage][i].Id != scope.activeTheme.Theme && 
-                    scope.pagedItems[scope.currentPage][i].Id != scope.activeTheme.Mobile) {
+                    scope.pagedItems[scope.currentPage][i].Id != scope.activeTheme.Mobile &&
+                    scope.pagedItems[scope.currentPage][i].OnlineVersion != '')
+                {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
+            // do not check packages not installed from gallery
+            else if (scope.fltr === 'extensions' || scope.fltr === 'widgets') {
+                if (scope.pagedItems[scope.currentPage][i].OnlineVersion != '') {
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
