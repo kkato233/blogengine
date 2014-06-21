@@ -48,6 +48,12 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
             angular.copy(data, $scope.items);
             gridInit($scope, $filter);
             rowSpinOff($scope.items);
+
+            var pkgId = getFromQueryString('pkgId');
+            if (pkgId != null) {
+                $scope.query = pkgId;
+                $scope.search();
+            }
         })
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
@@ -115,11 +121,24 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         processChecked("/api/packages/processchecked/", action, $scope, dataService);
     }
 
+    $scope.pkgLinkType = function (locVersion, galVersion) {
+        if (locVersion === '') {
+            return "download";
+        }
+        if (locVersion === galVersion) {
+            return "installed";
+        }
+        if (locVersion < galVersion) {
+            return "refresh";
+        }
+    }
+
     $scope.installPackage = function (pkgId) {
         spinOn();
         dataService.updateItem("/api/packages/install/" + pkgId, pkgId)
         .success(function (data) {
             toastr.success($rootScope.lbl.completed);
+            $scope.load();
             spinOff();
         })
         .error(function () {
@@ -133,8 +152,8 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         dataService.updateItem("/api/packages/uninstall/" + pkgId, pkgId)
         .success(function (data) {
             toastr.success($rootScope.lbl.completed);
-            spinOff();
             $scope.load();
+            spinOff();
         })
         .error(function () {
             toastr.error($rootScope.lbl.failed);

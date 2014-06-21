@@ -186,6 +186,10 @@ namespace BlogEngine.Core.Data
         {
             var packages = new List<Package>();
             Gallery.Load(packages);
+            foreach (var p in packages)
+            {
+                p.LocalVersion = BlogEngine.Core.Packaging.FileSystem.GetInstalledVersion(p.Id);
+            }
             return packages;
         }
 

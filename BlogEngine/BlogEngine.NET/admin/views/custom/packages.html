@@ -133,7 +133,7 @@
             <div class="pull-right filterbar flt-r clearfix">
                 <div class="active-flt-r"></div>
                 <div class="navbar-left search-grid pull-right">
-                    <input type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}" />
+                    <input id="txtSearch" type="text" ng-model="query" ng-change="search()" class="input-sm form-control pull-right" placeholder="{{lbl.search}}" />
                 </div>
             </div>
         </div>
@@ -142,11 +142,11 @@
                 <tr>
                     <th><input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" /></th>
                     <th>&nbsp;</th>
-                    <th class="table-item-title table-item-w60">{{lbl.title}} <a data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
-                    <th class="hmax768">{{lbl.date}}</th>
+                    <th class="table-item-title table-item-w50">{{lbl.title}} <a data-ng-click="sort_by('Title',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th class="hmax768">{{lbl.date}} <a data-ng-click="sort_by('LastUpdated',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
-                    <th class="hmax768">{{lbl.downloads}}</th>
-                    <th class="hmax768">{{lbl.author}}</th>
+                    <th class="hmax768">{{lbl.downloads}} <a data-ng-click="sort_by('DownloadCount',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th class="hmax768">{{lbl.author}} <a data-ng-click="sort_by('Authors',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.install}}</th>
                 </tr>
             </thead>
@@ -162,13 +162,17 @@
                             <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> 
                             <span class="item-description hmax480">{{item.Description}}</span> 
                         </div>
-                        <a title="{{item.Title}}" class="external-link pull-right" target="_new" href="http://dnbegallery.org/cms/List/{{item.PackageType}}s/{{item.Id}}"><i class="fa fa-external-link"></i></a>
+                        <a ng-if="item.Website != null" title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.Website}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td>{{item.LastUpdated.substring(0,10)}}</td>
                     <td>{{item.OnlineVersion}}</td>
                     <td>{{item.DownloadCount}}</td>
                     <td class="hmax768"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
-                    <td><a title="Install package" href="" ng-click="installPackage(item.Id)"><i class="fa fa-download"></i></a></td>
+                    <td>
+                        <a ng-if="pkgLinkType(item.LocalVersion, item.OnlineVersion) === 'download'" title="Install package" href="" ng-click="installPackage(item.Id)"><i class="fa fa-download"></i></a>
+                        <a ng-if="pkgLinkType(item.LocalVersion, item.OnlineVersion) === 'refresh'" title="Update package" href="" ng-click="installPackage(item.Id)"><i class="fa fa-refresh" style="color:red"></i></a>
+                        <span ng-if="pkgLinkType(item.LocalVersion, item.OnlineVersion) === 'installed'"><i class="fa fa-check" style="color:green"></i></span>
+                    </td>
                 </tr>
                 <tr id="tr-spinner"><td colspan="8"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
             </tbody>

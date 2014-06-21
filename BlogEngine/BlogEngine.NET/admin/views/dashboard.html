@@ -124,13 +124,13 @@
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseSix">
                         <li class="list-group-item clearfix" data-ng-repeat="pkg in packages">
                             <div class="pull-left">
-                                <a href="{{pkg.PackageUrl}}" target="_blank"> 
+                                <a href="#/custom/packages?pkgId={{pkg.Id}}">
                                     <img ng-if="pkg.IconUrl.length > 0" class="img-gallery" ng-src="{{pkg.IconUrl}}" />
                                     <img ng-if="pkg.IconUrl.length == 0" class="img-gallery" src="../pics/pkg.png" />
                                 </a>
                             </div>
                             <div class="pull-left item-info-gal">
-                                <a href="{{pkg.PackageUrl}}" target="_blank">{{pkg.Title}}</a>
+                                <a href="#/custom/packages?pkgId={{pkg.Id}}">{{pkg.Title}}</a>
                                 <span class="text-ellipsis">{{pkg.Description}}</span>
                             </div>
                         </li>

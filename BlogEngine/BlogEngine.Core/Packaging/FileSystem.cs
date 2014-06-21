@@ -537,7 +537,7 @@ namespace BlogEngine.Core.Packaging
             return "extension";
         }
 
-        static string GetInstalledVersion(string pkgId)
+        public static string GetInstalledVersion(string pkgId)
         {
             var pkg = BlogService.InstalledFromGalleryPackages().Where(p => p.PackageId == pkgId).FirstOrDefault();
             return pkg == null ? "" : pkg.Version;

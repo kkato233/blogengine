@@ -128,7 +128,8 @@
         for (var i = 0; i < scope.pagedItems[scope.currentPage].length; i++) {
             // don't check comments that have child comments
             if (scope.commentsPage) {
-                if (scope.pagedItems[scope.currentPage][i].HasChildren === false) {
+                if (scope.pagedItems[scope.currentPage][i].HasChildren === false &&
+                    scope.pagedItems[scope.currentPage][i].Email != 'pingback') {
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
