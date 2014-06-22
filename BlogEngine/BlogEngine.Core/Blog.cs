@@ -446,7 +446,7 @@ namespace BlogEngine.Core
 
         private static void SortBlogs()
         {
-            Blogs.Sort();
+            blogs.Sort();
         }
 
         /// <summary>
