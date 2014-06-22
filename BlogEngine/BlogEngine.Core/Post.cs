@@ -205,6 +205,16 @@
         public static event EventHandler<ServingEventArgs> Serving;
 
         /// <summary>
+        ///     Occurs when the post is being published.
+        /// </summary>
+        public static event EventHandler<CancelEventArgs> Publishing;
+
+        /// <summary>
+        ///     Occurs when a post is published.
+        /// </summary>
+        public static event EventHandler<EventArgs> Published;
+
+        /// <summary>
         ///     Occurs before a new comment is updated.
         /// </summary>
         public static event EventHandler<CancelEventArgs> UpdatingComment;
@@ -1401,6 +1411,29 @@
             }
         }
 
+        /// <summary>
+        /// When post is publishing
+        /// </summary>
+        /// <param name="e">Event arguments</param>
+        public void OnPublishing(CancelEventArgs e)
+        {
+            if (Publishing != null)
+            {
+                Publishing(this, e);
+            }
+        }
+
+        /// <summary>
+        /// On post published
+        /// </summary>
+        protected virtual void OnPublished()
+        {
+            if (Published != null)
+            {
+                Published(this, EventArgs.Empty);
+            }
+        }
+
         #endregion
 
         #endregion
@@ -1474,6 +1507,16 @@
         /// </summary>
         protected override void DataInsert()
         {
+            if (this.isPublished)
+            {
+                var e = new CancelEventArgs();
+                this.OnPublishing(e);
+                if (e.Cancel) 
+                {
+                    this.isPublished = false;
+                }
+            }
+
             BlogService.InsertPost(this);
 
             if (!this.New)
@@ -1484,6 +1527,11 @@
             Posts.Add(this);
             Posts.Sort();
             AddRelations(Posts);
+
+            if (this.isPublished)
+            {
+                this.OnPublished();
+            }
         }
 
         /// <summary>
@@ -1505,10 +1553,38 @@
         /// </summary>
         protected override void DataUpdate()
         {
+            if (AboutToPublishPost())
+            {
+                var e = new CancelEventArgs();
+                this.OnPublishing(e);
+                if (e.Cancel)
+                {
+                    this.isPublished = false;
+                }
+            }
+
             BlogService.UpdatePost(this);
             Posts.Sort();
             AddRelations(Posts);
             this.ResetNestedComments();
+
+            if (this.isPublished)
+            {
+                this.OnPublished();
+            }
+        }
+
+        bool AboutToPublishPost()
+        {
+            if (this.isPublished)
+            {
+                var p = DataSelect(this.Id);
+                if (p != null && !p.isPublished)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
