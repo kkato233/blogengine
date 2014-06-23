@@ -493,10 +493,10 @@
     <Content Include="setup\upgrade\bootstrap.min.css" />
     <Content Include="setup\upgrade\bootstrap.min.js" />
     <Content Include="setup\upgrade\jquery-2.0.3.min.js" />
+    <Content Include="setup\upgrade\setup.txt" />
     <Content Include="setup\upgrade\spinner.gif" />
     <Content Include="setup\upgrade\Updater.asmx" />
     <Content Include="setup\upgrade\Updater.js" />
-    <Content Include="setup\upgrade\version.txt" />
     <Content Include="setup\VistaDB\BlogEngine.vdb3" />
     <Content Include="setup\VistaDB\BlogEngine.vdb4" />
     <Content Include="setup\VistaDB\VistaDB.NET_4.0_Web.Config" />

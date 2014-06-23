@@ -10,9 +10,10 @@ namespace BlogEngine.Core.Data.Services
     /// </summary>
     public class Updater
     {
-        private string _versionsTxt = "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/versions.txt";
-        private string _updateVersion = "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/version.txt";
-        private string _latestSetup = "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/setup.zip";
+        private static string _upgradeReleases = "http://dnbegallery.org/v01/Releases/"; // "http://dnbegallery.org/beupgrade/file.axd?file=/Releases/";
+        private string _versionsTxt = _upgradeReleases + "versions.txt";
+        private string _setupTxt = _upgradeReleases + "setup.txt";
+        private string _latestSetup = _upgradeReleases + "setup.zip";
         private string _root = System.Web.Hosting.HostingEnvironment.MapPath("~/");
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace BlogEngine.Core.Data.Services
 
         void UpdateSetupFolder()
         {
-            var localVersionPath = _root + "\\setup\\upgrade\\version.txt";
+            var localVersionPath = _root + "\\setup\\upgrade\\setup.txt";
 
             if (!File.Exists(localVersionPath))
                 return;
@@ -68,7 +69,7 @@ namespace BlogEngine.Core.Data.Services
                 var localVersion = File.ReadAllText(localVersionPath);
 
                 WebClient client = new WebClient();
-                Stream stream = client.OpenRead(_updateVersion);
+                Stream stream = client.OpenRead(_setupTxt);
                 StreamReader reader = new StreamReader(stream);
 
                 var remoteVersion = reader.ReadToEnd();
