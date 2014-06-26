@@ -1324,7 +1324,7 @@
         /// </summary>
         public string GalleryFeedUrl
         {
-            get { return string.IsNullOrEmpty(_galleryFeedUrl) ? "http://dnbegallery.org/v01/nuget" : _galleryFeedUrl; }
+            get { return string.IsNullOrEmpty(_galleryFeedUrl) ? "http://dnbe.net/v01/nuget" : _galleryFeedUrl; }
             set { _galleryFeedUrl = value; }
         }
 

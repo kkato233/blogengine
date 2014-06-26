@@ -81,7 +81,7 @@
   <enablepingbackreceive>True</enablepingbackreceive>
   <showlivepreview>True</showlivepreview>
   <enablequicknotes>True</enablequicknotes>
-  <galleryfeedurl>http://dnbegallery.org/v01/nuget</galleryfeedurl>
+  <galleryfeedurl>http://dnbe.net/v01/nuget</galleryfeedurl>
   <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <enablerelatedposts>True</enablerelatedposts>

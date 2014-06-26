@@ -20,7 +20,7 @@ public class GalleryFeedsController : ApiController
         {
             var feeds = new List<SelectOption>();
             var feedSets = ExtensionManager.GetSettings(_metaExtension, _galleryFeeds);
-            var feedService = "http://dnbegallery.org/v01/nuget";
+            var feedService = "http://dnbe.net/v01/nuget";
 
             if (!string.IsNullOrEmpty(BlogSettings.Instance.GalleryFeedUrl))
                 feedService = BlogSettings.Instance.GalleryFeedUrl;
@@ -31,7 +31,7 @@ public class GalleryFeedsController : ApiController
                 settings.AddParameter("OptionName", "Title", 150, true, true);
                 settings.AddParameter("OptionValue");
 
-                settings.AddValues(new[] { "DnbeGallery.org", feedService });
+                settings.AddValues(new[] { "dnbe.net", feedService });
 
                 feedSets = ExtensionManager.InitSettings(_metaExtension, settings);
                 ExtensionManager.SaveSettings(_metaExtension, feedSets);
