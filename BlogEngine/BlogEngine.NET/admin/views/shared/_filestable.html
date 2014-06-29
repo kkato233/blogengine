@@ -4,29 +4,27 @@
             <th>
                 <input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" />
             </th>
-            <th class="table-item-title table-item-w60">{{lbl.name}} <a data-ng-click="sort_by('TagName',$event)"><i class="fa fa-sort"></i></a></th>
-            <th class="hmax768">{{lbl.size}}</th>
-            <th class="hmax768">{{lbl.createdOn}}</th>
+            <th class="table-item-title table-item-w70">{{lbl.name}} <a data-ng-click="sort_by('TagName',$event)"><i class="fa fa-sort"></i></a></th>
+            <th>{{lbl.size}}</th>
+            <th class="hmax480">{{lbl.createdOn}}</th>
         </tr>
     </thead>
-    <tbody>
-        <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-            <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
-            <td class="table-item-title">
-                <span ng-if="item.FileType === 0">
-                    <a title="{{item.Name}}" href="" ng-click="load(item.FullPath)" class="text-ellipsis pull-left"><i class="fa fa-folder"></i> {{item.Name}}</a>
-                </span>
-                <span ng-if="item.FileType != 0">
-                    <!--<a title="{{item.Name}}" href="" ng-click="load(item.FullPath)" class="text-ellipsis pull-left"><i class="fa fa-file"></i> {{item.Name}}</a>-->
-                    <i class="fa fa-file"></i> {{item.Name}}
-                </span>
-            </td>
-            <td>{{item.FileSize}}</td>
-            <td>{{item.Created}}</td>
-        </tr>
-        <tr id="tr-spinner"><td colspan="4"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
-    </tbody>
+    <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+        <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
+        <td class="table-item-title  table-item-w60">
+            <span ng-if="item.FileType === 0">
+                <a title="{{item.Name}}" href="" ng-click="load(item.FullPath)" class="text-ellipsis table-item-folder pull-left"><i class="fa fa-folder"></i>{{item.Name}}</a>
+            </span>
+            <span ng-if="item.FileType != 0">
+                <i class="fa fa-file"></i> {{item.Name}}
+            </span>
+        </td>
+        <td>{{item.FileSize}}</td>
+        <td class="hmax480">{{item.Created}}</td>
+    </tr>
+    <tr id="tr-spinner"><td colspan="4"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
 </table>
+
 <div class="text-right pagination-wrapper">
     <div class="pull-left">
         <button class="btn btn-default" style="border:none;" disabled="disabled">

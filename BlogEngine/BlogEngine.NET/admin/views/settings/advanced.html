@@ -10,12 +10,12 @@
                 <button data-ng-click="save()" class="btn btn-success btn-header pull-right" type="button"><i class="fa fa-save"></i>{{lbl.save}}</button>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col col-sm-6">
                     <div class="well clearfix">
                         <div class="form-group">
                             <label class="control-label" for="txtName"><strong>{{lbl.handleWwwSubdomain}}</strong></label>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col col-md-4">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" value="remove" data-ng-model="settings.HandleWwwSubdomain" />
@@ -23,7 +23,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col col-md-4">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" value="add" data-ng-model="settings.HandleWwwSubdomain" />
@@ -31,7 +31,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col col-md-4">
                                     <div class="radio">
                                         <label>
                                             <input type="radio" value="" data-ng-model="settings.HandleWwwSubdomain" />
@@ -42,42 +42,39 @@
                             </div>
                         </div>
                         <hr />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableHttpCompression" data-ng-model="settings.EnableHttpCompression" />
-                                        {{lbl.enableHttpCompression}}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckCompressWebResource" data-ng-model="settings.CompressWebResource" />
-                                        {{lbl.compressWebResource}}
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableOpenSearch" data-ng-model="settings.EnableOpenSearch" />
-                                        {{lbl.enableOpenSearch}}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckRequireSslForMetaWeblogApi" data-ng-model="settings.RequireSslForMetaWeblogApi" />
-                                        {{lbl.requireSslForMetaWeblogApi}}
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="ckEnableErrorLogging" data-ng-model="settings.EnableErrorLogging" />
-                                        {{lbl.enableErrorLogging}}
-                                    </label>
-                                </div>
-                            </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableHttpCompression" data-ng-model="settings.EnableHttpCompression" />
+                                {{lbl.enableHttpCompression}}
+                            </label>
                         </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckCompressWebResource" data-ng-model="settings.CompressWebResource" />
+                                {{lbl.compressWebResource}}
+                            </label>
+                        </div>
+
+
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableOpenSearch" data-ng-model="settings.EnableOpenSearch" />
+                                {{lbl.enableOpenSearch}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckRequireSslForMetaWeblogApi" data-ng-model="settings.RequireSslForMetaWeblogApi" />
+                                {{lbl.requireSslForMetaWeblogApi}}
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="ckEnableErrorLogging" data-ng-model="settings.EnableErrorLogging" />
+                                {{lbl.enableErrorLogging}}
+                            </label>
+                        </div>
+
                         <!--<hr />
                         <div class="form-group" ng-if="SiteVars.IsPrimary">
                             <label class="control-label" for="txtGalleryFeedUrl">{{lbl.galleryFeedUrl}}</label>
@@ -91,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col col-sm-6">
                     <div class="well">
                         <h4>{{lbl.securitySettings}}</h4>
                         <hr />

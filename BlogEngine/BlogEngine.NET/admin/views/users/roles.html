@@ -19,13 +19,13 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading"><span>{{item.Title}}</span></div>
                                     <div class="panel-body">
-                                        <div class="col-sm-6" data-ng-repeat="p in item.Permissions"><label><input type="checkbox" data-ng-model="p.IsChecked" /> {{p.Title}}</label></div>
+                                        <div class="col col-sm-6" data-ng-repeat="p in item.Permissions"><label><input type="checkbox" data-ng-model="p.IsChecked" /> {{p.Title}}</label></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button data-ng-click="save()" class="btn btn-primary btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                            <button data-ng-click="save()" class="btn btn-success btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                         </div>
                     </div>

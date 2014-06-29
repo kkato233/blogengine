@@ -13,13 +13,13 @@
                         <div class="form-horizontal clearfix">
                             <div class="pkg-common">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col col-md-3">
                                         <img ng-if="!package.PackageUrl" class="pkg-img" width="100" ng-src="{{package.IconUrl}}" alt="Package image" title="" />
                                         <a ng-if="package.PackageUrl" href="{{package.PackageUrl}}" target="_new">
                                             <img class="pkg-img" width="100" ng-src="{{package.IconUrl}}" alt="Package image" title="" />
                                         </a>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col col-md-9">
                                         <div>
                                             <span>{{lbl.description}}: </span>
                                             <span ng-bind-html="package.Description"></span>
@@ -48,14 +48,14 @@
                             <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">
                                 <label class="control-label  col-md-4" for="txtSlug">{{item.Key}}</label>
-                                <div class="col-md-8">
+                                <div class="col col-md-8">
                                     <input type="text" class="form-control" id="txtSlug" data-ng-model="item.Value" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button data-ng-if="customFields.length > 0" data-ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                        <button data-ng-if="customFields.length > 0" data-ng-click="save()" class="btn btn-success pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                     </div>
                 </div>
