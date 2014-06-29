@@ -10,7 +10,7 @@
                     </div>
                     <div class="modal-body modal-logfile">
                         <div class="form-horizontal clearfix">
-                            <div class="col-md-12" data-ng-repeat="log in logItems">
+                            <div class="col col-md-12" data-ng-repeat="log in logItems">
                                 <div ng-bind-html="log.OptionValue"></div>
                                 <hr />
                             </div>
@@ -23,16 +23,14 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div id="versionMsg" class="col-sm-12">
-                <div class="alert alert-dismissable alert-info">
+        <div class="row view-dashboard">
+            <div class="col col-md-12" id="versionMsg">
+                <div class="alert alert-info">
                     <span><i class="fa fa-info-circle"></i> New BlogEngine.NET version <span id="vNumber"></span> available for upgrade</span>
                     <button id="btnRun" class="btn btn-primary btn-xs pull-right" onclick="window.location.assign(SiteVars.RelativeWebRoot + 'setup/upgrade')" type="button">Upgrade</button>
                 </div>
             </div>
-        </div>
-        <div class="row view-dashboard">
-            <div class="col-xs-6 col-md-4">
+            <div class="col col-xs-12 col-sm-6 col-md-4">
                 <div class="panel panel-default panel-special-link">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -62,7 +60,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-4">
+            <div class="col col-xs-12 col-sm-6 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -113,8 +111,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-md-4">
+            <div class="col col-xs-12 col-sm-6 col-md-4">
                 <div data-ng-if="security.showTabCustom" class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">

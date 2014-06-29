@@ -14,19 +14,19 @@
                             <div class="form-horizontal clearfix">
                                 <div class="form-group">
                                     <label class="control-label col-md-4" for="txtSlug">{{lbl.title}}</label>
-                                    <div class="col-md-8">
+                                    <div class="col col-md-8">
                                         <input type="text" class="form-control" id="txtSlug" name="txtSlug" data-ng-model="category.Title" focus-me="focusInput" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-4" for="txtExcerpt">{{lbl.description}}</label>
-                                    <div class="col-md-8">
+                                    <div class="col col-md-8">
                                         <textarea class="form-control" id="txtExcerpt" name="txtExcerpt" data-ng-model="category.Description"> </textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-4" for="selAuthors">{{lbl.parent}}</label>
-                                    <div class="col-md-8">
+                                    <div class="col col-md-8">
                                         <select id="selAuthors" class="form-control" data-ng-options="o.OptionValue as o.OptionName for o in lookups.CategoryList" data-ng-model="category.Parent.OptionValue">
                                             <option value="">-- {{lbl.select.toLowerCase()}} --</option>
                                         </select>
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                            <button ng-click="save()" class="btn btn-success pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                         </div>
                     </div>

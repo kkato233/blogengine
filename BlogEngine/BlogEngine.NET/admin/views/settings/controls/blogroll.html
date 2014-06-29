@@ -1,7 +1,7 @@
 ﻿<div id="wrap">
     <style>
-        #cblXfn td { padding: 0 5px }
-        #cblXfn label { margin-left: 5px }
+        #cblXfn td { padding: 0 5px; }
+        #cblXfn label { margin-left: 5px; }
     </style>
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div data-ng-include src="'views/shared/_navsettings.html'"></div>
@@ -17,22 +17,31 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-horizontal clearfix">
-                                <div>
-                                    <label class="control-label" for="txtTitle">{{lbl.title}}</label>
-                                    <input type="text" class="form-control" id="txtTitle" name="txtTitle" data-ng-model="editItem.Title" focus-me="focusInput" />
+                                <div class="form-group">
+                                    <label class="control-label col col-md-2" for="txtTitle">{{lbl.title}}</label>
+                                    <div class="col col-md-10">
+                                        <input type="text" class="form-control" id="txtTitle" name="txtTitle" data-ng-model="editItem.Title" focus-me="focusInput" />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="control-label" for="txtDescription">{{lbl.description}}</label>
-                                    <input type="text" class="form-control" id="txtDescription" name="txtDescription" data-ng-model="editItem.Description" />
+                                <div class="form-group">
+                                    <label class="control-label col col-md-2" for="txtDescription">{{lbl.description}}</label>
+                                    <div class="col col-md-10">
+                                        <input type="text" class="form-control" id="txtDescription" name="txtDescription" data-ng-model="editItem.Description" />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="control-label" for="txtWebsite">{{lbl.website}}</label>
-                                    <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" data-ng-model="editItem.BlogUrl" />
+                                <div class="form-group">
+                                    <label class="control-label col col-md-2" for="txtWebsite">{{lbl.website}}</label>
+                                    <div class="col col-md-10">
+                                        <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" data-ng-model="editItem.BlogUrl" />
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="control-label" for="txtFeedUrl">{{lbl.url}}</label>
-                                    <input type="text" class="form-control" id="txtFeedUrl" name="txtFeedUrl" data-ng-model="editItem.FeedUrl" />
+                                <div class="form-group">
+                                    <label class="control-label col col-md-2" for="txtFeedUrl">{{lbl.url}}</label>
+                                    <div class="col col-md-10">
+                                        <input type="text" class="form-control" id="txtFeedUrl" name="txtFeedUrl" data-ng-model="editItem.FeedUrl" />
+                                    </div>
                                 </div>
+                                <hr />
                                 <div>
                                     <label class="control-label">XFN tag</label>
                                     <table id="cblXfn" class="nowidth" border="0">
@@ -67,7 +76,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button data-ng-click="save()" class="btn btn-primary pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                            <button data-ng-click="save()" class="btn btn-success pull-right btn-tabkey"><i class="fa fa-save"></i>{{lbl.save}}</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
                         </div>
                     </div>
@@ -93,7 +102,7 @@
                         <th>
                             <input type="checkbox" id="chkAll" data-ng-click="checkAll($event)" />
                         </th>
-                        <th class="table-item-title hmax768">{{lbl.title}}</th>
+                        <th class="table-item-title ">{{lbl.title}}</th>
                         <th class="hmax768">{{lbl.description}}</th>
                         <th class="hmax768">XFN <a href="http://gmpg.org/xfn/intro" title="XFN" target="_new"><i class="fa fa-info-circle"></i></a></th>
                     </tr>
@@ -105,8 +114,8 @@
                             <a title="{{item.Title}}" href="" ng-click="modalEdit(item.Id)" class="text-ellipsis pull-left">{{item.Title}}</a>
                             <a title="{{item.FeedUrl}}" class="external-link pull-right" target="_new" href="{{item.FeedUrl}}"><i class="fa fa-external-link"></i></a>
                         </td>
-                        <td><span class="pull-left">{{item.Description}}</span></td>
-                        <td><span class="pull-left">{{item.Xfn}}</span></td>
+                        <td class="hmax768"><span class="pull-left">{{item.Description}}</span></td>
+                        <td class="hmax768"><span class="pull-left">{{item.Xfn}}</span></td>
                     </tr>
                     <tr id="tr-spinner"><td colspan="4"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
                 </tbody>

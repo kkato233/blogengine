@@ -14,12 +14,12 @@
                 <div data-ng-include src="'views/shared/_settingcomments.html'"></div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col col-sm-6">
                     <div class="well">
                         <h4>{{lbl.basic}}</h4>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckIsCommentsEnabled" data-ng-model="settings.IsCommentsEnabled" />
@@ -33,7 +33,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckIsCommentNestingEnabled" data-ng-model="settings.IsCommentNestingEnabled" data-ng-disabled="settings.IsCommentsEnabled == false" />
@@ -52,19 +52,19 @@
                         <div class="form-horizontal">
                             <!--<div class="form-group">
                                 <label class="control-label col-md-4" for="selCommentsPerPage">{{lbl.commentsPerPage}}</label>
-                                <div class="col-md-8">
+                                <div class="col col-md-8">
                                     <select class="form-control" id="selCommentsPerPage" data-ng-options="o.OptionName for o in commentsPerPageOptions" data-ng-model="selCommentsPerPage"></select>
                                 </div>
                             </div>-->
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="closeDaysOptions">{{lbl.closeCommetsAfter}}</label>
-                                <div class="col-md-8">
+                                <div class="col col-md-8">
                                     <select class="form-control" id="closeDaysOptions" data-ng-options="o.OptionName for o in closeDaysOptions" data-ng-model="selCloseDays" data-ng-disabled="settings.IsCommentsEnabled == false"></select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-4" for="txtThumbnailServiceApi">{{lbl.thumbnailServiceProvider}}</label>
-                                <div class="col-md-8">
+                                <div class="col col-md-8">
                                     <input type="text" class="form-control ltr-dir" id="txtThumbnailServiceApi" data-ng-model="settings.ThumbnailServiceApi" placeholder="http://www.robothumb.com/src/?url={0}" />
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                         <hr />
                         <label class="control-label"><strong>{{lbl.enableTrackbacks}}</strong></label>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckEnablePingBackSend" data-ng-model="settings.EnablePingBackSend" />
@@ -106,7 +106,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckEnablePingBackReceive" data-ng-model="settings.EnablePingBackReceive" />
@@ -118,7 +118,7 @@
                         <hr />
                         <label class="control-label"><strong>{{lbl.enablePingbacks}}</strong></label>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckEnableTrackBackSend" data-ng-model="settings.EnableTrackBackSend" />
@@ -126,7 +126,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col col-md-6">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckEnableTrackBackReceive" data-ng-model="settings.EnableTrackBackReceive" />
@@ -137,12 +137,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col col-sm-6">
                     <div class="well clearfix">
                         <h4>{{lbl.avatars}}</h4>
                         <hr />
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col col-sm-4">
                                 <div>
                                     <label>
                                         <img src="{{SiteVars.RelativeWebRoot}}content/images/avatars/monsterid.png" class="img-thumbnail" alt="MonsterID" />
@@ -165,7 +165,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col col-sm-4">
                                 <div>
                                     <label>
                                         <img src="{{SiteVars.RelativeWebRoot}}content/images/avatars/retro.png" class="img-thumbnail" alt="Retro" />
@@ -188,7 +188,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col col-sm-4">
                                 <label>
                                     <img src="{{SiteVars.RelativeWebRoot}}content/images/avatars/blank.png" class="img-thumbnail" alt="Blank" />
                                     <input type="radio" value="blank" data-ng-model="settings.Avatar" />
