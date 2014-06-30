@@ -2,8 +2,6 @@
     $scope.items = [];
     $scope.security = $rootScope.security;
     $scope.userIdentity = {};
-    $scope.check1 = {};
-    $scope.check2 = {};
 
     $scope.load = function () {
         if (!$scope.security.canManageUsers == true) {
@@ -12,7 +10,6 @@
         spinOn();
         dataService.getItems('/api/tools/check1')
         .success(function (data) {
-            //toastr.success(data);
             $scope.userIdentity = data.replace(/["']/g, "");
             spinOff();
         })
@@ -27,6 +24,10 @@
             window.location.replace("../Account/Login.aspx");
         }
         $("#msgList").empty();
+
+        dataService.getItems('/api/tools/trust')
+            .success(function (data) { $scope.addMsg(data); })
+            .error(function (data) { toastr.error($rootScope.lbl.Error); });
 
         dataService.getItems('/api/tools/data')
             .success(function (data) { $scope.addMsg(data); })

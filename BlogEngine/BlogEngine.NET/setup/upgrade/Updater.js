@@ -24,7 +24,7 @@ function Check() {
     else {
         $("#frm").hide();
         $("#btnRun").hide();
-        $("h2").html("There is nothing to upgrade");
+        $("h2").html("Looks like you already running latest version!");
     }
 }
 
@@ -210,4 +210,34 @@ function ShowError(item, msg) {
 
 function goHome() {
     window.location.href = AppRoot;
+}
+
+function CheckPermissions() {
+    $("#msgList").empty();
+    CheckPermission("trust");
+    CheckPermission("root");
+    CheckPermission("data");
+    CheckPermission("Custom");
+}
+
+function CheckPermission(p) {
+    $.ajax({
+        url: AppRoot + "api/tools/" + p,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            addMsg(result);
+        }
+    });
+}
+
+addMsg = function (data) {
+    if (data.success === true) {
+        $("#msgList").append('<div class="alert alert-dismissable alert-success"><span><i class="fa fa-check-circle"></i> ' + data.msg + '</span></div>');
+    }
+    else {
+        $("#msgList").append('<div class="alert alert-dismissable alert-danger"><span><i class="fa fa-exclamation-triangle"></i> ' + data.msg + '</span></div>');
+    }
 }

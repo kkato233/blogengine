@@ -55,15 +55,19 @@
         <div class="page-header clearfix">
             <h2 class="page-title text-center">BlogEngine.NET : upgrade from @curVersion to <span id="spnNewVersion"></span></h2>
         </div>
+        <div id="msg-warning" class="alert alert-dismissable alert-danger">
+            <h4 style="margin-left: 26px">Before you begin</h4>
+            <ul>
+                <li>Make sure you backup your site before upgrade</li>
+                <li>It is recommended to run upgrade on secondary IIS and then move upgraded site to production</li>
+            </ul>
+        </div>
+        <div class="alert alert-dismissable alert-info">
+            <span>Identity: @System.Security.Principal.WindowsIdentity.GetCurrent().Name</span>
+            <button id="btnCheck" class="btn btn-primary btn-small pull-right" style="margin-top: -7px" onclick="CheckPermissions()" type="button">Check permissions</button>
+        </div>
+        <div id="msgList"></div>
         <div id="frm">
-            <div id="msg-warning" class="alert alert-dismissable alert-danger">
-                <h4 style="margin-left: 26px">Before you begin</h4>
-                <ul>
-                    <li>Make sure you backup your site before upgrade</li>
-                    <li>Application (@System.Security.Principal.WindowsIdentity.GetCurrent().Name) needs write permission on all application files</li>
-                    <li>It is recommended to run upgrade on secondary IIS and then move upgraded site to production</li>
-                </ul>
-            </div>
             <div id="step1" class="alert alert-dismissable alert-info">
                 <strong><span class="nu-up">1</span>  Download latest version (depending on your connection, might take a while)</strong>
                 <img id="spin1" src="~/setup/upgrade/spinner.gif" class="pull-right" />
