@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.UI.HtmlControls;
@@ -22,6 +23,20 @@ public class ToolsController : ApiController
                 result = string.Format("ASP.NET application Identity is: {0}", WindowsIdentity.GetCurrent().Name);
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
+            else if (id == "trust")
+            {
+                var trust = GetCurrentTrustLevel();
+                if (trust == AspNetHostingPermissionLevel.High || trust == AspNetHostingPermissionLevel.Unrestricted)
+                {
+                    var data = new { success = true, msg = "Trust level: " + trust.ToString() };
+                    return Request.CreateResponse(HttpStatusCode.OK, data);
+                }
+                else
+                {
+                    var data = new { success = false, msg = "Trust level: " + trust.ToString() };
+                    return Request.CreateResponse(HttpStatusCode.OK, data);
+                }
+            }
             else
             {
                 string fileName = GetFileName(id);
@@ -29,12 +44,12 @@ public class ToolsController : ApiController
 
                 if (string.IsNullOrEmpty(processed))
                 {
-                    var data = new { success = true, msg = "Can write and delete file " + fileName };
+                    var data = new { success = true, msg = "Can create and delete file " + fileName };
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }
                 else
                 {
-                    var data = new { success = false, msg = "Error writing file " + fileName };
+                    var data = new { success = false, msg = "Error creating file " + fileName };
                     return Request.CreateResponse(HttpStatusCode.OK, data);
                 }             
             }
@@ -108,6 +123,30 @@ public class ToolsController : ApiController
             return HostingEnvironment.MapPath("~/App_Data/tmp.txt");
 
         return HostingEnvironment.MapPath(string.Format("~/{0}/tmp.txt", dir));
+    }
+
+    AspNetHostingPermissionLevel GetCurrentTrustLevel()
+    {
+        foreach (AspNetHostingPermissionLevel trustLevel in new AspNetHostingPermissionLevel[] 
+        {
+            AspNetHostingPermissionLevel.Unrestricted,
+            AspNetHostingPermissionLevel.High,
+            AspNetHostingPermissionLevel.Medium,
+            AspNetHostingPermissionLevel.Low,
+            AspNetHostingPermissionLevel.Minimal 
+        })
+        {
+            try
+            {
+                new AspNetHostingPermission(trustLevel).Demand();
+            }
+            catch (System.Security.SecurityException)
+            {
+                continue;
+            }
+            return trustLevel;
+        }
+        return AspNetHostingPermissionLevel.None;
     }
 
     #endregion
