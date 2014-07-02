@@ -126,16 +126,15 @@ namespace Recaptcha
                 HttpUtility.UrlEncode(this.Response));
 
             var formbytes = Encoding.ASCII.GetBytes(formdata);
-
-            using (var requestStream = request.GetRequestStream())
-            {
-                requestStream.Write(formbytes, 0, formbytes.Length);
-            }
-
-            string[] results;
-
             try
             {
+                using (var requestStream = request.GetRequestStream())
+                {
+                    requestStream.Write(formbytes, 0, formbytes.Length);
+                }
+
+                string[] results;
+
                 using (var httpResponse = request.GetResponse())
                 {
                     var httpResponseStream = httpResponse.GetResponseStream();
@@ -149,20 +148,19 @@ namespace Recaptcha
                         results = readStream.ReadToEnd().Split();
                     }
                 }
+                switch (results[0])
+                {
+                    case "true":
+                        return RecaptchaResponse.Valid;
+                    case "false":
+                        return new RecaptchaResponse(false, results[1]);
+                    default:
+                        throw new InvalidProgramException("Unknown status response.");
+                }
             }
             catch (WebException)
             {
                 return RecaptchaResponse.RecaptchaNotReachable;
-            }
-
-            switch (results[0])
-            {
-                case "true":
-                    return RecaptchaResponse.Valid;
-                case "false":
-                    return new RecaptchaResponse(false, results[1]);
-                default:
-                    throw new InvalidProgramException("Unknown status response.");
             }
         }
 

@@ -96,7 +96,7 @@
   <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>
   <commentreportmistakes>False</commentreportmistakes>
   <numberofrecentposts>10</numberofrecentposts>
-  <selfregistrationinitialrole>Select</selfregistrationinitialrole>
+  <selfregistrationinitialrole>Editors</selfregistrationinitialrole>
   <enableselfregistration>False</enableselfregistration>
   <blogrollupdateminutes>60</blogrollupdateminutes>
   <securityvalidationkey>ede308e723ae42aab289b04350133355accaa0f0da9743e7a8529a0cbbf5bceee5bcafc4eac741f68d2d63d80e21bf8e</securityvalidationkey>

@@ -2,6 +2,7 @@
     $scope.settings = {};
     $scope.lookups = {};
     $scope.UserVars = UserVars;
+    $scope.selfRegistrationInitialRole = {};
     $scope.ServerTime = moment(ServerTime).format("YYYY-MM-DD HH:mm");
     $scope.feedOptions = [
         { "OptionName": "RSS 2.0", "OptionValue": "Rss", "IsSelected": false },

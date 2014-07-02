@@ -2,11 +2,21 @@
 {
     using BlogEngine.Core;
     using System;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
     using Page = System.Web.UI.Page;
 
     public partial class CreateBlog : Page
     {
-        protected void Page_Load(object sender, EventArgs e) { }
+        static App_Code.Controls.RecaptchaControl captcha;
+
+        protected void Page_Load(object sender, EventArgs e) 
+        {
+            if (!BlogSettings.Instance.CreateBlogOnSelfRegistration || !Blog.CurrentInstance.IsPrimary)
+            {
+                Response.Redirect("login.aspx");
+            }
+        }
 
         protected void CreateUserButton_Click(object sender, EventArgs e)
         {
@@ -35,6 +45,20 @@
                 return message;
             }
 
+            // recaptcha check
+            SetCaptcha(Form.Controls);
+
+            if (captcha != null)
+            {
+                captcha.Validate();
+
+                if (!captcha.IsValid)
+                {
+                    message = "Captcha invalid.";
+                    return message;
+                }
+            }
+
             blog = BlogGenerator.CreateNewBlog(BlogName.Text, UserName.Text, Email.Text, Password.Text, out message);
 
             if (blog == null || !string.IsNullOrWhiteSpace(message))
@@ -43,6 +67,22 @@
             }
 
             return message;
+        }
+
+        public void SetCaptcha(ControlCollection controls)
+        {
+            foreach (Control ctl in controls)
+            {
+                if (ctl is WebControl)
+                {
+                    if (ctl.ToString().Contains("RecaptchaControl"))
+                    {
+                        captcha = (App_Code.Controls.RecaptchaControl)ctl;
+                        return;
+                    } 
+                }
+                if (ctl.Controls.Count > 0) SetCaptcha(ctl.Controls);
+            }
         }
     }
 }

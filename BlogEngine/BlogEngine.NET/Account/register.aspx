@@ -39,6 +39,9 @@
                                 <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="passwordEntry form-control" TextMode="Password"></asp:TextBox>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <blog:RecaptchaControl ID="recaptcha" runat="server" />
+                        </div>
                     </div>
                     <hr />
                     <div class="btn-wrapper text-center">

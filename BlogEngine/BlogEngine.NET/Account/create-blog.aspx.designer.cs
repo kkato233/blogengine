@@ -94,6 +94,15 @@ namespace Account {
         protected global::System.Web.UI.WebControls.TextBox ConfirmPassword;
         
         /// <summary>
+        /// recaptcha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::App_Code.Controls.RecaptchaControl recaptcha;
+        
+        /// <summary>
         /// CreateUserButton control.
         /// </summary>
         /// <remarks>

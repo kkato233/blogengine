@@ -305,8 +305,7 @@ public class Updater  : WebService {
         }
         else
         {
-            ReplaceFile("web.config");
-            return;
+            ReplaceXMLConfig(content);
         }
     }
 
@@ -320,6 +319,56 @@ public class Updater  : WebService {
             File.Delete(targetFile);
             File.Copy(sourceFile, targetFile);
         }
+    }
+
+    /// <summary>
+    /// Replace default validation and decription keys
+    /// </summary>
+    /// <param name="content">Content of the web.config</param>
+    void ReplaceXMLConfig(string content)
+    {     
+        string targetFile = _root + "\\Web.config";
+        DeleteFile(targetFile);
+
+        content = ReplaceMachineKey(content);
+
+        var writer = new StreamWriter(targetFile);
+        writer.Write(content);
+        writer.Close();
+    }
+
+    string ReplaceMachineKey(string content)
+    {
+        var defaultValidationKey = "D9F7287EFDE8DF4CAFF79011D5308643D8F62AE10CDF30DAB640B7399BF6C57B0269D60A23FBCCC736FC2487ED695512BA95044DE4C58DC02C2BA0C4A266454C";
+        var defaultDecryptionKey = "BDAAF7E00B69BA47B37EEAC328929A06A6647D4C89FED3A7D5C52B12B23680F4";
+
+        string validationKey = CreateKey(System.Convert.ToInt32(64));
+        string decryptionKey = CreateKey(System.Convert.ToInt32(24));
+
+        content = content.Replace(defaultValidationKey, validationKey);
+        content = content.Replace(defaultDecryptionKey, decryptionKey);
+
+        return content;
+    }
+
+    static String CreateKey(int numBytes)
+    {
+        var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        byte[] buff = new byte[numBytes];
+
+        rng.GetBytes(buff);
+        return BytesToHexString(buff);
+    }
+
+    static String BytesToHexString(byte[] bytes)
+    {
+        var hexString = new System.Text.StringBuilder(64);
+
+        for (int counter = 0; counter < bytes.Length; counter++)
+        {
+            hexString.Append(String.Format("{0:X2}", bytes[counter]));
+        }
+        return hexString.ToString();
     }
 
     void ReplaceDbConfig(string content)
@@ -361,6 +410,7 @@ public class Updater  : WebService {
         reader.Close();
 
         webContent = webContent.Replace(defCon, oldCon);
+        webContent = ReplaceMachineKey(webContent);
 
         StreamWriter writer = new StreamWriter(targetFile);
         writer.Write(webContent);

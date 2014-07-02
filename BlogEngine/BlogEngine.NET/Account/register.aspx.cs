@@ -81,6 +81,9 @@
         /// <param name="e">The <see cref="System.Web.UI.WebControls.LoginCancelEventArgs"/> instance containing the event data.</param>
         protected void RegisterUser_CreatingUser(object sender, LoginCancelEventArgs e)
         {
+            App_Code.Controls.RecaptchaControl captcha =
+                (App_Code.Controls.RecaptchaControl)RegisterUser.CreateUserStep.ContentTemplateContainer.FindControl("recaptcha") as App_Code.Controls.RecaptchaControl;
+
             if (Membership.GetUser(this.RegisterUser.UserName) != null)
             {
                 e.Cancel = true;
@@ -90,6 +93,16 @@
             {
                 e.Cancel = true;
                 this.Master.SetStatus("warning", Resources.labels.anotherEmail);
+            }
+            else if (captcha != null)
+            {
+                captcha.Validate();
+
+                if (!captcha.IsValid)
+                {
+                    e.Cancel = true;
+                    this.Master.SetStatus("warning", "Captcha invalid.");
+                }
             }
         }
 

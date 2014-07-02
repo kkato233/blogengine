@@ -29,6 +29,9 @@
             <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword"><%=Resources.labels.confirmPassword %>:</asp:Label>
             <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="passwordEntry form-control ltr-dir" TextMode="Password"></asp:TextBox>
         </div>
+        <div class="form-group">
+            <blog:RecaptchaControl ID="recaptcha" runat="server" />
+        </div>
         <hr />
         <div class="btn-wrapper text-right">
              <a href="<%= Utils.RelativeWebRoot %>Account/login.aspx" class="btn btn-default"><%=Resources.labels.cancel %></a>
