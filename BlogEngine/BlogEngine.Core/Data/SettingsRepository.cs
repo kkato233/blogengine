@@ -93,6 +93,8 @@ namespace BlogEngine.Core.Data
             ns.ContactThankMessage = bs.ContactThankMessage;
             ns.EnableContactAttachments = bs.EnableContactAttachments;
             ns.EnableRecaptchaOnContactForm = bs.EnableRecaptchaOnContactForm;
+            ns.ErrorTitle = bs.ErrorTitle;
+            ns.ErrorText = bs.ErrorText;
 
             // custom code
             ns.HtmlHeader = bs.HtmlHeader;
@@ -215,6 +217,8 @@ namespace BlogEngine.Core.Data
             bs.ContactThankMessage = ns.ContactThankMessage;
             bs.EnableContactAttachments = ns.EnableContactAttachments;
             bs.EnableRecaptchaOnContactForm = ns.EnableRecaptchaOnContactForm;
+            bs.ErrorTitle = ns.ErrorTitle;
+            bs.ErrorText = ns.ErrorText;
 
             // custom code
             bs.HtmlHeader = ns.HtmlHeader;

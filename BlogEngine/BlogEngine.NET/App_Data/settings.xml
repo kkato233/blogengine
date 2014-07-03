@@ -46,6 +46,7 @@
   <enablepasswordreset>True</enablepasswordreset>
   <enableerrorlogging>True</enableerrorlogging>
   <alternatefeedurl />
+  <errortitle>Ooops! An unexpected error has occurred.</errortitle>
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
@@ -91,6 +92,9 @@
   <authorname>My name</authorname>
   <descriptioncharacters>300</descriptioncharacters>
   <enablessl>False</enablessl>
+  <errortext>
+    This one's down to me! Please accept my apologies for this - I'll see to it that the developer responsible for this happening is given 20 lashes (but only after he or she has fixed this problem).
+  </errortext>
   <geocodinglongitude>0</geocodinglongitude>
   <enablewebsiteincomments>False</enablewebsiteincomments>
   <descriptioncharactersforpostsbytagorcategory>0</descriptioncharactersforpostsbytagorcategory>
