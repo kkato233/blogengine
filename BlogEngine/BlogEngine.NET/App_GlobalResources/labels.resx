@@ -2503,4 +2503,13 @@
   <data name="enableTagExport" xml:space="preserve">
     <value>Enable Tag Export</value>
   </data>
+  <data name="errorPage" xml:space="preserve">
+    <value>Error Page</value>
+  </data>
+  <data name="txtErrorText" xml:space="preserve">
+    <value>Text for the Error Page</value>
+  </data>
+  <data name="txtErrorTitle" xml:space="preserve">
+    <value>Title for the Error Page</value>
+  </data>
 </root>

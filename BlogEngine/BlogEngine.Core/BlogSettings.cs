@@ -1507,5 +1507,25 @@
 
         #endregion
 
+
+        #region "ErrorPage Title"
+        /// <summary>
+        ///     Gets or sets the Title Of Error Page.
+        /// </summary>
+        /// <value>The Title Error Page.</value>
+
+        public string ErrorTitle { get; set; }
+
+        #endregion
+
+        #region "ErrorPage Body"
+        /// <summary>
+        ///     Gets or sets the Body Of Error Page.
+        /// </summary>
+        /// <value>The Body Error Page.</value>
+        public string ErrorText { get; set; }
+
+        #endregion
+
     }
 }

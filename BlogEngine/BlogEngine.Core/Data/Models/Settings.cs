@@ -160,6 +160,8 @@
         public string ContactThankMessage { get; set; }
         public bool EnableContactAttachments { get; set; }
         public bool EnableRecaptchaOnContactForm { get; set; }
+        public string ErrorTitle { get; set; }
+        public string ErrorText { get; set; }
 
         // custom code
         public string HtmlHeader { get; set; }

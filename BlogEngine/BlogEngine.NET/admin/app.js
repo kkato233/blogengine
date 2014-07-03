@@ -23,21 +23,22 @@
         .when("/users/profile", { templateUrl: "views/users/profile.html" })
 
         .when("/settings", { templateUrl: "views/settings/basic.html" })
-		.when("/settings/advanced", { templateUrl: "views/settings/advanced.html" })
-		.when("/settings/feed", { templateUrl: "views/settings/feed.html" })
-		.when("/settings/email", { templateUrl: "views/settings/email.html" })
+        .when("/settings/advanced", { templateUrl: "views/settings/advanced.html" })
+        .when("/settings/feed", { templateUrl: "views/settings/feed.html" })
+        .when("/settings/email", { templateUrl: "views/settings/email.html" })
 
-		.when("/settings/controls", { templateUrl: "views/settings/controls/contactform.html" })
+        .when("/settings/controls", { templateUrl: "views/settings/controls/contactform.html" })
         .when("/settings/controls/search", { templateUrl: "views/settings/controls/search.html" })
         .when("/settings/controls/recentposts", { templateUrl: "views/settings/controls/recentposts.html" })
         .when("/settings/controls/recentcomments", { templateUrl: "views/settings/controls/recentcomments.html" })
         .when("/settings/controls/blogroll", { templateUrl: "views/settings/controls/blogroll.html" })
         .when("/settings/controls/pings", { templateUrl: "views/settings/controls/pings.html" })
+        .when("/settings/controls/error", { templateUrl: "views/settings/controls/error.html" })
 
         .when("/settings/comments", { templateUrl: "views/settings/comments/index.html" })
         .when("/settings/comments/filters", { templateUrl: "views/settings/comments/filters.html" })
 
-		.when("/settings/customecode", { templateUrl: "views/settings/customecode.html" })
+        .when("/settings/customecode", { templateUrl: "views/settings/customecode.html" })
 
         .when("/settings/tools", { templateUrl: "views/settings/tools/check.html" })
         .when("/settings/tools/export", { templateUrl: "views/settings/tools/export.html" })
@@ -115,6 +116,6 @@
 
         // settings
         this.showTabSettings = showTabSettings();
-        function showTabSettings() { return UserVars.Rights.indexOf("AccessAdminSettingsPages") > -1 ? true : false; }     
+        function showTabSettings() { return UserVars.Rights.indexOf("AccessAdminSettingsPages") > -1 ? true : false; }
     }
 })();
