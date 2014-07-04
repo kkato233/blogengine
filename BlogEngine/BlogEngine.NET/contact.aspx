@@ -36,12 +36,12 @@
       <asp:HiddenField runat="server" ID="hfCaptcha" />
       <div class="text-right btn-wrapper">
         <asp:button runat="server" id="btnSend" class="btn btn-primary" Text="<%$Resources:labels, send %>" OnClientClick="return beginSendMessage();" validationgroup="contact" />    
-        <asp:label runat="server" id="lblStatus" visible="false">This form does not work at the moment. Sorry for the inconvenience.</asp:label>
+        <asp:label runat="server" id="lblStatus" visible="false"><%=BlogSettings.Instance.ContactErrorMessage %>.</asp:label>
       </div>
     </div>
     <div id="thanks">
       <div id="divThank" runat="Server" visible="False">      
-      <div class="">  <%=BlogSettings.Instance.ContactThankMessage %></div>
+      <div><%=BlogSettings.Instance.ContactThankMessage %></div>
       </div>
     </div>
   </div>

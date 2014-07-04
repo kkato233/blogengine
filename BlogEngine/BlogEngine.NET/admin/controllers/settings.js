@@ -81,6 +81,9 @@
                 $('.summernote').code($scope.settings.ContactFormMessage);
                 $('.summernote').eq(1).code($scope.settings.ContactThankMessage);
             }
+            if ($('.summernote-error').length > 0) {
+                $('.summernote-error').code($scope.settings.ContactErrorMessage);
+            }
 
             if ($('#txtErrorText').length > 0) {
                 $('#txtErrorText').code($scope.settings.ErrorText);
@@ -117,7 +120,9 @@
             $scope.settings.ContactFormMessage = $('.summernote').code();
             $scope.settings.ContactThankMessage = $('.summernote').eq(1).code();
         }
-
+        if ($('.summernote-error').length > 0) {
+            $scope.settings.ContactErrorMessage = $('.summernote-error').code();
+        }
         if ($('#txtErrorText').length > 0) {
             $scope.settings.ErrorText = $('#txtErrorText').code();
         }

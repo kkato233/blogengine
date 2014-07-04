@@ -14,15 +14,16 @@
                 <div data-ng-include src="'views/shared/_controls.html'"></div>
             </div>
             <div class="row">
-                <div class="col col-sm-12">
+                <div class="col col-sm-6">
                     <div class="well clearfix">
-                        <div class="form-horizontal col-sm-6">
+                        <div class="form-horizontal">
                             <div class="form-group" style="margin: 0">
-                                <label class="control-label" for="txtContactFormMessage">{{lbl.formMessage}}</label>
+                                <label class="control-label" for="txtContactFormMessage"><strong class="h4">{{lbl.formMessage}}</strong></label>
                                 <textarea class="summernote" id="txtContactFormMessage"></textarea>
                             </div>
+                            <hr />
                             <div class="form-group" style="margin: 0">
-                                <label class="control-label" for="txtContactThankMessage">{{lbl.thankYouMessage}}</label>
+                                <label class="control-label" for="txtContactThankMessage"><strong class="h4">{{lbl.thankYouMessage}}</strong></label>
                                 <textarea class="summernote" id="txtContactThankMessage"></textarea>
                                 <script>
                                     $(document).ready(function () {
@@ -47,13 +48,35 @@
                                 </div>
                             </div>
                             <div class="col col-md-6">
-
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="ckEnableRecaptchaOnContactForm" data-ng-model="settings.EnableRecaptchaOnContactForm" />
                                         {{lbl.enableRecaptcha}}
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6">
+                    <div class="well clearfix">
+                        <div class="form-horizontal">
+                            <div class="form-group" style="margin: 0">
+                                <label class="control-label" for="txtContactErrorMessagge"><strong class="h4">{{lbl.errorMessage}}</strong></label>
+                                <textarea class="summernote-error" id="txtContactErrorMessage"></textarea>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('.summernote-error').summernote({
+                                            toolbar: [
+                                              ['style', ['bold', 'italic', 'underline', 'clear']],
+                                              ['fontsize', ['fontsize']],
+                                              ['color', ['color']],
+                                              ['para', ['ul', 'ol', 'paragraph']],
+                                              ['view', ['fullscreen', 'codeview']]
+                                            ]
+                                        });
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>

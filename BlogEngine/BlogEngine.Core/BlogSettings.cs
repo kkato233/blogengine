@@ -1149,6 +1149,15 @@
 
         #endregion
 
+        #region ContactErrorMessage;
+        /// <summary>
+        ///     Gets or sets a custom error message for this blog.
+        /// </summary>
+        /// <value>The error messagge for this blog.</value>
+        public string ContactErrorMessage { get; set; }
+        
+        #endregion
+
         #region HtmlHeader
 
         /// <summary>

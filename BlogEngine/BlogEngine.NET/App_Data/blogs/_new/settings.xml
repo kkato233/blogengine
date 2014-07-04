@@ -107,4 +107,5 @@
   <requiresslmetaweblogapi>False</requiresslmetaweblogapi>
   <enablerating>True</enablerating>
   <enablecommentsearch>True</enablecommentsearch>
+  <contacterrormessage>&lt;p&gt;This form does not work at the moment. Sorry for the inconvenience.&lt;/p&gt;</contacterrormessage>
 </settings>
