@@ -25,6 +25,12 @@
   <trustauthenticatedusers>True</trustauthenticatedusers>
   <enablecountryincomments>False</enablecountryincomments>
   <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
+  <errortitle>Ooops! An unexpected error has occurred.</errortitle>
+  <errortext>
+    &lt;p&gt;This one's down to me!&lt;br /&gt; Please accept my apologies for this - I'll see to it
+    that the developer responsible for this happening is given 20 lashes
+    (but only after he or she has fixed this problem).&lt;/p&gt;
+  </errortext>
   <searchbuttontext>Search</searchbuttontext>
   <showincludecommentsoption>False</showincludecommentsoption>
   <israzortheme>False</israzortheme>

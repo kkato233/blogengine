@@ -303,6 +303,7 @@ errorLoadingUsers
 errorPurging
 errorRejectingComment
 errorRestoring
+errorPage
 excerpt
 existingBlogToCreateNewBlogFrom
 export
@@ -658,6 +659,8 @@ tags
 tagUpdated
 testEmailSettings
 textBeforeHostName
+txtErrorTitle
+txtErrorText
 thankYou
 thankYouMessage
 theComment

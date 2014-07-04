@@ -75,10 +75,17 @@
             $scope.whiteListSelected = selectedOption($scope.whiteListOptions, $scope.settings.CommentWhiteListCount);
             $scope.blackListSelected = selectedOption($scope.blackListOptions, $scope.settings.CommentBlackListCount);
 
+
+
             if ($('.summernote').length > 0) {
                 $('.summernote').code($scope.settings.ContactFormMessage);
                 $('.summernote').eq(1).code($scope.settings.ContactThankMessage);
             }
+
+            if ($('#txtErrorText').length > 0) {
+                $('#txtErrorText').code($scope.settings.ErrorText);
+            }
+
             spinOff();
         })
         .error(function () {
@@ -104,10 +111,17 @@
         $scope.settings.CommentWhiteListCount = $scope.whiteListSelected.OptionValue;
         $scope.settings.CommentBlackListCount = $scope.blackListSelected.OptionValue;
 
+        $scope.settings.txtErrorTitle = $scope.txtErrorTitle;
+
         if ($('.summernote').length > 0) {
             $scope.settings.ContactFormMessage = $('.summernote').code();
             $scope.settings.ContactThankMessage = $('.summernote').eq(1).code();
         }
+
+        if ($('#txtErrorText').length > 0) {
+            $scope.settings.ErrorText = $('#txtErrorText').code();
+        }
+
         dataService.updateItem("/api/settings", $scope.settings)
         .success(function (data) {
             toastr.success($rootScope.lbl.settingsUpdated);
