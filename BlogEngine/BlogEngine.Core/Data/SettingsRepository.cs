@@ -91,6 +91,7 @@ namespace BlogEngine.Core.Data
             ns.ShowIncludeCommentsOption = bs.ShowIncludeCommentsOption;
             ns.ContactFormMessage = bs.ContactFormMessage;
             ns.ContactThankMessage = bs.ContactThankMessage;
+            ns.ContactErrorMessage = bs.ContactErrorMessage;
             ns.EnableContactAttachments = bs.EnableContactAttachments;
             ns.EnableRecaptchaOnContactForm = bs.EnableRecaptchaOnContactForm;
             ns.ErrorTitle = bs.ErrorTitle;
@@ -215,6 +216,7 @@ namespace BlogEngine.Core.Data
             bs.ShowIncludeCommentsOption = ns.ShowIncludeCommentsOption;
             bs.ContactFormMessage = ns.ContactFormMessage;
             bs.ContactThankMessage = ns.ContactThankMessage;
+            bs.ContactErrorMessage = ns.ContactErrorMessage;
             bs.EnableContactAttachments = ns.EnableContactAttachments;
             bs.EnableRecaptchaOnContactForm = ns.EnableRecaptchaOnContactForm;
             bs.ErrorTitle = ns.ErrorTitle;

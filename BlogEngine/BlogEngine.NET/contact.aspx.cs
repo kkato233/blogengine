@@ -256,12 +256,12 @@ public partial class contact : BlogBasePage, ICallbackEventHandler
             }
             else
             {
-                _Callback = "This form does not work at the moment. Message was not sent, sorry for inconvenience";
+                _Callback = BlogSettings.Instance.ContactErrorMessage;
             }
         }
         else
         {
-            _Callback = "This form does not work at the moment. Sorry for the inconvenience.";
+            _Callback = BlogSettings.Instance.ContactErrorMessage;
         }
     }
 

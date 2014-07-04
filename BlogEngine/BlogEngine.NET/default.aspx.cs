@@ -111,7 +111,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 		Uri url = null;
 		if (Uri.TryCreate(Request.QueryString["apml"], UriKind.Absolute, out url))
 		{
-			Page.Title = "APML filtered list";
+			Page.Title = Resources.labels.apmlFilteredList;
 			try
 			{
 				Dictionary<Uri, XmlDocument> docs = Utils.FindSemanticDocuments(url, "apml");
@@ -122,36 +122,36 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
                         PostList1.ContentBy = ServingContentBy.Apml;
 						PostList1.Posts = Search.ApmlMatches(docs[key], 30).FindAll(delegate(IPublishable p) { return p is Post; });
 						PostList1.Posts.Sort(delegate(IPublishable ip1, IPublishable ip2) { return ip2.DateCreated.CompareTo(ip1.DateCreated); });
-						Page.Title += " for " + Server.HtmlEncode(key.Host);
+						Page.Title += Resources.labels.per + Server.HtmlEncode(key.Host);
 						break;
 					}
 				}
 				else
 				{
-					divError.InnerHtml = "<h1 style=\"text-align:center\">APML document could not be found</h1><br /><br />";
-					Page.Title = "APML not found";
+					divError.InnerHtml = "<h1 style=\"text-align:center\">"+Resources.labels.apmlNotFoundDesc+"</h1><br /><br />";
+					Page.Title = Resources.labels.apmlNotFound;
 				}
 			}
 			catch (NotSupportedException)
 			{
-				divError.InnerHtml = "<h1 style=\"text-align:center\">The website entered doesn't contain any information about APML</h1><br /><br />";
-				Page.Title = "APML not found";
+				divError.InnerHtml = "<h1 style=\"text-align:center\">"+Resources.labels.apmlNoInfoWebsite+"</h1><br /><br />";
+				Page.Title = Resources.labels.apmlNotFound;
 			}
 			catch (System.Net.WebException)
 			{
-				divError.InnerHtml = "<h1 style=\"text-align:center\">Sorry, I couldn't connect to your website</h1><br /><br />";
-				Page.Title = "APML address invalid";
+				divError.InnerHtml = "<h1 style=\"text-align:center\">"+Resources.labels.apmlNoConnWebsite+"</h1><br /><br />";
+				Page.Title = Resources.labels.apmlAddrInvalid;
 			}
 			catch (XmlException)
 			{
-				divError.InnerHtml = "<h1 style=\"text-align:center\">The APML document is not valid XML</h1><br /><br />";
-				Page.Title = "APML document error";
+				divError.InnerHtml = "<h1 style=\"text-align:center\">"+Resources.labels.apmlInvalidXml+"</h1><br /><br />";
+				Page.Title = Resources.labels.apmlDocErr;
 			}
 		}
 		else if (PostList1.Posts == null || PostList1.Posts.Count == 0)
 		{
-			divError.InnerHtml = "<h1 style=\"text-align:center\">The URL could not be resolved</h1><br /><br />";
-			Page.Title = "APML not found";
+			divError.InnerHtml = "<h1 style=\"text-align:center\">"+Resources.labels.apmlInvalidUrl+"</h1><br /><br />";
+			Page.Title = Resources.labels.apmlNotFound;
 		}
 	}
 	

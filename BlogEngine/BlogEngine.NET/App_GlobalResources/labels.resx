@@ -2512,4 +2512,38 @@
   <data name="txtErrorTitle" xml:space="preserve">
     <value>Title for the Error Page</value>
   </data>
+  <data name="apmlAddrInvalid" xml:space="preserve">
+    <value>APML address invalid</value>
+  </data>
+  <data name="apmlDocErr" xml:space="preserve">
+    <value>APML document error</value>
+  </data>
+  <data name="apmlFilteredList" xml:space="preserve">
+    <value>APML filtered list</value>
+  </data>
+  <data name="apmlInvalidUrl" xml:space="preserve">
+    <value>The URL could not be resolved</value>
+  </data>
+  <data name="apmlInvalidXml" xml:space="preserve">
+    <value>The APML document is not valid XML</value>
+  </data>
+  <data name="apmlNoConnWebsite" xml:space="preserve">
+    <value>Sorry, I couldn't connect to your website</value>
+  </data>
+  <data name="apmlNoInfoWebsite" xml:space="preserve">
+    <value>The website entered doesn't contain any information about APML</value>
+  </data>
+  <data name="apmlNotFound" xml:space="preserve">
+    <value>APML not found</value>
+  </data>
+  <data name="apmlNotFoundDesc" xml:space="preserve">
+    <value>APML document could not be found</value>
+  </data>
+  <data name="per" xml:space="preserve">
+    <value>for</value>
+    <comment>keyname for is not valid</comment>
+  </data>
+  <data name="errorMessage" xml:space="preserve">
+    <value>Error Message</value>
+  </data>
 </root>

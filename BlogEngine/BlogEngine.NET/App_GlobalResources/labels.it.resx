@@ -2472,4 +2472,76 @@
   <data name="visitorInfoApplyFilter" xml:space="preserve">
     <value>Applica filtro</value>
   </data>
+  <data name="addFolder" xml:space="preserve">
+    <value>Crea cartella</value>
+  </data>
+  <data name="addToPost" xml:space="preserve">
+    <value>Crea post</value>
+  </data>
+  <data name="apmlAddrInvalid" xml:space="preserve">
+    <value>Indirizzo APML non valido</value>
+  </data>
+  <data name="apmlDocErr" xml:space="preserve">
+    <value>Errore documento APML</value>
+  </data>
+  <data name="apmlFilteredList" xml:space="preserve">
+    <value>Lista filtrata APML</value>
+  </data>
+  <data name="apmlInvalidUrl" xml:space="preserve">
+    <value>L'URL non può essere risolto</value>
+  </data>
+  <data name="apmlInvalidXml" xml:space="preserve">
+    <value>Il documento APML non è validato XML</value>
+  </data>
+  <data name="apmlNoConnWebsite" xml:space="preserve">
+    <value>Spiacente, non mi sono potuto collegare al tuo sito web</value>
+  </data>
+  <data name="apmlNoInfoWebsite" xml:space="preserve">
+    <value>Il sito web inserito non contiene informazioni di tipo APML</value>
+  </data>
+  <data name="apmlNotFound" xml:space="preserve">
+    <value>APML non trovato</value>
+  </data>
+  <data name="apmlNotFoundDesc" xml:space="preserve">
+    <value>Il documento APML non può essere trovato</value>
+  </data>
+  <data name="couldNotSaveQuickPost" xml:space="preserve">
+    <value>Impossibile salvare un post rapido</value>
+  </data>
+  <data name="defaultPostCategory" xml:space="preserve">
+    <value>Categoria predefinita dei post</value>
+  </data>
+  <data name="enableTagExport" xml:space="preserve">
+    <value>Abilita l'esportazione dei Tag</value>
+  </data>
+  <data name="errorMessage" xml:space="preserve">
+    <value>Messaggio di Errore</value>
+  </data>
+  <data name="errorPage" xml:space="preserve">
+    <value>Pagina di Errore</value>
+  </data>
+  <data name="filePicker" xml:space="preserve">
+    <value>Inserisci File</value>
+  </data>
+  <data name="noNotesYet" xml:space="preserve">
+    <value>Non hai ancora note.</value>
+  </data>
+  <data name="notAuthorizedToCreateNewPosts" xml:space="preserve">
+    <value>Non autorizzato per creare nuovi Post.</value>
+  </data>
+  <data name="per" xml:space="preserve">
+    <value>per</value>
+  </data>
+  <data name="postSaved" xml:space="preserve">
+    <value>Post salvato</value>
+  </data>
+  <data name="tagsCommaDelimited" xml:space="preserve">
+    <value>Tags (separati da virgola)</value>
+  </data>
+  <data name="txtErrorText" xml:space="preserve">
+    <value>Testo per la Pagina di Errore</value>
+  </data>
+  <data name="txtErrorTitle" xml:space="preserve">
+    <value>Titolo per la Pagina di Errore</value>
+  </data>
 </root>

@@ -158,6 +158,7 @@
         public bool ShowIncludeCommentsOption { get; set; }
         public string ContactFormMessage { get; set; }
         public string ContactThankMessage { get; set; }
+        public string ContactErrorMessage { get; set; }
         public bool EnableContactAttachments { get; set; }
         public bool EnableRecaptchaOnContactForm { get; set; }
         public string ErrorTitle { get; set; }

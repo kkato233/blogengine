@@ -160,6 +160,7 @@
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
+    <Content Include="App_Data\labels.txt" />
     <Content Include="bin\BlogEngine.NET.dll.config" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -618,7 +619,6 @@
     <Content Include="App_Data\datastore\widgets\be_WIDGET_ZONE.xml" />
     <Content Include="App_Data\datastore\widgets\Footer_Widget.xml" />
     <Content Include="App_Data\extensionmap.txt" />
-    <Content Include="App_Data\labels.txt" />
     <Content Include="App_Data\monstercache\80\6981821.png" />
     <Content Include="App_Data\newsletter.xml" />
     <Content Include="App_Data\packagefiles.xml" />

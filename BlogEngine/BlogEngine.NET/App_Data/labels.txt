@@ -280,6 +280,7 @@ errorApprovingComment
 errorGettingLogFile
 errorGettingStats
 errorGettingTags
+errorMessage
 errorLoadingBlog
 errorLoadingBlogs
 errorLoadingCategories

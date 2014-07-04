@@ -50,6 +50,7 @@
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
+  <contacterrormessage>&lt;p&gt;This form does not work at the moment. Sorry for the inconvenience.&lt;/p&gt;</contacterrormessage>
   <enablecommentsmoderation>True</enablecommentsmoderation>
   <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablereferrertracking>False</enablereferrertracking>
