@@ -118,17 +118,15 @@ namespace BlogEngine.Core.Data
         {
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.CreateNewPages))
                 throw new System.UnauthorizedAccessException();
-            try
-            {
-                var page = (from p in Page.Pages.ToList() where p.Id == id select p).FirstOrDefault();
-                page.Delete();
-                page.Save();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+
+            var page = (from p in Page.Pages.ToList() where p.Id == id select p).FirstOrDefault();
+
+            if (page.HasChildPages)
+                throw new ApplicationException("Can not delete; page has child pages");
+
+            page.Delete();
+            page.Save();
+            return true;
         }
 
         #region private methods

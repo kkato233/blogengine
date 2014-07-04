@@ -17,12 +17,8 @@ function Hide(element) {
 }
 
 function ValidatePasswordRetrieval() {
-    if ($("[id$='txtEmail']").val().length == 0) {
-        ShowStatus('warning', accountResources.emailIsRequired);
-        return false;
-    }
-    if (ValidateEmail($("[id$='txtEmail']").val()) == false) {
-        ShowStatus('warning', accountResources.emailIsInvalid);
+    if ($("[id$='txtUser']").val().length == 0) {
+        ShowStatus('warning', accountResources.userNameIsRequired);
         return false;
     }
     return true;

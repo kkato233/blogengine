@@ -16,7 +16,7 @@
     <br />
     <div class="account-content">
         <div class="form-group">
-            <asp:TextBox ID="txtEmail" runat="server" placeholder="someone@example.com" AutoCompleteType="None" CssClass="textEntry form-control "></asp:TextBox>
+            <asp:TextBox ID="txtUser" runat="server" placeholder="User name" AutoCompleteType="None" CssClass="textEntry form-control "></asp:TextBox>
         </div>
         <div class="btn-wrapper text-right">
             <a href="<%= Utils.RelativeWebRoot %>Account/login.aspx" class="btn btn-default"><%=Resources.labels.cancel %></a>
@@ -25,7 +25,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            $("input[name$='txtEmail']").focus();
+            $("input[name$='txtUser']").focus();
         });
     </script>
 </asp:Content>

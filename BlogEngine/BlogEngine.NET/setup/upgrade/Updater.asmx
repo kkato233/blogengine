@@ -11,6 +11,7 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Collections.Specialized;
 using System.Net;
+using BlogEngine.Core;
 
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -113,6 +114,7 @@ public class Updater  : WebService {
                     }
                 }
             }
+            Utils.Log(string.Format("Upgrade: downloaded version {0} by {1}", version, Security.CurrentUser.Identity.Name));
             return "";
         }
         catch (Exception ex)
@@ -283,6 +285,8 @@ public class Updater  : WebService {
             CopyWebConfig();
 
             Directory.Delete(_root + "\\setup\\upgrade\\backup\\be", true);
+
+            Utils.Log(string.Format("Upgrade completed by {0}", Security.CurrentUser.Identity.Name));
           
             return "";
         }
@@ -429,7 +433,7 @@ public class Updater  : WebService {
                     var source = new DirectoryInfo(item.To);
                     var target = new DirectoryInfo(item.From);
 
-                    Log(source.FullName, target.FullName, true);
+                    //Log(source.FullName, target.FullName, true);
                     CopyRecursive(source, target);
                 }
                 else
@@ -455,7 +459,7 @@ public class Updater  : WebService {
 
     void DeleteDir(string dir)
     {
-        Log(dir, "", true, Operation.Delete);
+        //Log(dir, "", true, Operation.Delete);
         for (int i = 0; i < 3; i++)
         {
             try
@@ -475,7 +479,7 @@ public class Updater  : WebService {
         var source = new DirectoryInfo(_root + "\\setup\\upgrade\\backup\\be\\" + dir);
         var target = new DirectoryInfo(_root + "\\" + dir);
         
-        Log(source.FullName, target.FullName, true);
+        //Log(source.FullName, target.FullName, true);
         CopyRecursive(source, target);
     }
 
@@ -492,14 +496,14 @@ public class Updater  : WebService {
 
     void DeleteFile(string file)
     {
-        Log(file, "", false, Operation.Delete);
+        //Log(file, "", false, Operation.Delete);
         if (File.Exists(file))
             File.Delete(file);
     }
 
     void CopyFile(string from, string to)
     {
-        Log(from, to);
+        //Log(from, to);
         File.Copy(from, to);
     }
 
@@ -617,18 +621,18 @@ public class Updater  : WebService {
         return _ignoreDirs.Contains(item) ? true : false;
     }
 
-    void Log(string from, string to = "", bool directory = false, Operation action = Operation.Copy)
-    {
-        _installed.Add(new InstalledLog { IsDirectory = directory, Action = action, From = from, To = to });
+    //void Log(string from, string to = "", bool directory = false, Operation action = Operation.Copy)
+    //{
+    //    _installed.Add(new InstalledLog { IsDirectory = directory, Action = action, From = from, To = to });
         
-        string s = action == Operation.Copy ? "UPGRADE: Copy " : "UPGRADE: Delete ";
-        s = s + (directory ? "directory " : "file ");
-        
-        if (action == Operation.Copy)
-            BlogEngine.Core.Utils.Log(string.Format("{0} from {1} to {2}", s, from, to));
-        else
-            BlogEngine.Core.Utils.Log(string.Format("{0} from {1}", s, from));   
-    }
+    //    string s = action == Operation.Copy ? "UPGRADE: Copy " : "UPGRADE: Delete ";
+    //    s = s + (directory ? "directory " : "file ");
+
+    //    if (action == Operation.Copy)
+    //        BlogEngine.Core.Utils.Log(string.Format("{0} from {1} to {2}", s, from, to));
+    //    else
+    //    BlogEngine.Core.Utils.Log(string.Format("{0} from {1}", s, from));   
+    //}
 }
 
 public class InstalledLog
