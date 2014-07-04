@@ -1092,7 +1092,7 @@
     <value>Password Retrieval</value>
   </data>
   <data name="passwordRetrievalInstructionMessage" xml:space="preserve">
-    <value>Type your email address in the field above and your password will be emailed to you shortly.</value>
+    <value>Type user name in the field below and click submit button. Further instructions will be sent to your registration email.</value>
   </data>
   <data name="rememberMe" xml:space="preserve">
     <value>Keep me logged in</value>

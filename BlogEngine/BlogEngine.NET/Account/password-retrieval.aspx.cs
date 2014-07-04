@@ -16,6 +16,10 @@
     {
         #region Methods
 
+        static string _confirmationCode = "";
+        static string _userName = "";
+        static string _email = "";
+        
         /// <summary>
         /// Handles the Load event of the Page control.
         /// </summary>
@@ -36,43 +40,80 @@
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         protected void LoginButton_Click(object sender, EventArgs e)
         {
-            var email = this.txtEmail.Text;
-
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(_userName))
             {
-                this.Master.SetStatus("warning", Resources.labels.emailIsRequired);
-                return;
+                var user = Membership.Provider.GetUser(this.txtUser.Text.Trim(), false);
+                if (user == null)
+                {
+                    this.Master.SetStatus("warning", "User not found");
+                    return;
+                }
+
+                _userName = txtUser.Text;
+                _email = user.Email;
+
+                if (string.IsNullOrEmpty(_email))
+                {
+                    this.Master.SetStatus("warning", Resources.labels.emailIsRequired);
+                    return;
+                }
             }
 
-            var userName = Membership.Provider.GetUserNameByEmail(email);
-
-            if (string.IsNullOrEmpty(userName))
+            if (!string.IsNullOrEmpty(_confirmationCode))
             {
-                this.Master.SetStatus("warning", Resources.labels.emailNotExist);
-                return;
+                if (txtUser.Text == _confirmationCode)
+                {
+                    this.SendMail();
+                }
+                else
+                {
+                    this.Master.SetStatus("warning", "Sorry, code does not match. Please try again.");
+                }
             }
-
-            var pwd = Membership.Provider.ResetPassword(userName, string.Empty);
-
-            if (!string.IsNullOrEmpty(pwd))
+            else
             {
-                this.SendMail(email, userName, pwd);
+                SendCode();
             }
         }
 
-        /// <summary>
-        /// Sends the mail.
-        /// </summary>
-        /// <param name="email">
-        /// The email.
-        /// </param>
-        /// <param name="user">
-        /// The user name.
-        /// </param>
-        /// <param name="pwd">
-        /// The password.
-        /// </param>
-        private void SendMail(string email, string user, string pwd)
+        private void SendCode()
+        {
+            _confirmationCode = new Random().Next(1000, 9999).ToString();
+
+            var mail = new MailMessage
+            {
+                From = new MailAddress(BlogSettings.Instance.Email),
+                Subject = "Your code for password reset is: " + _confirmationCode
+            };
+
+            mail.To.Add(_email);
+
+            var sb = new StringBuilder();
+            sb.Append("<div style=\"font: 11px verdana, arial\">");
+            sb.AppendFormat("Dear {0}:", _userName);
+            sb.AppendFormat("<br/><br/>Your password reset code at \"{0}\" is: {1}", BlogSettings.Instance.Name, _confirmationCode);
+            sb.Append("<br/></br>Please enter this code in the form you used to send this email and we will reset password and send it to you.");
+            sb.Append(
+                "<br/><br/>If it wasn't you who initiated the reset, please let us know immediately (use contact form on our site)");
+            sb.AppendFormat("<br/><br/>Sincerely,<br/><br/><a href=\"{0}\">{1}</a> team.", Utils.AbsoluteWebRoot, BlogSettings.Instance.Name);
+            sb.Append("</div>");
+
+            mail.Body = sb.ToString();
+
+            var msg = Utils.SendMailMessage(mail);
+
+            if (string.IsNullOrEmpty(msg))
+            {
+                this.Master.SetStatus("success", "Confirmation code was sent, please check your email.");
+            }
+            else
+            {
+                this.Master.SetStatus("warning", msg);
+                ClearCode();
+            }           
+        }
+
+        private void SendMail()
         {
             var mail = new MailMessage
                 {
@@ -80,11 +121,12 @@
                     Subject = "Your password has been reset"
                 };
 
-            mail.To.Add(email);
+            mail.To.Add(_email);
 
+            var pwd = Membership.Provider.ResetPassword(_userName, string.Empty);
             var sb = new StringBuilder();
             sb.Append("<div style=\"font: 11px verdana, arial\">");
-            sb.AppendFormat("Dear {0}:", user);
+            sb.AppendFormat("Dear {0}:", _userName);
             sb.AppendFormat("<br/><br/>Your password at \"{0}\" has been reset to: {1}", BlogSettings.Instance.Name, pwd);
             sb.Append(
                 "<br/><br/>If it wasn't you who initiated the reset, please let us know immediately (use contact form on our site)");
@@ -94,8 +136,17 @@
             mail.Body = sb.ToString();
 
             Utils.SendMailMessageAsync(mail);
+            ClearCode();
 
-            this.Master.SetStatus("success", Resources.labels.passwordSent);
+            //this.Master.SetStatus("success", Resources.labels.passwordSent);
+            Response.Redirect(Utils.RelativeWebRoot + "Account/login.aspx");
+        }
+
+        void ClearCode()
+        {
+            _confirmationCode = "";
+            _userName = "";
+            _email = "";
         }
 
         #endregion

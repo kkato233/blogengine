@@ -1,5 +1,6 @@
 ﻿angular.module('blogAdmin').controller('PagesController', ["$scope", "$location", "$http", "$filter", "dataService", function ($scope, $location, $http, $filter, dataService) {
     $scope.items = [];
+    $scope.fltr = 'pages';
     $scope.filter = ($location.search()).fltr;
 
     $scope.load = function () {

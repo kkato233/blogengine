@@ -154,6 +154,12 @@
                     scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
                 }
             }
+            // do not check pages if have children
+            else if (scope.fltr === 'pages') {
+                if (scope.pagedItems[scope.currentPage][i].HasChildren === false) {
+                    scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;
+                }
+            }
             else {
                 // for others toggle all
                 scope.pagedItems[scope.currentPage][i].IsChecked = e.target.checked;

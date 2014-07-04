@@ -126,7 +126,10 @@ public partial class page : BlogBasePage
             Response.Redirect(Utils.RelativeWebRoot);
             return;
         }
-
+        if (page.HasChildPages)
+        {
+            return;
+        }
         page.Delete();
         page.Save();
         this.Response.Redirect(Utils.RelativeWebRoot, true);
@@ -183,7 +186,7 @@ public partial class page : BlogBasePage
                     labels.edit);
             }
 
-            if (this.Page.CanUserDelete)
+            if (this.Page.CanUserDelete && !this.Page.HasChildPages)
             {
                 if (sb.Length > 0) { sb.Append(" | "); }
 
