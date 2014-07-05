@@ -160,6 +160,7 @@
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
+    <Content Include="App_Data\posts\ec263a41-af90-4bdc-be2e-3b3ade12f6e5.xml" />
     <Content Include="bin\BlogEngine.NET.dll.config" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -625,7 +626,6 @@
     <Content Include="App_Data\packages.xml" />
     <Content Include="App_Data\pages\5d484c1c-d1f1-4be4-938a-f55bf24bf6ba.xml" />
     <Content Include="App_Data\pingservices.xml" />
-    <Content Include="App_Data\posts\c3b491e5-59ac-4f6a-81e5-27e971b903ed.xml" />
     <Content Include="App_Data\profiles\admin.xml" />
     <Content Include="App_Data\rights.xml" />
     <Content Include="App_Data\roles.xml" />
