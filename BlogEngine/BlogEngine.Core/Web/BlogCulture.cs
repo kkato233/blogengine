@@ -514,6 +514,7 @@ namespace BlogEngine.Core.Web
             AddResource("isAlreadyExists");
             AddResource("isForSiteAggregation");
             AddResource("isFrontPage");
+            AddResource("sortOrder");
             AddResource("isPrivate");
             AddResource("isRequiredField");
             AddResource("italic");

@@ -75,5 +75,9 @@ namespace BlogEngine.Core.Data.Models
         /// If post marked for deletion
         /// </summary>
         public bool IsDeleted { get; set; }
+        /// <summary>
+        /// Sort order of page for top navigation
+        /// </summary>
+        public int SortOrder { get; set; }
     }
 }
