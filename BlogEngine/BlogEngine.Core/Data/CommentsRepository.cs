@@ -277,15 +277,13 @@ namespace BlogEngine.Core.Data
             var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
             foreach (var p in posts.ToArray())
             {
-                if (p.NotApprovedComments.Where(c => !c.IsSpam && !c.IsDeleted).Count() > 0)
+                foreach (var c in p.NotApprovedComments.Where(c => !c.IsSpam && !c.IsDeleted))
                 {
-                    foreach (var c in p.NotApprovedComments)
-                    {
-                        if (!c.IsSpam && !c.IsDeleted) p.RemoveComment(c);
-                    }
-                    p.DateModified = DateTime.Now;
-                    p.Save();
+                    p.RemoveComment(c, false);
                 }
+
+                p.DateModified = DateTime.Now;
+                p.Save();
             }
         }
 
@@ -295,15 +293,13 @@ namespace BlogEngine.Core.Data
             var posts = Post.ApplicablePosts.Where(p => !p.IsDeleted && p.IsPublished);
             foreach (var p in posts.ToArray())
             {
-                if (p.SpamComments.Where(c => !c.IsDeleted).Count() > 0)
+                foreach (var c in p.SpamComments.Where(c => !c.IsDeleted))
                 {
-                    foreach (var c in p.SpamComments)
-                    {
-                        if (!c.IsDeleted) p.RemoveComment(c);
-                    }
-                    p.DateModified = DateTime.Now;
-                    p.Save();
+                    p.RemoveComment(c, false);
                 }
+
+                p.DateModified = DateTime.Now;
+                p.Save();
             }
         }
 
