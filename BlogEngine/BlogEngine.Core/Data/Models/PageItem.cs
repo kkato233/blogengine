@@ -51,5 +51,9 @@ namespace BlogEngine.Core.Data.Models
         /// If has child pages
         /// </summary>
         public bool HasChildren { get; set; }
+        /// <summary>
+        /// Sort order of the page
+        /// </summary>
+        public int SortOrder { get; set; }
     }
 }

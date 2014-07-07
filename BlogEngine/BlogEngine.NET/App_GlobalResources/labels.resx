@@ -2512,4 +2512,7 @@
   <data name="txtErrorTitle" xml:space="preserve">
     <value>Title for the Error Page</value>
   </data>
+  <data name="sortOrder" xml:space="preserve">
+    <value>Sort Order</value>
+  </data>
 </root>
