@@ -637,6 +637,7 @@ siteUnavailableConfirm
 size
 slug
 smtpServer
+sortOrder
 source
 sourceViewer
 spam
