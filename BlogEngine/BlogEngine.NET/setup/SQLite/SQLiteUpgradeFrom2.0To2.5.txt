@@ -30,13 +30,13 @@ ON be_Users (BlogID, UserName);
 -- Update be_UserRoles
 --
 CREATE TABLE be_UserRolesNew (
-[UserRolesID] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+[UserRoleID] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
 [BlogID] VARCHAR(36) NOT NULL,
 [UserName] VARCHAR(100) NOT NULL,
 [Role] VARCHAR(100) NOT NULL);
 
 INSERT INTO be_UserRolesNew
-SELECT ur.UserRolesID, '27604f05-86ad-47ef-9e05-950bb762570c', u.UserName, r.Role
+SELECT ur.UserRoleID, '27604f05-86ad-47ef-9e05-950bb762570c', u.UserName, r.Role
 FROM be_UserRoles ur
 INNER JOIN be_Users u ON ur.UserID = u.UserID
 INNER JOIN be_Roles r ON ur.RoleID = r.RoleID;

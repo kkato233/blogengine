@@ -85,6 +85,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\razor\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BlogEngine.NET\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Core, Version=1.0.11220.104, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\nuget\NuGet.Core.dll</HintPath>
@@ -220,6 +224,7 @@
     <Compile Include="Notes\QuickSetting.cs" />
     <Compile Include="Notes\QuickSettings.cs" />
     <Compile Include="Packaging\Constants.cs" />
+    <Compile Include="Packaging\GalleryData.cs" />
     <Compile Include="Packaging\FileSystem.cs" />
     <Compile Include="Packaging\Gallery.cs" />
     <Compile Include="Packaging\InstalledPackage.cs" />
