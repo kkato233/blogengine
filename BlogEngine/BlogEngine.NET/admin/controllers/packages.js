@@ -15,6 +15,10 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.selectedFeed = $rootScope.SiteVars.GalleryFeedUrl;
     $scope.activeTheme = ActiveTheme;
     $scope.themesPage = false;
+    $scope.showRating = false;
+    $scope.extras = [];
+    $scope.extraToRate = {};
+    $scope.selectedRating = 0;
     
     if ($scope.id) {
         $("#modal-theme-edit").modal();
@@ -46,6 +50,11 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         dataService.getItems('/api/packages', { take: 0, skip: 0, filter: $scope.fltr, order: "LastUpdated desc" })
         .success(function (data) {
             angular.copy(data, $scope.items);
+
+            if ($scope.fltr != "packages") {
+                $scope.loadExtras();
+            }
+
             gridInit($scope, $filter);
             rowSpinOff($scope.items);
 
@@ -58,6 +67,32 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         .error(function () {
             toastr.error($rootScope.lbl.errorLoadingPackages);
         });
+    }
+
+    $scope.loadExtras = function () {
+        $scope.extras = [];
+        for (var i = 0; i < $scope.items.length; i++) {
+            var item = $scope.items[i];
+            if (item.OnlineVersion != null && item.OnlineVersion.length > 0) {
+                dataService.getItems('/api/packageextra/' + item.Id + "." + item.OnlineVersion)
+                .success(function (data) {
+                    if (data) {
+                        $scope.extras.push(data);
+                        $scope.updatePackagesFromExtra(data);
+                    }
+                });
+            }
+        }
+    }
+
+    $scope.updatePackagesFromExtra = function(extra){
+        for (var i = 0; i < $scope.items.length; i++) {
+            var item = $scope.items[i];
+            if (item != null && item.Id + "." + item.OnlineVersion === extra.Id) {
+                $scope.items[i].DownloadCount = extra.DownloadCount;
+                $scope.items[i].Rating = extra.Rating;
+            }
+        }
     }
 
     $scope.loadCustomFields = function (id) {
@@ -75,10 +110,10 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
                 }
             }
         }
-
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
         .success(function (data) {
             angular.copy(data, $scope.customFields);
+            //$scope.loadExtras(id);
             $("#modal-theme-edit").modal();
         })
         .error(function () {
@@ -237,6 +272,42 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $("#txtFeedUrl").val("");
         $("#modal-feeds-edit").modal();
         $scope.focusInput = true;
+    }
+
+    $scope.checkStar = function (item, rating) {
+        if (item === rating) {
+            return true;
+        }
+        return false;
+    }
+
+    $scope.ratePackage = function (item, rating) {
+        $scope.selectedRating = rating;
+        dataService.getItems('/api/packageextra/' + item.Id + "." + item.OnlineVersion)
+        .success(function (data) {
+            if (data) {               
+                angular.copy(data, $scope.extraToRate);
+            }
+        });
+        $("#modal-rating").modal();
+    }
+
+    $scope.submitRating = function () {
+        var review = { "Name": UserVars.Name, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
+        dataService.updateItem("/api/packageextra/rate/" + $scope.extraToRate.Id, review)
+        .success(function (data) {
+            if (data === "true") {
+                toastr.success($rootScope.lbl.completed);
+            }
+            else {
+                toastr.error($rootScope.lbl.failed);
+            }
+            $("#modal-rating").modal('hide');
+            $scope.load();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+        });
     }
 
 }]);

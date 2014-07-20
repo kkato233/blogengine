@@ -137,6 +137,7 @@
     <Content Include="admin\editor\_postmodals.cshtml" />
     <Content Include="admin\Extensions\admin.master" />
     <Content Include="admin\index.cshtml" />
+    <Content Include="admin\star-rating.css" />
     <Content Include="admin\views\content\files.html" />
     <Content Include="admin\views\custom\packages.html" />
     <Content Include="admin\views\settings\controls\blogroll.html" />
@@ -150,6 +151,7 @@
     <Content Include="admin\views\settings\tools\check.html" />
     <Content Include="admin\views\settings\tools\export.html" />
     <Content Include="admin\views\settings\tools\import.html" />
+    <Content Include="admin\views\shared\_review.html" />
     <Content Include="admin\views\shared\_settingtools.html" />
     <Content Include="admin\views\shared\_settingcomments.html" />
     <Content Include="admin\views\shared\_controls.html" />
@@ -1672,6 +1674,7 @@
     <Compile Include="AppCode\Api\GalleryFeedsController.cs" />
     <Compile Include="AppCode\Api\LogsController.cs" />
     <Compile Include="AppCode\Api\LookupsController.cs" />
+    <Compile Include="AppCode\Api\PackageExtraController.cs" />
     <Compile Include="AppCode\Api\PackagesController.cs" />
     <Compile Include="AppCode\Api\SetupController.cs" />
     <Compile Include="AppCode\Api\PagerController.cs" />
