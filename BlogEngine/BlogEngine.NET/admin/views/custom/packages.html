@@ -97,13 +97,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr data-ng-if="customFields.length > 0" />
-                            <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
-                            <div data-ng-repeat="item in customFields" class="form-group">
-                                <label class="control-label  col-md-4" for="txtSlug">{{item.Key}}</label>
-                                <div class="col col-md-8">
-                                    <input type="text" class="form-control" id="txtSlug" data-ng-model="item.Value" />
-                                </div>
+                            <div ng-if="packageExtra.Reviews != null && packageExtra.Reviews.length > 0" class="form-horizontal clearfix" style="height: 200px; overflow: auto">
+                                <hr />
+                                <h4>{{lbl.reviews}}</h4>
+                                <ul class="list-group" style="margin-top: 20px">
+                                    <li ng-repeat="review in packageExtra.Reviews" class="list-group-item">
+                                        <span class="badge">{{review.Rating}}</span>
+                                        <b>{{review.Name}}:</b> {{review.Body}}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

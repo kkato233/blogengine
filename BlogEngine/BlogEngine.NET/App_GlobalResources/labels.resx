@@ -2515,4 +2515,13 @@
   <data name="sortOrder" xml:space="preserve">
     <value>Sort Order</value>
   </data>
+  <data name="reviews" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="writeReview" xml:space="preserve">
+    <value>Write review</value>
+  </data>
+  <data name="customFields" xml:space="preserve">
+    <value>Custom fields</value>
+  </data>
 </root>

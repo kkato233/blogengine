@@ -146,13 +146,7 @@ namespace BlogEngine.Core.Packaging
             }
         }
 
-        /// <summary>
-        /// Send rating/review if gallery supports it
-        /// </summary>
-        /// <param name="id">Package ID</param>
-        /// <param name="review">Review</param>
-        /// <returns>True on success</returns>
-        public static bool RatePackage(string id, Review review)
+        public static string RatePackage(string id, Review review)
         {
             try
             {
@@ -160,13 +154,12 @@ namespace BlogEngine.Core.Packaging
                 WebClient wc = new WebClient();
                 var data = JsonConvert.SerializeObject(review);
                 wc.Headers.Add("content-type", "application/json");
-                wc.UploadString(url, "PUT", data);
-                return true;
+                return wc.UploadString(url, "PUT", data);
             }
             catch (Exception ex)
             {
                 Utils.Log("Error rating package", ex);
-                return false;
+                return ex.Message;
             }
         }
 

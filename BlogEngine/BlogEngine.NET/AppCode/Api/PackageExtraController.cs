@@ -49,18 +49,21 @@ namespace BlogEngine.NET.AppCode.Api
         }
 
         [HttpPut]
-        public bool Rate(string id, [FromBody]Review review)
+        public HttpResponseMessage Rate(string id, [FromBody]Review review)
         {
             try
             {
-                if (review == null) return false;
+                if (review == null) return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Review can not be null");
+
                 if (review.Body.Length > 450) review.Body = review.Body.Substring(0, 450);
 
-                return (BlogEngine.Core.Packaging.Gallery.RatePackage(id, review));
+                var result = BlogEngine.Core.Packaging.Gallery.RatePackage(id, review);
+
+                return Request.CreateResponse(HttpStatusCode.OK, result.Replace("\"", "").Replace("\\", ""));
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

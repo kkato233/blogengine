@@ -316,6 +316,7 @@ namespace BlogEngine.Core.Web
             AddResource("currentTheme");
             AddResource("custom");
             AddResource("customCode");
+            AddResource("customFields");
             AddResource("customFieldsUpdated");
             AddResource("dashboard");
             AddResource("date");
@@ -707,6 +708,7 @@ namespace BlogEngine.Core.Web
             AddResource("restored");
             AddResource("restoreSelected");
             AddResource("returnToBlog");
+            AddResource("reviews");
             AddResource("rights");
             AddResource("rightsCanNotBeNull");
             AddResource("rightsSaved");
@@ -881,6 +883,7 @@ namespace BlogEngine.Core.Web
             AddResource("widgets");
             AddResource("willShowGravatar");
             AddResource("writeNewPost");
+            AddResource("writeReview");
             AddResource("writtenCommentsTotal");
             AddResource("wrote");
             AddResource("youAlreadyRated");
