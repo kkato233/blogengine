@@ -466,11 +466,92 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to APML address invalid.
+        /// </summary>
+        internal static string apmlAddrInvalid {
+            get {
+                return ResourceManager.GetString("apmlAddrInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the URL to your website or to your APML document.
         /// </summary>
         internal static string apmlDescription {
             get {
                 return ResourceManager.GetString("apmlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to APML document error.
+        /// </summary>
+        internal static string apmlDocErr {
+            get {
+                return ResourceManager.GetString("apmlDocErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to APML filtered list.
+        /// </summary>
+        internal static string apmlFilteredList {
+            get {
+                return ResourceManager.GetString("apmlFilteredList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The URL could not be resolved.
+        /// </summary>
+        internal static string apmlInvalidUrl {
+            get {
+                return ResourceManager.GetString("apmlInvalidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The APML document is not valid XML.
+        /// </summary>
+        internal static string apmlInvalidXml {
+            get {
+                return ResourceManager.GetString("apmlInvalidXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, I couldn&apos;t connect to your website.
+        /// </summary>
+        internal static string apmlNoConnWebsite {
+            get {
+                return ResourceManager.GetString("apmlNoConnWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The website entered doesn&apos;t contain any information about APML.
+        /// </summary>
+        internal static string apmlNoInfoWebsite {
+            get {
+                return ResourceManager.GetString("apmlNoInfoWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to APML not found.
+        /// </summary>
+        internal static string apmlNotFound {
+            get {
+                return ResourceManager.GetString("apmlNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to APML document could not be found.
+        /// </summary>
+        internal static string apmlNotFoundDesc {
+            get {
+                return ResourceManager.GetString("apmlNotFoundDesc", resourceCulture);
             }
         }
         
@@ -2870,6 +2951,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error Message.
+        /// </summary>
+        internal static string errorMessage {
+            get {
+                return ResourceManager.GetString("errorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error Page.
         /// </summary>
         internal static string errorPage {
@@ -4612,6 +4702,15 @@ namespace Resources {
         internal static string pendingApproval {
             get {
                 return ResourceManager.GetString("pendingApproval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to for.
+        /// </summary>
+        internal static string per {
+            get {
+                return ResourceManager.GetString("per", resourceCulture);
             }
         }
         

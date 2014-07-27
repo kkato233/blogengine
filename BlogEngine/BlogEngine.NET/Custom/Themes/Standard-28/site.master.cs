@@ -17,7 +17,7 @@ public partial class StandardSite28 : System.Web.UI.MasterPage
         // for supported of RTL languages
         if (Resources.labels.LangDirection.Equals("rtl", StringComparison.OrdinalIgnoreCase))
         {
-            var lc = new LiteralControl("<link href=\"/themes/standard/include/rtl.css\" rel=\"stylesheet\" />");
+            var lc = new LiteralControl("<link href=\"" + Utils.RelativeWebRoot + "Custom/Themes/Standard-28/include/rtl.css\" rel=\"stylesheet\" />");
             HeadContent.Controls.Add(lc);
         }
 
@@ -26,7 +26,7 @@ public partial class StandardSite28 : System.Web.UI.MasterPage
         if (!Utils.IsMono)
         {
             var lc = new LiteralControl("\n<!--[if lt IE 9]>" +
-                "\n<script type=\"text/javascript\" src=\"/themes/standard/include/html5.js\"></script>" +
+                "\n<script type=\"text/javascript\" src=\"" + Utils.RelativeWebRoot + "Custom/Themes/Standard-28/include/html5.js\"></script>" +
                 "\n<![endif]-->\n");
             HeadContent.Controls.Add(lc);
         }
