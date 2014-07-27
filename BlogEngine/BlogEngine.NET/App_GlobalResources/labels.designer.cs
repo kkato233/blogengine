@@ -1735,6 +1735,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom fields.
+        /// </summary>
+        internal static string customFields {
+            get {
+                return ResourceManager.GetString("customFields", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom fields updated.
         /// </summary>
         internal static string customFieldsUpdated {
@@ -5372,6 +5381,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reviews.
+        /// </summary>
+        internal static string reviews {
+            get {
+                return ResourceManager.GetString("reviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rights.
         /// </summary>
         internal static string rights {
@@ -5998,6 +6016,15 @@ namespace Resources {
         internal static string smtpServer {
             get {
                 return ResourceManager.GetString("smtpServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort Order.
+        /// </summary>
+        internal static string sortOrder {
+            get {
+                return ResourceManager.GetString("sortOrder", resourceCulture);
             }
         }
         
@@ -7115,6 +7142,15 @@ namespace Resources {
         internal static string writeNewPost {
             get {
                 return ResourceManager.GetString("writeNewPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write review.
+        /// </summary>
+        internal static string writeReview {
+            get {
+                return ResourceManager.GetString("writeReview", resourceCulture);
             }
         }
         

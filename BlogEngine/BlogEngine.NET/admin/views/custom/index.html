@@ -66,7 +66,7 @@
                                 <hr />
                                 <iframe ng-if="security.canManageExtensions" ng-src="{{extEditSrc}}" width="550" height="300" frameborder="0"></iframe>
                             </div>
-                            <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
+                            <h4 data-ng-if="customFields.length > 0">{{lbl.customFields}}</h4>
                             <div data-ng-repeat="item in customFields" class="form-group">
                                 <label class="control-label col-md-4" for="txtSlug">{{item.Key}}</label>
                                 <div class="col col-md-8">
@@ -82,6 +82,7 @@
                 </div>
             </div>
         </div>
+        <div id="review" data-ng-include src="'views/shared/_review.html'"></div>
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
                 {{lbl.extensions}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
@@ -99,6 +100,8 @@
                 </div>
             </div>
         </div>
+
+        <link href="star-rating.css" rel="stylesheet" />
         <table class="table table-bordered table-striped table-hover table-responsive">
             <thead>
                 <tr>
@@ -121,6 +124,13 @@
                             <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
                             <span class="item-description hmax480">{{item.Description}}</span>
                         </div>
+                        <span ng-if="item.OnlineVersion != ''" class="star-rating pull-right">
+                            <input type="radio" name="{{item.Id}}" value="1" ng-checked="checkStar(1, item.Rating)" ng-click="showRatingForm(item, 1)"><i></i>
+                            <input type="radio" name="{{item.Id}}" value="2" ng-checked="checkStar(2, item.Rating)" ng-click="showRatingForm(item, 2)"><i></i>
+                            <input type="radio" name="{{item.Id}}" value="3" ng-checked="checkStar(3, item.Rating)" ng-click="showRatingForm(item, 3)"><i></i>
+                            <input type="radio" name="{{item.Id}}" value="4" ng-checked="checkStar(4, item.Rating)" ng-click="showRatingForm(item, 4)"><i></i>
+                            <input type="radio" name="{{item.Id}}" value="5" ng-checked="checkStar(5, item.Rating)" ng-click="showRatingForm(item, 5)"><i></i>
+                        </span>
                     </td>
                     <td class="hmax768">{{item.LocalVersion}}</td>
                     <td class="hmax768" data-ng-bind-html="item.Authors"></td>

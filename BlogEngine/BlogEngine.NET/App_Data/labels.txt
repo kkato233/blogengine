@@ -178,6 +178,7 @@ currentlyRated
 currentTheme
 custom
 customCode
+customFields
 customFieldsUpdated
 dashboard
 date
@@ -573,6 +574,7 @@ restore
 restored
 restoreSelected
 returnToBlog
+reviews
 rights
 rightsCanNotBeNull
 rightsSaved
@@ -638,6 +640,7 @@ siteUnavailableConfirm
 size
 slug
 smtpServer
+sortOrder
 source
 sourceViewer
 spam
@@ -749,6 +752,7 @@ widget
 widgets
 willShowGravatar
 writeNewPost
+writeReview
 writtenCommentsTotal
 wrote
 youAlreadyRated

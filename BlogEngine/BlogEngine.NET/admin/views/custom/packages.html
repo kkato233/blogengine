@@ -97,13 +97,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr data-ng-if="customFields.length > 0" />
-                            <h4 data-ng-if="customFields.length > 0">Custom fields</h4>
-                            <div data-ng-repeat="item in customFields" class="form-group">
-                                <label class="control-label  col-md-4" for="txtSlug">{{item.Key}}</label>
-                                <div class="col col-md-8">
-                                    <input type="text" class="form-control" id="txtSlug" data-ng-model="item.Value" />
-                                </div>
+                            <div ng-if="packageExtra.Reviews != null && packageExtra.Reviews.length > 0" class="form-horizontal clearfix" style="height: 200px; overflow: auto">
+                                <hr />
+                                <h4>{{lbl.reviews}}</h4>
+                                <ul class="list-group" style="margin-top: 20px">
+                                    <li ng-repeat="review in packageExtra.Reviews" class="list-group-item">
+                                        <span class="badge">{{review.Rating}}</span>
+                                        <b>{{review.Name}}:</b> {{review.Body}}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -136,6 +138,8 @@
                 </div>
             </div>
         </div>
+
+        <link href="star-rating.css" rel="stylesheet" />
         <table class="table table-bordered table-striped table-hover table-responsive">
             <thead>
                 <tr>
@@ -145,6 +149,7 @@
                     <th class="hmax768">{{lbl.date}} <a data-ng-click="sort_by('LastUpdated',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">{{lbl.version}}</th>
                     <th class="hmax768">{{lbl.downloads}} <a data-ng-click="sort_by('DownloadCount',$event)"><i class="fa fa-sort"></i></a></th>
+                    <th class="hmax768">{{lbl.rating}}</th>
                     <th class="hmax768">{{lbl.author}} <a data-ng-click="sort_by('Authors',$event)"><i class="fa fa-sort"></i></a></th>
                     <th class="hmax768">&nbsp;</th>
                 </tr>
@@ -166,6 +171,15 @@
                     <td>{{item.LastUpdated.substring(0,10)}}</td>
                     <td>{{item.OnlineVersion}}</td>
                     <td>{{item.DownloadCount}}</td>
+                    <td>
+                        <span class="star-rating">
+                            <input disabled="disabled" type="radio" name="{{item.Id}}" value="1" ng-checked="checkStar(1, item.Rating)"><i></i>
+                            <input disabled="disabled" type="radio" name="{{item.Id}}" value="2" ng-checked="checkStar(2, item.Rating)"><i></i>
+                            <input disabled="disabled" type="radio" name="{{item.Id}}" value="3" ng-checked="checkStar(3, item.Rating)"><i></i>
+                            <input disabled="disabled" type="radio" name="{{item.Id}}" value="4" ng-checked="checkStar(4, item.Rating)"><i></i>
+                            <input disabled="disabled" type="radio" name="{{item.Id}}" value="5" ng-checked="checkStar(5, item.Rating)"><i></i>
+                        </span>
+                    </td>
                     <td class="hmax768"><span class="text-ellipsis text-ellipsis-sm">{{item.Authors}}</span></td>
                     <td>
                         <a ng-if="pkgLinkType(item.LocalVersion, item.OnlineVersion) === 'download'" title="Install package" href="" ng-click="installPackage(item.Id)"><i class="fa fa-download"></i></a>

@@ -137,6 +137,7 @@
     <Content Include="admin\editor\_postmodals.cshtml" />
     <Content Include="admin\Extensions\admin.master" />
     <Content Include="admin\index.cshtml" />
+    <Content Include="admin\star-rating.css" />
     <Content Include="admin\views\content\files.html" />
     <Content Include="admin\views\custom\packages.html" />
     <Content Include="admin\views\settings\controls\blogroll.html" />
@@ -150,6 +151,7 @@
     <Content Include="admin\views\settings\tools\check.html" />
     <Content Include="admin\views\settings\tools\export.html" />
     <Content Include="admin\views\settings\tools\import.html" />
+    <Content Include="admin\views\shared\_review.html" />
     <Content Include="admin\views\shared\_settingtools.html" />
     <Content Include="admin\views\shared\_settingcomments.html" />
     <Content Include="admin\views\shared\_controls.html" />
@@ -160,6 +162,7 @@
     <None Include="App_Data\PublishProfiles\be.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
     <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
+    <Content Include="App_Data\posts\ec263a41-af90-4bdc-be2e-3b3ade12f6e5.xml" />
     <Content Include="App_Data\labels.txt" />
     <Content Include="bin\BlogEngine.NET.dll.config" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -625,7 +628,6 @@
     <Content Include="App_Data\packages.xml" />
     <Content Include="App_Data\pages\5d484c1c-d1f1-4be4-938a-f55bf24bf6ba.xml" />
     <Content Include="App_Data\pingservices.xml" />
-    <Content Include="App_Data\posts\c3b491e5-59ac-4f6a-81e5-27e971b903ed.xml" />
     <Content Include="App_Data\profiles\admin.xml" />
     <Content Include="App_Data\rights.xml" />
     <Content Include="App_Data\roles.xml" />
@@ -1672,6 +1674,7 @@
     <Compile Include="AppCode\Api\GalleryFeedsController.cs" />
     <Compile Include="AppCode\Api\LogsController.cs" />
     <Compile Include="AppCode\Api\LookupsController.cs" />
+    <Compile Include="AppCode\Api\PackageExtraController.cs" />
     <Compile Include="AppCode\Api\PackagesController.cs" />
     <Compile Include="AppCode\Api\SetupController.cs" />
     <Compile Include="AppCode\Api\PagerController.cs" />

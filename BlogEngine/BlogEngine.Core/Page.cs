@@ -83,6 +83,11 @@
         /// </summary>
         private bool isDeleted;
 
+        /// <summary>
+        /// The sort order
+        /// </summary>
+        private int sortOrder;
+
         #endregion
 
         #region Constructors and Destructors
@@ -524,6 +529,16 @@
                 return tags;
             }
         }
+
+        /// <summary>
+        /// The sort order of the page
+        /// </summary>
+        public int SortOrder
+        {
+            get { return sortOrder; }
+            set { SetValue("SortOrder", value, ref sortOrder); }
+        }
+
         private StateList<string> tags = new StateList<string>();
 
         #endregion
