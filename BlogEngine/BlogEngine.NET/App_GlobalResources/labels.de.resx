@@ -334,6 +334,9 @@
 	<data name="isFrontPage" xml:space="preserve">
     <value>Ist Startseite</value>
   </data>
+    <data name="sortOrder" xml:space="preserve">
+     <value>Sortierung</value>
+    </data>
 	<data name="keywords" xml:space="preserve">
     <value>Schlüsselwörter</value>
   </data>

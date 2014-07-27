@@ -58,7 +58,8 @@ make sure you have a backup.)
 Upgrading from 2.6
 -----------------------------------------------------------
 
- - There are no changes between 2.6 and 2.7.  If you are upgrading from 2.5, see upgrade notes below.
+ - Run SQL_CE_UpgradeFrom2.6to3.0.sql against your existing CE database. It will add new table and index.
+   If you get an error with "GO" keyword not supported, run statements one by one excluding "; GO".
 
 Upgrading from 2.5
 -----------------------------------------------------------

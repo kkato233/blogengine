@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BlogEngine.Core.Data.Models;
+using Newtonsoft.Json;
+using NuGet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BlogEngine.Core.GalleryServer;
-using BlogEngine.Core.Data.Models;
-using NuGet;
-using System.Globalization;
+using System.Net;
 
 namespace BlogEngine.Core.Packaging
 {
@@ -14,90 +14,54 @@ namespace BlogEngine.Core.Packaging
     public static class Gallery
     {
         /// <summary>
-        /// 
+        /// Load gallery packages
         /// </summary>
-        /// <param name="packages"></param>
+        /// <param name="packages">Packages to load</param>
         public static void Load(List<Package> packages)
         {
             try
             {
-                if (BlogSettings.Instance.GalleryFeedUrl == "http://dnbegallery.org/feed/FeedService.svc")
-                {
-                    foreach (var pkg in GetAllPublishedPackages().ToList())
-                    {
-                        //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", pkg.Id, pkg.Version, pkg.IsLatestVersion, pkg.IconUrl));
+                var packs = GetNugetPackages().ToList();
+                var extras = GetPackageExtras();
 
+                foreach (var pkg in packs)
+                {
+                    if (pkg.IsLatestVersion)
+                    {
                         var jp = new Package
                         {
-                            Id = string.IsNullOrEmpty(pkg.Id) ? pkg.Title : pkg.Id,
-                            PackageType = pkg.PackageType,
-                            Authors = string.IsNullOrEmpty(pkg.Authors) ? "unknown" : pkg.Authors,
+                            Id = pkg.Id,
+                            Authors = pkg.Authors == null ? "unknown" : string.Join(", ", pkg.Authors),
                             Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
                             DownloadCount = pkg.DownloadCount,
-                            LastUpdated = pkg.LastUpdated == DateTime.MinValue ? pkg.Published.ToString("yyyy-MM-dd HH:mm") : pkg.LastUpdated.ToString("yyyy-MM-dd HH:mm"), // format for sort order to work with strings
+                            LastUpdated = pkg.Published != null ? pkg.Published.Value.ToString("yyyy-MM-dd HH:mm") : "", // format for sort order to work with strings
                             Title = pkg.Title,
-                            OnlineVersion = pkg.Version,
-                            Website = pkg.ProjectUrl,
+                            OnlineVersion = pkg.Version.ToString(),
+                            Website = pkg.ProjectUrl == null ? null : pkg.ProjectUrl.ToString(),
                             Tags = pkg.Tags,
-                            IconUrl = pkg.IconUrl
+                            IconUrl = pkg.IconUrl == null ? null : pkg.IconUrl.ToString()
                         };
-
-                        // for themes or widgets, get screenshot instead of icon
-                        // also get screenshot if icon is missing for package
-                        if (pkg.Screenshots != null && pkg.Screenshots.Count > 0)
-                        {
-                            if ((pkg.PackageType == Constants.Theme || pkg.PackageType == Constants.Widget) || string.IsNullOrEmpty(pkg.IconUrl))
-                            {
-                                jp.IconUrl = pkg.Screenshots[0].ScreenshotUri;
-                            }
-                        }
-
-                        // if both icon and screenshot missing, get default image for package type
-                        if (string.IsNullOrEmpty(jp.IconUrl))
-                            jp.IconUrl = DefaultThumbnail(pkg.PackageType);
 
                         if (!string.IsNullOrEmpty(jp.IconUrl) && !jp.IconUrl.StartsWith("http:"))
                             jp.IconUrl = Constants.GalleryUrl + jp.IconUrl;
 
-                        if (!string.IsNullOrWhiteSpace(pkg.GalleryDetailsUrl))
-                            jp.PackageUrl = PackageUrl(pkg.PackageType, pkg.Id);
+                        if (string.IsNullOrEmpty(jp.IconUrl))
+                            jp.IconUrl = DefaultThumbnail("");
 
-                        //System.Diagnostics.Debug.WriteLine(string.Format("{0}|{1}|{2}|{3}", jp.Id, jp.OnlineVersion, jp.PackageType, jp.IconUrl));
+                        if (extras != null && extras.Count() > 0)
+                        {
+                            var dnbePkg = extras.Where(e => e.Id.ToLower() == pkg.Id.ToLower() + "." + pkg.Version).FirstOrDefault();
 
+                            if (dnbePkg != null)
+                            {
+                                jp.DownloadCount = dnbePkg.DownloadCount;
+                                jp.Rating = dnbePkg.Rating;
+                            }
+                        }
                         packages.Add(jp);
                     }
                 }
-                else
-                {
-                    var packs = GetNugetPackages().ToList();
-                    foreach (var pkg in packs)
-                    {
-                        if (pkg.IsLatestVersion)
-                        {
-                            var jp = new Package
-                            {
-                                Id = pkg.Id,
-                                Authors = pkg.Authors == null ? "unknown" : string.Join(", ", pkg.Authors),
-                                Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
-                                DownloadCount = pkg.DownloadCount,
-                                LastUpdated = pkg.Published != null ? pkg.Published.Value.ToString("yyyy-MM-dd HH:mm") : "", // format for sort order to work with strings
-                                Title = pkg.Title,
-                                OnlineVersion = pkg.Version.ToString(),
-                                Website = pkg.ProjectUrl == null ? null : pkg.ProjectUrl.ToString(),
-                                Tags = pkg.Tags,
-                                IconUrl = pkg.IconUrl == null ? null : pkg.IconUrl.ToString()
-                            };
 
-                            if (!string.IsNullOrEmpty(jp.IconUrl) && !jp.IconUrl.StartsWith("http:"))
-                                jp.IconUrl = Constants.GalleryUrl + jp.IconUrl;
-
-                            if (string.IsNullOrEmpty(jp.IconUrl))
-                                jp.IconUrl = DefaultThumbnail("");
-
-                            packages.Add(jp);
-                        }
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -140,34 +104,68 @@ namespace BlogEngine.Core.Packaging
             return string.Empty;
         }
 
-        #region Private methods
+        #region Package extras
 
-        static IEnumerable<PublishedPackage> GetAllPublishedPackages()
+        /// <summary>
+        /// Gets extra filds from remote gallery if gallery supports it
+        /// </summary>
+        /// <param name="id">Package ID</param>
+        /// <returns>Object with extra package fields</returns>
+        public static PackageExtra GetPackageExtra(string id)
         {
-            var packagingSource = new PackagingSource { FeedUrl = BlogSettings.Instance.GalleryFeedUrl };
-            var allPacks = new List<PublishedPackage>();
-
-            // gallery has a limit 100 records per call
-            // keep calling till any records returned
-            int cnt;
-            var skip = 0;
-            do
+            try
             {
-                var s = skip;
-                var galleryFeedContext = new GalleryFeedContext(new Uri(BlogSettings.Instance.GalleryFeedUrl)) { IgnoreMissingProperties = true };
-
-                // dnbegallery.org overrides feed with additional values in "screenshots" section
-                var pkgs = (new[] { packagingSource }).SelectMany(source => {
-                    return galleryFeedContext.Packages.Expand("Screenshots").OrderBy(p => p.Id).Where(p => p.IsLatestVersion).Skip(s).Take(100);
-                });
-
-                cnt = pkgs.Count();
-                skip = skip + 100;
-                allPacks.AddRange(pkgs);
-            } while (cnt > 0);
-
-            return allPacks;
+                var url = BlogSettings.Instance.GalleryFeedUrl.Replace("/nuget", "/api/extras/" + id);
+                WebClient wc = new WebClient();
+                string json = wc.DownloadString(url);
+                return JsonConvert.DeserializeObject<PackageExtra>(json);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
+
+        /// <summary>
+        /// BlogEngine.Gallery implements Nuget.Server
+        /// and adds fields like download counts, reviews, ratings etc.
+        /// </summary>
+        /// <returns>List of extra fields if exist</returns>
+        public static IEnumerable<PackageExtra> GetPackageExtras()
+        {
+            try
+            {
+                var url = BlogSettings.Instance.GalleryFeedUrl.Replace("/nuget", "/api/extras");
+                WebClient wc = new WebClient();
+                string json = wc.DownloadString(url);
+                return JsonConvert.DeserializeObject<List<PackageExtra>>(json);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static string RatePackage(string id, Review review)
+        {
+            try
+            {
+                var url = BlogSettings.Instance.GalleryFeedUrl.Replace("/nuget", "/api/review?pkgId=" + id);
+                WebClient wc = new WebClient();
+                var data = JsonConvert.SerializeObject(review);
+                wc.Headers.Add("content-type", "application/json");
+                return wc.UploadString(url, "PUT", data);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Error rating package", ex);
+                return ex.Message;
+            }
+        }
+
+        #endregion
+
+        #region Private methods
 
         static IEnumerable<IPackage> GetNugetPackages()
         {

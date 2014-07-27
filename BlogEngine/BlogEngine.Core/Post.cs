@@ -1303,12 +1303,13 @@
         }
 
         /// <summary>
-        /// Removes a comment from the collection and saves the post.
+        /// Removes a comment from the collection.
+        /// Will update the post if <paramref name="updatePost"/> is set to true.
+        /// If <paramref name="updatePost"/> is set to false, you have to call <see cref="DataUpdate"/> manually!
         /// </summary>
-        /// <param name="comment">
-        /// The comment to remove from the post.
-        /// </param>
-        public void RemoveComment(Comment comment)
+        /// <param name="comment"></param>
+        /// <param name="updatePost"></param>
+        public void RemoveComment(Comment comment, bool updatePost)
         {
             var e = new CancelEventArgs();
             this.OnRemovingComment(comment, e);
@@ -1324,8 +1325,24 @@
             }
 
             comm.IsDeleted = true;
-            this.DataUpdate();
-            this.OnCommentRemoved(comment);
+
+            if (updatePost)
+            {
+                this.DataUpdate();
+            }
+
+            this.OnCommentRemoved(comment);  
+        }
+
+        /// <summary>
+        /// Removes a comment from the collection and saves the post.
+        /// </summary>
+        /// <param name="comment">
+        /// The comment to remove from the post.
+        /// </param>
+        public void RemoveComment(Comment comment)
+        {
+            RemoveComment(comment, true);
         }
 
         /// <summary>

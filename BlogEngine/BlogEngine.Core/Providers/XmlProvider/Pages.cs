@@ -87,6 +87,7 @@
                 writer.WriteElementString("showinlist", page.ShowInList.ToString());
                 writer.WriteElementString("ispublished", page.IsPublished.ToString());
                 writer.WriteElementString("isdeleted", page.IsDeleted.ToString());
+                writer.WriteElementString("sortorder", page.SortOrder.ToString());
                 writer.WriteElementString(
                     "datecreated", 
                     page.DateCreated.AddHours(-BlogSettings.Instance.Timezone).ToString(
@@ -147,6 +148,11 @@
             if (doc.SelectSingleNode("page/isdeleted") != null)
             {
                 page.IsDeleted = bool.Parse(doc.SelectSingleNode("page/isdeleted").InnerText);
+            }
+
+            if (doc.SelectSingleNode("page/sortorder") != null)
+            {
+                page.SortOrder = Int32.Parse(doc.SelectSingleNode("page/sortorder").InnerText);
             }
 
             page.DateCreated = DateTime.Parse(

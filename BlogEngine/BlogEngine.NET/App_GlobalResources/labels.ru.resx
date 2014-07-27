@@ -2101,4 +2101,130 @@
   <data name="notAuthorized" xml:space="preserve">
     <value>Запрещено</value>
   </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>Опубликованные записи</value>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>Опубликованные страницы</value>
+  </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>Опубликовано</value>
+  </data>
+  <data name="addFolder" xml:space="preserve">
+    <value>Добавить папку</value>
+  </data>
+  <data name="addToPost" xml:space="preserve">
+    <value>Добавить в запись</value>
+  </data>
+  <data name="filePicker" xml:space="preserve">
+    <value>Выбрать файл</value>
+  </data>
+  <data name="postAdded" xml:space="preserve">
+    <value>Запись добавлена</value>
+  </data>
+  <data name="postDeleted" xml:space="preserve">
+    <value>Запись удалена</value>
+  </data>
+  <data name="postSaved" xml:space="preserve">
+    <value>Запись сохранена</value>
+  </data>
+  <data name="postUpdated" xml:space="preserve">
+    <value>Запись обновлена</value>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>Мета запись</value>
+  </data>
+  <data name="previewComment" xml:space="preserve">
+    <value>Предосмотр</value>
+  </data>
+  <data name="previousPost" xml:space="preserve">
+    <value>Предыдущая запись</value>
+  </data>
+  <data name="profileUpdated" xml:space="preserve">
+    <value>Профиль {0} обновлён</value>
+  </data>
+  <data name="profiles" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>Отменить публикацию</value>
+  </data>
+  <data name="unlimited" xml:space="preserve">
+    <value>Безлимитный</value>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>Убрать линк</value>
+  </data>
+  <data name="unmoderated" xml:space="preserve">
+    <value>Немодерируемый</value>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>Неопубликованный</value>
+  </data>
+  <data name="unpublishedPost" xml:space="preserve">
+    <value>Неопубликованная запись</value>
+  </data>
+  <data name="unpublishedPage" xml:space="preserve">
+    <value>Неопубликованная страница</value>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>Ошибка при обновлении</value>
+  </data>
+  <data name="up" xml:space="preserve">
+    <value>Вверх</value>
+  </data>
+  <data name="uploaded" xml:space="preserve">
+    <value>Загруженный</value>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>Подчеркнуть</value>
+  </data>
+  <data name="uncategorized" xml:space="preserve">
+    <value>Без категории</value>
+  </data>
+  <data name="userAlreadyExists" xml:space="preserve">
+    <value>Пользователь {0} уже существует</value>
+  </data>
+  <data name="userHasBeenCreated" xml:space="preserve">
+    <value>Пользователь {0} создан</value>
+  </data>
+  <data name="userHasBeenDeleted" xml:space="preserve">
+    <value>Пользователь {0} удалён</value>
+  </data>
+  <data name="userUpdated" xml:space="preserve">
+    <value>Пользователь {0} обновлён</value>
+  </data>
+  <data name="userAdded" xml:space="preserve">
+    <value>Пользователь добавлен</value>
+  </data>
+  <data name="userUpdatedShort" xml:space="preserve">
+    <value>Пользователь обновлён</value>
+  </data>
+  <data name="userWithEmailExists" xml:space="preserve">
+    <value>Пользователь с этим почтовым адресом уже существует</value>
+  </data>
+  <data name="usernameAlreadyTaken" xml:space="preserve">
+    <value>Пользователь с таким именем уже существует</value>
+  </data>
+  <data name="userNameIsRequired" xml:space="preserve">
+    <value>Имя обязательно</value>
+  </data>
+  <data name="userProfiles" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="userArgumentInvalid" xml:space="preserve">
+    <value>Неверный аргумент</value>
+  </data>
+  <data name="reviews" xml:space="preserve">
+    <value>Рецензии</value>
+  </data>
+  <data name="writeReview" xml:space="preserve">
+    <value>Написать рецензию</value>
+  </data>
+  <data name="customFields" xml:space="preserve">
+    <value>Дополнительные настройки</value>
+  </data>
 </root>

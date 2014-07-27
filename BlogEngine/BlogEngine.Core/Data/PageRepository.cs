@@ -142,6 +142,7 @@ namespace BlogEngine.Core.Data
             page.Description = GetDescription(detail.Description, detail.Content);
             page.Keywords = detail.Keywords;
             page.IsFrontPage = detail.IsFrontPage;
+            page.SortOrder = detail.SortOrder;
 
             // if changing slug, should be unique
             if (page.Slug != detail.Slug)
@@ -192,6 +193,7 @@ namespace BlogEngine.Core.Data
                 HasChildren = page.HasChildPages,
                 IsPublished = page.IsPublished,
                 IsFrontPage = page.IsFrontPage,
+                SortOrder = page.SortOrder,
             };
         }
 
@@ -220,7 +222,8 @@ namespace BlogEngine.Core.Data
                 HasChildren = page.HasChildPages,
                 IsPublished = page.IsPublished,
                 IsFrontPage = page.IsFrontPage,
-                IsDeleted = page.IsDeleted
+                IsDeleted = page.IsDeleted,
+                SortOrder = page.SortOrder,
             };
         }
 
