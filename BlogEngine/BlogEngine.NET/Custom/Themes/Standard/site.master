@@ -87,7 +87,7 @@
                         <a href="https://plus.google.com/[CUSTOMFIELD|THEME|Standard|Google plus|u/0/]">
                             <img src="~/Custom/Themes/Standard/images/googleplus.png" runat="server" />
                         </a>
-                        <a href="[CUSTOMFIELD|THEME|Standard|Your RSS|syndication.axd/]">
+                        <a href="<%=Utils.FeedUrl %>">
                             <img src="~/Custom/Themes/Standard/images/rss.png" runat="server" />
                         </a>
                     </div>
