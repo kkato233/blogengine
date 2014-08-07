@@ -96,28 +96,17 @@ namespace BlogEngine.Core.Data
                     {
                         var ext = ExtensionManager.GetExtension(item.Id);
 
-                        if (ext == null)
+                        if (ext != null)
                         {
-                            // handle when extension and package ID different
-                            var map = Packaging.FileSystem.ExtansionMap();
-                            foreach (var m in map)
-                            {
-                                if (m.Value.ToString() == item.Id)
-                                {
-                                    ext = ExtensionManager.GetExtension(m.Key);
-                                    ExtensionManager.ChangeStatus(m.Key, item.Enabled);
-                                    break;
-                                }
-                            }
+                            ext.Priority = item.Priority;
+                            ExtensionManager.ChangeStatus(item.Id, item.Enabled);
+                            ExtensionManager.SaveToStorage(ext);
+                            Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
                         }
                         else
                         {
-                            ExtensionManager.ChangeStatus(item.Id, item.Enabled);
+                            Utils.Log(string.Format("Failed to find extension {0} while trying to update package repository", item.Id));
                         }
-
-                        ext.Priority = item.Priority;
-                        ExtensionManager.SaveToStorage(ext);
-                        Blog.CurrentInstance.Cache.Remove(Constants.CacheKey);
                     }
                     break;
                 case "Theme":
@@ -191,52 +180,6 @@ namespace BlogEngine.Core.Data
                 p.LocalVersion = BlogEngine.Core.Packaging.FileSystem.GetInstalledVersion(p.Id);
             }
             return packages;
-        }
-
-        static void LoadExtensions(List<Package> packages)
-        {
-            var extensions = ExtensionManager.Extensions.Where(x => x.Key != "MetaExtension").ToList();
-
-            foreach (KeyValuePair<string, ManagedExtension> ext in extensions)
-            {
-                var x = ExtensionManager.GetExtension(ext.Key);
-
-                var adminPage = string.IsNullOrEmpty(x.AdminPage) ?
-                string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled) :
-                string.Format(x.AdminPage, x.Name, x.Enabled);
-
-                // If extension name in gallery differ from package ID
-                // they will show as 2 extensions in the list.
-                // To avoid, we can add mapping to /app_data/extensionmap.txt
-                // in format "ExtensionId=PackageName" to map exension id to package id
-                var map = Packaging.FileSystem.ExtansionMap();
-                var extId = map.ContainsKey(x.Name) ? map[x.Name] : x.Name;
-                var existingPackage = packages.Where(p => p.Id == extId).FirstOrDefault();
-
-                if (existingPackage == null)
-                {
-                    var p = new Package
-                    {
-                        Id = x.Name,
-                        PackageType = "Extension",
-                        Title = x.Name,
-                        Description = x.Description,
-                        LocalVersion = x.Version,
-                        Authors = x.Author,
-                        IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
-                        Enabled = x.Enabled,
-                        Priority = x.Priority,
-                        SettingsUrl = x.Settings.Count > 0 ? adminPage : ""
-                    };
-                    packages.Add(p);
-                }
-                else
-                {
-                    existingPackage.LocalVersion = x.Version;
-                    existingPackage.Enabled = x.Enabled;
-                    existingPackage.SettingsUrl = x.AdminPage;
-                }
-            }
         }
 
         static void Trace(string msg, List<Package> packages)
