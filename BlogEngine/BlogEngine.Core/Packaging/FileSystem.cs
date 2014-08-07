@@ -70,27 +70,27 @@ namespace BlogEngine.Core.Packaging
                 string.Format(Utils.RelativeWebRoot + "admin/Extensions/Settings.aspx?ext={0}&enb={1}", x.Name, x.Enabled) :
                 string.Format(x.AdminPage, x.Name, x.Enabled);
 
-                // If extension name in gallery differ from package ID
-                // they will show as 2 extensions in the list.
-                // To avoid, we can add mapping to /app_data/extensionmap.txt
-                // in format "ExtensionId=PackageName" to map exension id to package id
-                var map = Packaging.FileSystem.ExtansionMap();
-                var extId = map.ContainsKey(x.Name) ? map[x.Name] : x.Name;
-
+                var onlineVersion = GetInstalledVersion(x.Name);
                 var p = new Package
                 {
-                    Id = extId,
+                    Id = x.Name,
                     PackageType = "Extension",
                     Title = x.Name,
                     Description = x.Description,
                     LocalVersion = x.Version,
-                    OnlineVersion = GetInstalledVersion(extId),
+                    OnlineVersion = onlineVersion,
                     Authors = x.Author,
                     IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
                     Enabled = x.Enabled,
                     Priority = x.Priority,
                     SettingsUrl = x.Settings.Count > 0 ? adminPage : ""
                 };
+                if (!string.IsNullOrEmpty(onlineVersion))
+                {
+                    var extra = Gallery.GetPackageExtra(x.Name + "." + onlineVersion);
+                    p.DownloadCount = extra.DownloadCount;
+                    p.Rating = extra.Rating;
+                }
                 packages.Add(p);
             }
             return packages;
@@ -100,8 +100,7 @@ namespace BlogEngine.Core.Packaging
         /// Copy uncompressed package files
         /// to application directories
         /// </summary>
-        /// <param name="pkgId">Package Id</param>
-        /// <param name="version">Package Version</param>
+        /// <param name="package">Package</param>
         public static List<PackageFile> InstallPackage(NuGet.IPackage package)
         {
             var packageFiles = new List<PackageFile>();
@@ -126,6 +125,7 @@ namespace BlogEngine.Core.Packaging
                 CopyDirectory(source, target, package.Id, packageFiles);
 
                 CreateManifestIfNotExists(package, packageFiles);
+
                 // clear after install
                 ForceDeleteDirectory(content);
             }
@@ -224,6 +224,13 @@ namespace BlogEngine.Core.Packaging
 
                 p.OnlineVersion = GetInstalledVersion(p.Id);
 
+                if (!string.IsNullOrEmpty(p.OnlineVersion))
+                {
+                    var extra = Gallery.GetPackageExtra(p.Id + "." + p.OnlineVersion);
+                    p.DownloadCount = extra.DownloadCount;
+                    p.Rating = extra.Rating;
+                }
+
                 installedThemes.Add(p);
             }
             return installedThemes;
@@ -237,8 +244,9 @@ namespace BlogEngine.Core.Packaging
             foreach (var p in from d in Directory.GetDirectories(path)
                 let index = d.LastIndexOf(Path.DirectorySeparatorChar) + 1
                 select d.Substring(index)
-                into widgetId select GetPackageManifest(widgetId, Constants.Widget) ?? 
-                new Package {Id = widgetId, PackageType = Constants.Widget})
+                into widgetId
+                select GetPackageManifest(widgetId, Constants.Widget) ??
+                new Package { Id = widgetId, PackageType = Constants.Widget })
             {
                 if (string.IsNullOrEmpty(p.IconUrl))
                     p.IconUrl = DefaultIconUrl(p);
@@ -248,103 +256,16 @@ namespace BlogEngine.Core.Packaging
 
                 p.OnlineVersion = GetInstalledVersion(p.Id);
 
+                if (!string.IsNullOrEmpty(p.OnlineVersion))
+                {
+                    var extra = Gallery.GetPackageExtra(p.Id + "." + p.OnlineVersion);
+                    p.DownloadCount = extra.DownloadCount;
+                    p.Rating = extra.Rating;
+                }
+
                 installedWidgets.Add(p);
             }
             return installedWidgets;
-        }
-
-        static Package GetPackageManifest(string id, string pkgType)
-        {
-            var jp = new Package { Id = id, PackageType = pkgType };
-
-            var pkgUrl = pkgType == "Theme" ?
-                string.Format("{0}Custom/Themes/{1}/theme.xml", Utils.ApplicationRelativeWebRoot, id) :
-                string.Format("{0}Custom/Widgets/{1}/widget.xml", Utils.ApplicationRelativeWebRoot, id);
-
-            var pkgPath = HttpContext.Current.Server.MapPath(pkgUrl);
-            try
-            {
-                if (File.Exists(pkgPath))
-                {
-                    using (var textReader = new XmlTextReader(pkgPath))
-                    {
-                        textReader.Read();
-
-                        while (textReader.Read())
-                        {
-                            textReader.MoveToElement();
-
-                            if (textReader.Name == "description")
-                                jp.Description = textReader.ReadString();
-
-                            if (textReader.Name == "authors")
-                                jp.Authors = textReader.ReadString();
-
-                            if (textReader.Name == "website")
-                                jp.Website = textReader.ReadString();
-
-                            if (textReader.Name == "version")
-                                jp.LocalVersion = textReader.ReadString();
-
-                            if (textReader.Name == "iconurl")
-                                jp.IconUrl = textReader.ReadString();
-                        }
-                        textReader.Close();
-                    }
-                    return jp;
-                }
-            }
-            catch (Exception ex)
-            {
-                Utils.Log("Packaging.FileSystem.GetPackageManifest", ex);
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Creates manifest file for theme or widget to save package metadata
-        /// </summary>
-        /// <param name="package">Package</param>
-        /// <param name="packageFiles">Installed files</param>
-        public static void CreateManifestIfNotExists(NuGet.IPackage package, List<PackageFile> packageFiles)
-        {
-            var shortPath = "";
-            var type = PackageType(packageFiles);
-
-            if (type == "theme")
-                shortPath = string.Format(@"Custom\Themes\{0}\theme.xml", package.Id);
-
-            if(type == "widget")
-                shortPath = string.Format(@"Custom\Widgets\{0}\widget.xml", package.Id);
-
-            if (string.IsNullOrEmpty(shortPath))
-                return;
-
-            var path = Path.Combine(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot), shortPath);
-
-            if (File.Exists(path))
-                return;
-
-            using (var writer = new XmlTextWriter(path, Encoding.UTF8))
-            {
-                writer.Formatting = Formatting.Indented;
-                writer.Indentation = 4;
-                writer.WriteStartDocument(true);
-                writer.WriteStartElement("metadata");
-
-                writer.WriteElementString("id", package.Id);
-                writer.WriteElementString("description", package.Description);
-
-                writer.WriteElementString("authors", string.Join(", ", package.Authors));
-                
-                writer.WriteElementString("website", package.ProjectUrl == null ? "" : package.ProjectUrl.ToString());
-                writer.WriteElementString("version", package.Version.ToString());
-                writer.WriteElementString("iconurl", package.IconUrl == null ? "" : package.IconUrl.ToString());
-
-                writer.WriteEndElement();
-            }
-            var idx = packageFiles.Count + 1;
-            packageFiles.Add(new PackageFile { PackageId = package.Id, FileOrder = idx, FilePath = shortPath, IsDirectory = false });
         }
 
         static void CopyDirectory(DirectoryInfo source, DirectoryInfo target, string pkgId, List<PackageFile> installedFiles)
@@ -495,34 +416,6 @@ namespace BlogEngine.Core.Packaging
             writer.Close();
         }
 
-        /// <summary>
-        /// Pulls extension ID to package ID mappings (when different)
-        /// </summary>
-        /// <returns>Mapping collection</returns>
-        public static Dictionary<string, string> ExtansionMap()
-        {
-            var map = new Dictionary<string, string>();
-            string fileLocation = HostingEnvironment.MapPath(Path.Combine(BlogConfig.StorageLocation, "extensionmap.txt"));
-
-            if (File.Exists(fileLocation))
-            {
-                using (var sw = new StreamReader(fileLocation))
-                {
-                    string line;
-                    while ((line = sw.ReadLine()) != null)
-                    {
-                        string[] ar = line.Trim().Split('=');
-                        if (ar.Length == 2)
-                        {
-                            map.Add(ar[0], ar[1]);
-                        }
-                    }
-                    sw.Close();
-                }
-            }
-            return map;
-        }
-
         static string PackageType(List<PackageFile> files)
         {
             foreach (var pkg in files)
@@ -537,10 +430,109 @@ namespace BlogEngine.Core.Packaging
             return "extension";
         }
 
+        /// <summary>
+        /// Get online version number
+        /// </summary>
+        /// <param name="pkgId">Package ID</param>
+        /// <returns>Version number</returns>
         public static string GetInstalledVersion(string pkgId)
         {
             var pkg = BlogService.InstalledFromGalleryPackages().Where(p => p.PackageId == pkgId).FirstOrDefault();
             return pkg == null ? "" : pkg.Version;
+        }
+
+        static Package GetPackageManifest(string id, string pkgType)
+        {
+            var jp = new Package { Id = id, PackageType = pkgType };
+
+            var pkgUrl = pkgType == "Theme" ?
+                string.Format("{0}Custom/Themes/{1}/theme.xml", Utils.ApplicationRelativeWebRoot, id) :
+                string.Format("{0}Custom/Widgets/{1}/widget.xml", Utils.ApplicationRelativeWebRoot, id);
+
+            var pkgPath = HttpContext.Current.Server.MapPath(pkgUrl);
+            try
+            {
+                if (File.Exists(pkgPath))
+                {
+                    using (var textReader = new XmlTextReader(pkgPath))
+                    {
+                        textReader.Read();
+
+                        while (textReader.Read())
+                        {
+                            textReader.MoveToElement();
+
+                            if (textReader.Name == "description")
+                                jp.Description = textReader.ReadString();
+
+                            if (textReader.Name == "authors")
+                                jp.Authors = textReader.ReadString();
+
+                            if (textReader.Name == "website")
+                                jp.Website = textReader.ReadString();
+
+                            if (textReader.Name == "version")
+                                jp.LocalVersion = textReader.ReadString();
+
+                            if (textReader.Name == "iconurl")
+                                jp.IconUrl = textReader.ReadString();
+                        }
+                        textReader.Close();
+                    }
+                    return jp;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log("Packaging.FileSystem.GetPackageManifest", ex);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Creates manifest file for theme or widget to save package metadata
+        /// </summary>
+        /// <param name="package">Package</param>
+        /// <param name="packageFiles">Installed files</param>
+        public static void CreateManifestIfNotExists(NuGet.IPackage package, List<PackageFile> packageFiles)
+        {
+            var shortPath = "";
+            var type = PackageType(packageFiles);
+
+            if (type == "theme")
+                shortPath = string.Format(@"Custom\Themes\{0}\theme.xml", package.Id);
+
+            if (type == "widget")
+                shortPath = string.Format(@"Custom\Widgets\{0}\widget.xml", package.Id);
+
+            if (string.IsNullOrEmpty(shortPath))
+                return;
+
+            var path = Path.Combine(HttpContext.Current.Server.MapPath(Utils.ApplicationRelativeWebRoot), shortPath);
+
+            if (File.Exists(path))
+                return;
+
+            using (var writer = new XmlTextWriter(path, Encoding.UTF8))
+            {
+                writer.Formatting = Formatting.Indented;
+                writer.Indentation = 4;
+                writer.WriteStartDocument(true);
+                writer.WriteStartElement("metadata");
+
+                writer.WriteElementString("id", package.Id);
+                writer.WriteElementString("description", package.Description);
+
+                writer.WriteElementString("authors", string.Join(", ", package.Authors));
+
+                writer.WriteElementString("website", package.ProjectUrl == null ? "" : package.ProjectUrl.ToString());
+                writer.WriteElementString("version", package.Version.ToString());
+                writer.WriteElementString("iconurl", package.IconUrl == null ? "" : package.IconUrl.ToString());
+
+                writer.WriteEndElement();
+            }
+            var idx = packageFiles.Count + 1;
+            packageFiles.Add(new PackageFile { PackageId = package.Id, FileOrder = idx, FilePath = shortPath, IsDirectory = false });
         }
 
         #endregion

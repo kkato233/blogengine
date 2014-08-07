@@ -160,6 +160,25 @@ public class PackagesController : ApiController
     }
 
     [HttpPut]
+    public HttpResponseMessage Rate(string id, [FromBody]Review review)
+    {
+        try
+        {
+            if (review == null) return Request.CreateResponse(HttpStatusCode.ExpectationFailed, "Review can not be null");
+
+            if (review.Body.Length > 450) review.Body = review.Body.Substring(0, 450);
+
+            var result = BlogEngine.Core.Packaging.Gallery.RatePackage(id, review);
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+        catch (Exception ex)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        }
+    }
+
+    [HttpPut]
     public bool Refresh()
     {
         try

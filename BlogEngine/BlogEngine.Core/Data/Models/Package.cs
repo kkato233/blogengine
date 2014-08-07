@@ -1,4 +1,5 @@
-﻿namespace BlogEngine.Core.Data.Models
+﻿using System;
+namespace BlogEngine.Core.Data.Models
 {
     /// <summary>
     /// Install package
@@ -84,8 +85,22 @@
         {
             get
             {
-                return Packaging.Gallery.ConvertVersion(LocalVersion) < Packaging.Gallery.ConvertVersion(OnlineVersion);
+                return ConvertVersion(LocalVersion) < ConvertVersion(OnlineVersion);
             }
+        }
+        /// <summary>
+        /// Package extended data
+        /// </summary>
+        public PackageExtra Extra { get; set; }
+
+        static int ConvertVersion(string version)
+        {
+            if (string.IsNullOrEmpty(version))
+                return 0;
+
+            int numVersion;
+            Int32.TryParse(version.Replace(".", ""), out numVersion);
+            return numVersion;
         }
     }
 }

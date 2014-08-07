@@ -16,8 +16,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.activeTheme = ActiveTheme;
     $scope.themesPage = false;
     $scope.showRating = false;
-    $scope.extras = [];
-    $scope.packageExtra = {};
     $scope.selectedRating = 0;
     
     if ($scope.id) {
@@ -51,10 +49,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         .success(function (data) {
             angular.copy(data, $scope.items);
 
-            if ($scope.fltr != "packages") {
-                $scope.loadExtras();
-            }
-
             gridInit($scope, $filter);
             rowSpinOff($scope.items);
 
@@ -87,7 +81,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
         .success(function (data) {
             angular.copy(data, $scope.customFields);
-            $scope.getPackageExtra(id + "." + $scope.package.OnlineVersion);
             $("#modal-theme-edit").modal();
         })
         .error(function () {
@@ -259,56 +252,32 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $scope.selectedRating = rating;
     }
 
-    $scope.loadExtras = function () {
-        $scope.extras = [];
-        for (var i = 0; i < $scope.items.length; i++) {
-            var item = $scope.items[i];
-            if (item.OnlineVersion != null && item.OnlineVersion.length > 0) {
-                dataService.getItems('/api/packageextra/' + item.Id + "." + item.OnlineVersion)
-                .success(function (data) {
-                    if (data) {
-                        $scope.extras.push(data);
-                        $scope.updatePackagesFromExtra(data);
-                    }
-                });
-            }
-        }
-    }
-
-    $scope.updatePackagesFromExtra = function (extra) {
-        for (var i = 0; i < $scope.items.length; i++) {
-            var item = $scope.items[i];
-            if (item != null && item.Id + "." + item.OnlineVersion === extra.Id) {
-                $scope.items[i].DownloadCount = extra.DownloadCount;
-                $scope.items[i].Rating = extra.Rating;
-            }
-        }
-    }
-
     $scope.showRatingForm = function (item, rating) {
         $scope.selectedRating = rating;
-        $scope.getPackageExtra(item.Id + "." + item.OnlineVersion);
-        $("#modal-rating").modal();
-    }
 
-    $scope.getPackageExtra = function (id) {
-        dataService.getItems('/api/packageextra/' + id)
+        dataService.getItems('/api/packages/' + item.Id)
         .success(function (data) {
-            if (data) {
-                angular.copy(data, $scope.packageExtra);
-            }
+            //angular.copy(data.Extra, $scope.package.Extra);
+            $scope.package.Extra = data.Extra;
+            $("#modal-rating").modal();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
         });
     }
 
     $scope.submitRating = function () {
         var review = { "Name": UserVars.Name, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
-        dataService.updateItem("/api/packageextra/rate/" + $scope.packageExtra.Id, review)
+        dataService.updateItem("/api/packages/rate/" + $scope.package.Extra.Id, review)
         .success(function (data) {
-            if (data.length === "") {
+            if (data != null) {
+                data = JSON.parse(data);
+            }
+            if (data.length === 0) {
                 toastr.success($rootScope.lbl.completed);
             }
             else {
-                toastr.error(data.replace('"', '').replace('"', ''));
+                toastr.error(data);
             }
             $("#modal-rating").modal('hide');
             $scope.load();
