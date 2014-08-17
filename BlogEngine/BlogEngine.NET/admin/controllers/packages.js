@@ -17,6 +17,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.themesPage = false;
     $scope.showRating = false;
     $scope.selectedRating = 0;
+    $scope.author = UserVars.Name;
     
     if ($scope.id) {
         $("#modal-theme-edit").modal();
@@ -71,7 +72,10 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].Id === id) {
                 angular.copy($scope.items[i], $scope.package);
+
                 if ($scope.package) {
+                    $scope.removeEmptyReviews();
+
                     if($scope.package.SettingsUrl){
                         $scope.extEditSrc = $scope.package.SettingsUrl.replace("~/", SiteVars.RelativeWebRoot);
                     }
@@ -256,9 +260,9 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $scope.selectedRating = rating;
 
         dataService.getItems('/api/packages/' + item.Id)
-        .success(function (data) {
-            //angular.copy(data.Extra, $scope.package.Extra);
+        .success(function (data) {  
             $scope.package.Extra = data.Extra;
+            $scope.removeEmptyReviews();
             $("#modal-rating").modal();
         })
         .error(function () {
@@ -267,7 +271,9 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     }
 
     $scope.submitRating = function () {
-        var review = { "Name": UserVars.Name, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
+        var author = $("#txtAuthor").val().length > 0 ? $("#txtAuthor").val() : $scope.author;
+        var review = { "Name": author, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
+
         dataService.updateItem("/api/packages/rate/" + $scope.package.Extra.Id, review)
         .success(function (data) {
             if (data != null) {
@@ -285,6 +291,19 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         .error(function () {
             toastr.error($rootScope.lbl.failed);
         });
+    }
+
+    $scope.removeEmptyReviews = function () {       
+        if ($scope.package.Extra != null && $scope.package.Extra.Reviews != null) {
+            var reviews = [];
+            for (var i = 0; i < $scope.package.Extra.Reviews.length; i++) {
+                var review = $scope.package.Extra.Reviews[i];
+                if (review.Body.length > 0) {
+                    reviews.push(review);
+                }
+            }
+            $scope.package.Extra.Reviews = reviews;
+        }
     }
 
 }]);

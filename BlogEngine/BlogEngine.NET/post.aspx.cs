@@ -78,6 +78,9 @@ public partial class post : BlogEngine.Core.Web.Controls.BlogBasePage
                     string encodedPostTitle = Server.HtmlEncode(Post.Title);
                     string path = Utils.ApplicationRelativeWebRoot + "Custom/Themes/" + BlogSettings.Instance.GetThemeWithAdjustments(null) + "/PostView.ascx";
 
+                    if (!System.IO.File.Exists(Server.MapPath(path)))
+                        path = string.Format("{0}Custom/Controls/Defaults/PostView.ascx", Utils.ApplicationRelativeWebRoot);
+
                     PostViewBase postView = (PostViewBase)LoadControl(path);
                     postView.Post = Post;
                     postView.ID = Post.Id.ToString().Replace("-", string.Empty);
