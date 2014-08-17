@@ -120,6 +120,13 @@
                 Comment.OnSpamAttack();
             }
 
+            if (exception != null && exception.Message.Contains("site.master"))
+            {
+                ctx.Server.ClearError();
+                this.MasterPageFile = string.Format("{0}Custom/Themes/RazorHost/site.master", Utils.ApplicationRelativeWebRoot);
+                base.OnInit(EventArgs.Empty);
+            }
+
             base.OnError(e);
         }
 

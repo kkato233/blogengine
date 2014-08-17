@@ -125,6 +125,9 @@
             var path = string.Format("{0}Custom/Themes/{1}/PostView.ascx", Utils.ApplicationRelativeWebRoot, BlogSettings.Instance.GetThemeWithAdjustments(this.Request.QueryString["theme"]));
             var counter = 0;
 
+            if(!System.IO.File.Exists(Server.MapPath(path)))
+                path = string.Format("{0}Custom/Controls/Defaults/PostView.ascx", Utils.ApplicationRelativeWebRoot);
+
             foreach (Post post in visiblePosts.GetRange(index, stop))
             {
                 if (counter == stop)

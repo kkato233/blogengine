@@ -227,8 +227,11 @@ namespace BlogEngine.Core.Packaging
                 if (!string.IsNullOrEmpty(p.OnlineVersion))
                 {
                     var extra = Gallery.GetPackageExtra(p.Id + "." + p.OnlineVersion);
-                    p.DownloadCount = extra.DownloadCount;
-                    p.Rating = extra.Rating;
+                    if (extra != null)
+                    {
+                        p.DownloadCount = extra.DownloadCount;
+                        p.Rating = extra.Rating;
+                    }
                 }
 
                 installedThemes.Add(p);
@@ -259,8 +262,11 @@ namespace BlogEngine.Core.Packaging
                 if (!string.IsNullOrEmpty(p.OnlineVersion))
                 {
                     var extra = Gallery.GetPackageExtra(p.Id + "." + p.OnlineVersion);
-                    p.DownloadCount = extra.DownloadCount;
-                    p.Rating = extra.Rating;
+                    if (extra != null)
+                    {
+                        p.DownloadCount = extra.DownloadCount;
+                        p.Rating = extra.Rating;
+                    }
                 }
 
                 installedWidgets.Add(p);

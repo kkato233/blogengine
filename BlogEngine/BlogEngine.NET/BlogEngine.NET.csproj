@@ -175,6 +175,8 @@
     <Content Include="Content\font\FontAwesome.otf" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Custom\Controls\Defaults\CommentView.ascx" />
+    <Content Include="Custom\Controls\Defaults\PostView.ascx" />
     <Content Include="Custom\Media\sample.mp4" />
     <Content Include="editors\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
     <Content Include="editors\bootstrap-wysiwyg\editor.js" />

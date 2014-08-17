@@ -476,7 +476,7 @@
         public static AuthorProfile GetProfileByEmail(string email)
         {
             return
-                Profiles.Find(p => p.EmailAddress.Equals(email, StringComparison.OrdinalIgnoreCase));
+                Profiles.Find(p => String.IsNullOrWhiteSpace(p.EmailAddress) ? false : p.EmailAddress.Equals(email, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
