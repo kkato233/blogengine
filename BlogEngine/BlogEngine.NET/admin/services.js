@@ -17,11 +17,21 @@
             });
         },
         deleteItem: function (url, item) {
-            return $http({
-                url: webRoot(url) + "/" + item.Id,
-                method: 'DELETE',
-                headers: { 'x-blog-instance': SiteVars.BlogInstanceId }
-            });
+            if (item.Id) {
+                return $http({
+                    url: webRoot(url) + "/" + item.Id,
+                    method: 'DELETE',
+                    headers: { 'x-blog-instance': SiteVars.BlogInstanceId }
+                });
+            }
+            else {
+                return $http({
+                    url: webRoot(url),
+                    method: 'DELETE',
+                    data: item,
+                    headers: { 'Content-Type': 'application/json', 'x-blog-instance': SiteVars.BlogInstanceId }
+                });
+            }
         },
         // when item does not have "Id" field
         // we can pass name etc. as id here

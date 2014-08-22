@@ -2,6 +2,30 @@
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div data-ng-include src="'views/shared/_navusers.html'"></div>
     <div class="container admin-views-main admin-views-users-profile" data-ng-controller="ProfileController">
+
+        <div id="modal-custom" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="focusInput=false"><i class="fa fa-times"></i></button>
+                        <h4 class="modal-title">{{lbl.add}}</h4>
+                    </div>
+                    <div class="modal-body modal-roles">
+                        <div class="form-group">
+                            <label class="control-label" for="txtKey">Key</label>
+                            <input type="text" id="txtKey" name="txtKey" class="form-control" data-ng-model="editItem.Key" focus-me="focusInput" />
+                            <label class="control-label" for="txtValue">Value</label>
+                            <input type="text" id="txtValue" name="txtValue" class="form-control" data-ng-model="editItem.Value" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-ng-click="saveCustom()" class="btn btn-success btn-tabkey pull-right"><i class="fa fa-save"></i>{{lbl.save}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="focusInput=false"><i class="fa fa-ban"></i>{{lbl.cancel}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="page-header clearfix">
             <h2 class="page-title pull-left">
                 {{lbl.myProfile}} <span id="spinner" class="loaded"><i class="fa fa-spinner fa-spin fa-sm"></i></span>
@@ -77,14 +101,7 @@
                                 <input type="text" class="form-control" data-ng-model="user.Profile.Birthday" />
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col col-sm-6">
-                <div class="well">
-                    <div id="frm-user-edit" class="form-horizontal clearfix">
-                        <h4>{{lbl.contactDetails}}</h4>
-                        <hr />
+
                         <div class="form-group">
                             <label class="control-label col-md-4">{{lbl.country}}</label>
                             <div class="col col-md-8">
@@ -115,7 +132,28 @@
                                 <input type="text" class="form-control" data-ng-model="user.Profile.PhoneMobile" />
                             </div>
                         </div>
+
                     </div>
+                </div>
+            </div>
+            <div class="col col-sm-6">
+                <div class="well">
+                    <div id="frm-custom-edit" class="form-horizontal clearfix">
+                        <h4>{{lbl.customFields}}</h4>
+                        <button data-ng-click="showCustom()" class="btn btn-success btn-header pull-right" style="margin-top: -20px; margin-right: 15px" type="button">
+                            <i class="fa fa-save"></i>{{lbl.add}}
+                        </button>                      
+                        <hr />
+                        <div style="display: inline-block; width: 100%; padding:  0 0 15px 0" data-ng-repeat="item in customFields">
+                            <label class="control-label col-md-4">{{item.Key}}</label>
+                            <div class="col col-md-7">
+                                <input type="text" class="form-control" data-ng-model="item.Value" />
+                            </div>
+                            <div class="col col-md-1">
+                                <a href="" ng-click="deleteCustom(item.Key, item.ObjectId)" title="{{lbl.doDelete}}" style="position: relative; top: 10px; color: red"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                    </div>                  
                 </div>
             </div>
         </div>

@@ -8,6 +8,10 @@
     $scope.security = $rootScope.security;
     $scope.UserVars = UserVars;
 
+    $scope.twitterItem = {};
+    $scope.facebookItem = {};
+    $scope.profileCustomFields = [];
+
     $scope.load = function () {
         dataService.getItems('/api/lookups')
         .success(function (data) {
@@ -66,6 +70,7 @@
             $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, $scope.post.Author);
             load_tags(existingTags, $scope.allTags);
             editorSetHtml($scope.post.Content);
+            $scope.loadProfileCustomFields();
             spinOff();
         })
         .error(function () {
@@ -202,6 +207,36 @@
             }
         });
     });
+
+    /* custom fields */
+
+    $scope.loadProfileCustomFields = function () {
+        $scope.profileCustomFields = [];
+
+        dataService.getItems('/api/customfields', { filter: 'CustomType == "PROFILE"' })
+        .success(function (data) {
+            angular.copy(data, $scope.profileCustomFields);
+            $scope.twitterItem = findCustomItem("Twitter");
+            $scope.facebookItem = findCustomItem("Facebook");
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingCustomFields);
+        });
+    }
+
+    function findCustomItem(key) {
+        var arr = $scope.profileCustomFields;
+        if (arr && arr.length > 0) {
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (arr[i].Key == key) {
+                    return arr[i];
+                }
+            };
+        }
+        return null;
+    }
+
+    /* end custom fields */
 }]);
 
 var newPost = {
