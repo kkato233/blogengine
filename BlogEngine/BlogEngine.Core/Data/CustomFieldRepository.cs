@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Data
         /// <summary>
         /// List of items
         /// </summary>
-        /// <param name="filter">Fileter expression</param>
+        /// <param name="filter">Filter expression</param>
         /// <returns>List of posts</returns>
         public IEnumerable<CustomField> Find(string filter)
         {
@@ -49,7 +49,8 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
 
-            throw new System.NotImplementedException();
+            var cf = Find("").Where(f => f.CustomType == type && f.ObjectId == id && f.Key == key).FirstOrDefault();
+            return cf;
         }
 
         /// <summary>
