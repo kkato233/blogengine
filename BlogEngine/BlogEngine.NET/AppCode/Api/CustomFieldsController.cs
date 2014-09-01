@@ -38,9 +38,10 @@ public class CustomFieldsController : ApiController
         {
             if (item == null) throw new ApplicationException("Custom field is required");
 
+            item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
+
             if (item.CustomType == "PROFILE")
             {
-                item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
                 item.ObjectId = BlogEngine.Core.Security.CurrentUser.Identity.Name;
             }
 

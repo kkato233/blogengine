@@ -10,6 +10,7 @@
     using System.Text;
     using System.Web;
 
+    using BlogEngine.Core.Data.Models;
     using BlogEngine.Core.Providers;
 
     /// <summary>
@@ -1929,6 +1930,34 @@
         {
             return Post.ApplicablePosts.Where(p => p.slug != null && p.slug.ToLower() == slug.ToLower() 
                 && p.Id != postId).FirstOrDefault() == null ? true : false;
+        }
+
+        #endregion
+
+        #region Custom Fields
+
+        /// <summary>
+        /// Custom fields
+        /// </summary>
+        public Dictionary<String, CustomField> CustomFields
+        {
+            get
+            {
+                var postFields = BlogService.Provider.FillCustomFields().Where(f =>
+                    f.CustomType == "POST" &&
+                    f.ObjectId == this.Id.ToString()).ToList();
+
+                if (postFields == null || postFields.Count < 1)
+                    return null;
+
+                var fields = new Dictionary<String, CustomField>();
+
+                foreach (var item in postFields)
+                {
+                    fields.Add(item.Key, item);
+                }
+                return fields;
+            }
         }
 
         #endregion
