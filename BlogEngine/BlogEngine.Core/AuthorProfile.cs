@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using BlogEngine.Core.Providers;
     using BlogEngine.Core.Data.Models;
@@ -450,6 +451,30 @@
             get
             {
                 return this.Id;
+            }
+        }
+
+        /// <summary>
+        /// Custom fields
+        /// </summary>
+        public Dictionary<String, CustomField> CustomFields
+        {
+            get
+            {
+                var profileFields = BlogService.Provider.FillCustomFields().Where(f =>
+                    f.CustomType == "PROFILE" &&
+                    f.ObjectId == Security.CurrentUser.Identity.Name).ToList();
+
+                if (profileFields == null || profileFields.Count < 1)
+                    return null;
+
+                var fields = new Dictionary<String, CustomField>();
+
+                foreach (var item in profileFields)
+                {
+                    fields.Add(item.Key, item);
+                }
+                return fields;
             }
         }
 
