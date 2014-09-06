@@ -159,9 +159,6 @@
     <Content Include="admin\Web.Config" />
     <Content Include="admin\editor\_filemgr.cshtml" />
     <Content Include="admin\editor\_uploadbtns.cshtml" />
-    <None Include="App_Data\PublishProfiles\be.pubxml" />
-    <None Include="App_Data\PublishProfiles\bespa - FTP.pubxml" />
-    <None Include="App_Data\PublishProfiles\bespa - Web Deploy.pubxml" />
     <Content Include="App_Data\posts\ec263a41-af90-4bdc-be2e-3b3ade12f6e5.xml" />
     <Content Include="App_Data\labels.txt" />
     <Content Include="bin\BlogEngine.NET.dll.config" />
@@ -236,6 +233,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\blog-file.pubxml" />
     <None Include="Properties\PublishProfiles\blog.hiro3-soft.com - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BlogEngine.Web.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
@@ -2414,6 +2412,7 @@
     <Folder Include="App_Data\datastore\extensions\" />
     <Folder Include="App_Data\files\avatars\" />
     <Folder Include="App_Data\packages\SimpleBlog.1.1.0\" />
+    <Folder Include="App_Data\PublishProfiles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
