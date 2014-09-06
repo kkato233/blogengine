@@ -213,7 +213,7 @@ namespace App_Code.Controls
                     writer.Write("{0}&nbsp;&nbsp;", HttpUtility.HtmlEncode(this.PrevMonthText));
                 }
 
-                writer.Write("</td><td style=\"text-align:center;width:100px\">{0}</td><td align=\"right\">", this.VisibleDate.ToString("MMMM yyyy"));
+                writer.Write("</td><td style=\"text-align:center;width:100px\">{0}</td><td align=\"right\">", this.VisibleDate.ToString("Y"));
 
                 if (this.VisibleDate.Year != DateTime.Now.Year || this.VisibleDate.Month != DateTime.Now.Month)
                 {

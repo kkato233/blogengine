@@ -278,7 +278,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			DateTime dateTo = dateFrom.AddMonths(1).AddMilliseconds(-1);
             PostList1.ContentBy = ServingContentBy.DateRange;
 			PostList1.Posts = Post.GetPostsByDate(dateFrom, dateTo).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; }));
-			Title = dateFrom.ToString("MMMM yyyy");
+			Title = dateFrom.ToString("Y");
 		}
 		else if (!string.IsNullOrEmpty(year))
 		{
@@ -293,7 +293,7 @@ public partial class _default : BlogEngine.Core.Web.Controls.BlogBasePage
 			DateTime date = DateTime.Parse(specificDate, CultureInfo.InvariantCulture);
             PostList1.ContentBy = ServingContentBy.DateRange;
 			PostList1.Posts = Post.GetPostsByDate(date, date).ConvertAll(new Converter<Post, IPublishable>(delegate(Post p) { return p as IPublishable; })); ;
-			Title = date.ToString("MMMM d. yyyy");
+            Title = date.ToString("d");
 		}
 		else if (!string.IsNullOrEmpty(Request.QueryString["calendar"]))
 		{

@@ -364,7 +364,7 @@ namespace App_Code.Controls
 				theWriter.AddAttribute("href", aHref);
 				theWriter.RenderBeginTag(HtmlTextWriterTag.A);
 
-				theWriter.Write(theShowYear ? theDate.ToString("MMMM yyyy") : theDate.ToString("MMMM"));
+				theWriter.Write(theShowYear ? theDate.ToString("Y") : theDate.ToString("MMMM"));
 
 				theWriter.RenderEndTag();
 			}

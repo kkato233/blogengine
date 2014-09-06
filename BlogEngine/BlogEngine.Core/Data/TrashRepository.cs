@@ -61,7 +61,7 @@ namespace BlogEngine.Core.Data
                         Title = c.Author + ": " + c.Teaser,
                         RelativeUrl = c.RelativeLink,
                         ObjectType = "Comment",
-                        DateCreated = c.DateCreated.ToString("MM/dd/yyyy HH:mm")
+                        DateCreated = c.DateCreated.ToString("g")
                     };
 
                     trashList.Add(t1);
@@ -88,7 +88,7 @@ namespace BlogEngine.Core.Data
                         Title = System.Web.HttpContext.Current.Server.HtmlEncode(p.Title),
                         RelativeUrl = p.RelativeLink,
                         ObjectType = "Post",
-                        DateCreated = p.DateCreated.ToString("MM/dd/yyyy HH:mm")
+                        DateCreated = p.DateCreated.ToString("g")
                     };
 
                     trashList.Add(t2);
@@ -111,7 +111,7 @@ namespace BlogEngine.Core.Data
                         Title = System.Web.HttpContext.Current.Server.HtmlEncode(p.Title),
                         RelativeUrl = p.RelativeLink,
                         ObjectType = "Page",
-                        DateCreated = p.DateCreated.ToString("MM/dd/yyyy HH:mm")
+                        DateCreated = p.DateCreated.ToString("g")
                     };
 
                     trashList.Add(t3);
