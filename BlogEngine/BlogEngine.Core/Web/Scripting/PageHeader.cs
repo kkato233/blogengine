@@ -95,8 +95,12 @@ namespace BlogEngine.Core.Web.Scripting
             var lang = BlogSettings.Instance.Language;
 
             // if specific culture set in blog settings, use it instead
-            if (BlogSettings.Instance.Culture.ToLower() != "auto")
-                lang = BlogSettings.Instance.Culture;
+
+            // 2014.09.06  Autoの場合に自動的に変更させる Start
+            //if (BlogSettings.Instance.Culture.ToLower() != "auto")
+            //    lang = BlogSettings.Instance.Culture;
+            lang = Utils.GetDefaultCulture().Name; 
+            // 2014.09.06 End
 
             var rsrc = HttpHandlers.ResourceHandler.GetScriptPath(new CultureInfo(lang));
             headerScripts.Add(new LiteralControl(string.Format(tmpl, rsrc)));
