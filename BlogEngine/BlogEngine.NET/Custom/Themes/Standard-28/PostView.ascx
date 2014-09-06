@@ -4,7 +4,7 @@
         <a href="<%=Post.RelativeOrAbsoluteLink %>" class="taggedlink"><%=Server.HtmlEncode(Post.Title) %></a>
     </h2>
     <div class="PostInfo Clear">
-        <span class="PubDate"><%=Post.DateCreated.ToString("d. MMMM yyyy HH:mm") %></span>
+        <span class="PubDate"><%=Post.DateCreated.ToString("D") %></span>
         <span> / </span>
         <span><a href="<%=BlogEngine.Core.Utils.AbsoluteWebRoot + "author/" + BlogEngine.Core.Utils.RemoveIllegalCharacters(Post.Author) + BlogEngine.Core.BlogConfig.FileExtension %>"><%=Post.AuthorProfile != null ? Post.AuthorProfile.DisplayName : Post.Author %></a></span>
         <span> / </span>
