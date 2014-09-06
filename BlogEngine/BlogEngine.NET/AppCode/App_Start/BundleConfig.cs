@@ -27,7 +27,7 @@ public class BundleConfig
         );
 
         // syntax highlighter 
-        var shRoot = "~/editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/";
+        var shRoot = "~/scripts/syntaxhighlighter/";
         bundles.Add(new StyleBundle("~/Content/highlighter").Include(
             shRoot + "styles/shCore.css",
             shRoot + "styles/shThemeDefault.css")
@@ -72,7 +72,7 @@ public class BundleConfig
 
         bundles.Add(
           new ScriptBundle("~/scripts/blogadmin")
-            .Include("~/scripts/jquery-2.1.0.js")
+            .Include("~/scripts/jquery-2.1.1.js")
             .Include("~/scripts/jquery.form.js")
             .Include("~/scripts/jquery.validate.js")
             .Include("~/scripts/toastr.js")
@@ -109,7 +109,7 @@ public class BundleConfig
 
         bundles.Add(
           new ScriptBundle("~/scripts/wysiwyg")
-            .Include("~/scripts/jquery-2.1.0.js")
+            .Include("~/scripts/jquery-2.1.1.js")
             .Include("~/scripts/jquery.form.js")
             .Include("~/scripts/jquery.validate.js")
             .Include("~/scripts/toastr.js")
@@ -136,10 +136,11 @@ public class BundleConfig
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
             bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/editor.js");
         }
-        if (BlogConfig.DefaultEditor == "~/editors/tiny_mce_3_5_8/editor.cshtml")
+        if (BlogConfig.DefaultEditor == "~/editors/tinymce/editor.cshtml")
         {
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/tiny_mce.js");
-            bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tiny_mce_3_5_8/editor.js");
+            // tinymce plugings will not load when scripts compressed, do nothing
+            //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tinymce/tinymce.min.js");
+            //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tinymce/editor.js");
         }
         else
         {
