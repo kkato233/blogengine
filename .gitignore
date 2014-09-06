@@ -47,3 +47,8 @@ BlogEngine/BlogEngine.NET/App_Data/posts/a092ddd5-91ee-4bfa-9310-476558668e5a.xm
 BlogEngine/BlogEngine.NET/App_Data/posts/c1a8e5a7-812c-4468-b664-9de20d93dcaa.xml
 BlogEngine/BlogEngine.NET/App_Data/quicknotes.xml
 BlogEngine/BlogEngine.NET/website.publishproj
+
+BlogEngine/BlogEngine.NET/App_Data/customfields.xml
+BlogEngine/BlogEngine.NET/App_Data/datastore/widgets/*.xml
+BlogEngine/BlogEngine.NET/App_Data/datastore/extensions/*.xml
+BlogEngine/BlogEngine.NET/App_Data/logger.txt
