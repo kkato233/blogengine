@@ -211,10 +211,10 @@
     <value>保存されました。コメントありがとうございます。</value>
   </data>
   <data name="contact" xml:space="preserve">
-    <value>コンタクト</value>
+    <value>メッセージを送る</value>
   </data>
   <data name="contactForm" xml:space="preserve">
-    <value>コンタクトフォーム</value>
+    <value>「メッセージを送る」フォーム</value>
   </data>
   <data name="controls" xml:space="preserve">
     <value>管理</value>
@@ -413,7 +413,7 @@
     <value>コメントが追加された時に通知する</value>
   </data>
   <data name="notRatedYet" xml:space="preserve">
-    <value>まだレートはありません</value>
+    <value>まだ評価はありません</value>
   </data>
   <data name="numberOfComments" xml:space="preserve">
     <value>コメント表示数</value>
@@ -521,7 +521,7 @@
     <value>検索ボックスの文字</value>
   </data>
   <data name="searchResultsFor" xml:space="preserve">
-    <value>の検索結果</value>
+    <value>'{0}' の検索結果</value>
   </data>
   <data name="selectDay" xml:space="preserve">
     <value>選択日</value>
@@ -1098,7 +1098,7 @@
     <value>Keep me logged in</value>
   </data>
   <data name="requiredPasswordLength" xml:space="preserve">
-    <value>New passwords are required to be a minimum of {0} characters in length.</value>
+    <value>新しいパスワードは {0} 文字以上で設定してください</value>
   </data>
   <data name="returnToBlog" xml:space="preserve">
     <value>Return to blog</value>
@@ -1212,7 +1212,7 @@
     <value>Please specify a ping service</value>
   </data>
   <data name="tags" xml:space="preserve">
-    <value>Tags</value>
+    <value>タグ</value>
   </data>
   <data name="testEmailSettings" xml:space="preserve">
     <value>Test mail settings</value>
@@ -1231,10 +1231,10 @@
     <value>Username is already taken</value>
   </data>
   <data name="notifiedPublished" xml:space="preserve">
-    <value>Get notified when a new post is published.</value>
+    <value>新しい記事が投稿されたら通知します</value>
   </data>
   <data name="pendingApproval" xml:space="preserve">
-    <value>Comments will be pending administrator's approval</value>
+    <value>コメントは管理者に承認されるまで表示されません</value>
   </data>
   <data name="Referrers_BindTable_Total" xml:space="preserve">
     <value>Total</value>
@@ -1778,13 +1778,13 @@
     <value>Active themes</value>
   </data>
   <data name="enterEmail" xml:space="preserve">
-    <value>Enter your e-mail</value>
+    <value>メールアドレスを入力</value>
   </data>
   <data name="enterEmailAddress" xml:space="preserve">
-    <value>Please enter an e-mail address</value>
+    <value>メールアドレスを入力してください</value>
   </data>
   <data name="notifyMe" xml:space="preserve">
-    <value>Notify me</value>
+    <value>通知を受け取る</value>
   </data>
   <data name="thankYou" xml:space="preserve">
     <value>Thank you</value>
@@ -2000,7 +2000,7 @@
     <value>ltr</value>
   </data>
   <data name="apmlDescription" xml:space="preserve">
-    <value>Enter the URL to your website or to your APML document</value>
+    <value>検索文字またはAPMLを入力</value>
   </data>
   <data name="createBlogOnSelfRegistration" xml:space="preserve">
     <value>Create new blog for self-registered user</value>
@@ -2512,7 +2512,7 @@
   <data name="txtErrorTitle" xml:space="preserve">
     <value>Title for the Error Page</value>
   </data>
-<data name="sortOrder" xml:space="preserve">
+  <data name="sortOrder" xml:space="preserve">
     <value>Sort Order</value>
   </data>
   <data name="apmlAddrInvalid" xml:space="preserve">

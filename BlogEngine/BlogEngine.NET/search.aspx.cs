@@ -32,8 +32,17 @@ public partial class search : BlogEngine.Core.Web.Controls.BlogBasePage
             bool includeComments = (Request.QueryString["comment"] == "true");
 
             var encodedTerm = Server.HtmlEncode(term);
-            Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + encodedTerm + "'";
-            h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" + encodedTerm + "'";
+
+            if (Resources.labels.searchResultsFor.Contains("{0}"))
+            {
+                Page.Title = string.Format(Server.HtmlEncode(Resources.labels.searchResultsFor),encodedTerm);
+                h1Headline.InnerHtml = string.Format(Resources.labels.searchResultsFor, encodedTerm);
+            }
+            else
+            {
+                Page.Title = Server.HtmlEncode(Resources.labels.searchResultsFor) + " '" + encodedTerm + "'";
+                h1Headline.InnerHtml = Resources.labels.searchResultsFor + " '" + encodedTerm + "'";
+            }
 
             Uri url;
             if (!Uri.TryCreate(term, UriKind.Absolute, out url))

@@ -13,7 +13,7 @@
   <showdescriptioninpostlist>False</showdescriptioninpostlist>
   <commentsperpage>10</commentsperpage>
   <feedauthor />
-  <description>Short description of the blog</description>
+  <description>ブログの短い説明</description>
   <enablepingbacksend>True</enablepingbacksend>
   <enabletagexport>True</enabletagexport>
   <commentblacklistcount>3</commentblacklistcount>
@@ -25,8 +25,8 @@
   <remotefiledownloadtimeout>30000</remotefiledownloadtimeout>
   <trustauthenticatedusers>True</trustauthenticatedusers>
   <enablecountryincomments>False</enablecountryincomments>
-  <contactformmessage>&lt;p&gt;I'll answer the mail as soon as I can.&lt;/p&gt;</contactformmessage>
-  <searchbuttontext>Search</searchbuttontext>
+  <contactformmessage>&lt;p&gt;問い合わせメールを送信します。回答までしばらくお待ちください。&lt;br&gt;&lt;/p&gt;</contactformmessage>
+  <searchbuttontext>検索</searchbuttontext>
   <showincludecommentsoption>False</showincludecommentsoption>
   <createblogonselfregistration>False</createblogonselfregistration>
   <numberofrecentcomments>10</numberofrecentcomments>
@@ -50,7 +50,7 @@
   <email>name@example.com</email>
   <enabletrackbacksend>True</enabletrackbacksend>
   <showdescriptioninpostlistforpostsbytagorcategory>False</showdescriptioninpostlistforpostsbytagorcategory>
-  <contacterrormessage>&lt;p&gt;This form does not work at the moment. Sorry for the inconvenience.&lt;/p&gt;</contacterrormessage>
+  <contacterrormessage>&lt;p&gt;エラーが発生したため、メッセージを送信できませんでした。&lt;/p&gt;</contacterrormessage>
   <enablecommentsmoderation>True</enablecommentsmoderation>
   <allowservertodownloadremotefiles>True</allowservertodownloadremotefiles>
   <enablereferrertracking>False</enablereferrertracking>
@@ -59,18 +59,18 @@
   <culture>Auto</culture>
   <postsperfeed>3</postsperfeed>
   <sendmailoncomment>True</sendmailoncomment>
-  <enablerecaptchaoncontactform>False</enablerecaptchaoncontactform>
+  <enablerecaptchaoncontactform>True</enablerecaptchaoncontactform>
   <remotemaxfilesize>524288</remotemaxfilesize>
   <redirecttoremovefileextension>False</redirecttoremovefileextension>
   <syndicationformat>Rss</syndicationformat>
-  <contactthankmessage>&lt;h1&gt;Thank you&lt;/h1&gt;&lt;p&gt;The message was sent.&lt;/p&gt;</contactthankmessage>
+  <contactthankmessage>&lt;h1&gt;&lt;font size="3"&gt;ご連絡ありがとうございました。&lt;/font&gt;&lt;/h1&gt;&lt;p&gt;&lt;/p&gt;</contactthankmessage>
   <blogrollvisibleposts>3</blogrollvisibleposts>
   <geocodinglatitude>0</geocodinglatitude>
   <numberofreferrerdays>1</numberofreferrerdays>
   <israzortheme>False</israzortheme>
   <thumbnailserviceapi>http://www.robothumb.com/src/?url={0}</thumbnailserviceapi>
   <iscommentsenabled>True</iscommentsenabled>
-  <searchdefaulttext>Enter search term or APML url</searchdefaulttext>
+  <searchdefaulttext>検索文字またはAPMLを入力</searchdefaulttext>
   <smtpserverport>25</smtpserverport>
   <smtppassword>password</smtppassword>
   <blockauthoroncommentdelete>False</blockauthoroncommentdelete>
@@ -80,13 +80,13 @@
   <addiptoblacklistfilteronrejection>False</addiptoblacklistfilteronrejection>
   <timezone>0</timezone>
   <enableoptimization>False</enableoptimization>
-  <name>Name of the blog</name>
+  <name>私のブログ</name>
   <moderationtype>Auto</moderationtype>
   <enablepingbackreceive>True</enablepingbackreceive>
   <showlivepreview>True</showlivepreview>
   <enablequicknotes>True</enablequicknotes>
   <galleryfeedurl>http://dnbe.net/v01/nuget</galleryfeedurl>
-  <searchcommentlabeltext>Include comments in search</searchcommentlabeltext>
+  <searchcommentlabeltext>コメントも検索する</searchcommentlabeltext>
   <displaycommentsonrecentposts>True</displaycommentsonrecentposts>
   <enablerelatedposts>True</enablerelatedposts>
   <enableenclosures>False</enableenclosures>
