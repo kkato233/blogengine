@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <page>
-  <title>Example page</title>
-  <description />
+  <title>サンプルページ</title>
+  <description>これはサンプルページです。ページとその使い方については
+BlogEngine.NET wiki をご覧ください。</description>
   <content>&lt;p&gt;
-This is an example page. 
-&lt;/p&gt;
-&lt;p&gt;
-&amp;nbsp;For more information about pages and how to use them,&amp;nbsp;visit the &lt;a href="http://blogengine.codeplex.com/documentation"&gt;BlogEngine.NET wiki&lt;/a&gt;. 
-&lt;/p&gt;</content>
+これはサンプルページです。&lt;/p&gt;&lt;p&gt;ページの使い方は
+&lt;a href="http://blogengine.codeplex.com/documentation"&gt;BlogEngine.NET wiki&lt;/a&gt; をご覧ください。&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;</content>
   <keywords />
   <slug>example-page</slug>
   <parent>00000000-0000-0000-0000-000000000000</parent>
@@ -15,6 +14,7 @@ This is an example page.
   <showinlist>True</showinlist>
   <ispublished>True</ispublished>
   <isdeleted>False</isdeleted>
+  <sortorder>0</sortorder>
   <datecreated>2013-12-27 22:12:00</datecreated>
-  <datemodified>2013-12-27 22:03:47</datemodified>
+  <datemodified>2014-09-06 15:36:29</datemodified>
 </page>
