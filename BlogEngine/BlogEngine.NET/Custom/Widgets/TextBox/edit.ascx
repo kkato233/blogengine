@@ -1,28 +1,21 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Widgets.TextBox.Edit" Codebehind="edit.ascx.cs" %>
 <%@ Import Namespace="BlogEngine.Core" %>
 
-<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tiny_mce_3_5_8/tiny_mce.js"></script>
+<script type="text/javascript" src="<%=Utils.RelativeWebRoot %>editors/tinymce/tinymce.min.js"></script>
 <script type="text/javascript">
 	tinyMCE.init({
-		// General options
-		mode: "exact",
-		elements : "<%=txtText.ClientID %>",
-		theme: "advanced",
-		plugins: "inlinepopups,fullscreen,contextmenu,emotions,table,iespell",
-		convert_urls: false,
-	  
-	  // Theme options
-		theme_advanced_buttons1: "fullscreen,code,|,cut,copy,paste,|,undo,redo,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,iespell,link,unlink,sub,sup,removeformat,cleanup,charmap,emotions",
-		theme_advanced_buttons2: "",
-		theme_advanced_toolbar_location: "top",
-		theme_advanced_toolbar_align: "left",
-		theme_advanced_statusbar_location: "bottom",
-		theme_advanced_resizing: true,
-		theme_advanced_source_editor_height: 425,
-		gecko_spellcheck : true,
-		
-		tab_focus : ":prev,:next"
+		selector: "#<%=txtText.ClientID %>",
+	    plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste sh4tinymce"
+	    ],
+	    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | sh4tinymce",
+	    autosave_ask_before_unload: false,
+	    max_height: 300,
+	    min_height: 160,
+	    height: 240
 	});
 </script>
-
-<asp:TextBox runat="server" ID="txtText" TextMode="multiLine" Columns="100" Rows="10" style="width:700px;height:372px" /><br />
+<style>.mce-ico { height: 20px !important }</style>
+<asp:TextBox runat="server" ID="txtText" TextMode="multiLine" Columns="100" Rows="10" style="width:700px;height:280px" /><br />

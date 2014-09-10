@@ -36,6 +36,15 @@ public class CustomFieldsController : ApiController
     {
         try
         {
+            if (item == null) throw new ApplicationException("Custom field is required");
+
+            item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
+
+            if (item.CustomType == "PROFILE")
+            {
+                item.ObjectId = BlogEngine.Core.Security.CurrentUser.Identity.Name;
+            }
+
             var result = repository.Add(item);
             if (result == null)
                 return Request.CreateResponse(HttpStatusCode.NotFound);
@@ -63,6 +72,23 @@ public class CustomFieldsController : ApiController
                     repository.Update(item);
                 }
             }
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Request.CreateResponse(HttpStatusCode.Unauthorized);
+        }
+        catch (Exception)
+        {
+            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+    }
+
+    public HttpResponseMessage Delete([FromBody]CustomField item)
+    {
+        try
+        {
+            repository.Remove(item.CustomType, item.ObjectId, item.Key);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
         catch (UnauthorizedAccessException)

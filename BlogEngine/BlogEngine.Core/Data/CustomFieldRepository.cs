@@ -18,7 +18,7 @@ namespace BlogEngine.Core.Data
         /// <summary>
         /// List of items
         /// </summary>
-        /// <param name="filter">Fileter expression</param>
+        /// <param name="filter">Filter expression</param>
         /// <returns>List of posts</returns>
         public IEnumerable<CustomField> Find(string filter)
         {
@@ -49,7 +49,8 @@ namespace BlogEngine.Core.Data
             if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
                 throw new System.UnauthorizedAccessException();
 
-            throw new System.NotImplementedException();
+            var cf = Find("").Where(f => f.CustomType == type && f.ObjectId == id && f.Key == key).FirstOrDefault();
+            return cf;
         }
 
         /// <summary>
@@ -63,6 +64,9 @@ namespace BlogEngine.Core.Data
                 throw new System.UnauthorizedAccessException();
             try
             {
+                if (AlreadyExists(item))
+                    throw new ApplicationException("Custom field already exists");
+
                 BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
                 CustomFieldsParser.ClearCache();
                 return item;
@@ -70,7 +74,7 @@ namespace BlogEngine.Core.Data
             catch (Exception ex)
             {
                 Utils.Log("Error adding custom field", ex);
-                return null;
+                throw;
             }
         }
 
@@ -86,6 +90,7 @@ namespace BlogEngine.Core.Data
             try
             {
                 item.BlogId = BlogEngine.Core.Blog.CurrentInstance.Id;
+
                 BlogEngine.Core.Providers.BlogService.SaveCustomField(item);
                 CustomFieldsParser.ClearCache();
                 return true;
@@ -127,6 +132,15 @@ namespace BlogEngine.Core.Data
                 Utils.Log("Error updaging custom field", ex);
                 return false;
             }
+        }
+
+        bool AlreadyExists(CustomField item)
+        {
+            var field = CustomFieldsParser.CachedFields.Where(f => f.BlogId == item.BlogId
+                    && f.CustomType == item.CustomType
+                    && f.ObjectId == item.ObjectId
+                    && f.Key == item.Key).FirstOrDefault();
+            return field != null;
         }
 
         #endregion

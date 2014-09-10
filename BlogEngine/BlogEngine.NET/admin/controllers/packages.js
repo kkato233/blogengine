@@ -16,9 +16,8 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.activeTheme = ActiveTheme;
     $scope.themesPage = false;
     $scope.showRating = false;
-    $scope.extras = [];
-    $scope.packageExtra = {};
     $scope.selectedRating = 0;
+    $scope.author = UserVars.Name;
     
     if ($scope.id) {
         $("#modal-theme-edit").modal();
@@ -51,10 +50,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         .success(function (data) {
             angular.copy(data, $scope.items);
 
-            if ($scope.fltr != "packages") {
-                $scope.loadExtras();
-            }
-
             gridInit($scope, $filter);
             rowSpinOff($scope.items);
 
@@ -77,7 +72,10 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].Id === id) {
                 angular.copy($scope.items[i], $scope.package);
+
                 if ($scope.package) {
+                    $scope.removeEmptyReviews();
+
                     if($scope.package.SettingsUrl){
                         $scope.extEditSrc = $scope.package.SettingsUrl.replace("~/", SiteVars.RelativeWebRoot);
                     }
@@ -87,7 +85,6 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         dataService.getItems('/api/customfields', { filter: 'CustomType == "THEME" && ObjectId == "' + id + '"' })
         .success(function (data) {
             angular.copy(data, $scope.customFields);
-            $scope.getPackageExtra(id + "." + $scope.package.OnlineVersion);
             $("#modal-theme-edit").modal();
         })
         .error(function () {
@@ -259,56 +256,34 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         $scope.selectedRating = rating;
     }
 
-    $scope.loadExtras = function () {
-        $scope.extras = [];
-        for (var i = 0; i < $scope.items.length; i++) {
-            var item = $scope.items[i];
-            if (item.OnlineVersion != null && item.OnlineVersion.length > 0) {
-                dataService.getItems('/api/packageextra/' + item.Id + "." + item.OnlineVersion)
-                .success(function (data) {
-                    if (data) {
-                        $scope.extras.push(data);
-                        $scope.updatePackagesFromExtra(data);
-                    }
-                });
-            }
-        }
-    }
-
-    $scope.updatePackagesFromExtra = function (extra) {
-        for (var i = 0; i < $scope.items.length; i++) {
-            var item = $scope.items[i];
-            if (item != null && item.Id + "." + item.OnlineVersion === extra.Id) {
-                $scope.items[i].DownloadCount = extra.DownloadCount;
-                $scope.items[i].Rating = extra.Rating;
-            }
-        }
-    }
-
     $scope.showRatingForm = function (item, rating) {
         $scope.selectedRating = rating;
-        $scope.getPackageExtra(item.Id + "." + item.OnlineVersion);
-        $("#modal-rating").modal();
-    }
 
-    $scope.getPackageExtra = function (id) {
-        dataService.getItems('/api/packageextra/' + id)
-        .success(function (data) {
-            if (data) {
-                angular.copy(data, $scope.packageExtra);
-            }
+        dataService.getItems('/api/packages/' + item.Id)
+        .success(function (data) {  
+            $scope.package.Extra = data.Extra;
+            $scope.removeEmptyReviews();
+            $("#modal-rating").modal();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
         });
     }
 
     $scope.submitRating = function () {
-        var review = { "Name": UserVars.Name, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
-        dataService.updateItem("/api/packageextra/rate/" + $scope.packageExtra.Id, review)
+        var author = $("#txtAuthor").val().length > 0 ? $("#txtAuthor").val() : $scope.author;
+        var review = { "Name": author, "Rating": $scope.selectedRating, "Body": $("#txtReview").val() };
+
+        dataService.updateItem("/api/packages/rate/" + $scope.package.Extra.Id, review)
         .success(function (data) {
-            if (data.length === "") {
+            if (data != null) {
+                data = JSON.parse(data);
+            }
+            if (data.length === 0) {
                 toastr.success($rootScope.lbl.completed);
             }
             else {
-                toastr.error(data.replace('"', '').replace('"', ''));
+                toastr.error(data);
             }
             $("#modal-rating").modal('hide');
             $scope.load();
@@ -316,6 +291,19 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
         .error(function () {
             toastr.error($rootScope.lbl.failed);
         });
+    }
+
+    $scope.removeEmptyReviews = function () {       
+        if ($scope.package.Extra != null && $scope.package.Extra.Reviews != null) {
+            var reviews = [];
+            for (var i = 0; i < $scope.package.Extra.Reviews.length; i++) {
+                var review = $scope.package.Extra.Reviews[i];
+                if (review.Body.length > 0) {
+                    reviews.push(review);
+                }
+            }
+            $scope.package.Extra.Reviews = reviews;
+        }
     }
 
 }]);

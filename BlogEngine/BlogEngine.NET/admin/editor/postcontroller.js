@@ -8,6 +8,13 @@
     $scope.security = $rootScope.security;
     $scope.UserVars = UserVars;
 
+    $scope.focusInput = false;
+    $scope.customFields = [];
+
+    $scope.twitterItem = {};
+    $scope.facebookItem = {};
+    $scope.profileCustomFields = [];
+
     $scope.load = function () {
         dataService.getItems('/api/lookups')
         .success(function (data) {
@@ -66,6 +73,8 @@
             $scope.selectedAuthor = selectedOption($scope.lookups.AuthorList, $scope.post.Author);
             load_tags(existingTags, $scope.allTags);
             editorSetHtml($scope.post.Content);
+            $scope.loadProfileCustomFields();
+            $scope.loadCustom();
             spinOff();
         })
         .error(function () {
@@ -101,6 +110,7 @@
             dataService.updateItem('api/posts/update/foo', $scope.post)
            .success(function (data) {
                $scope.refreshPost();
+               $scope.updateCustom();
                toastr.success($rootScope.lbl.postUpdated);
                $("#modal-form").modal('hide');
                spinOff();
@@ -202,6 +212,106 @@
             }
         });
     });
+
+    /* custom fields */
+
+    $scope.showCustom = function () {
+        $("#modal-custom-fields").modal();
+        $scope.focusInput = true;
+    }
+
+    $scope.loadCustom = function () {
+        $scope.customFields = [];
+
+        dataService.getItems('/api/customfields', { filter: 'CustomType == "POST" && ObjectId == "' + $scope.post.Id + '"' })
+        .success(function (data) {
+            angular.copy(data, $scope.customFields);
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingCustomFields);
+        });
+    }
+
+    $scope.saveCustom = function () {
+        var customField = {
+            "CustomType": "POST",
+            "ObjectId": $scope.post.Id,
+            "Key": $("#txtKey").val(),
+            "Value": $("#txtValue").val()
+        };
+        if (customField.Key === '') {
+            toastr.error("Custom key is required");
+            return false;
+        }
+        dataService.addItem("/api/customfields", customField)
+        .success(function (data) {
+            toastr.success('New item added');
+            $scope.loadCustom();
+            $("#modal-custom-fields").modal('hide');
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.updateFailed);
+            $("#modal-custom-fields").modal('hide');
+        });
+    }
+
+    $scope.updateCustom = function () {
+        dataService.updateItem("/api/customfields", $scope.customFields)
+        .success(function (data) {
+            spinOff();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.updateFailed);
+            spinOff();
+        });
+    }
+
+    $scope.deleteCustom = function (key, objId) {
+        var customField = {
+            "CustomType": "POST",
+            "Key": key,
+            "ObjectId": objId
+        };
+        spinOn();
+        dataService.deleteItem("/api/customfields", customField)
+        .success(function (data) {
+            toastr.success("Item deleted");
+            spinOff();
+            $scope.loadCustom();
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.couldNotDeleteItem);
+            spinOff();
+        });
+    }
+
+    $scope.loadProfileCustomFields = function () {
+        $scope.profileCustomFields = [];
+
+        dataService.getItems('/api/customfields', { filter: 'CustomType == "PROFILE"' })
+        .success(function (data) {
+            angular.copy(data, $scope.profileCustomFields);
+            $scope.twitterItem = findCustomItem("Twitter");
+            $scope.facebookItem = findCustomItem("Facebook");
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.errorLoadingCustomFields);
+        });
+    }
+
+    function findCustomItem(key) {
+        var arr = $scope.profileCustomFields;
+        if (arr && arr.length > 0) {
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (arr[i].Key == key) {
+                    return arr[i];
+                }
+            };
+        }
+        return null;
+    }
+
+    /* end custom fields */
 }]);
 
 var newPost = {

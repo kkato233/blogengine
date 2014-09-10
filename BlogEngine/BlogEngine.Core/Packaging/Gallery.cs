@@ -35,7 +35,7 @@ namespace BlogEngine.Core.Packaging
                             Description = pkg.Description.Length > 140 ? string.Format("{0}...", pkg.Description.Substring(0, 140)) : pkg.Description,
                             DownloadCount = pkg.DownloadCount,
                             LastUpdated = pkg.Published != null ? pkg.Published.Value.ToString("yyyy-MM-dd HH:mm") : "", // format for sort order to work with strings
-                            Title = pkg.Title,
+                            Title = string.IsNullOrEmpty(pkg.Title) ? pkg.Id : pkg.Title,
                             OnlineVersion = pkg.Version.ToString(),
                             Website = pkg.ProjectUrl == null ? null : pkg.ProjectUrl.ToString(),
                             Tags = pkg.Tags,
@@ -50,12 +50,13 @@ namespace BlogEngine.Core.Packaging
 
                         if (extras != null && extras.Count() > 0)
                         {
-                            var dnbePkg = extras.Where(e => e.Id.ToLower() == pkg.Id.ToLower() + "." + pkg.Version).FirstOrDefault();
+                            var extra = extras.Where(e => e.Id.ToLower() == pkg.Id.ToLower() + "." + pkg.Version).FirstOrDefault();
 
-                            if (dnbePkg != null)
+                            if (extra != null)
                             {
-                                jp.DownloadCount = dnbePkg.DownloadCount;
-                                jp.Rating = dnbePkg.Rating;
+                                jp.Extra = extra;
+                                jp.DownloadCount = extra.DownloadCount;
+                                jp.Rating = extra.Rating;
                             }
                         }
                         packages.Add(jp);
@@ -68,43 +69,6 @@ namespace BlogEngine.Core.Packaging
                 Utils.Log("BlogEngine.Core.Packaging.Load", ex);
             }   
         }
-
-        /// <summary>
-        /// Convert version from string to int for comparison
-        /// </summary>
-        /// <param name="version">string version</param>
-        /// <returns>int version</returns>
-        public static int ConvertVersion(string version)
-        {
-            if (string.IsNullOrEmpty(version))
-                return 0;
-
-            int numVersion;
-            Int32.TryParse(version.Replace(".", ""), out numVersion);
-            return numVersion;
-        }
-
-        /// <summary>
-        /// Package URL
-        /// </summary>
-        /// <param name="pkgType">Package Type</param>
-        /// <param name="pkgId">Package ID</param>
-        /// <returns></returns>
-        public static string PackageUrl(string pkgType, string pkgId)
-        {
-            switch (pkgType)
-            {
-                case "Theme":
-                    return string.Format("{0}/List/Themes/{1}", Constants.GalleryAppUrl, pkgId);
-                case "Extension":
-                    return string.Format("{0}/List/Extensions/{1}", Constants.GalleryAppUrl, pkgId);
-                case "Widget":
-                    return string.Format("{0}/List/Widgets/{1}", Constants.GalleryAppUrl, pkgId);
-            }
-            return string.Empty;
-        }
-
-        #region Package extras
 
         /// <summary>
         /// Gets extra filds from remote gallery if gallery supports it
@@ -146,6 +110,12 @@ namespace BlogEngine.Core.Packaging
             }
         }
 
+        /// <summary>
+        /// Rate package
+        /// </summary>
+        /// <param name="id">Pacakge ID</param>
+        /// <param name="review">Review</param>
+        /// <returns>Empty if success, message otherwise</returns>
         public static string RatePackage(string id, Review review)
         {
             try
@@ -154,7 +124,13 @@ namespace BlogEngine.Core.Packaging
                 WebClient wc = new WebClient();
                 var data = JsonConvert.SerializeObject(review);
                 wc.Headers.Add("content-type", "application/json");
-                return wc.UploadString(url, "PUT", data);
+                var result = wc.UploadString(url, "PUT", data);
+
+                // sanitize result replacing garbage returned by service
+                if (result == "\"\"") result = string.Empty;
+                result = result.Replace("\"", "").Replace("\\", "");
+
+                return result;
             }
             catch (Exception ex)
             {
@@ -162,8 +138,6 @@ namespace BlogEngine.Core.Packaging
                 return ex.Message;
             }
         }
-
-        #endregion
 
         #region Private methods
 
