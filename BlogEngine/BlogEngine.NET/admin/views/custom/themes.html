@@ -95,14 +95,20 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
-                    <td> 
-                        <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Id === activeTheme.Theme || item.Id === activeTheme.Mobile || item.OnlineVersion === ''" /> 
+                    <td>
+                        <input type="checkbox" id="{{item.Id}}" data-ng-model="item.IsChecked" ng-disabled="item.Id === activeTheme.Theme || item.Id === activeTheme.Mobile || item.OnlineVersion === ''" />
                     </td>
                     <td class="table-item-avatar"><img ng-src="{{item.IconUrl}}" /></td>
                     <td class="table-item-title">
-                        <div class="text-ellipsis pull-left"> 
-                            <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a> 
-                            <span class="item-description hmax480">{{item.Description}}</span> 
+                        <div class="text-ellipsis pull-left">
+                            <a title="Preview {{item.Title}}" ng-href="{{root}}default.aspx?theme={{item.Title}}" target="new">
+                                <span class="fa-stack">
+                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                    <i class="fa fa-eye-slash fa-stack-1x"></i>
+                                </span>
+                            </a>
+                            <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
+                            <span class="item-description hmax480">{{item.Description}}</span>
                         </div>
                         <span ng-if="item.OnlineVersion != ''" class="star-rating pull-right">
                             <input type="radio" name="{{item.Id}}" value="1" ng-checked="checkStar(1, item.Rating)" ng-click="showRatingForm(item, 1)"><i></i>
@@ -118,7 +124,8 @@
                         <a ng-if="item.OnlineVersion != '' && item.Id != activeTheme.Theme && item.Id != activeTheme.Mobile" title="Uninstall package" href="" style="color:#ff0000" ng-click="uninstallPackage(item.Id)">
                             <i class="fa fa-times"></i>
                         </a>
-                        <span ng-if="item.Id === activeTheme.Theme || item.Id === activeTheme.Mobile"><i class="fa fa-check" title="Current" style="color:#00a017"></i></span>
+                        <span ng-if="item.Id === activeTheme.Theme"><i class="fa fa-desktop fa-2x" title="Current Desktop Theme" style="color:#00a017"></i></span>
+                        <span ng-if="item.Id === activeTheme.Mobile"><i class="fa fa-mobile fa-2x" title="Current Mobile Theme" style="color:#0094ff"></i></span>
                     </td>
                 </tr>
                 <tr id="tr-spinner"><td colspan="6"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>
