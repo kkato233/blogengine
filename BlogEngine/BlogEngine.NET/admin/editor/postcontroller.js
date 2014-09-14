@@ -7,6 +7,7 @@
     $scope.typeHere = BlogAdmin.i18n.typeHere;
     $scope.security = $rootScope.security;
     $scope.UserVars = UserVars;
+    $scope.root = $rootScope.SiteVars.ApplicationRelativeWebRoot;
 
     $scope.focusInput = false;
     $scope.customFields = [];

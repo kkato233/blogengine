@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var root = BlogEngineRes.applicationWebRoot + 'editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/scripts/';
+    var root = BlogEngineRes.applicationWebRoot + 'scripts/syntaxhighlighter/scripts/';
     SyntaxHighlighter.autoloader(
         'applescript            ' + root + 'shBrushAppleScript.js',
         'actionscript3 as3      ' + root + 'shBrushAS3.js',
