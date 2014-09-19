@@ -6,6 +6,7 @@
     $scope.fullScreen = false;
     $scope.security = $rootScope.security;
     $scope.UserVars = UserVars;
+    $scope.root = $rootScope.SiteVars.ApplicationRelativeWebRoot;
 
     $scope.load = function () {
         var lookupsUrl = '/api/lookups';

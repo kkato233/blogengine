@@ -13,5 +13,5 @@
     OtherMonthDayStyle-CssClass="other" 
     UseAccessibleHeader="true" 
     Visible="false" 
-    Width="100%" />    
+    Width="100%" />
 </asp:Content>

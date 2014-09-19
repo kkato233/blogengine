@@ -42,7 +42,7 @@ public class Updater  : WebService {
         
         _installed = new List<InstalledLog>();
     }
-    
+   
     [WebMethod]
     public string Check(string version)
     {
@@ -283,6 +283,8 @@ public class Updater  : WebService {
             ReplaceLabelsFile();
 
             CopyWebConfig();
+
+            FixSH();
 
             Directory.Delete(_root + "\\setup\\upgrade\\backup\\be", true);
 
@@ -620,6 +622,56 @@ public class Updater  : WebService {
     {
         return _ignoreDirs.Contains(item) ? true : false;
     }
+    
+    //----------------------------------------------------
+    void FixSH()
+    {
+        var themesPath = HttpContext.Current.Server.MapPath(BlogEngine.Core.Utils.RelativeWebRoot + "Custom/Themes");
+
+        if (!Directory.Exists(themesPath))
+            return;
+
+        var themes = new DirectoryInfo(themesPath);
+
+        foreach (var dir in themes.GetDirectories())
+        {
+            if (dir.Name != "RazorHost")
+            {
+                System.Diagnostics.Debug.WriteLine(dir.Name);
+
+                foreach (var file in dir.GetFiles())
+                {
+                    if (file.Name.Contains(".cs") ||
+                        file.Name.Contains(".ascx") ||
+                        file.Name.Contains(".cshtml") ||
+                        file.Name.Contains(".master"))
+                    {
+                        ReplaceInFile(file.FullName, "editors/tiny_mce_3_5_8/plugins", "Scripts");
+                    }
+                }
+            }
+        }
+    }
+    static void ReplaceInFile(string filePath, string searchText, string replaceText)
+    {
+        var cnt = 0;
+        StreamReader reader = new StreamReader(filePath);
+        string content = reader.ReadToEnd();
+        cnt = content.Length;
+        reader.Close();
+
+        content = System.Text.RegularExpressions.Regex.Replace(content, searchText, replaceText);
+
+        if (cnt > 0 && cnt != content.Length)
+        {
+            Utils.Log(string.Format("Updater: replacing in {0} from {1} to {2}", filePath, searchText, replaceText));
+        }
+
+        StreamWriter writer = new StreamWriter(filePath);
+        writer.Write(content);
+        writer.Close();
+    }
+    //----------------------------------------------------
 
     //void Log(string from, string to = "", bool directory = false, Operation action = Operation.Copy)
     //{

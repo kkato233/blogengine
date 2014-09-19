@@ -14,14 +14,19 @@
                 <div data-ng-include src="'views/shared/_controls.html'"></div>
             </div>
             <div class="row">
-                <div class="col col-sm-12">
+                <div class="col col-sm-6">
                     <div class="well clearfix">
-                        <div class="form-horizontal col-sm-6">
+                        <div class="form-horizontal">
                             <div class="form-group" style="margin: 0">
                                 <label class="control-label" for="txtErrorTitle"><strong class="h4">{{lbl.txtErrorTitle}}</strong></label>
                                 <input type="text" class="form-control" id="txtErrorTitle" name="txtErrorTitle" data-ng-model="settings.ErrorTitle" focus-me="focusInput" />
                             </div>
-                            <hr />
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-6">
+                    <div class="well clearfix">
+                        <div class="form-horizontal">
                             <div class="form-group" style="margin: 0">
                                 <label class="control-label" for="txtErrorText"><strong class="h4">{{lbl.txtErrorText}}</strong></label>
                                 <textarea id="txtErrorText"></textarea>
