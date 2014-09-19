@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <post>
   <author>Admin</author>
-  <title>Welcome to BlogEngine.NET 3.0</title>
-  <description>If you see this post it means that BlogEngine.NET 3.0 is running and the hard part of creating your </description>
+  <title>Welcome to BlogEngine.NET 3.1</title>
+  <description>If you see this post it means that BlogEngine.NET 3.1 is running and the hard part of creating your </description>
   <content>&lt;p&gt;If you see this post it means that BlogEngine.NET is running and the hard part of creating your own blog is done. There is only a few things left to do.&lt;/p&gt;
 &lt;h2&gt;Write Permissions&lt;/h2&gt;
 &lt;p&gt;To be able to log in, write posts and customize blog, you need to enable write permissions on the App_Data and Custom folders. If your blog is hosted at a hosting provider, you can either log into your account’s admin page or call the support.&lt;br&gt;&lt;/p&gt;

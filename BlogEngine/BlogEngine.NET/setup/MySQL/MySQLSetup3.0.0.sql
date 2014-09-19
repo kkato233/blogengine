@@ -490,7 +490,7 @@ INSERT INTO be_Categories (BlogID, CategoryID, CategoryName)
 
 INSERT INTO be_Posts (BlogID, PostID, Title, Description, PostContent, DateCreated, DateModified, Author, IsPublished)
 	VALUES ('27604F05-86AD-47EF-9E05-950BB762570C', 'daf4bc0e-f4b7-4895-94b2-3b1413379d4b', 
-	'Welcome to BlogEngine.NET 3.0 using MySQL', 
+	'Welcome to BlogEngine.NET 3.1 using MySQL', 
 	'The description is used as the meta description as well as shown in the related posts. It is recommended that you write a description, but not mandatory',
 	'<p>If you see this post it means that BlogEngine.NET is running and the hard part of creating your own blog is done. There is only a few things left to do.</p>
 <h2>Write Permissions</h2>

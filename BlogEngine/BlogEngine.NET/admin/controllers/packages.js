@@ -6,6 +6,7 @@ angular.module('blogAdmin').controller('CustomController', ["$rootScope", "$scop
     $scope.editId = "";
     $scope.package = {};
     $scope.fltr = 'extensions';
+    $scope.root = $rootScope.SiteVars.ApplicationRelativeWebRoot;
     $scope.IsPrimary = $rootScope.SiteVars.IsPrimary == "True";
     $scope.security = $rootScope.security;
     $scope.focusInput = false;

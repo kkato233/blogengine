@@ -7,7 +7,7 @@ public partial class StandardSite28 : System.Web.UI.MasterPage
 {
     private static Regex reg = new Regex(@"(?<=[^])\t{2,}|(?<=[>])\s{2,}(?=[<])|(?<=[>])\s{2,11}(?=[<])|(?=[\n])\s{2,}");
 
-    protected static string ShRoot = Utils.ApplicationRelativeWebRoot + "editors/tiny_mce_3_5_8/plugins/syntaxhighlighter/";
+    protected static string ShRoot = Utils.ApplicationRelativeWebRoot + "scripts/syntaxhighlighter/";
 
     protected void Page_Load(object sender, EventArgs e)
     {

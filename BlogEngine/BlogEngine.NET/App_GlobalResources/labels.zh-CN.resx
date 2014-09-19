@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add" xml:space="preserve">
     <value>添加</value>
@@ -146,7 +146,7 @@
     <comment>Advanced settings</comment>
   </data>
   <data name="alternateFeedUrl" xml:space="preserve">
-    <value>替换 Feed URL</value>
+    <value>替换推送URL</value>
     <comment>Alternate feed URL</comment>
   </data>
   <data name="approve" xml:space="preserve">
@@ -266,7 +266,7 @@
     <comment>Date</comment>
   </data>
   <data name="defaultFeedOutput" xml:space="preserve">
-    <value>默认 Feed 输出</value>
+    <value>默认推送输出</value>
     <comment>Default feed output</comment>
   </data>
   <data name="defaultTextShownInSearchField" xml:space="preserve">
@@ -546,7 +546,7 @@
     <comment>Posts</comment>
   </data>
   <data name="postsPerFeed" xml:space="preserve">
-    <value>Feed中显示的项目</value>
+    <value>每次推送中显示的项目</value>
     <comment>Items shown in feed</comment>
   </data>
   <data name="previousPost" xml:space="preserve">
@@ -754,7 +754,7 @@
     <comment>Makes all stylesheets of any theme smaller by removing all whitespace at runtime.</comment>
   </data>
   <data name="unapprovedcomments" xml:space="preserve">
-    <value>未审核评论</value>
+    <value>未经审核的评论</value>
     <comment>Unapproved Comments</comment>
   </data>
   <data name="updateFrequenzy" xml:space="preserve">
@@ -1726,7 +1726,7 @@
     <comment>Draft posts</comment>
   </data>
   <data name="emptyTrash" xml:space="preserve">
-    <value>清空垃圾</value>
+    <value>清空回收站</value>
     <comment>Empty trash</comment>
   </data>
   <data name="recentPendingComments" xml:space="preserve">
@@ -1738,7 +1738,7 @@
     <comment>Stats</comment>
   </data>
   <data name="trash" xml:space="preserve">
-    <value>垃圾</value>
+    <value>回收站</value>
     <comment>Trash</comment>
   </data>
   <data name="unapproved" xml:space="preserve">
@@ -1754,11 +1754,11 @@
     <comment>Write new post</comment>
   </data>
   <data name="youDontHaveAnyDraftPages" xml:space="preserve">
-    <value>没有任何页面稿件.</value>
+    <value>没有任何页面草稿.</value>
     <comment>You don't have any draft pages.</comment>
   </data>
   <data name="youDontHaveAnyDraftPosts" xml:space="preserve">
-    <value>没有任何文章稿件.</value>
+    <value>没有任何文章草稿.</value>
     <comment>You don't have any draft posts.</comment>
   </data>
   <data name="notAuthorized" xml:space="preserve">
@@ -2046,7 +2046,7 @@
     <comment>Add new blog</comment>
   </data>
   <data name="approvedComments" xml:space="preserve">
-    <value>已通过评论</value>
+    <value>已通过的评论</value>
     <comment>Approved Comments</comment>
   </data>
   <data name="commonControls" xml:space="preserve">
@@ -2094,7 +2094,7 @@
     <comment>Copy Rights From</comment>
   </data>
   <data name="customCode" xml:space="preserve">
-    <value>用户自定义代码</value>
+    <value>自定义代码</value>
     <comment>Custom code</comment>
   </data>
   <data name="defaultAnonymousRole" xml:space="preserve">
@@ -2110,7 +2110,7 @@
     <comment>Editing Rights for Role</comment>
   </data>
   <data name="feed" xml:space="preserve">
-    <value>Feed</value>
+    <value>推送</value>
     <comment>Feed</comment>
   </data>
   <data name="newUserRoles" xml:space="preserve">
@@ -2183,150 +2183,1187 @@
   </data>
   <data name="areYouSureDeleteComment" xml:space="preserve">
     <value>您确定要删除这条评论吗?</value>
+    <comment>Are you sure you want to delete the comment?</comment>
   </data>
   <data name="areYouSureDeleteEmail" xml:space="preserve">
     <value>您确定要删除这个e-mail吗?</value>
+    <comment>Are you sure you want to delete this e-mail?</comment>
   </data>
   <data name="areYouSureDeletePage" xml:space="preserve">
     <value>您确定要删除这个页面吗?</value>
-  </data>  
+    <comment>Are you sure you want to delete the page?</comment>
+  </data>
   <data name="forceMainTheme" xml:space="preserve">
     <value>标准站点</value>
+    <comment>Regular Site</comment>
   </data>
   <data name="allowMobileTheme" xml:space="preserve">
-    <value>移动站点 Site</value>
+    <value>移动站点</value>
+    <comment>Mobile Site</comment>
   </data>
   <data name="itemsPerPage" xml:space="preserve">
     <value>每页显示数</value>
+    <comment>Items/Page</comment>
   </data>
   <data name="couldNotDeleteBlog" xml:space="preserve">
     <value>无法删除: {0}</value>
+    <comment>Could not delete blog: {0}</comment>
   </data>
   <data name="blogDeleted" xml:space="preserve">
     <value>博客 "{0}" 已删除</value>
+    <comment>Blog "{0}" has been deleted</comment>
   </data>
   <data name="blogAdded" xml:space="preserve">
     <value>博客 "{0}" 已添加</value>
+    <comment>Blog "{0}" has been added</comment>
   </data>
   <data name="invalidBlogId" xml:space="preserve">
     <value>无效的博客 id</value>
   </data>
   <data name="editExistingBlog" xml:space="preserve">
     <value>编辑博客</value>
+    <comment>Edit blog</comment>
   </data>
   <data name="storageContainerName" xml:space="preserve">
     <value>存储器名字</value>
+    <comment>Storage Container Name</comment>
   </data>
   <data name="virtualPath" xml:space="preserve">
     <value>虚拟路径</value>
+    <comment>Virtual Path</comment>
   </data>
   <data name="active" xml:space="preserve">
     <value>活动状态</value>
+    <comment>Active</comment>
   </data>
   <data name="existingBlogToCreateNewBlogFrom" xml:space="preserve">
     <value>从现有博客创建新博客</value>
+    <comment>Existing Blog to Create New Blog from</comment>
   </data>
   <data name="hostName" xml:space="preserve">
     <value>主机名(可选)</value>
+    <comment>Host Name (optional)</comment>
   </data>
   <data name="acceptAnyTextBeforeHostname" xml:space="preserve">
     <value>主机名前允许任意字符(泛解析)</value>
+    <comment>Accept Any Text before Host Name</comment>
   </data>
   <data name="latestFromTheGallery" xml:space="preserve">
     <value>博易最新资讯</value>
+    <comment>Latest from the gallery</comment>
   </data>
   <data name="savedByAtTime" xml:space="preserve">
     <value>{0} 保存于 {1}</value>
+    <comment>Saved by {0} at {1}</comment>
   </data>
   <data name="available" xml:space="preserve">
     <value>可用</value>
+    <comment>Available</comment>
   </data>
   <data name="currentTheme" xml:space="preserve">
     <value>当前主题</value>
+    <comment>Current theme</comment>
   </data>
   <data name="gallery" xml:space="preserve">
     <value>资源</value>
+    <comment>Gallery</comment>
   </data>
   <data name="installed" xml:space="preserve">
     <value>安装</value>
+    <comment>Installed</comment>
   </data>
   <data name="setAsCurrentTheme" xml:space="preserve">
     <value>设为当前主题</value>
+    <comment>Set as current theme</comment>
   </data>
   <data name="setAsMobileTheme" xml:space="preserve">
     <value>设为移动设备主题</value>
+    <comment>Set as mobile theme</comment>
   </data>
   <data name="themes" xml:space="preserve">
     <value>主题模板</value>
+    <comment>Themes</comment>
   </data>
   <data name="alphaNumeric" xml:space="preserve">
     <value>版本号</value>
+    <comment>Alphanumeric</comment>
   </data>
   <data name="downloads" xml:space="preserve">
     <value>下载</value>
+    <comment>Downloads</comment>
   </data>
   <data name="newest" xml:space="preserve">
     <value>最新</value>
+    <comment>Newest</comment>
   </data>
   <data name="orderBy" xml:space="preserve">
     <value>排序</value>
+    <comment>Order by</comment>
   </data>
   <data name="activeThemes" xml:space="preserve">
     <value>可用主题</value>
+    <comment>Active themes</comment>
   </data>
   <data name="enterEmail" xml:space="preserve">
     <value>输入您的 e-mail</value>
+    <comment>Enter your e-mail</comment>
   </data>
   <data name="enterEmailAddress" xml:space="preserve">
     <value>请输入您的 e-mail 地址</value>
+    <comment>Please enter an e-mail address</comment>
   </data>
   <data name="notifyMe" xml:space="preserve">
     <value>通知我</value>
+    <comment>Notify me</comment>
   </data>
   <data name="thankYou" xml:space="preserve">
     <value>感谢</value>
+    <comment>Thank you</comment>
   </data>
   <data name="nowUnsubscribed" xml:space="preserve">
-    <value>您现在没有订阅</value>
-  </data>  
+    <value>您已成功退订</value>
+    <comment>You are now unsubscribed</comment>
+  </data>
   <data name="commentRSS" xml:space="preserve">
     <value>评论 RSS</value>
+    <comment>Comment RSS</comment>
   </data>
   <data name="viewLargeCalendar" xml:space="preserve">
     <value>在日历中浏览文章</value>
+    <comment>View posts in large calendar</comment>
   </data>
   <data name="followTwitter" xml:space="preserve">
-    <value>Follow me on Twitter</value>
+    <value>在Twitter上观注我</value>
+    <comment>Follow me on Twitter</comment>
   </data>
   <data name="visitorHi" xml:space="preserve">
-    <value>Hi</value>
+    <value>您好</value>
+    <comment>Hi</comment>
   </data>
   <data name="welcomeBack" xml:space="preserve">
     <value>欢迎回来!</value>
+    <comment>Welcome back!</comment>
   </data>
   <data name="commentsAddedSince" xml:space="preserve">
     <value>您在 {0} 的最后一条评论之后有新的评论.</value>
+    <comment>New comments have been added to {0} since your last comment.</comment>
   </data>
   <data name="writtenCommentsTotal" xml:space="preserve">
     <value>您在这里总共发表了 {0} 条评论.</value>
+    <comment>You have written {0} comments in total.</comment>
   </data>
   <data name="contactAuthorInformation" xml:space="preserve">
     <value>作者信息</value>
+    <comment>Author information</comment>
   </data>
   <data name="countryCode" xml:space="preserve">
     <value>国家代码</value>
+    <comment>Country code</comment>
   </data>
   <data name="contactIPAddress" xml:space="preserve">
     <value>IP 地址</value>
+    <comment>IP address</comment>
   </data>
   <data name="contactUserAgent" xml:space="preserve">
-    <value>用户浏览器</value>
+    <value>用户浏览器(User-agent)</value>
+    <comment>User-agent</comment>
   </data>
   <data name="filestorage" xml:space="preserve">
     <value>文件存储管理</value>
+    <comment>File Storage Management</comment>
   </data>
   <data name="serverTime" xml:space="preserve">
     <value>服务器时间</value>
     <comment>Server time</comment>
+  </data>
+  <data name="addFolder" xml:space="preserve">
+    <value>添加文件夹</value>
+    <comment>Add folder</comment>
+  </data>
+  <data name="addLink" xml:space="preserve">
+    <value>添加链接</value>
+    <comment>Add link</comment>
+  </data>
+  <data name="addNewLink" xml:space="preserve">
+    <value>新增链接</value>
+    <comment>Add new link</comment>
+  </data>
+  <data name="addToPost" xml:space="preserve">
+    <value>添加到文章中</value>
+    <comment>Add to post</comment>
+  </data>
+  <data name="alignLeft" xml:space="preserve">
+    <value>左对齐</value>
+    <comment>Align Left</comment>
+  </data>
+  <data name="alignRight" xml:space="preserve">
+    <value>右对齐</value>
+    <comment>Align Right</comment>
+  </data>
+  <data name="AllPostsBy" xml:space="preserve">
+    <value>所有发表的文章</value>
+    <comment>All posts by</comment>
+  </data>
+  <data name="AllPostsTagged" xml:space="preserve">
+    <value>所有加标签的文章</value>
+    <comment>All posts tagged</comment>
+  </data>
+  <data name="amp" xml:space="preserve">
+    <value>&amp;</value>
+    <comment>&amp;</comment>
+  </data>
+  <data name="anotherEmail" xml:space="preserve">
+    <value>请选择其它的email地址</value>
+    <comment>Please select another email address</comment>
+  </data>
+  <data name="anotherUserName" xml:space="preserve">
+    <value>请选择其它的用户名</value>
+    <comment>Please select another user name</comment>
+  </data>
+  <data name="apmlAddrInvalid" xml:space="preserve">
+    <value>APML地址无效</value>
+    <comment>APML address invalid</comment>
+  </data>
+  <data name="apmlDescription" xml:space="preserve">
+    <value>输入您的网站或APML文档的URL</value>
+    <comment>Enter the URL to your website or to your APML document</comment>
+  </data>
+  <data name="apmlDocErr" xml:space="preserve">
+    <value>APML文档错误</value>
+    <comment>APML document error</comment>
+  </data>
+  <data name="apmlFilteredList" xml:space="preserve">
+    <value>APML过滤后列表</value>
+    <comment>APML filtered list</comment>
+  </data>
+  <data name="apmlInvalidUrl" xml:space="preserve">
+    <value>指定的URL无法解析</value>
+    <comment>The URL could not be resolved</comment>
+  </data>
+  <data name="apmlInvalidXml" xml:space="preserve">
+    <value>指定的APML文档不是有效的XML</value>
+    <comment>The APML document is not valid XML</comment>
+  </data>
+  <data name="apmlNoConnWebsite" xml:space="preserve">
+    <value>很抱歉，无法连接到您的网站</value>
+    <comment>Sorry, I couldn't connect to your website</comment>
+  </data>
+  <data name="apmlNoInfoWebsite" xml:space="preserve">
+    <value>输入的网站没有任何与APML相关的信息</value>
+    <comment>The website entered doesn't contain any information about APML</comment>
+  </data>
+  <data name="apmlNotFound" xml:space="preserve">
+    <value>未找到APML</value>
+    <comment>APML not found</comment>
+  </data>
+  <data name="apmlNotFoundDesc" xml:space="preserve">
+    <value>无法找到APML文档</value>
+    <comment>APML document could not be found</comment>
+  </data>
+  <data name="approveSelected" xml:space="preserve">
+    <value>通过选中项</value>
+    <comment>Approve selected</comment>
+  </data>
+  <data name="authorDispalyCount" xml:space="preserve">
+    <value>列表中最多作者数量</value>
+    <comment>Maximum authors in the list</comment>
+  </data>
+  <data name="authorDisplayPattern" xml:space="preserve">
+    <value>显示方式(作者, 文章数)</value>
+    <comment>Display pattern (author, post count)</comment>
+  </data>
+  <data name="authorDisplayPatternAggregated" xml:space="preserve">
+    <value>聚合博客中的显示方式(作者, 博客, 文章数)</value>
+    <comment>Display pattern in aggregated blog (author, blog, post count)</comment>
+  </data>
+  <data name="avatarSize" xml:space="preserve">
+    <value>头像的像素大小</value>
+    <comment>Avatar size (in pixels)</comment>
+  </data>
+  <data name="backcolor" xml:space="preserve">
+    <value>背景色</value>
+    <comment>Backcolor</comment>
+  </data>
+  <data name="blogAddedShort" xml:space="preserve">
+    <value>博客已添加</value>
+    <comment>Blog added</comment>
+  </data>
+  <data name="blogName" xml:space="preserve">
+    <value>博客名称</value>
+    <comment>Blog name</comment>
+  </data>
+  <data name="blogSaved" xml:space="preserve">
+    <value>博客已保存</value>
+    <comment>Blog saved</comment>
+  </data>
+  <data name="bold" xml:space="preserve">
+    <value>粗体</value>
+    <comment>Bold</comment>
+  </data>
+  <data name="bulletList" xml:space="preserve">
+    <value>项目符号</value>
+    <comment>Bullet list</comment>
+  </data>
+  <data name="categoryAdded" xml:space="preserve">
+    <value>分类已添加</value>
+    <comment>Category added</comment>
+  </data>
+  <data name="categoryDeleted" xml:space="preserve">
+    <value>分类已删除</value>
+    <comment>Category deleted</comment>
+  </data>
+  <data name="categoryUpdated" xml:space="preserve">
+    <value>分类已更新</value>
+    <comment>Category updated</comment>
+  </data>
+  <data name="center" xml:space="preserve">
+    <value>居中</value>
+    <comment>Center</comment>
+  </data>
+  <data name="colors" xml:space="preserve">
+    <value>颜色</value>
+    <comment>Colors</comment>
+  </data>
+  <data name="commentUpdated" xml:space="preserve">
+    <value>评论已更新</value>
+    <comment>Comment updated</comment>
+  </data>
+  <data name="completed" xml:space="preserve">
+    <value>已完成</value>
+    <comment>Completed</comment>
+  </data>
+  <data name="contactDetails" xml:space="preserve">
+    <value>详细资料和地址</value>
+    <comment>Contact Details and Address</comment>
+  </data>
+  <data name="content" xml:space="preserve">
+    <value>内容</value>
+    <comment>Content</comment>
+  </data>
+  <data name="couldNotDeleteItem" xml:space="preserve">
+    <value>无法删除项目</value>
+    <comment>Could not delete item</comment>
+  </data>
+  <data name="couldNotSaveQuickPost" xml:space="preserve">
+    <value>无法保存快速发表的内容</value>
+    <comment>Could not save quick post</comment>
+  </data>
+  <data name="count" xml:space="preserve">
+    <value>计数</value>
+    <comment>Count</comment>
+  </data>
+  <data name="createBlog" xml:space="preserve">
+    <value>新建博客</value>
+    <comment>Create new blog</comment>
+  </data>
+  <data name="createBlogOnSelfRegistration" xml:space="preserve">
+    <value>为自助注册的用户新建博客</value>
+    <comment>Create new blog for self-registered user</comment>
+  </data>
+  <data name="createdOn" xml:space="preserve">
+    <value>创建于</value>
+    <comment>Created on</comment>
+  </data>
+  <data name="customFields" xml:space="preserve">
+    <value>自定义字段</value>
+    <comment>Custom fields</comment>
+  </data>
+  <data name="customFieldsUpdated" xml:space="preserve">
+    <value>自定义字段已更新</value>
+    <comment>Custom fields updated</comment>
+  </data>
+  <data name="datePublished" xml:space="preserve">
+    <value>发表日期</value>
+    <comment>Date published</comment>
+  </data>
+  <data name="default" xml:space="preserve">
+    <value>默认</value>
+    <comment>default</comment>
+  </data>
+  <data name="defaultMinTag" xml:space="preserve">
+    <value>1 (默认)</value>
+    <comment>1 (default)</comment>
+  </data>
+  <data name="defaultPostCategory" xml:space="preserve">
+    <value>默认文章分类</value>
+    <comment>Default post category</comment>
+  </data>
+  <data name="deleteAll" xml:space="preserve">
+    <value>全部删除</value>
+    <comment>Delete all</comment>
+  </data>
+  <data name="deleteSelected" xml:space="preserve">
+    <value>删除选中项</value>
+    <comment>Delete selected</comment>
+  </data>
+  <data name="disqusWebsiteName" xml:space="preserve">
+    <value>Disqus站点名称</value>
+    <comment>Disqus Website Name</comment>
+  </data>
+  <data name="downloadOPML" xml:space="preserve">
+    <value>下载OPML文件</value>
+    <comment>Download OPML file</comment>
+  </data>
+  <data name="emailNotExist" xml:space="preserve">
+    <value>系统中没有该email</value>
+    <comment>Email does not exist in our system</comment>
+  </data>
+  <data name="empty" xml:space="preserve">
+    <value>清空</value>
+    <comment>Empty</comment>
+  </data>
+  <data name="emptyLog" xml:space="preserve">
+    <value>清空日志文件</value>
+    <comment>Empty the log file</comment>
+  </data>
+  <data name="enableOptimization" xml:space="preserve">
+    <value>启用优化</value>
+    <comment>Enable optimization</comment>
+  </data>
+  <data name="enableOptimizationDesc" xml:space="preserve">
+    <value>合并并缩小脚本和样式(推荐)</value>
+    <comment>Combine and minify scripts and styles (recommended)</comment>
+  </data>
+  <data name="enableQuickNotes" xml:space="preserve">
+    <value>启用快速笔记</value>
+    <comment>Enable Quick Notes</comment>
+  </data>
+  <data name="enableTagExport" xml:space="preserve">
+    <value>允许导出标签</value>
+    <comment>Enable Tag Export</comment>
+  </data>
+  <data name="enterValidString" xml:space="preserve">
+    <value>请输入有效的字符串</value>
+    <comment>Please enter a valid string</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>错误</value>
+    <comment>Error</comment>
+  </data>
+  <data name="errorAddingNewUser" xml:space="preserve">
+    <value>新增用户时出错</value>
+    <comment>Error adding new user</comment>
+  </data>
+  <data name="errorGettingLogFile" xml:space="preserve">
+    <value>获取日志文件时出错</value>
+    <comment>Error getting log file</comment>
+  </data>
+  <data name="errorGettingStats" xml:space="preserve">
+    <value>获取统计信息时出错</value>
+    <comment>Error getting stats</comment>
+  </data>
+  <data name="errorGettingTags" xml:space="preserve">
+    <value>获取标签时出错</value>
+    <comment>Error getting tags</comment>
+  </data>
+  <data name="errorLoadingBlog" xml:space="preserve">
+    <value>加载博客时出错</value>
+    <comment>Error loading blog</comment>
+  </data>
+  <data name="errorLoadingBlogs" xml:space="preserve">
+    <value>加载博客时出错</value>
+    <comment>Error loading blogs</comment>
+  </data>
+  <data name="errorLoadingCategories" xml:space="preserve">
+    <value>加载分类时出错</value>
+    <comment>Error loading categories</comment>
+  </data>
+  <data name="errorLoadingCategory" xml:space="preserve">
+    <value>加载分类时出错</value>
+    <comment>Error loading category</comment>
+  </data>
+  <data name="errorLoadingCustomFields" xml:space="preserve">
+    <value>加载自定义字段时出错</value>
+    <comment>Error loading custom fields</comment>
+  </data>
+  <data name="errorLoadingDraftPages" xml:space="preserve">
+    <value>加载页面草稿时出错</value>
+    <comment>Error loading draft pages</comment>
+  </data>
+  <data name="errorLoadingDraftPosts" xml:space="preserve">
+    <value>加载文章草稿时出错</value>
+    <comment>Error loading draft posts</comment>
+  </data>
+  <data name="errorLoadingPackage" xml:space="preserve">
+    <value>加载包时出错</value>
+    <comment>Error loading package</comment>
+  </data>
+  <data name="errorLoadingPackages" xml:space="preserve">
+    <value>加载包时出错</value>
+    <comment>Error loading packages</comment>
+  </data>
+  <data name="errorLoadingPage" xml:space="preserve">
+    <value>加载页面时出错</value>
+    <comment>Error loading page</comment>
+  </data>
+  <data name="errorLoadingPages" xml:space="preserve">
+    <value>加载页面时出错</value>
+    <comment>Error loading pages</comment>
+  </data>
+  <data name="errorLoadingPosts" xml:space="preserve">
+    <value>加载文章时出错</value>
+    <comment>Error loading posts</comment>
+  </data>
+  <data name="errorLoadingRecentComments" xml:space="preserve">
+    <value>加载最近评论时出错</value>
+    <comment>Error loading recent comments</comment>
+  </data>
+  <data name="errorLoadingRights" xml:space="preserve">
+    <value>加载权限时出错</value>
+    <comment>Error loading rights</comment>
+  </data>
+  <data name="errorLoadingRole" xml:space="preserve">
+    <value>加载角色时出错</value>
+    <comment>Error loading role</comment>
+  </data>
+  <data name="errorLoadingRoles" xml:space="preserve">
+    <value>加载角色时出错</value>
+    <comment>Error loading roles</comment>
+  </data>
+  <data name="errorLoadingSettings" xml:space="preserve">
+    <value>加载设置时出错</value>
+    <comment>Error loading settings</comment>
+  </data>
+  <data name="errorLoadingTrash" xml:space="preserve">
+    <value>加载回收站时出错</value>
+    <comment>Error loading trash</comment>
+  </data>
+  <data name="errorLoadingUser" xml:space="preserve">
+    <value>加载用户时出错</value>
+    <comment>Error loading user</comment>
+  </data>
+  <data name="errorLoadingUsers" xml:space="preserve">
+    <value>加载用户时出错</value>
+    <comment>Error loading users</comment>
+  </data>
+  <data name="errorMessage" xml:space="preserve">
+    <value>错误消息</value>
+    <comment>Error Message</comment>
+  </data>
+  <data name="errorPurging" xml:space="preserve">
+    <value>清除时出错</value>
+    <comment>Error purging</comment>
+  </data>
+  <data name="errorRestoring" xml:space="preserve">
+    <value>恢复时出错</value>
+    <comment>Error restoring</comment>
+  </data>
+  <data name="failed" xml:space="preserve">
+    <value>失败</value>
+    <comment>Failed</comment>
+  </data>
+  <data name="failedAddingNewCategory" xml:space="preserve">
+    <value>新增分类失败</value>
+    <comment>Failed adding new category</comment>
+  </data>
+  <data name="failedAddingNewPage" xml:space="preserve">
+    <value>新增页面失败</value>
+    <comment>Failed adding new page</comment>
+  </data>
+  <data name="failedAddingNewPost" xml:space="preserve">
+    <value>新增文章失败</value>
+    <comment>Failed adding new post</comment>
+  </data>
+  <data name="failedAddingNewRole" xml:space="preserve">
+    <value>新增角色失败</value>
+    <comment>Failed adding new role</comment>
+  </data>
+  <data name="failedToSaveRights" xml:space="preserve">
+    <value>保存权限失败</value>
+    <comment>Failed to save rights</comment>
+  </data>
+  <data name="fileManager" xml:space="preserve">
+    <value>文件管理器</value>
+    <comment>File Manager</comment>
+  </data>
+  <data name="filePicker" xml:space="preserve">
+    <value>文件提取工具</value>
+    <comment>File picker</comment>
+  </data>
+  <data name="font" xml:space="preserve">
+    <value>字体</value>
+    <comment>Font</comment>
+  </data>
+  <data name="fontSize" xml:space="preserve">
+    <value>字体大小</value>
+    <comment>Font size</comment>
+  </data>
+  <data name="forecolor" xml:space="preserve">
+    <value>前景色</value>
+    <comment>Forecolor</comment>
+  </data>
+  <data name="fullScreen" xml:space="preserve">
+    <value>全屏</value>
+    <comment>Full screen</comment>
+  </data>
+  <data name="galleryFeedUrl" xml:space="preserve">
+    <value>资源推送URL</value>
+    <comment>Gallery Feed URL</comment>
+  </data>
+  <data name="galleryFeedUrlDescription" xml:space="preserve">
+    <value>提供可下载包的有效资源推送URL</value>
+    <comment>URL to the valid Gallery feed containing downloadable packages</comment>
+  </data>
+  <data name="hasRated" xml:space="preserve">
+    <value>您已经对该文章评过分</value>
+    <comment>You already rated this post.</comment>
+  </data>
+  <data name="heading" xml:space="preserve">
+    <value>标题</value>
+    <comment>Heading</comment>
+  </data>
+  <data name="hyperlink" xml:space="preserve">
+    <value>超链接</value>
+    <comment>Hyperlink</comment>
+  </data>
+  <data name="importedFromBlogML" xml:space="preserve">
+    <value>从BlogML导出</value>
+    <comment>Imported from BlogML</comment>
+  </data>
+  <data name="importExport" xml:space="preserve">
+    <value>导入导出</value>
+    <comment>Import export</comment>
+  </data>
+  <data name="importFailed" xml:space="preserve">
+    <value>导入失败</value>
+    <comment>Import failed</comment>
+  </data>
+  <data name="incorrectSimpleCaptcha" xml:space="preserve">
+    <value>输入的验证码不正确</value>
+    <comment>The captcha value you provided is incorrect.</comment>
+  </data>
+  <data name="indent" xml:space="preserve">
+    <value>缩进</value>
+    <comment>Indent</comment>
+  </data>
+  <data name="install" xml:space="preserve">
+    <value>安装</value>
+    <comment>Install</comment>
+  </data>
+  <data name="isForSiteAggregation" xml:space="preserve">
+    <value>是否为站点聚合</value>
+    <comment>Is For Site Aggregation</comment>
+  </data>
+  <data name="italic" xml:space="preserve">
+    <value>斜体</value>
+    <comment>Italic</comment>
+  </data>
+  <data name="justify" xml:space="preserve">
+    <value>两端对齐</value>
+    <comment>Justify</comment>
+  </data>
+  <data name="LangDirection" xml:space="preserve">
+    <value>从左向右</value>
+    <comment>ltr</comment>
+  </data>
+  <data name="lastUpdate" xml:space="preserve">
+    <value>最近更新</value>
+    <comment>Last Update</comment>
+  </data>
+  <data name="lastUpdated" xml:space="preserve">
+    <value>最近更新</value>
+    <comment>Last Updated</comment>
+  </data>
+  <data name="latestComments" xml:space="preserve">
+    <value>最新评论</value>
+    <comment>Latest comments</comment>
+  </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>列表当前为空. 您可以通过上方的菜单添加项目.</value>
+    <comment>This list is empty. You can add new item from the menu above.</comment>
+  </data>
+  <data name="logFile" xml:space="preserve">
+    <value>日志文件</value>
+    <comment>Log file</comment>
+  </data>
+  <data name="loggedMessages" xml:space="preserve">
+    <value>日志中记录的消息</value>
+    <comment>Logged messages</comment>
+  </data>
+  <data name="loginFailed" xml:space="preserve">
+    <value>登录失败</value>
+    <comment>Login failed</comment>
+  </data>
+  <data name="logs" xml:space="preserve">
+    <value>日志</value>
+    <comment>Logs</comment>
+  </data>
+  <data name="maxAgeInDays" xml:space="preserve">
+    <value>天数最长</value>
+    <comment>Max age in days</comment>
+  </data>
+  <data name="newCategory" xml:space="preserve">
+    <value>新分类</value>
+    <comment>New category</comment>
+  </data>
+  <data name="newWindow" xml:space="preserve">
+    <value>新窗口</value>
+    <comment>New window</comment>
+  </data>
+  <data name="next" xml:space="preserve">
+    <value>下一个</value>
+    <comment>Next</comment>
+  </data>
+  <data name="noApprovedComments" xml:space="preserve">
+    <value>当前没有已通过的评论</value>
+    <comment>There are no approved comments.</comment>
+  </data>
+  <data name="noBlogsWereFound" xml:space="preserve">
+    <value>没有找到任何博客</value>
+    <comment>No blogs were found.</comment>
+  </data>
+  <data name="noFilesFound" xml:space="preserve">
+    <value>没有找到任何文件</value>
+    <comment>No files found.</comment>
+  </data>
+  <data name="noNotesYet" xml:space="preserve">
+    <value>您当前没有任何笔记</value>
+    <comment>You do not have any notes yet.</comment>
+  </data>
+  <data name="noPackagesToDisplay" xml:space="preserve">
+    <value>没有可以显示的包</value>
+    <comment>There are no packages to display.</comment>
+  </data>
+  <data name="noPendingComments" xml:space="preserve">
+    <value>没有等待通过的评论</value>
+    <comment>There are no pending comments.</comment>
+  </data>
+  <data name="noPingbacksTrackbacks" xml:space="preserve">
+    <value>当前没有Pingback或Trackback记录. 请确认已经在高级设置中启用了发送和接收Pingback或Trackback的功能.</value>
+    <comment>There are no pingbacks or trackback. Make sure you enabled sending and recieving trackbacks/pingbacks in advanced settings.</comment>
+  </data>
+  <data name="noPostsMatchedYourCriteria" xml:space="preserve">
+    <value>抱歉, 没有找到满足条件的文章</value>
+    <comment>Sorry, no posts matched your criteria</comment>
+  </data>
+  <data name="noSpamHere" xml:space="preserve">
+    <value>请不要发垃圾!</value>
+    <comment>Hooray, no spam here!</comment>
+  </data>
+  <data name="notAuthorizedToCreateNewPosts" xml:space="preserve">
+    <value>没有新建文章的权限</value>
+    <comment>Not authorized to create new Posts.</comment>
+  </data>
+  <data name="numberList" xml:space="preserve">
+    <value>数字表</value>
+    <comment>Number list</comment>
+  </data>
+  <data name="numberOfCommenters" xml:space="preserve">
+    <value>评论人数</value>
+    <comment>Number of commenters</comment>
+  </data>
+  <data name="openLinkInNewWindow" xml:space="preserve">
+    <value>在新窗口中打开链接</value>
+    <comment>Open link in new window</comment>
+  </data>
+  <data name="pageAdded" xml:space="preserve">
+    <value>页面已添加</value>
+    <comment>Page added</comment>
+  </data>
+  <data name="pageMeta" xml:space="preserve">
+    <value>页面元数据</value>
+    <comment>Page Meta</comment>
+  </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>页面未找到</value>
+    <comment>Page not found</comment>
+  </data>
+  <data name="pageSource" xml:space="preserve">
+    <value>页面源</value>
+    <comment>Page Source</comment>
+  </data>
+  <data name="pageUpdated" xml:space="preserve">
+    <value>页面已更新</value>
+    <comment>Page updated</comment>
+  </data>
+  <data name="passwordNotChanged" xml:space="preserve">
+    <value>密码未做修改</value>
+    <comment>Password was not changed</comment>
+  </data>
+  <data name="passwordSent" xml:space="preserve">
+    <value>密码已发送</value>
+    <comment>The password has been sent</comment>
+  </data>
+  <data name="per" xml:space="preserve">
+    <value>for</value>
+    <comment>keyname for is not valid</comment>
+  </data>
+  <data name="personalDetails" xml:space="preserve">
+    <value>个人资料</value>
+    <comment>Personal details</comment>
+  </data>
+  <data name="pingbacks" xml:space="preserve">
+    <value>Pingbacks</value>
+    <comment>Pingbacks</comment>
+  </data>
+  <data name="pingServiceNotUnique" xml:space="preserve">
+    <value>Ping服务的地址已存在</value>
+    <comment>Ping service URL already listed</comment>
+  </data>
+  <data name="pingServiceUrlBatch" xml:space="preserve">
+    <value>Ping服务地址(每行一条)</value>
+    <comment>Ping service URL's (one per line)</comment>
+  </data>
+  <data name="postAdded" xml:space="preserve">
+    <value>文章已发表</value>
+    <comment>Post added</comment>
+  </data>
+  <data name="postMeta" xml:space="preserve">
+    <value>文章元数据</value>
+    <comment>Post Meta</comment>
+  </data>
+  <data name="postSaved" xml:space="preserve">
+    <value>文章已保存</value>
+    <comment>Post saved</comment>
+  </data>
+  <data name="postUpdated" xml:space="preserve">
+    <value>文章已更新</value>
+    <comment>Post updated</comment>
+  </data>
+  <data name="prev" xml:space="preserve">
+    <value>上一个</value>
+    <comment>Prev</comment>
+  </data>
+  <data name="previewComment" xml:space="preserve">
+    <value>预览</value>
+    <comment>Preview</comment>
+  </data>
+  <data name="primary" xml:space="preserve">
+    <value>主要</value>
+    <comment>Primary</comment>
+  </data>
+  <data name="publishedOn" xml:space="preserve">
+    <value>发表于</value>
+    <comment>Published on</comment>
+  </data>
+  <data name="publishedPages" xml:space="preserve">
+    <value>已发表页面数</value>
+    <comment>Published pages</comment>
+  </data>
+  <data name="publishedPosts" xml:space="preserve">
+    <value>已发表文章数</value>
+    <comment>Published posts</comment>
+  </data>
+  <data name="purge" xml:space="preserve">
+    <value>清除</value>
+    <comment>purge</comment>
+  </data>
+  <data name="purgeAll" xml:space="preserve">
+    <value>全部清除</value>
+    <comment>Purge all</comment>
+  </data>
+  <data name="purged" xml:space="preserve">
+    <value>已清除</value>
+    <comment>Purged</comment>
+  </data>
+  <data name="purgeSelected" xml:space="preserve">
+    <value>清除所选</value>
+    <comment>Purge selected</comment>
+  </data>
+  <data name="redirectToRemoveFileExtension" xml:space="preserve">
+    <value>重定向到去除.aspx扩展名的URLs</value>
+    <comment>Redirect to remove .aspx extension from URLs</comment>
+  </data>
+  <data name="redirectToRemoveFileExtensionDesc" xml:space="preserve">
+    <value>把包含.aspx扩展名的请求重定向到去除了扩展名的URL. 从URLs中去除扩展名的选择必须同时启用.</value>
+    <comment>Redirects incoming requests containing the .aspx file extension to a URL with the extension removed.  Remove extensions from URLs must also be turned on.</comment>
+  </data>
+  <data name="redo" xml:space="preserve">
+    <value>重做</value>
+    <comment>Redo</comment>
+  </data>
+  <data name="reduceIndent" xml:space="preserve">
+    <value>减少缩进</value>
+    <comment>Reduce indent</comment>
+  </data>
+  <data name="rejectSelected" xml:space="preserve">
+    <value>拒绝所选</value>
+    <comment>Reject selected</comment>
+  </data>
+  <data name="removeExtensionsFromUrls" xml:space="preserve">
+    <value>从URLs中移除扩展名</value>
+    <comment>Remove extensions from URLs</comment>
+  </data>
+  <data name="removeExtensionsFromUrlsDesc" xml:space="preserve">
+    <value>从文章或页面URL中移除.aspx扩展名</value>
+    <comment>Removes .aspx file extension from post or page URL</comment>
+  </data>
+  <data name="reset" xml:space="preserve">
+    <value>重置</value>
+    <comment>Reset</comment>
+  </data>
+  <data name="restored" xml:space="preserve">
+    <value>已恢复</value>
+    <comment>Restored</comment>
+  </data>
+  <data name="restoreSelected" xml:space="preserve">
+    <value>恢复所选</value>
+    <comment>Restore selected</comment>
+  </data>
+  <data name="reviews" xml:space="preserve">
+    <value>评论</value>
+    <comment>Reviews</comment>
+  </data>
+  <data name="rights" xml:space="preserve">
+    <value>权限</value>
+    <comment>Rights</comment>
+  </data>
+  <data name="rightsSaved" xml:space="preserve">
+    <value>权限已保存</value>
+    <comment>Rights saved</comment>
+  </data>
+  <data name="roleAdded" xml:space="preserve">
+    <value>角色已添加</value>
+    <comment>Role added</comment>
+  </data>
+  <data name="rolesItem" xml:space="preserve">
+    <value />
+  </data>
+  <data name="rolesItemDeleted" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsUpdated" xml:space="preserve">
+    <value>设置已更新</value>
+    <comment>Settings updated</comment>
+  </data>
+  <data name="shortBiography" xml:space="preserve">
+    <value>简短的自述</value>
+    <comment>Short Biography</comment>
+  </data>
+  <data name="showComments" xml:space="preserve">
+    <value>显示评论</value>
+    <comment>Show comments</comment>
+  </data>
+  <data name="showIncludeComments" xml:space="preserve">
+    <value>显示包含评论选项</value>
+    <comment>Show include comments option</comment>
+  </data>
+  <data name="showPostCount" xml:space="preserve">
+    <value>显示文章数量</value>
+    <comment>Show post count</comment>
+  </data>
+  <data name="showRating" xml:space="preserve">
+    <value>显示评分</value>
+    <comment>Show rating</comment>
+  </data>
+  <data name="showRssIcon" xml:space="preserve">
+    <value>显示RSS图标</value>
+    <comment>Show RSS icon</comment>
+  </data>
+  <data name="showTitle" xml:space="preserve">
+    <value>显示标题</value>
+    <comment>Show title</comment>
+  </data>
+  <data name="size" xml:space="preserve">
+    <value>大小</value>
+    <comment>Size</comment>
+  </data>
+  <data name="sortOrder" xml:space="preserve">
+    <value>排序方向</value>
+    <comment>Sort Order</comment>
+  </data>
+  <data name="spamComments" xml:space="preserve">
+    <value>垃圾评论</value>
+    <comment>Spam comments</comment>
+  </data>
+  <data name="spamProtection" xml:space="preserve">
+    <value>反垃圾保护</value>
+    <comment>Spam protection</comment>
+  </data>
+  <data name="strikethrough" xml:space="preserve">
+    <value>删除线</value>
+    <comment>Strikethrough</comment>
+  </data>
+  <data name="systemRole" xml:space="preserve">
+    <value>系统角色</value>
+    <comment>System role</comment>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>标签</value>
+    <comment>Tag</comment>
+  </data>
+  <data name="tagCloudMaxSize" xml:space="preserve">
+    <value>标签云的最大数量(按最近发表的文章排序)</value>
+    <comment>Tag cloud maximum size (Sorted by Recent Posts)</comment>
+  </data>
+  <data name="tagMinimumPosts" xml:space="preserve">
+    <value>每个标签的最小文章数量</value>
+    <comment>Minimum posts in each tag</comment>
+  </data>
+  <data name="tagsCommaDelimited" xml:space="preserve">
+    <value>标签(逗号分隔)</value>
+    <comment>Tags (comma delimited)</comment>
+  </data>
+  <data name="tagUpdated" xml:space="preserve">
+    <value>标签已更新</value>
+    <comment>Tag updated</comment>
+  </data>
+  <data name="textBeforeHostName" xml:space="preserve">
+    <value>主机名前可以允许的文字</value>
+    <comment>Text Accepted Before Host Name</comment>
+  </data>
+  <data name="thumbnailServiceProvider" xml:space="preserve">
+    <value>缩略图服务提供者</value>
+    <comment>Thumbnail service provider</comment>
+  </data>
+  <data name="thumbnailServiceProviderHelp" xml:space="preserve">
+    <value>用于获取缩略图的API，例如: http://www.robothumb.com/src/?url={0}</value>
+    <comment>API used to get thumbnail, i.g. http://www.robothumb.com/src/?url={0}</comment>
+  </data>
+  <data name="titleOfPage" xml:space="preserve">
+    <value>页面的标题</value>
+    <comment>Title of page</comment>
+  </data>
+  <data name="titleOfPost" xml:space="preserve">
+    <value>文章的标题</value>
+    <comment>Title of post</comment>
+  </data>
+  <data name="trashIsEmpty" xml:space="preserve">
+    <value>回收站为空</value>
+    <comment>Trash is empty.</comment>
+  </data>
+  <data name="twitterAccountUrl" xml:space="preserve">
+    <value>Twitter帐户的URL</value>
+    <comment>Your Twitter account URL</comment>
+  </data>
+  <data name="twitterFollowMeText" xml:space="preserve">
+    <value>关注我的文字</value>
+    <comment>Follow me text</comment>
+  </data>
+  <data name="twitterNumberOfDisplayedTwits" xml:space="preserve">
+    <value>显示Twits的数量</value>
+    <comment>Number of displayed Twits</comment>
+  </data>
+  <data name="twitterPollingInterval" xml:space="preserve">
+    <value>投票时间间隔(#/分钟)</value>
+    <comment>Polling Interval (#/minutes)</comment>
+  </data>
+  <data name="twitterRssFeedUrl" xml:space="preserve">
+    <value>Twitter RSS推送URL</value>
+    <comment>Twitter RSS feed URL</comment>
+  </data>
+  <data name="txtErrorText" xml:space="preserve">
+    <value>错误页面的文本</value>
+    <comment>Text for the Error Page</comment>
+  </data>
+  <data name="txtErrorTitle" xml:space="preserve">
+    <value>错误页面的标题</value>
+    <comment>Title for the Error Page</comment>
+  </data>
+  <data name="type" xml:space="preserve">
+    <value>输入</value>
+    <comment>Type</comment>
+  </data>
+  <data name="typeAndEnter" xml:space="preserve">
+    <value>输入并回车</value>
+    <comment>Type and enter</comment>
+  </data>
+  <data name="typeHere" xml:space="preserve">
+    <value>在这里输入</value>
+    <comment>Type here</comment>
+  </data>
+  <data name="unapprove" xml:space="preserve">
+    <value>未经审核</value>
+    <comment>Unapprove</comment>
+  </data>
+  <data name="underline" xml:space="preserve">
+    <value>下划线</value>
+    <comment>Underline</comment>
+  </data>
+  <data name="undo" xml:space="preserve">
+    <value>撤消</value>
+    <comment>Undo</comment>
+  </data>
+  <data name="unlimited" xml:space="preserve">
+    <value>未经限制</value>
+    <comment>Unlimited</comment>
+  </data>
+  <data name="unlink" xml:space="preserve">
+    <value>取消连接</value>
+    <comment>Unlink</comment>
+  </data>
+  <data name="unpublish" xml:space="preserve">
+    <value>未发表</value>
+    <comment>Unpublish</comment>
+  </data>
+  <data name="unpublished" xml:space="preserve">
+    <value>未发表</value>
+    <comment>Unpublished</comment>
+  </data>
+  <data name="unpublishedPage" xml:space="preserve">
+    <value>未发表的页面</value>
+    <comment>Unpublished page</comment>
+  </data>
+  <data name="unpublishedPost" xml:space="preserve">
+    <value>未发现的文章</value>
+    <comment>Unpublished post</comment>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>更新失败</value>
+    <comment>Update failed</comment>
+  </data>
+  <data name="uploaded" xml:space="preserve">
+    <value>已上传</value>
+    <comment>Uploaded</comment>
+  </data>
+  <data name="url" xml:space="preserve">
+    <value>URL</value>
+    <comment>URL</comment>
+  </data>
+  <data name="userAdded" xml:space="preserve">
+    <value>用户已添加</value>
+    <comment>User added</comment>
+  </data>
+  <data name="userUpdatedShort" xml:space="preserve">
+    <value>用户已更新</value>
+    <comment>User updated</comment>
+  </data>
+  <data name="viewMyBlog" xml:space="preserve">
+    <value>查看我的博客</value>
+    <comment>View my blog</comment>
+  </data>
+  <data name="visitorInfoApmlFound" xml:space="preserve">
+    <value>发现APML文件存在于</value>
+    <comment>I can see you have an APML file at</comment>
+  </data>
+  <data name="visitorInfoApmlQuestion" xml:space="preserve">
+    <value>您希望根据您的APML文件来过滤博客的内容吗?</value>
+    <comment>Do you wish to filter the content of this blog based on your APML file?</comment>
+  </data>
+  <data name="visitorInfoApplyFilter" xml:space="preserve">
+    <value>过滤</value>
+    <comment>Apply filter</comment>
+  </data>
+  <data name="websiteUrl" xml:space="preserve">
+    <value>网站URL</value>
+    <comment>Website URL</comment>
+  </data>
+  <data name="widgets" xml:space="preserve">
+    <value>部件</value>
+    <comment>Widgets</comment>
+  </data>
+  <data name="writeReview" xml:space="preserve">
+    <value>撰写评论</value>
+    <comment>Write review</comment>
+  </data>
+  <data name="youHaveNotAddedAnyUserSoFar" xml:space="preserve">
+    <value>您还没有添加任何用户. 请使用页面右上角的连接新建用户.</value>
+    <comment>You have not added any user so far. To add a new user use the link in the top right corner of the page.</comment>
+  </data>
+  <data name="youHaveNoTaggedPosts" xml:space="preserve">
+    <value>你没有添加了标签的文章.</value>
+    <comment>You have no tagged posts.</comment>
+  </data>
+  <data name="youHaveNotDefinedAnyRolesSoFar" xml:space="preserve">
+    <value>您还没有定义任何角色. 请使用页面右上角的连接新建角色.</value>
+    <comment>You have not defined any roles so far. To add a new role use the link in the top right corner of the page.</comment>
+  </data>
+  <data name="youHaveNotWrittenAnyPosts" xml:space="preserve">
+    <value>您还没有写过任何文章. 请使用右边菜单新建文章.</value>
+    <comment>You have not written any posts so far. To write a new post use the link in the right side menu.</comment>
+  </data>
+  <data name="youHaveNoWrittenAnyPages" xml:space="preserve">
+    <value>您还没有写过任何页面. 请使用右边菜单新建页面</value>
+    <comment>You have not written any pages so far. To write a new page use the link in the right side menu.</comment>
   </data>
 </root>
