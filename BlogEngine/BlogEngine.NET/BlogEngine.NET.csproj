@@ -316,6 +316,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\be3.hiro3-soft.com - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\BlogEngine - release - web.pubxml" />
+    <None Include="Properties\PublishProfiles\file-public.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
