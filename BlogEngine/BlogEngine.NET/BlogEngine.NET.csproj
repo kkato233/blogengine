@@ -1563,10 +1563,7 @@
     <Compile Include="AppCode\Api\ToolsController.cs" />
     <Compile Include="AppCode\Api\UploadController.cs" />
     <Compile Include="AppCode\Api\UsersController.cs" />
-    <Compile Include="AppCode\App_Start\BundleConfig.cs" />
     <Compile Include="AppCode\App_Start\IoCContainer.cs" />
-    <Compile Include="AppCode\App_Start\UnityConfig.cs" />
-    <Compile Include="AppCode\App_Start\WebApiConfig.cs" />
     <Compile Include="AppCode\Controls\AuthorList.cs" />
     <Compile Include="AppCode\Controls\BlogList.cs" />
     <Compile Include="AppCode\Controls\Blogroll.cs" />
@@ -1594,6 +1591,7 @@
     </Compile>
     <Compile Include="AppCode\Controls\WidgetZone.cs" />
     <Compile Include="AppCode\PersianCulture.cs" />
+    <Compile Include="App_Start\BlogEngineConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Custom\Extensions\AkismetFilter.cs" />
     <Compile Include="Custom\Extensions\BBCode.cs" />
