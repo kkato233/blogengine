@@ -1,8 +1,6 @@
 ﻿function listPagerInit(p) {
     p.pagedItems = [];
-    if (p.currentPage === undefined) {
-        p.currentPage = 0;
-    }
+    p.currentPage = 0;
     if (p.itemsPerPage === undefined) {
         p.itemsPerPage = 5;
     }

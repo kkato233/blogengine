@@ -11,6 +11,7 @@
     $scope.pager = {};
     $scope.pager.items = [];
     $scope.pagerCurrentPage = 0;
+    $scope.focusInput = false;
 
     $scope.openLogFile = function () {
         dataService.getItems('/api/logs/getlog/file')
@@ -174,14 +175,14 @@
         $scope.noteId = '';
         $("#txtAddNote").val('');
         $("#modal-add-note").modal();
-        return false;
+        $scope.focusInput = true;
     }
     $scope.editNote = function (id) {
         $scope.noteId = id;
         var note = findInArray($scope.pager.items, 'Id', id);
         $("#txtEditNote").val(note.Note);
         $("#modal-edit-note").modal();
-        return false;
+        $scope.focusInput = true;
     }
     $scope.deleteNote = function (id) {
         var note = { 'Id': id };
@@ -203,6 +204,7 @@
         else {
             $scope.updateNote();
         }
+        $scope.focusInput = false;
     }
     $scope.addNewNote = function () {
         if ($("#txtAddNote").val().length < 1) {

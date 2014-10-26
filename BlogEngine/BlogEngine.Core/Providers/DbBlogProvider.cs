@@ -2913,7 +2913,7 @@ namespace BlogEngine.Core.Providers
             {
                 if (conn.HasConnection)
                 {
-                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT NoteId, Note, Updated FROM {0}QuickNotes where UserName = '{1}' and BlogId = '{2}'", tablePrefix, userId, Blog.CurrentInstance.Id.ToString())))
+                    using (var cmd = conn.CreateTextCommand(string.Format("SELECT NoteId, Note, Updated FROM {0}QuickNotes where UserName = '{1}' and BlogId = '{2}' order by Updated desc", tablePrefix, userId, Blog.CurrentInstance.Id.ToString())))
                     {
                         using (var rdr = cmd.ExecuteReader())
                         {

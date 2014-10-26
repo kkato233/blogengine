@@ -37,7 +37,7 @@ namespace BlogEngine.Core.Providers
             if (idx >= 0)
                 notes.RemoveAt(idx);
 
-            notes.Add(note);
+            notes.Insert(0, note);
 
             using (var writer = new XmlTextWriter(fileName, Encoding.UTF8))
             {
