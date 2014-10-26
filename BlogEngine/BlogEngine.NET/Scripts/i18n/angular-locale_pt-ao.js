@@ -1,8 +1,6 @@
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
 var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
-<<<<<<< HEAD
-=======
 function getDecimals(n) {
   n = n + '';
   var i = n.indexOf('.');
@@ -34,7 +32,6 @@ function getWT(v, f) {
   return {w: v, t: f};
 }
 
->>>>>>> master
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
@@ -89,34 +86,21 @@ $provide.value("$locale", {
     ],
     "fullDate": "EEEE, d 'de' MMMM 'de' y",
     "longDate": "d 'de' MMMM 'de' y",
-<<<<<<< HEAD
-    "medium": "dd/MM/yyyy HH:mm:ss",
-    "mediumDate": "dd/MM/yyyy",
-=======
     "medium": "dd/MM/y HH:mm:ss",
     "mediumDate": "dd/MM/y",
->>>>>>> master
     "mediumTime": "HH:mm:ss",
     "short": "dd/MM/yy HH:mm",
     "shortDate": "dd/MM/yy",
     "shortTime": "HH:mm"
   },
   "NUMBER_FORMATS": {
-<<<<<<< HEAD
-    "CURRENCY_SYM": "R$",
-=======
     "CURRENCY_SYM": "Kz",
->>>>>>> master
     "DECIMAL_SEP": ",",
     "GROUP_SEP": ".",
     "PATTERNS": [
       {
         "gSize": 3,
         "lgSize": 3,
-<<<<<<< HEAD
-        "macFrac": 0,
-=======
->>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -128,30 +112,17 @@ $provide.value("$locale", {
       {
         "gSize": 3,
         "lgSize": 3,
-<<<<<<< HEAD
-        "macFrac": 0,
-        "maxFrac": 2,
-        "minFrac": 2,
-        "minInt": 1,
-        "negPre": "(\u00a4",
-        "negSuf": ")",
-=======
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
         "negPre": "\u00a4-",
         "negSuf": "",
->>>>>>> master
         "posPre": "\u00a4",
         "posSuf": ""
       }
     ]
   },
   "id": "pt-ao",
-<<<<<<< HEAD
-  "pluralCat": function (n) {  if (n == 1) {   return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
-=======
   "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  var wt = getWT(vf.v, vf.f);  if (i == 1 && vf.v == 0 || i == 0 && wt.t == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
->>>>>>> master
 });
 }]);

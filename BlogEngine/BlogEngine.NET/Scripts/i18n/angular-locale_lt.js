@@ -35,7 +35,7 @@ $provide.value("$locale", {
       "\u0161e\u0161tadienis"
     ],
     "MONTH": [
-      "sausio",
+      "sausis",
       "vasaris",
       "kovas",
       "balandis",
@@ -58,20 +58,6 @@ $provide.value("$locale", {
       "\u0161t"
     ],
     "SHORTMONTH": [
-<<<<<<< HEAD
-      "Saus.",
-      "Vas",
-      "Kov.",
-      "Bal.",
-      "Geg.",
-      "Bir.",
-      "Liep.",
-      "Rugp.",
-      "Rugs.",
-      "Spal.",
-      "Lapkr.",
-      "Gruod."
-=======
       "saus.",
       "vas.",
       "kov.",
@@ -84,7 +70,6 @@ $provide.value("$locale", {
       "spal.",
       "lapkr.",
       "gruod."
->>>>>>> master
     ],
     "fullDate": "y 'm'. MMMM d 'd'., EEEE",
     "longDate": "y 'm'. MMMM d 'd'.",

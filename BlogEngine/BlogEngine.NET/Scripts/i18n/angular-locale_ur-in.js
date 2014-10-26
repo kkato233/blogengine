@@ -1,19 +1,6 @@
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
 var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
-<<<<<<< HEAD
-$provide.value("$locale", {
-  "DATETIME_FORMATS": {
-    "AMPMS": [
-      "\u062f\u0646",
-      "\u0631\u0627\u062a"
-    ],
-    "DAY": [
-      "\u0627\u062a\u0648\u0627\u0631",
-      "\u067e\u064a\u0631",
-      "\u0645\u0646\u06af\u0644",
-      "\u0628\u062f\u0647",
-=======
 function getDecimals(n) {
   n = n + '';
   var i = n.indexOf('.');
@@ -43,7 +30,6 @@ $provide.value("$locale", {
       "\u067e\u06cc\u0631",
       "\u0645\u0646\u06af\u0644",
       "\u0628\u062f\u06be",
->>>>>>> master
       "\u062c\u0645\u0639\u0631\u0627\u062a",
       "\u062c\u0645\u0639\u06c1",
       "\u06c1\u0641\u062a\u06c1"
@@ -52,17 +38,10 @@ $provide.value("$locale", {
       "\u062c\u0646\u0648\u0631\u06cc",
       "\u0641\u0631\u0648\u0631\u06cc",
       "\u0645\u0627\u0631\u0686",
-<<<<<<< HEAD
-      "\u0627\u067e\u0631\u064a\u0644",
-      "\u0645\u0626",
-      "\u062c\u0648\u0646",
-      "\u062c\u0648\u0644\u0627\u0626",
-=======
       "\u0627\u067e\u0631\u06cc\u0644",
       "\u0645\u0626\u06cc",
       "\u062c\u0648\u0646",
       "\u062c\u0648\u0644\u0627\u0626\u06cc",
->>>>>>> master
       "\u0627\u06af\u0633\u062a",
       "\u0633\u062a\u0645\u0628\u0631",
       "\u0627\u06a9\u062a\u0648\u0628\u0631",
@@ -71,15 +50,9 @@ $provide.value("$locale", {
     ],
     "SHORTDAY": [
       "\u0627\u062a\u0648\u0627\u0631",
-<<<<<<< HEAD
-      "\u067e\u064a\u0631",
-      "\u0645\u0646\u06af\u0644",
-      "\u0628\u062f\u0647",
-=======
       "\u067e\u06cc\u0631",
       "\u0645\u0646\u06af\u0644",
       "\u0628\u062f\u06be",
->>>>>>> master
       "\u062c\u0645\u0639\u0631\u0627\u062a",
       "\u062c\u0645\u0639\u06c1",
       "\u06c1\u0641\u062a\u06c1"
@@ -88,57 +61,33 @@ $provide.value("$locale", {
       "\u062c\u0646\u0648\u0631\u06cc",
       "\u0641\u0631\u0648\u0631\u06cc",
       "\u0645\u0627\u0631\u0686",
-<<<<<<< HEAD
-      "\u0627\u067e\u0631\u064a\u0644",
-      "\u0645\u0626",
-      "\u062c\u0648\u0646",
-      "\u062c\u0648\u0644\u0627\u0626",
-=======
       "\u0627\u067e\u0631\u06cc\u0644",
       "\u0645\u0626\u06cc",
       "\u062c\u0648\u0646",
       "\u062c\u0648\u0644\u0627\u0626\u06cc",
->>>>>>> master
       "\u0627\u06af\u0633\u062a",
       "\u0633\u062a\u0645\u0628\u0631",
       "\u0627\u06a9\u062a\u0648\u0628\u0631",
       "\u0646\u0648\u0645\u0628\u0631",
       "\u062f\u0633\u0645\u0628\u0631"
     ],
-<<<<<<< HEAD
-    "fullDate": "EEEE\u060d d\u060d MMMM y",
-    "longDate": "d\u060d MMMM y",
-    "medium": "d\u060d MMM y h:mm:ss a",
-    "mediumDate": "d\u060d MMM y",
-=======
     "fullDate": "EEEE\u060c d MMMM\u060c y",
     "longDate": "d MMMM\u060c y",
     "medium": "d MMM\u060c y h:mm:ss a",
     "mediumDate": "d MMM\u060c y",
->>>>>>> master
     "mediumTime": "h:mm:ss a",
     "short": "d/M/yy h:mm a",
     "shortDate": "d/M/yy",
     "shortTime": "h:mm a"
   },
   "NUMBER_FORMATS": {
-<<<<<<< HEAD
-    "CURRENCY_SYM": "Rs",
-=======
     "CURRENCY_SYM": "\u20b9",
->>>>>>> master
     "DECIMAL_SEP": ".",
     "GROUP_SEP": ",",
     "PATTERNS": [
       {
-<<<<<<< HEAD
-        "gSize": 3,
-        "lgSize": 3,
-        "macFrac": 0,
-=======
         "gSize": 2,
         "lgSize": 3,
->>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -148,17 +97,6 @@ $provide.value("$locale", {
         "posSuf": ""
       },
       {
-<<<<<<< HEAD
-        "gSize": 3,
-        "lgSize": 3,
-        "macFrac": 0,
-        "maxFrac": 2,
-        "minFrac": 2,
-        "minInt": 1,
-        "negPre": "\u00a4-",
-        "negSuf": "",
-        "posPre": "\u00a4",
-=======
         "gSize": 2,
         "lgSize": 3,
         "maxFrac": 2,
@@ -167,16 +105,11 @@ $provide.value("$locale", {
         "negPre": "\u00a4\u00a0-",
         "negSuf": "",
         "posPre": "\u00a4\u00a0",
->>>>>>> master
         "posSuf": ""
       }
     ]
   },
   "id": "ur-in",
-<<<<<<< HEAD
-  "pluralCat": function (n) {  if (n == 1) {   return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
-=======
   "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
->>>>>>> master
 });
 }]);

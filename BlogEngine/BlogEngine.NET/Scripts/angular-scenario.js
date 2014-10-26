@@ -9790,11 +9790,7 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 })( window );
 
 /**
-<<<<<<< HEAD
- * @license AngularJS v1.2.23
-=======
  * @license AngularJS v1.2.25
->>>>>>> master
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -9864,11 +9860,7 @@ function minErr(module) {
       return match;
     });
 
-<<<<<<< HEAD
-    message = message + '\nhttp://errors.angularjs.org/1.2.23/' +
-=======
     message = message + '\nhttp://errors.angularjs.org/1.2.25/' +
->>>>>>> master
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i-2) + '=' +
@@ -11787,19 +11779,11 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-<<<<<<< HEAD
-  full: '1.2.23',    // all of these placeholder strings will be replaced by grunt's
-  major: 1,    // package task
-  minor: 2,
-  dot: 23,
-  codeName: 'superficial-malady'
-=======
   full: '1.2.25',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 2,
   dot: 25,
   codeName: 'hypnotic-gesticulation'
->>>>>>> master
 };
 
 
@@ -15162,15 +15146,9 @@ function $TemplateCacheProvider() {
  * * Replace the contents of the directive's element (default).
  * * Replace the directive's element itself (if `replace` is true - DEPRECATED).
  * * Wrap the contents of the directive's element (if `transclude` is true).
-<<<<<<< HEAD
  *
  * Value may be:
  *
-=======
- *
- * Value may be:
- *
->>>>>>> master
  * * A string. For example `<div red-on-hover>{{delete_str}}</div>`.
  * * A function which takes two arguments `tElement` and `tAttrs` (described in the `compile`
  *   function api below) and returns a string value.
@@ -18228,11 +18206,7 @@ function $HttpProvider() {
           if (isObject(v)) {
             if (isDate(v)){
               v = v.toISOString();
-<<<<<<< HEAD
-            } else if (isObject(v)) {
-=======
             } else {
->>>>>>> master
               v = toJson(v);
             }
           }
@@ -19388,23 +19362,6 @@ LocationHashbangInHtml5Url.prototype =
    *
    * @param {string|Object.<string>|Object.<Array.<string>>} search New search params - string or
    * hash object.
-<<<<<<< HEAD
-   *
-   * When called with a single argument the method acts as a setter, setting the `search` component
-   * of `$location` to the specified value.
-   *
-   * If the argument is a hash object containing an array of values, these values will be encoded
-   * as duplicate search parameters in the url.
-   *
-   * @param {(string|Array<string>|boolean)=} paramValue If `search` is a string, then `paramValue`
-   * will override only a single search property.
-   *
-   * If `paramValue` is an array, it will override the property of the `search` component of
-   * `$location` specified via the first argument.
-   *
-   * If `paramValue` is `null`, the property specified via the first argument will be deleted.
-   *
-=======
    *
    * When called with a single argument the method acts as a setter, setting the `search` component
    * of `$location` to the specified value.
@@ -19420,7 +19377,6 @@ LocationHashbangInHtml5Url.prototype =
    *
    * If `paramValue` is `null`, the property specified via the first argument will be deleted.
    *
->>>>>>> master
    * If `paramValue` is `true`, the property specified via the first argument will be added with no
    * value nor trailing equal sign.
    *
@@ -20786,10 +20742,6 @@ function setter(obj, path, setValue, fullExp, options) {
     }
   }
   key = ensureSafeMemberName(element.shift(), fullExp);
-<<<<<<< HEAD
-  ensureSafeObject(obj, fullExp);
-=======
->>>>>>> master
   ensureSafeObject(obj[key], fullExp);
   obj[key] = setValue;
   return setValue;
@@ -24855,13 +24807,10 @@ function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
     number = +(Math.round(+(number.toString() + 'e' + fractionSize)).toString() + 'e' + -fractionSize);
 
-<<<<<<< HEAD
-=======
     if (number === 0) {
       isNegative = false;
     }
 
->>>>>>> master
     var fraction = ('' + number).split(DECIMAL_SEP);
     var whole = fraction[0];
     fraction = fraction[1] || '';
@@ -26892,11 +26841,7 @@ function textInputType(scope, element, attr, ctrl, $sniffer, $browser) {
     // a row.
     var revalidate = validity && ctrl.$$hasNativeValidators;
     if (ctrl.$viewValue !== value || (value === '' && revalidate)) {
-<<<<<<< HEAD
-      if (scope.$$phase) {
-=======
       if (scope.$root.$$phase) {
->>>>>>> master
         ctrl.$setViewValue(value);
       } else {
         scope.$apply(function() {
@@ -28198,21 +28143,12 @@ var ngBindHtmlDirective = ['$sce', '$parse', function($sce, $parse) {
   return {
     compile: function (tElement) {
       tElement.addClass('ng-binding');
-<<<<<<< HEAD
 
       return function (scope, element, attr) {
         element.data('$binding', attr.ngBindHtml);
 
         var parsed = $parse(attr.ngBindHtml);
 
-=======
-
-      return function (scope, element, attr) {
-        element.data('$binding', attr.ngBindHtml);
-
-        var parsed = $parse(attr.ngBindHtml);
-
->>>>>>> master
         function getStringValue() {
           return (parsed(scope) || '').toString();
         }
@@ -28984,13 +28920,8 @@ forEach(
         compile: function($element, attr) {
           var fn = $parse(attr[directiveName]);
           return function ngEventHandler(scope, element) {
-<<<<<<< HEAD
-            element.on(lowercase(name), function(event) {
-              scope.$apply(function() {
-=======
             element.on(eventName, function(event) {
               var callback = function() {
->>>>>>> master
                 fn(scope, {$event:event});
               };
               if (forceAsyncEvents[eventName] && $rootScope.$$phase) {
@@ -30554,13 +30485,6 @@ var ngRepeatDirective = ['$parse', '$animate', function($parse, $animate) {
  * the hide behavior with ngShow/ngHide then this can be achieved by restating the styles for the `.ng-hide`
  * class in CSS:
  *
-<<<<<<< HEAD
- * By default, the `.ng-hide` class will style the element with `display:none!important`. If you wish to change
- * the hide behavior with ngShow/ngHide then this can be achieved by restating the styles for the `.ng-hide`
- * class in CSS:
- *
-=======
->>>>>>> master
  * ```css
  * .ng-hide {
  *   //this is just another form of hiding an element
@@ -30718,13 +30642,6 @@ var ngShowDirective = ['$animate', function($animate) {
  * the hide behavior with ngShow/ngHide then this can be achieved by restating the styles for the `.ng-hide`
  * class in CSS:
  *
-<<<<<<< HEAD
- * By default, the `.ng-hide` class will style the element with `display:none!important`. If you wish to change
- * the hide behavior with ngShow/ngHide then this can be achieved by restating the styles for the `.ng-hide`
- * class in CSS:
- *
-=======
->>>>>>> master
  * ```css
  * .ng-hide {
  *   //this is just another form of hiding an element
@@ -30737,11 +30654,7 @@ var ngShowDirective = ['$animate', function($animate) {
  *
  * By default you don't need to override in CSS anything and the animations will work around the display style.
  *
-<<<<<<< HEAD
- * ## A note about animations with ngHide
-=======
  * ## A note about animations with `ngHide`
->>>>>>> master
  *
  * Animations in ngShow/ngHide work with the show and hide events that are triggered when the directive expression
  * is true and false. This system works like the animation system present with ngClass, except that the `.ng-hide`
@@ -31619,8 +31532,6 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
         ctrl.$render = render;
 
         scope.$watchCollection(valuesFn, render);
-<<<<<<< HEAD
-=======
         scope.$watchCollection(function () {
           var locals = {},
               values = valuesFn(scope);
@@ -31634,7 +31545,6 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           }
         }, render);
 
->>>>>>> master
         if ( multiple ) {
           scope.$watchCollection(function() { return ctrl.$modelValue; }, render);
         }
