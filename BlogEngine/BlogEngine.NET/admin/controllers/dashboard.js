@@ -1,14 +1,16 @@
-﻿angular.module('blogAdmin').controller('DashboardController', ["$rootScope", "$scope", "$location", "$log", "dataService", function ($rootScope, $scope, $location, $log, dataService) {
+﻿angular.module('blogAdmin').controller('DashboardController', ["$rootScope", "$scope", "$location", "$log", "$filter", "dataService", function ($rootScope, $scope, $location, $log, $filter, dataService) {
     $scope.stats = {};
     $scope.draftposts = [];
     $scope.draftpages = [];
     $scope.recentcomments = [];
     $scope.trash = [];
-    $scope.notes = [];
     $scope.packages = [];
     $scope.logItems = [];
     $scope.itemToPurge = {};
     $scope.security = $rootScope.security;
+    $scope.pager = {};
+    $scope.pager.items = [];
+    $scope.pagerCurrentPage = 0;
 
     $scope.openLogFile = function () {
         dataService.getItems('/api/logs/getlog/file')
@@ -116,7 +118,10 @@
 
     $scope.loadNotes = function () {
         dataService.getItems('/api/quicknotes', { type: 0, take: 5, skip: 0 })
-            .success(function (data) { angular.copy(data, $scope.notes); })
+            .success(function (data) {
+                angular.copy(data, $scope.pager.items);
+                listPagerInit($scope.pager);
+            })
             .error(function () { toastr.error($rootScope.lbl.errorLoadingTrash); });
     }
 
@@ -164,6 +169,7 @@
     $scope.load();
 
     $scope.noteId = '';
+    $scope.notePage = 1;
     $scope.addNote = function () {
         $scope.noteId = '';
         $("#txtAddNote").val('');
@@ -172,7 +178,7 @@
     }
     $scope.editNote = function (id) {
         $scope.noteId = id;
-        var note = findInArray($scope.notes, 'Id', id);
+        var note = findInArray($scope.pager.items, 'Id', id);
         $("#txtEditNote").val(note.Note);
         $("#modal-edit-note").modal();
         return false;
@@ -231,6 +237,16 @@
             toastr.error($rootScope.lbl.failed);
             $("#modal-edit-note").modal('hide');
         });
+    }
+    $scope.notePrevPage = function () {
+        if ($scope.notePage > 1) {
+            $scope.notePage--;
+        }
+        alert($scope.notePage);
+    }
+    $scope.noteNextPage = function () {
+        $scope.notePage++;
+        alert($scope.notePage);
     }
 
 }]);

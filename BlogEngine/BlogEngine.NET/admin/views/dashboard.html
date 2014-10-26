@@ -97,12 +97,14 @@
                         <h4 class="panel-title">
                             <a data-toggle="collapse">Quick Notes</a>
                             <span class="pull-right">
-                                <a title="{{lbl.add}}" href="" ng-click="addNote()"><i class="fa fa-plus fa-sm"></i></a>
+                                <a href="" ng-if="pager.currentPage != 0" data-ng-click="pager.prevPage()"><i class="fa fa-angle-left fa-sm"></i></a>
+                                <a href="" ng-if="pager.currentPage + 1 < pager.pagedItems.length" data-ng-click="pager.nextPage()"><i class="fa fa-angle-right"></i></a>&nbsp;
+                                <a title="{{lbl.add}}"  href="" ng-click="addNote()"><i class="fa fa-plus fa-sm"></i></a>
                             </span>
                         </h4>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseFour">
-                        <li class="list-group-item clearfix" data-ng-repeat="note in notes">
+                        <li class="list-group-item clearfix" data-ng-repeat="note in pager.pagedItems[pager.currentPage]">
                             <a title="{{note.Title}}" href="" ng-click="editNote(note.Id)">{{note.Title}}</a>
                             <span class="pull-right">
                                 <a title="{{lbl.doDelete}}" href="" ng-click="deleteNote(note.Id)" class="purgethis"><i class="fa fa-times fa-sm"></i></a>
