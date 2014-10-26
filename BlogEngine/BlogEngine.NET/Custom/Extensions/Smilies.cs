@@ -21,7 +21,7 @@ public class Smilies
     /// The link string.
     /// </summary>
     private const string Link =
-        "<img src=\"{0}editors/tinymce/plugins/emotions/img/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
+        "<img src=\"{0}admin/editors/tinymce/plugins/emotions/img/smiley-{1}.gif\" class=\"flag\" alt=\"{2}\" />";
 
     #endregion
 

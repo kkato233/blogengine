@@ -120,7 +120,7 @@ namespace BlogEngine.NET.App_Start
                 .Include("~/Content/font-awesome.min.css")
                 .Include("~/Content/editor.css")
                 .Include("~/Content/app.css")
-                .Include("~/editors/summernote/summernote.css")
+                .Include("~/admin/editors/summernote/summernote.css")
                 );
 
             bundles.Add(
@@ -157,7 +157,7 @@ namespace BlogEngine.NET.App_Start
                 .Include("~/admin/services.js")
                 .Include("~/scripts/bootstrap.js")
                 .Include("~/scripts/moment.js")
-                .Include("~/editors/summernote/summernote.js")
+                .Include("~/admin/editors/summernote/summernote.js")
                 );
 
             bundles.Add(
@@ -183,24 +183,24 @@ namespace BlogEngine.NET.App_Start
                 .Include("~/admin/services.js")
                 );
 
-            if (BlogConfig.DefaultEditor == "~/editors/bootstrap-wysiwyg/editor.cshtml")
+            if (BlogConfig.DefaultEditor == "~/admin/editors/bootstrap-wysiwyg/editor.cshtml")
             {
-                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/jquery.hotkeys.js");
-                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
-                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/bootstrap-wysiwyg/editor.js");
+                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/bootstrap-wysiwyg/jquery.hotkeys.js");
+                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/bootstrap-wysiwyg/bootstrap-wysiwyg.js");
+                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/bootstrap-wysiwyg/editor.js");
             }
-            if (BlogConfig.DefaultEditor == "~/editors/tinymce/editor.cshtml")
+            if (BlogConfig.DefaultEditor == "~/admin/editors/tinymce/editor.cshtml")
             {
                 // tinymce plugings will not load when scripts compressed, do nothing
-                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tinymce/tinymce.min.js");
-                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/tinymce/editor.js");
+                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/tinymce/tinymce.min.js");
+                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/tinymce/editor.js");
             }
             else
             {
-                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/summernote.js");
+                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/summernote/summernote.js");
                 // change language here if needed
-                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/lang/summernote-ru-RU.js");
-                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/editors/summernote/editor.js");
+                //bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/summernote/lang/summernote-ru-RU.js");
+                bundles.GetBundleFor("~/scripts/wysiwyg").Include("~/admin/editors/summernote/editor.js");
             }
         }
 

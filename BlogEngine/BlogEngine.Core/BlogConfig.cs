@@ -275,7 +275,7 @@ namespace BlogEngine.Core
             get
             {
                 return string.IsNullOrEmpty(WebConfigurationManager.AppSettings["BlogEngine.DefaultEditor"])
-                    ? "~/editors/summernote/editor.cshtml"
+                    ? "~/admin/editors/summernote/editor.cshtml"
                     : WebConfigurationManager.AppSettings["BlogEngine.DefaultEditor"];
             }
         }
