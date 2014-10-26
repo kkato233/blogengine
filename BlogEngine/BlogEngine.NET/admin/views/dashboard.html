@@ -47,6 +47,7 @@
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=apr">{{lbl.approvedComments}} <span class="badge pull-right">{{stats.PublishedCommentsCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=pnd">{{lbl.unapprovedcomments}} <span class="badge pull-right">{{stats.UnapprovedCommentsCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=spm">{{lbl.spamComments}}<span class="badge pull-right">{{stats.SpamCommentsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="#">{{lbl.userNewsletter}}<span class="badge pull-right">{{stats.SubscribersCount}}</span></a></li>
                     </ul>
                 </div>
                 <div class="panel panel-default panel-special-link">
@@ -67,6 +68,9 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapseThree">{{lbl.draftPosts}}</a>
+                            <span class="pull-right">
+                                <a title="{{lbl.add}}" href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml"><i class="fa fa-plus fa-sm"></i></a>
+                            </span>
                         </h4>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseThree">
@@ -81,6 +85,9 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a data-toggle="collapse" href="#collapseFour">{{lbl.draftPages}}</a>
+                            <span class="pull-right">
+                                <a title="{{lbl.add}}" href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml"><i class="fa fa-plus fa-sm"></i></a>
+                            </span>
                         </h4>
                     </div>
                     <ul class="list-group list-group panel-collapse collaps in" id="collapseFour">

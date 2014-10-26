@@ -730,6 +730,7 @@ userHasBeenDeleted
 userName
 usernameAlreadyTaken
 userNameIsRequired
+userNewsletter
 userProfiles
 users
 userUpdated

@@ -2558,4 +2558,7 @@
   <data name="errorMessage" xml:space="preserve">
     <value>Error Message</value>
   </data>
+  <data name="userNewsletter" xml:space="preserve">
+    <value>Members</value>
+  </data>
 </root>
