@@ -1,6 +1,8 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
     <div class="container admin-views-main admin-views-dashboard" data-ng-controller="DashboardController">
+        <div data-ng-include src="'views/shared/_addnote.html'"></div>
+        <div data-ng-include src="'views/shared/_editnote.html'"></div>
         <div id="modal-log-file" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -45,6 +47,7 @@
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=apr">{{lbl.approvedComments}} <span class="badge pull-right">{{stats.PublishedCommentsCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=pnd">{{lbl.unapprovedcomments}} <span class="badge pull-right">{{stats.UnapprovedCommentsCount}}</span></a></li>
                         <li class="list-group-item"><a href="{{SiteVars.RelativeWebRoot}}admin/#/content/comments?fltr=spm">{{lbl.spamComments}}<span class="badge pull-right">{{stats.SpamCommentsCount}}</span></a></li>
+                        <li class="list-group-item"><a href="#">{{lbl.userNewsletter}}<span class="badge pull-right">{{stats.SubscribersCount}}</span></a></li>
                     </ul>
                 </div>
                 <div class="panel panel-default panel-special-link">
@@ -89,6 +92,27 @@
                         <li ng-if="draftpages.length == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
                 </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse">Quick Notes</a>
+                            <span class="pull-right">
+                                <a href="" ng-if="pager.currentPage != 0" data-ng-click="pager.prevPage()"><i class="fa fa-angle-left fa-sm"></i></a>
+                                <a href="" ng-if="pager.currentPage + 1 < pager.pagedItems.length" data-ng-click="pager.nextPage()"><i class="fa fa-angle-right"></i></a>&nbsp;
+                                <a title="{{lbl.add}}"  href="" ng-click="addNote()"><i class="fa fa-plus fa-sm"></i></a>
+                            </span>
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group panel-collapse collaps in" id="collapseFour">
+                        <li class="list-group-item clearfix" data-ng-repeat="note in pager.pagedItems[pager.currentPage]">
+                            <a title="{{note.Title}}" href="" ng-click="editNote(note.Id)">{{note.Title}}</a>
+                            <span class="pull-right">
+                                <a title="{{lbl.doDelete}}" href="" ng-click="deleteNote(note.Id)" class="purgethis"><i class="fa fa-times fa-sm"></i></a>
+                            </span>
+                        </li>
+                        <li ng-if="notes.length == 0" class="list-group-item">{{lbl.empty}}</li>
+                    </ul>
+                </div>
                 <div class="panel panel-default panel-trash">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -123,7 +147,7 @@
                             <div class="pull-left">
                                 <a href="#/custom/packages?pkgId={{pkg.Id}}">
                                     <img ng-if="pkg.IconUrl.length > 0" class="img-gallery" ng-src="{{pkg.IconUrl}}" />
-                                    <img ng-if="pkg.IconUrl.length == 0" class="img-gallery" src="../pics/pkg.png" />
+                                    <img ng-if="pkg.IconUrl.length == 0" class="img-gallery" src="../Content/images/blog/pkg.png" />
                                 </a>
                             </div>
                             <div class="pull-left item-info-gal">

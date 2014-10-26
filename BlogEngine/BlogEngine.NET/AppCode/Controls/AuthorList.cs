@@ -226,7 +226,7 @@ namespace App_Code.Controls
                 {
                     var img = new HtmlImage
                     {
-                        Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot),
+                        Src = string.Format("{0}Content/images/blog/rssButton.png", Utils.RelativeWebRoot),
                         Alt = string.Format("RSS feed for {0}", user.UserName)
                     };
                     img.Attributes["class"] = "rssButton";
@@ -280,7 +280,7 @@ namespace App_Code.Controls
 
                 var anc = new HtmlAnchor
                 {
-                    HRef = string.Format("{0}{1}author/{2}{3}", Utils.ApplicationRelativeWebRoot, blogName, user.UserName, BlogConfig.FileExtension),
+                    HRef = string.Format("{0}{1}author/{2}{3}", Utils.ApplicationRelativeWebRoot, blogName, Utils.RemoveIllegalCharacters(user.UserName), BlogConfig.FileExtension),
                     InnerHtml = innerHtml,
                     Title = string.Format("Author: {0}", user.UserName)
                 };

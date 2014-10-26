@@ -63,14 +63,21 @@ $provide.value("$locale", {
     "shortTime": "ah:mm"
   },
   "NUMBER_FORMATS": {
+<<<<<<< HEAD
     "CURRENCY_SYM": "\u00a5",
+=======
+    "CURRENCY_SYM": "$",
+>>>>>>> master
     "DECIMAL_SEP": ".",
     "GROUP_SEP": ",",
     "PATTERNS": [
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
+=======
+>>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -82,18 +89,30 @@ $provide.value("$locale", {
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
         "negPre": "(\u00a4",
         "negSuf": ")",
+=======
+        "maxFrac": 2,
+        "minFrac": 2,
+        "minInt": 1,
+        "negPre": "\u00a4-",
+        "negSuf": "",
+>>>>>>> master
         "posPre": "\u00a4",
         "posSuf": ""
       }
     ]
   },
   "id": "zh-hans-hk",
+<<<<<<< HEAD
   "pluralCat": function (n) {  return PLURAL_CATEGORY.OTHER;}
+=======
+  "pluralCat": function (n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
+>>>>>>> master
 });
 }]);

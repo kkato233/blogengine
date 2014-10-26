@@ -18,8 +18,8 @@
 </options>
   <weblog>
     <ServiceName>BlogEngine.NET</ServiceName>
-    <imageUrl>pics/wrenchicon16.png</imageUrl>
-    <watermarkImageUrl>pics/wrench84watermark.png</watermarkImageUrl>
+    <imageUrl>Content/images/blog/wrenchicon16.png</imageUrl>
+    <watermarkImageUrl>Content/images/blog/wrench84watermark.png</watermarkImageUrl>
     <homepageLinkText>View your blog</homepageLinkText>
     <adminLinkText>Manage your blog</adminLinkText>  
     <adminUrl><![CDATA[{blog-homepage-url}Account/login.aspx]]></adminUrl>
@@ -28,9 +28,9 @@
     <button>
       <id>2</id>
       <text>Tags</text>
-      <imageUrl>pics/benTag24.png</imageUrl>
+      <imageUrl>Content/images/blog/benTag24.png</imageUrl>
       <contentUrl><![CDATA[ 
-         {blog-homepage-url}api/tagminiview.aspx
+         {blog-homepage-url}AppCode/Wlw/TagMiniView.aspx
       ]]></contentUrl>
       <contentDisplaySize>250,250</contentDisplaySize>
     </button>     

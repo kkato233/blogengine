@@ -79,12 +79,6 @@ namespace BlogEngine.Core.Web.Scripting
                 var href = string.Format("{0}Content/Auto/{1}", Utils.ApplicationRelativeWebRoot, f);
                 headerStyles.Add(new LiteralControl(string.Format(tmpl, href)));
             }
-
-            if (Security.IsAuthenticated)
-            {
-                var href = string.Format("{0}Modules/QuickNotes/Qnotes.css", Utils.ApplicationRelativeWebRoot);
-                headerStyles.Add(new LiteralControl(string.Format(tmpl, href)));
-            }
             return headerStyles;
         }
 
@@ -114,7 +108,6 @@ namespace BlogEngine.Core.Web.Scripting
             if (Security.IsAuthenticated)
             {
                 headerScripts.Add(new LiteralControl(string.Format(tmpl, string.Format("{0}Scripts/App/widget.js", Utils.ApplicationRelativeWebRoot))));
-                headerScripts.Add(new LiteralControl(string.Format(tmpl, string.Format("{0}Scripts/App/qnotes.js", Utils.ApplicationRelativeWebRoot))));
             }
             return headerScripts;
         }

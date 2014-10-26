@@ -10,8 +10,8 @@ namespace BlogEngine.Core.Data.Services
     /// </summary>
     public class Avatar
     {
-        private static string _noAvatar = string.Format("{0}pics/noavatar.jpg", Utils.AbsoluteWebRoot);
-        private static string _noThumb = string.Format("{0}pics/nothumb.jpg", Utils.AbsoluteWebRoot);
+        private static string _noAvatar = string.Format("{0}Content/images/blog/noavatar.jpg", Utils.AbsoluteWebRoot);
+        private static string _noThumb = string.Format("{0}Content/images/blog/nothumb.jpg", Utils.AbsoluteWebRoot);
 
         /// <summary>
         /// Get avatar image source
@@ -43,7 +43,7 @@ namespace BlogEngine.Core.Data.Services
                 return src;
 
             // default noavatar if nothing worked
-            return string.Format("{0}pics/noavatar.jpg", Utils.AbsoluteWebRoot);
+            return string.Format("{0}Content/images/blog/noavatar.jpg", Utils.AbsoluteWebRoot);
         }
 
         static string ThemeNoAvatar(string email)

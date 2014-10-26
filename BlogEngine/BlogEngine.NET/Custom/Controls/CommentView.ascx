@@ -21,7 +21,7 @@
 <asp:PlaceHolder runat="Server" ID="phAddComment">
 
     <div id="comment-form">
-        <img src="<%=Utils.RelativeWebRoot %>pics/ajax-loader.gif" width="24" height="24" alt="Saving the comment" style="display: none" id="ajaxLoader" />
+        <img src="<%=Utils.RelativeWebRoot %>Content/images/blog/ajax-loader.gif" width="24" height="24" alt="Saving the comment" style="display: none" id="ajaxLoader" />
         <span id="status"></span>
         <asp:PlaceHolder runat="server" ID="phCommentForm"></asp:PlaceHolder>
         <% if (NestingSupported){ %>

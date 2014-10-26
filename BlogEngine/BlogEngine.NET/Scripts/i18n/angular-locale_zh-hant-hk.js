@@ -55,6 +55,7 @@ $provide.value("$locale", {
     ],
     "fullDate": "y\u5e74M\u6708d\u65e5EEEE",
     "longDate": "y\u5e74M\u6708d\u65e5",
+<<<<<<< HEAD
     "medium": "y\u5e74M\u6708d\u65e5 ahh:mm:ss",
     "mediumDate": "y\u5e74M\u6708d\u65e5",
     "mediumTime": "ahh:mm:ss",
@@ -64,13 +65,27 @@ $provide.value("$locale", {
   },
   "NUMBER_FORMATS": {
     "CURRENCY_SYM": "\u00a5",
+=======
+    "medium": "y\u5e74M\u6708d\u65e5 ah:mm:ss",
+    "mediumDate": "y\u5e74M\u6708d\u65e5",
+    "mediumTime": "ah:mm:ss",
+    "short": "d/M/yy ah:mm",
+    "shortDate": "d/M/yy",
+    "shortTime": "ah:mm"
+  },
+  "NUMBER_FORMATS": {
+    "CURRENCY_SYM": "$",
+>>>>>>> master
     "DECIMAL_SEP": ".",
     "GROUP_SEP": ",",
     "PATTERNS": [
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
+=======
+>>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -82,18 +97,30 @@ $provide.value("$locale", {
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
         "negPre": "(\u00a4",
         "negSuf": ")",
+=======
+        "maxFrac": 2,
+        "minFrac": 2,
+        "minInt": 1,
+        "negPre": "\u00a4-",
+        "negSuf": "",
+>>>>>>> master
         "posPre": "\u00a4",
         "posSuf": ""
       }
     ]
   },
   "id": "zh-hant-hk",
+<<<<<<< HEAD
   "pluralCat": function (n) {  return PLURAL_CATEGORY.OTHER;}
+=======
+  "pluralCat": function (n, opt_precision) {  return PLURAL_CATEGORY.OTHER;}
+>>>>>>> master
 });
 }]);

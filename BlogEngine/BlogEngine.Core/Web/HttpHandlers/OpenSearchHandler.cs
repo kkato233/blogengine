@@ -55,12 +55,12 @@
                 writer.WriteElementString("ShortName", BlogSettings.Instance.Name);
                 writer.WriteElementString("Description", BlogSettings.Instance.Description);
 
-                // writer.WriteRaw("<Image height=\"16\" width=\"16\" type=\"image/vnd.microsoft.icon\">" + Utils.AbsoluteWebRoot.ToString() + "pics/favicon.ico</Image>");
+                // writer.WriteRaw("<Image height=\"16\" width=\"16\" type=\"image/vnd.microsoft.icon\">" + Utils.AbsoluteWebRoot.ToString() + "Content/images/blog/favicon.ico</Image>");
                 writer.WriteStartElement("Image");
                 writer.WriteAttributeString("height", "16");
                 writer.WriteAttributeString("width", "16");
                 writer.WriteAttributeString("type", "image/vnd.microsoft.icon");
-                writer.WriteValue(string.Format("{0}pics/favicon.ico", Utils.AbsoluteWebRoot));
+                writer.WriteValue(string.Format("{0}Content/images/blog/favicon.ico", Utils.AbsoluteWebRoot));
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Url");

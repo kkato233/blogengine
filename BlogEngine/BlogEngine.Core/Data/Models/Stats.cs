@@ -21,5 +21,7 @@
         public int TagsCount { get; set; }
 
         public int UsersCount { get; set; }
+
+        public string SubscribersCount { get; set; }
     }
 }

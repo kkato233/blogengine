@@ -226,7 +226,7 @@ namespace Widgets.RecentComments
             ul.RenderControl(new HtmlTextWriter(sw));
 
             string Ahref =
-                String.Concat ("<a href=\"{0}syndication.axd?comments=true\">", labels.commentRSS, " <img src=\"{0}pics/rssButton.png\" alt=\"\" /></a>");
+                String.Concat("<a href=\"{0}syndication.axd?comments=true\">", labels.commentRSS, " <img src=\"{0}Content/images/blog/rssButton.png\" alt=\"\" /></a>");
             var rss = string.Format(Ahref, Utils.RelativeOrAbsoluteWebRoot);
             sw.Write(rss);
             return sw.ToString();

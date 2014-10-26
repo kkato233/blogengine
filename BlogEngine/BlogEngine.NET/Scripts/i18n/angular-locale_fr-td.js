@@ -58,19 +58,31 @@ $provide.value("$locale", {
     "medium": "d MMM y HH:mm:ss",
     "mediumDate": "d MMM y",
     "mediumTime": "HH:mm:ss",
+<<<<<<< HEAD
     "short": "dd/MM/yy HH:mm",
     "shortDate": "dd/MM/yy",
     "shortTime": "HH:mm"
   },
   "NUMBER_FORMATS": {
     "CURRENCY_SYM": "\u20ac",
+=======
+    "short": "dd/MM/y HH:mm",
+    "shortDate": "dd/MM/y",
+    "shortTime": "HH:mm"
+  },
+  "NUMBER_FORMATS": {
+    "CURRENCY_SYM": "FCFA",
+>>>>>>> master
     "DECIMAL_SEP": ",",
     "GROUP_SEP": "\u00a0",
     "PATTERNS": [
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
+=======
+>>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -82,18 +94,30 @@ $provide.value("$locale", {
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
         "negPre": "(",
         "negSuf": "\u00a0\u00a4)",
+=======
+        "maxFrac": 2,
+        "minFrac": 2,
+        "minInt": 1,
+        "negPre": "-",
+        "negSuf": "\u00a0\u00a4",
+>>>>>>> master
         "posPre": "",
         "posSuf": "\u00a0\u00a4"
       }
     ]
   },
   "id": "fr-td",
+<<<<<<< HEAD
   "pluralCat": function (n) {  if (n >= 0 && n <= 2 && n != 2) {   return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+=======
+  "pluralCat": function (n, opt_precision) {  var i = n | 0;  if (i == 0 || i == 1) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
+>>>>>>> master
 });
 }]);

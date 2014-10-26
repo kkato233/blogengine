@@ -1,5 +1,9 @@
 //! moment.js
+<<<<<<< HEAD
 //! version : 2.8.1
+=======
+//! version : 2.8.2
+>>>>>>> master
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
 //! license : MIT
 //! momentjs.com
@@ -10,11 +14,16 @@
     ************************************/
 
     var moment,
+<<<<<<< HEAD
         VERSION = '2.8.1',
+=======
+        VERSION = '2.8.2',
+>>>>>>> master
         // the global-scope this is NOT the global object in Node.js
         globalScope = typeof global !== 'undefined' ? global : this,
         oldGlobalMoment,
         round = Math.round,
+        hasOwnProperty = Object.prototype.hasOwnProperty,
         i,
 
         YEAR = 0,
@@ -88,7 +97,7 @@
             ['HH', /(T| )\d\d/]
         ],
 
-        // timezone chunker "+10:00" > ["10", "00"] or "-1530" > ["-15", "30"]
+        // timezone chunker '+10:00' > ['10', '00'] or '-1530' > ['-15', '30']
         parseTimezoneChunker = /([\+\-]|\d\d)/gi,
 
         // getter and setter names
@@ -293,6 +302,13 @@
         }
     }
 
+<<<<<<< HEAD
+=======
+    function hasOwnProp(a, b) {
+        return hasOwnProperty.call(a, b);
+    }
+
+>>>>>>> master
     function defaultParsingFlags() {
         // We need to deep clone this object, and es5 standard is not very
         // helpful.
@@ -313,7 +329,11 @@
     function printMsg(msg) {
         if (moment.suppressDeprecationWarnings === false &&
                 typeof console !== 'undefined' && console.warn) {
+<<<<<<< HEAD
             console.warn("Deprecation warning: " + msg);
+=======
+            console.warn('Deprecation warning: ' + msg);
+>>>>>>> master
         }
     }
 
@@ -416,16 +436,24 @@
 
     function extend(a, b) {
         for (var i in b) {
-            if (b.hasOwnProperty(i)) {
+            if (hasOwnProp(b, i)) {
                 a[i] = b[i];
             }
         }
 
+<<<<<<< HEAD
         if (b.hasOwnProperty('toString')) {
             a.toString = b.toString;
         }
 
         if (b.hasOwnProperty('valueOf')) {
+=======
+        if (hasOwnProp(b, 'toString')) {
+            a.toString = b.toString;
+        }
+
+        if (hasOwnProp(b, 'valueOf')) {
+>>>>>>> master
             a.valueOf = b.valueOf;
         }
 
@@ -533,7 +561,11 @@
             var dur, tmp;
             //invert the arguments, but complain about it
             if (period !== null && !isNaN(+period)) {
+<<<<<<< HEAD
                 deprecateSimple(name, "moment()." + name  + "(period, number) is deprecated. Please use moment()." + name + "(number, period).");
+=======
+                deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period).');
+>>>>>>> master
                 tmp = val; val = period; period = tmp;
             }
 
@@ -603,7 +635,7 @@
             prop;
 
         for (prop in inputObject) {
-            if (inputObject.hasOwnProperty(prop)) {
+            if (hasOwnProp(inputObject, prop)) {
                 normalizedProp = normalizeUnits(prop);
                 if (normalizedProp) {
                     normalizedInput[normalizedProp] = inputObject[prop];
@@ -1523,7 +1555,11 @@
             config._pf.iso = true;
             for (i = 0, l = isoDates.length; i < l; i++) {
                 if (isoDates[i][1].exec(string)) {
+<<<<<<< HEAD
                     // match[5] should be "T" or undefined
+=======
+                    // match[5] should be 'T' or undefined
+>>>>>>> master
                     config._f = isoDates[i][0] + (match[6] || ' ');
                     break;
                 }
@@ -1731,7 +1767,11 @@
     moment = function (input, format, locale, strict) {
         var c;
 
+<<<<<<< HEAD
         if (typeof(locale) === "boolean") {
+=======
+        if (typeof(locale) === 'boolean') {
+>>>>>>> master
             strict = locale;
             locale = undefined;
         }
@@ -1799,7 +1839,11 @@
     moment.utc = function (input, format, locale, strict) {
         var c;
 
+<<<<<<< HEAD
         if (typeof(locale) === "boolean") {
+=======
+        if (typeof(locale) === 'boolean') {
+>>>>>>> master
             strict = locale;
             locale = undefined;
         }
@@ -1886,7 +1930,11 @@
 
         ret = new Duration(duration);
 
+<<<<<<< HEAD
         if (moment.isDuration(input) && input.hasOwnProperty('_locale')) {
+=======
+        if (moment.isDuration(input) && hasOwnProp(input, '_locale')) {
+>>>>>>> master
             ret._locale = input._locale;
         }
 
@@ -1923,7 +1971,11 @@
     };
 
     moment.lang = deprecate(
+<<<<<<< HEAD
         "moment.lang is deprecated. Use moment.locale instead.",
+=======
+        'moment.lang is deprecated. Use moment.locale instead.',
+>>>>>>> master
         function (key, value) {
             return moment.locale(key, value);
         }
@@ -1935,7 +1987,11 @@
     moment.locale = function (key, values) {
         var data;
         if (key) {
+<<<<<<< HEAD
             if (typeof(values) !== "undefined") {
+=======
+            if (typeof(values) !== 'undefined') {
+>>>>>>> master
                 data = moment.defineLocale(key, values);
             }
             else {
@@ -1966,6 +2022,7 @@
             // useful for testing
             delete locales[name];
             return null;
+<<<<<<< HEAD
         }
     };
 
@@ -1987,6 +2044,29 @@
         if (!key) {
             return moment._locale;
         }
+=======
+        }
+    };
+
+    moment.langData = deprecate(
+        'moment.langData is deprecated. Use moment.localeData instead.',
+        function (key) {
+            return moment.localeData(key);
+        }
+    );
+
+    // returns locale data
+    moment.localeData = function (key) {
+        var locale;
+
+        if (key && key._locale && key._locale._abbr) {
+            key = key._locale._abbr;
+        }
+
+        if (!key) {
+            return moment._locale;
+        }
+>>>>>>> master
 
         if (!isArray(key)) {
             //short-circuit everything else
@@ -2003,7 +2083,7 @@
     // compare moment object
     moment.isMoment = function (obj) {
         return obj instanceof Moment ||
-            (obj != null &&  obj.hasOwnProperty('_isAMomentObject'));
+            (obj != null && hasOwnProp(obj, '_isAMomentObject'));
     };
 
     // for typechecking Duration objects
@@ -2059,7 +2139,11 @@
         },
 
         toString : function () {
+<<<<<<< HEAD
             return this.clone().locale('en').format("ddd MMM DD YYYY HH:mm:ss [GMT]ZZ");
+=======
+            return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
+>>>>>>> master
         },
 
         toDate : function () {
@@ -2442,7 +2526,11 @@
         },
 
         lang : deprecate(
+<<<<<<< HEAD
             "moment().lang() is deprecated. Use moment().localeData() instead.",
+=======
+            'moment().lang() is deprecated. Use moment().localeData() instead.',
+>>>>>>> master
             function (key) {
                 if (key === undefined) {
                     return this.localeData();
@@ -2572,11 +2660,19 @@
             // TODO (iskren): Use anchor date (like 1st Jan) to compute this.
             months += absRound(days / 30);
             days %= 30;
+<<<<<<< HEAD
 
             // 12 months -> 1 year
             years += absRound(months / 12);
             months %= 12;
 
+=======
+
+            // 12 months -> 1 year
+            years += absRound(months / 12);
+            months %= 12;
+
+>>>>>>> master
             data.days = days;
             data.months = months;
             data.years = years;
@@ -2672,6 +2768,7 @@
 
         lang : moment.fn.lang,
         locale : moment.fn.locale,
+<<<<<<< HEAD
 
         toIsoString : deprecate(
             "toIsoString() is deprecated. Please use toISOString() instead " +
@@ -2681,6 +2778,17 @@
             }
         ),
 
+=======
+
+        toIsoString : deprecate(
+            'toIsoString() is deprecated. Please use toISOString() instead ' +
+            '(notice the capitals)',
+            function () {
+                return this.toISOString();
+            }
+        ),
+
+>>>>>>> master
         toISOString : function () {
             // inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
             var years = Math.abs(this.years()),
@@ -2712,6 +2820,8 @@
         }
     });
 
+    moment.duration.fn.toString = moment.duration.fn.toISOString;
+
     function makeDurationGetter(name) {
         moment.duration.fn[name] = function () {
             return this._data[name];
@@ -2719,7 +2829,11 @@
     }
 
     for (i in unitMillisecondFactors) {
+<<<<<<< HEAD
         if (unitMillisecondFactors.hasOwnProperty(i)) {
+=======
+        if (hasOwnProp(unitMillisecondFactors, i)) {
+>>>>>>> master
             makeDurationGetter(i.toLowerCase());
         }
     }

@@ -231,7 +231,7 @@ namespace App_Code.Controls
                 {
                     var img = new HtmlImage
                         {
-                            Src = string.Format("{0}pics/rssButton.png", Utils.RelativeWebRoot),
+                            Src = string.Format("{0}Content/images/blog/rssButton.png", Utils.RelativeWebRoot),
                             Alt =
                                 string.Format(
                                     "{0} feed for {1}", BlogSettings.Instance.SyndicationFormat.ToUpperInvariant(), cat.Title)

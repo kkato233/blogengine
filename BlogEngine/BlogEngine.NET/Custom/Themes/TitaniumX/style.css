@@ -142,7 +142,7 @@ img {
 }
 #menu a.apmlfilter {
 	padding-left:15px;
-	background:url(../../pics/apml.png) no-repeat left 5px;
+	background:url(../../Content/images/blog/apml.png) no-repeat left 5px;
 }
 #menu .login {
 	float:right;
@@ -848,7 +848,7 @@ ul.recentComments li a.postTitle {
 }
 /* nested comments */
 .comment-replies {
-	background:transparent url(../../pics/reply-arrow.gif) no-repeat 2px 15px;
+	background:transparent url(../../Content/images/blog/reply-arrow.gif) no-repeat 2px 15px;
 	padding:0 0 0 15px;
 	margin:5px 0 0;
 }

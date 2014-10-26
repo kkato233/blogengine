@@ -1,11 +1,37 @@
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
 var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
+<<<<<<< HEAD
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
       "\u0434\u043e \u043f\u043e\u043b\u0443\u0434\u043d\u044f",
       "\u043f\u043e\u0441\u043b\u0435 \u043f\u043e\u043b\u0443\u0434\u043d\u044f"
+=======
+function getDecimals(n) {
+  n = n + '';
+  var i = n.indexOf('.');
+  return (i == -1) ? 0 : n.length - i - 1;
+}
+
+function getVF(n, opt_precision) {
+  var v = opt_precision;
+
+  if (undefined === v) {
+    v = Math.min(getDecimals(n), 3);
+  }
+
+  var base = Math.pow(10, v);
+  var f = ((n * base) | 0) % base;
+  return {v: v, f: f};
+}
+
+$provide.value("$locale", {
+  "DATETIME_FORMATS": {
+    "AMPMS": [
+      "AM",
+      "PM"
+>>>>>>> master
     ],
     "DAY": [
       "\u0432\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435",
@@ -53,24 +79,38 @@ $provide.value("$locale", {
       "\u043d\u043e\u044f\u0431.",
       "\u0434\u0435\u043a."
     ],
+<<<<<<< HEAD
     "fullDate": "EEEE, d MMMM y\u00a0'\u0433'.",
     "longDate": "d MMMM y\u00a0'\u0433'.",
     "medium": "dd.MM.yyyy H:mm:ss",
     "mediumDate": "dd.MM.yyyy",
+=======
+    "fullDate": "EEEE, d MMMM y '\u0433'.",
+    "longDate": "d MMMM y '\u0433'.",
+    "medium": "d MMM y '\u0433'. H:mm:ss",
+    "mediumDate": "d MMM y '\u0433'.",
+>>>>>>> master
     "mediumTime": "H:mm:ss",
     "short": "dd.MM.yy H:mm",
     "shortDate": "dd.MM.yy",
     "shortTime": "H:mm"
   },
   "NUMBER_FORMATS": {
+<<<<<<< HEAD
     "CURRENCY_SYM": "\u0440\u0443\u0431.",
+=======
+    "CURRENCY_SYM": "MDL",
+>>>>>>> master
     "DECIMAL_SEP": ",",
     "GROUP_SEP": "\u00a0",
     "PATTERNS": [
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
+=======
+>>>>>>> master
         "maxFrac": 3,
         "minFrac": 0,
         "minInt": 1,
@@ -82,7 +122,10 @@ $provide.value("$locale", {
       {
         "gSize": 3,
         "lgSize": 3,
+<<<<<<< HEAD
         "macFrac": 0,
+=======
+>>>>>>> master
         "maxFrac": 2,
         "minFrac": 2,
         "minInt": 1,
@@ -94,6 +137,10 @@ $provide.value("$locale", {
     ]
   },
   "id": "ru-md",
+<<<<<<< HEAD
   "pluralCat": function (n) {  if (n % 10 == 1 && n % 100 != 11) {   return PLURAL_CATEGORY.ONE;  }  if (n == (n | 0) && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) {   return PLURAL_CATEGORY.FEW;  }  if (n % 10 == 0 || n == (n | 0) && n % 10 >= 5 && n % 10 <= 9 || n == (n | 0) && n % 100 >= 11 && n % 100 <= 14) {   return PLURAL_CATEGORY.MANY;  }  return PLURAL_CATEGORY.OTHER;}
+=======
+  "pluralCat": function (n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (vf.v == 0 && i % 10 == 1 && i % 100 != 11) {    return PLURAL_CATEGORY.ONE;  }  if (vf.v == 0 && i % 10 >= 2 && i % 10 <= 4 && (i % 100 < 12 || i % 100 > 14)) {    return PLURAL_CATEGORY.FEW;  }  if (vf.v == 0 && i % 10 == 0 || vf.v == 0 && i % 10 >= 5 && i % 10 <= 9 || vf.v == 0 && i % 100 >= 11 && i % 100 <= 14) {    return PLURAL_CATEGORY.MANY;  }  return PLURAL_CATEGORY.OTHER;}
+>>>>>>> master
 });
 }]);

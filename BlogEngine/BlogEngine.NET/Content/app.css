@@ -41,7 +41,7 @@ label { font-size: 13px; font-weight: normal; }
 .page-header { margin-top: 0; }
 .page-header h2.page-title { text-transform: uppercase; font-weight: 700; font-size: 22px; }
 .page-header .btn-header { margin-top: 13px; margin-left: 3px; }
-.active-flt-r { display: inline-block; width: 21px; height: 11px; background: url(images/active-filterbar.png) no-repeat 0 0; position: absolute; top: -11px; right: 23px; }
+.active-flt-r { display: inline-block; width: 21px; height: 11px; background: url(images/blog/active-filterbar.png) no-repeat 0 0; position: absolute; top: -11px; right: 23px; }
 .btn-flt-r .btn { outline: none !important; }
 .toolbar-grid { margin-bottom: 18px; }
 .search-grid { margin-left: 5px; }
@@ -84,7 +84,7 @@ label { font-size: 13px; font-weight: normal; }
 .admin-views-subnav .nav-pills > li { border-left: 1px solid #DDD !important; padding: 0 4px 0 5px; height: 23px; }
 .admin-views-subnav .nav-pills > li > a { padding: 3px 15px; font-size: 12px; color: #888; outline: none !important; border-radius: 3px; -moz-transition: background-position ease 0.5s; -o-transition: background-position ease 0.5s; -webkit-transition: background-position ease 0.5s; transition: background-position ease 0.5s; background-position: center 40px; }
 .admin-views-subnav .nav-pills > li > a:hover { background-color: #e5e5e5; color: #000; }
-.admin-views-subnav .nav-pills > li.active > a, .admin-views-subnav .nav-pills > li.active > a:hover, .admin-views-subnav .nav-pills > li.active > a:focus { color: #000; background: url(../Content/images/selected-nav.png) no-repeat center 20px; padding: 3px 15px; font-size: 12px; display: block !important; height: 30px !important; outline: none !important; }
+.admin-views-subnav .nav-pills > li.active > a, .admin-views-subnav .nav-pills > li.active > a:hover, .admin-views-subnav .nav-pills > li.active > a:focus { color: #000; background: url(../Content/images/blog/selected-nav.png) no-repeat center 20px; padding: 3px 15px; font-size: 12px; display: block !important; height: 30px !important; outline: none !important; }
 .admin-views-dashboard .view-dashboard { margin-top: 40px; margin-bottom: 20px; }
 .admin-views-dashboard .fa-spinner { font-size: 1.4em !important; }
 .admin-views-dashboard #gal-spinner.loading { display: block; width: 100%; text-align: center; padding: 10px 0; }

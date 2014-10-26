@@ -80,7 +80,7 @@ namespace BlogEngine.Core.Packaging
                     LocalVersion = x.Version,
                     OnlineVersion = onlineVersion,
                     Authors = x.Author,
-                    IconUrl = string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot),
+                    IconUrl = string.Format("{0}Content/images/blog/ext.png", Utils.ApplicationRelativeWebRoot),
                     Enabled = x.Enabled,
                     Priority = x.Priority,
                     SettingsUrl = x.Settings.Count > 0 ? adminPage : ""
@@ -396,10 +396,10 @@ namespace BlogEngine.Core.Packaging
                 if (File.Exists(path)) return url;
             }
 
-            if (pkg.PackageType == "Widget") 
-                return Utils.ApplicationRelativeWebRoot + "pics/Widget.png";
+            if (pkg.PackageType == "Widget")
+                return Utils.ApplicationRelativeWebRoot + "Content/images/blog/Widget.png";
 
-            return Utils.ApplicationRelativeWebRoot + "pics/Theme.png";
+            return Utils.ApplicationRelativeWebRoot + "Content/images/blog/Theme.png";
         }
 
         static void ReplaceInFile(string filePath, string searchText, string replaceText)

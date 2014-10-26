@@ -27,6 +27,7 @@ public class Updater  : WebService {
     private string _downloadUrl = _upgradeReleases + "{0}.zip";
     private string _versionsTxt = _upgradeReleases + "versions.txt";
     private bool _test = false;    // when set to "true" will run in test mode without actually updating site
+    private int _tries;
     
     public Updater()
     {
@@ -455,24 +456,37 @@ public class Updater  : WebService {
 
     void ReplaceDir(string dir)
     {
-        DeleteDir(dir);
-        CopyDir(dir);
+        try
+        {
+            DeleteDir(dir);
+            CopyDir(dir);
+            _tries = 0;
+            Utils.Log(string.Format("Updater: replaced directory {0}", dir));
+        }
+        catch (Exception ex)
+        {
+            // wait 2 seconds then repeat
+            System.Threading.Thread.Sleep(2000);
+            _tries++;
+
+            if (_tries == 3)
+            {
+                _tries = 0;
+                throw new ApplicationException(string.Format("Failed to replace directory {0}; error: {1}", dir, ex.Message));
+            }
+            
+            if (_tries < 4)
+            {
+                ReplaceDir(dir);
+            }
+        }
     }
 
     void DeleteDir(string dir)
     {
-        //Log(dir, "", true, Operation.Delete);
-        for (int i = 0; i < 3; i++)
+        if (Directory.Exists(_root + dir))
         {
-            try
-            {
-                Directory.Delete(_root + dir, true);
-                return;
-            }
-            catch (Exception)
-            {
-                System.Threading.Thread.Sleep(2000);
-            }
+            Directory.Delete(_root + dir, true);   
         }
     }
     
@@ -492,8 +506,19 @@ public class Updater  : WebService {
         string sourceFile = _root + "\\setup\\upgrade\\backup\\be\\" + file;
         string targetFile = _root + "\\" + file;
 
-        DeleteFile(targetFile);
-        CopyFile(sourceFile, targetFile);
+        try
+        {
+            DeleteFile(targetFile);
+        }
+        catch (Exception ex)
+        {
+            Utils.Log(string.Format("Updater: failed to delete file {0}; error: {1}", file, ex.Message));
+        }
+
+        if (!File.Exists(targetFile))
+        {
+            CopyFile(sourceFile, targetFile);
+        }
     }
 
     void DeleteFile(string file)

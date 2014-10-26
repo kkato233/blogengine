@@ -192,13 +192,26 @@ function Rollback() {
 }
 
 function ShowSuccess(item) {
-    $("#spin" + item).hide();
+    if ($("#spin" + item)) {
+        $("#spin" + item).hide();
+    }
     $("#step" + item).removeClass("alert-info");
     $("#step" + item).addClass("alert-success");
+
+    // clean up if error in the step fixed by restart
+    $("#step" + item).removeClass("alert-danger");
+    if (item === "4") {
+        $("#step4").html('<strong><span class="nu-up">4</span> Replace old files with new version</strong>');
+    }
+    if (item === "5") {
+        $("#step5").html('<strong><span class="nu-up">5</span> Configuration and cleanup</strong>');
+    }
 }
 
 function ShowError(item, msg) {
-    $("#spin" + item).hide();
+    if ($("#spin" + item)) {
+        $("#spin" + item).hide();
+    }
     $("#step" + item).removeClass("alert-info");
     $("#step" + item).addClass("alert-danger");
     $("#step" + item).find("strong").html(msg);
@@ -206,6 +219,8 @@ function ShowError(item, msg) {
     $("#btnBack").prop("disabled", false);
     // TODO:
     //Rollback();
+    $("#btnRun").prop("disabled", false);
+    $("#btnRun").html('Restart');
 }
 
 function goHome() {

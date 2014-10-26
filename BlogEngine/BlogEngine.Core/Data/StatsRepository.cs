@@ -1,6 +1,7 @@
 ﻿using BlogEngine.Core.Data.Contracts;
 using BlogEngine.Core.Data.Models;
 using System.Linq;
+using System.Text;
 
 namespace BlogEngine.Core.Data
 {
@@ -30,14 +31,27 @@ namespace BlogEngine.Core.Data
 
             stats.PublishedPagesCount = Page.Pages.Where(p => p.IsPublished == true && p.IsDeleted == false).Count();
             stats.DraftPagesCount = Page.Pages.Where(p => p.IsPublished == false && p.IsDeleted == false).Count();
-
+            
             CountComments(stats);
 
             stats.CategoriesCount = Category.Categories.Count;
             stats.TagsCount = 2;
             stats.UsersCount = 3;
+            Subscribers(stats);
 
             return stats;
+        }
+
+        void Subscribers(Stats stats)
+        {
+            if (!Security.IsAuthorizedTo(BlogEngine.Core.Rights.AccessAdminPages))
+                throw new System.UnauthorizedAccessException();
+
+            string filename = System.IO.Path.Combine(Blog.CurrentInstance.StorageLocation, "newsletter.xml");
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+            doc.Load(System.Web.Hosting.HostingEnvironment.MapPath(filename));
+            System.Xml.XmlNodeList list = doc.GetElementsByTagName("email");
+            stats.SubscribersCount += (list.Count).ToString();
         }
 
         void CountComments(Stats stats)
@@ -56,5 +70,6 @@ namespace BlogEngine.Core.Data
                 stats.SpamCommentsCount += post.Comments.Where(c => c.IsPublished == false && c.IsSpam == true && c.IsDeleted == false).Count();
             }
         }
+
     }
 }
