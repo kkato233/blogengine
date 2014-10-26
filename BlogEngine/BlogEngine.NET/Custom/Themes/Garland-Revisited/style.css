@@ -699,7 +699,7 @@ blockquote p  {
 /* nested comments */
 
 .comment-replies {
-	background: transparent url(../../pics/reply-arrow.gif) no-repeat 25px 25px;
+	background: transparent url(../../Content/images/blog/reply-arrow.gif) no-repeat 25px 25px;
 	padding: 0 0 0 15px;
 	margin: 5px 0 0 0;
 }

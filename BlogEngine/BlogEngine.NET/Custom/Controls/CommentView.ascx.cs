@@ -973,9 +973,9 @@
         protected string FlagUrl()
         {
             //return !string.IsNullOrEmpty(ddlCountry.SelectedValue)
-            //    ? string.Format("{0}pics/flags/{1}.png", Utils.RelativeWebRoot, ddlCountry.SelectedValue)
-            //    : string.Format("{0}pics/pixel.png", Utils.RelativeWebRoot);
-            return string.Format("{0}pics/pixel.png", Utils.RelativeWebRoot);
+            //    ? string.Format("{0}Content/images/blog/flags/{1}.png", Utils.RelativeWebRoot, ddlCountry.SelectedValue)
+            //    : string.Format("{0}Content/images/blog/pixel.png", Utils.RelativeWebRoot);
+            return string.Format("{0}Content/images/blog/pixel.png", Utils.RelativeWebRoot);
         }
 
         #endregion

@@ -217,7 +217,8 @@ namespace App_Code.Controls
 
                     using (var image = new HtmlImage
                         {
-                            Src = string.Format("{0}pics/rssButton.png", Utils.ApplicationRelativeWebRoot), Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
+                            Src = string.Format("{0}Content/images/blog/rssButton.png", Utils.ApplicationRelativeWebRoot),
+                            Alt = string.Format("RSS feed for {0}", item.RollItem.Title)
                         })
                     {
                         image.Width = 12;

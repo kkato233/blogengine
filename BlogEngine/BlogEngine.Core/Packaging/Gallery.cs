@@ -152,13 +152,13 @@ namespace BlogEngine.Core.Packaging
             switch (packageType)
             {
                 case "Theme":
-                    return string.Format("{0}pics/Theme.png", Utils.ApplicationRelativeWebRoot);
+                    return string.Format("{0}Content/images/blog/Theme.png", Utils.ApplicationRelativeWebRoot);
                 case "Extension":
-                    return string.Format("{0}pics/ext.png", Utils.ApplicationRelativeWebRoot);
+                    return string.Format("{0}Content/images/blog/ext.png", Utils.ApplicationRelativeWebRoot);
                 case "Widget":
-                    return string.Format("{0}pics/Widget.png", Utils.ApplicationRelativeWebRoot);
+                    return string.Format("{0}Content/images/blog/Widget.png", Utils.ApplicationRelativeWebRoot);
             }
-            return string.Format("{0}pics/pkg.png", Utils.ApplicationRelativeWebRoot);
+            return string.Format("{0}Content/images/blog/pkg.png", Utils.ApplicationRelativeWebRoot);
         }
 
         #endregion

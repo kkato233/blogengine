@@ -335,7 +335,7 @@ namespace Widgets.MostComments
 
             if (!string.IsNullOrEmpty(visitor.Country))
             {
-                imgCountry.ImageUrl = string.Format("{0}pics/flags/{1}.png", Utils.RelativeOrAbsoluteWebRoot, visitor.Country);
+                imgCountry.ImageUrl = string.Format("{0}Content/images/blog/flags/{1}.png", Utils.RelativeOrAbsoluteWebRoot, visitor.Country);
                 imgCountry.AlternateText = visitor.Country;
 
                 foreach (var ri in

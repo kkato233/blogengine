@@ -23,7 +23,7 @@
         /// The flag image.
         /// </summary>
         private const string FlagImage =
-            "<span class=\"adr\"><img src=\"{0}pics/flags/{1}.png\" class=\"country-name flag\" width=\"16\" height=\"11\" title=\"{2}\" alt=\"{2}\" /></span>";
+            "<span class=\"adr\"><img src=\"{0}Content/images/blog/flags/{1}.png\" class=\"country-name flag\" width=\"16\" height=\"11\" title=\"{2}\" alt=\"{2}\" /></span>";
 
 /*
         /// <summary>
@@ -160,7 +160,7 @@
             {
                 if (!string.IsNullOrEmpty(this.Comment.Country))
                 {
-                    // return "<img src=\"" + Utils.RelativeWebRoot + "pics/flags/" + Comment.Country + ".png\" class=\"country-name flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
+                    // return "<img src=\"" + Utils.RelativeWebRoot + "Content/images/blog/flags/" + Comment.Country + ".png\" class=\"country-name flag\" title=\"" + Comment.Country + "\" alt=\"" + Comment.Country + "\" />";
                     return string.Format(
                         FlagImage, Utils.RelativeWebRoot, this.Comment.Country, FindCountry(this.Comment.Country));
                 }

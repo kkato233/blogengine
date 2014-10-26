@@ -6,9 +6,9 @@ BlogEngine = {
 	,
     setFlag: function (iso) {
         if (iso.length > 0)
-            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "pics/flags/" + iso + ".png";
+            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "Content/images/blog/flags/" + iso + ".png";
         else
-            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "pics/pixel.gif";
+            BlogEngine.comments.flagImage.src = BlogEngineRes.webRoot + "Content/images/blog/pixel.gif";
     }
 	,
 
@@ -21,7 +21,7 @@ BlogEngine = {
         if (oCompose) oCompose.className = '';
         this.$('commentCompose').style.display = 'none';
         this.$('commentPreview').style.display = 'block';
-        this.$('commentPreview').innerHTML = '<img src="' + BlogEngineRes.webRoot + 'pics/ajax-loader.gif" width="24" height="24" alt="Loading" />';
+        this.$('commentPreview').innerHTML = '<img src="' + BlogEngineRes.webRoot + 'Content/images/blog/ajax-loader.gif" width="24" height="24" alt="Loading" />';
         var argument = this.$('commentPreview').innerHTML;
         this.addComment(true);
         return false;
@@ -562,7 +562,7 @@ BlogEngine = {
         textbox.style.width = '320px';
         textbox.id = 'txtapml';
         textbox.name = 'apml';
-        textbox.style.background = 'url(' + BlogEngineRes.webRoot + 'pics/apml.png) no-repeat 2px center';
+        textbox.style.background = 'url(' + BlogEngineRes.webRoot + 'Content/images/blog/apml.png) no-repeat 2px center';
         textbox.style.paddingLeft = '16px';
         form.appendChild(textbox);
         textbox.focus();
