@@ -1,5 +1,7 @@
 ﻿<div id="wrap">
     <div data-ng-include src="'views/shared/_nav.html'"></div>
+    <div data-ng-include src="'views/shared/_addnote.html'"></div>
+    <div data-ng-include src="'views/shared/_editnote.html'"></div>
     <div class="container admin-views-main admin-views-dashboard" data-ng-controller="DashboardController">
         <div id="modal-log-file" class="modal fade">
             <div class="modal-dialog">
@@ -87,6 +89,25 @@
                             <a title="{{page.Title}}" class="external-link pull-right" target="_new" href="{{SiteVars.RelativeWebRoot}}page/{{page.Slug}}"><i class="fa fa-external-link"></i></a>
                         </li>
                         <li ng-if="draftpages.length == 0" class="list-group-item">{{lbl.empty}}</li>
+                    </ul>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse">Quick Notes</a>
+                            <span class="pull-right">
+                                <a title="{{lbl.add}}" href="" ng-click="addNote()"><i class="fa fa-plus fa-sm"></i></a>
+                            </span>
+                        </h4>
+                    </div>
+                    <ul class="list-group list-group panel-collapse collaps in" id="collapseFour">
+                        <li class="list-group-item clearfix" data-ng-repeat="note in notes">
+                            <a title="{{note.Title}}" href="" ng-click="editNote(note.Id)">{{note.Title}}</a>
+                            <span class="pull-right">
+                                <a title="{{lbl.doDelete}}" href="" ng-click="deleteNote(note.Id)" class="purgethis"><i class="fa fa-times fa-sm"></i></a>
+                            </span>
+                        </li>
+                        <li ng-if="notes.length == 0" class="list-group-item">{{lbl.empty}}</li>
                     </ul>
                 </div>
                 <div class="panel panel-default panel-trash">

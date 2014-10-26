@@ -4,6 +4,7 @@
     $scope.draftpages = [];
     $scope.recentcomments = [];
     $scope.trash = [];
+    $scope.notes = [];
     $scope.packages = [];
     $scope.logItems = [];
     $scope.itemToPurge = {};
@@ -110,6 +111,13 @@
             .error(function (data) { toastr.error($rootScope.lbl.errorGettingLogFile); });
 
         $scope.loadTrash();
+        $scope.loadNotes();
+    }
+
+    $scope.loadNotes = function () {
+        dataService.getItems('/api/quicknotes', { type: 0, take: 5, skip: 0 })
+            .success(function (data) { angular.copy(data, $scope.notes); })
+            .error(function () { toastr.error($rootScope.lbl.errorLoadingTrash); });
     }
 
     $scope.loadPackages = function () {
@@ -154,4 +162,75 @@
     }
 
     $scope.load();
+
+    $scope.noteId = '';
+    $scope.addNote = function () {
+        $scope.noteId = '';
+        $("#txtAddNote").val('');
+        $("#modal-add-note").modal();
+        return false;
+    }
+    $scope.editNote = function (id) {
+        $scope.noteId = id;
+        var note = findInArray($scope.notes, 'Id', id);
+        $("#txtEditNote").val(note.Note);
+        $("#modal-edit-note").modal();
+        return false;
+    }
+    $scope.deleteNote = function (id) {
+        var note = { 'Id': id };
+        dataService.deleteItem("/api/quicknotes/", note)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            $scope.load();
+            $("#modal-edit-note").modal('hide');
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            $("#modal-edit-note").modal('hide');
+        });
+    }
+    saveNote = function () {
+        if ($scope.noteId === '') {
+            $scope.addNewNote();
+        }
+        else {
+            $scope.updateNote();
+        }
+    }
+    $scope.addNewNote = function () {
+        if ($("#txtAddNote").val().length < 1) {
+            toastr.error($rootScope.lbl.isRequiredField);
+            return false;
+        }
+        var note = { 'Id': '', 'Note': $("#txtAddNote").val() };
+        dataService.addItem("/api/quicknotes/add", note)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            $scope.load();
+            $("#modal-add-note").modal('hide');
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            $("#modal-add-note").modal('hide');
+        });
+    }
+    $scope.updateNote = function () {
+        if ($("#txtEditNote").val().length < 1) {
+            toastr.error($rootScope.lbl.isRequiredField);
+            return false;
+        }
+        var note = { 'Id': $scope.noteId, 'Note': $("#txtEditNote").val() };
+        dataService.updateItem("/api/quicknotes/" + $scope.noteId, note)
+        .success(function (data) {
+            toastr.success($rootScope.lbl.completed);
+            $scope.load();
+            $("#modal-edit-note").modal('hide');
+        })
+        .error(function () {
+            toastr.error($rootScope.lbl.failed);
+            $("#modal-edit-note").modal('hide');
+        });
+    }
+
 }]);

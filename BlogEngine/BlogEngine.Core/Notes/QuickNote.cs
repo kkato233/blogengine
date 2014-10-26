@@ -34,5 +34,16 @@ namespace BlogEngine.Core.Notes
         /// Date and time updated
         /// </summary>
         public DateTime Updated { get; set; }
+        /// <summary>
+        /// Note title
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                var title = Utils.StripHtml(Note);
+                return title.Length > 42 ? title.Substring(0, 42) + "..." : title;
+            }
+        }
     }
 }
