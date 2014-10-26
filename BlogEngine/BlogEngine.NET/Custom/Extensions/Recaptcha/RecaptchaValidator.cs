@@ -24,6 +24,7 @@ namespace Recaptcha
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web;
 
     /// <summary>
@@ -44,6 +45,8 @@ namespace Recaptcha
         /// </summary>
         private string remoteIp;
 
+        private static readonly Regex RegexIPv4Address = new Regex(@"^(?<address>\d+\.\d+\.\d+\.\d+):\d+$");
+
         #endregion
 
         #region Properties
@@ -57,6 +60,12 @@ namespace Recaptcha
         /// Gets or sets PrivateKey.
         /// </summary>
         public string PrivateKey { get; set; }
+
+        private static string StripPortFromIPv4Address(string address)
+        {
+            var m = RegexIPv4Address.Match(address);
+            return m.Success ? m.Groups["address"].Value : address;
+        }
 
         /// <summary>
         /// Gets or sets RemoteIP.
@@ -72,7 +81,7 @@ namespace Recaptcha
 
             set
             {
-                var ip = IPAddress.Parse(value);
+                var ip = IPAddress.Parse(StripPortFromIPv4Address(value));
 
                 if (ip.AddressFamily != AddressFamily.InterNetwork && ip.AddressFamily != AddressFamily.InterNetworkV6)
                 {
