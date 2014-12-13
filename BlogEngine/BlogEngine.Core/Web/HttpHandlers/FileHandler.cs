@@ -70,6 +70,14 @@
             if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
             {
                 var fileName = context.Request.QueryString["file"];
+
+                // prevent directory traversal
+                if (fileName.Contains(".."))
+                {
+                    OnBadRequest(fileName);
+                    context.Response.Redirect(string.Format("{0}error404.aspx", Utils.AbsoluteWebRoot));
+                }
+
                 OnServing(fileName);
                 fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
                 try

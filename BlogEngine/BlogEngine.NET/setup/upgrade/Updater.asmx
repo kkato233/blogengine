@@ -228,14 +228,15 @@ public class Updater  : WebService {
             return "";
         }
         try
-        {       
+        {
+            DeleteDir("\\api");
+            DeleteDir("\\editors");
+            DeleteDir("\\Modules");
+            DeleteDir("\\pics");
+            
             ReplaceDir("\\Account");
             ReplaceDir("\\admin");          
-            ReplaceDir("\\api");
-            ReplaceDir("\\editors");
             ReplaceDir("\\fonts");
-            ReplaceDir("\\Modules");
-            ReplaceDir("\\pics");
             
             ReplaceDir("\\setup\\Mono");
             ReplaceDir("\\setup\\MySQL");
@@ -284,6 +285,8 @@ public class Updater  : WebService {
             ReplaceLabelsFile();
 
             CopyWebConfig();
+            
+            ReplaceFile("Global.asax");
 
             FixSH();
 
@@ -354,6 +357,9 @@ public class Updater  : WebService {
 
         content = content.Replace(defaultValidationKey, validationKey);
         content = content.Replace(defaultDecryptionKey, decryptionKey);
+
+        // replace old editor path in web.config
+        content = content.Replace("~/editors", "~/admin/editors");
 
         return content;
     }

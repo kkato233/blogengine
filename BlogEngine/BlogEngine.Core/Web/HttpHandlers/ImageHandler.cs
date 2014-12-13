@@ -74,6 +74,14 @@
                 try
                 {
                     fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
+
+                    // prevent directory traversal
+                    if (fileName.Contains(".."))
+                    {
+                        OnBadRequest(fileName);
+                        context.Response.Redirect(string.Format("{0}error404.aspx", Utils.AbsoluteWebRoot));
+                    }
+
                     var file = BlogService.GetFile(string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, fileName));
                     if (file != null)
                     {
