@@ -3,8 +3,8 @@
 <html>
 <head id="Head1" runat="server">
     <title>BlogEngine.NET Admin</title>
-    <link href="~/Content/bootstrap/bootstrap.css" rel="stylesheet"/>
-    <link href="~/Content/bootstrap/bootstrap-theme.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet"/>
     <style>
         .info { 
             float: none !important; 

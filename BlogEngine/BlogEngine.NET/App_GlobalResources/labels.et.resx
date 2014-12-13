@@ -1028,7 +1028,7 @@
     <value>Disqus Veebilehe Lühike Nimi</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Et kasutada Disqus-teenust kommenteerimise juures, on kõigepealt vaja kasutajatunnus luua &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Et kasutada Disqus-teenust kommenteerimise juures, on kõigepealt vaja kasutajatunnus luua &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             Lühike nimi on kasutusel sinu veebilehe identifitseerimisel Disqus-teenuses (Veebilehe nimi põhilises seadistuses).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

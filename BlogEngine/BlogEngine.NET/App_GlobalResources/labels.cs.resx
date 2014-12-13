@@ -1043,7 +1043,7 @@
     <value>Disqus Website krátké jméno</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Aby bylo možné použít Disqus jako správce komentářů, je potřeba nejdříve nastavit účet na &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Aby bylo možné použít Disqus jako správce komentářů, je potřeba nejdříve nastavit účet na &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             Krátké jméno pro unikátní identifikaci webu na Disqus (Website jméno v Základních nastaveních).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

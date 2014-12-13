@@ -1028,7 +1028,7 @@
     <value>نام کوتاه سایت Disqus</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>برای استفاده از Disqus برای مدیریت نظرات بلاگتان، باید ابتدا حسابی را در سایت &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt; ایجاد کنید&lt;br /&gt;
+    <value>برای استفاده از Disqus برای مدیریت نظرات بلاگتان، باید ابتدا حسابی را در سایت &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt; ایجاد کنید&lt;br /&gt;
             نام کوتاه، برای شناسایی منحصر بفرد وب سایت شما در Disqus مورد استفاده قرار می گیرد (بخش نام کوتاه وبسایت در تنظیمات ابتدایی).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

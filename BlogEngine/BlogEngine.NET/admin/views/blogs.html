@@ -135,7 +135,7 @@
                     <td><input type="checkbox" id="{{item.Slug}}" ng-model="item.IsChecked" data-ng-disabled="item.IsPrimary" /></td>
                     <td class="table-item-title">
                         <a title="{{item.Name}}" href="" ng-click="modalEdit(item.Id)">{{item.Name}}</a>
-                        <a title="{{item.Name}}" class="external-link pull-right" target="_new" href="{{item.RelativeWebRoot}}"><i class="fa fa-external-link"></i></a>
+                        <a title="{{item.Name}}" class="external-link pull-right" target="_blank" href="{{item.RelativeWebRoot}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td class="ltr-dir hmax768">{{item.VirtualPath}}</td>
                     <td><input type="checkbox" ng-model="item.IsPrimary" data-ng-disabled="true" /></td>

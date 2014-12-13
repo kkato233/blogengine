@@ -1265,7 +1265,7 @@
     <value>Nome Breve usato nel sito web Disqus</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Per usare Disqus come gestore dei Commenti, devi prima attivare un Account a &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Per usare Disqus come gestore dei Commenti, devi prima attivare un Account a &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             I Nomi Brevi sono usati unicamente per identificare il tuo sito web su Disqus (Sito web Nome-Breve nelle Impostazioni di Base).</value>
   </data>
   <data name="doNotPassRightsWithFalseValue" xml:space="preserve">

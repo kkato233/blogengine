@@ -61,6 +61,12 @@ div.post .text a[rel~="muse"][rel~="met"], div.post .text a[rel~="crush"][rel~="
 .LoginRequired	{ margin: 10px 0 10px 0; }
 
 /*[ Widget action buttons ]*/
+.imgDelete      { background-image:url('../../Content/images/blog/actions/action-delete-small-lt.png'); }
+.imgDelete:hover{ background-image:url('../../Content/images/blog/actions/action-delete-small.png'); }
+.imgMove        { background-image:url('../../Content/images/blog/actions/action-tools-small-lt.png'); }
+.imgMove:hover  { background-image:url('../../Content/images/blog/actions/action-tools-small.png'); }
+.imgEdit        { background-image:url('../../Content/images/blog/actions/action-edit-small-lt.png'); }
+.imgEdit:hover  { background-image:url('../../Content/images/blog/actions/action-edit-small.png'); }
 .widgetImg		{ width: 16px; height: 16px; display:inline-block; }
 .widget a:hover	{ text-decoration: none; }
 #comment-form p	{ margin: 1px; display: inline-table; width: 100%; }

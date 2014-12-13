@@ -53,7 +53,7 @@
                     <tr data-ng-repeat="item in pagedItems[currentPage]">
                         <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
                         <td class="table-item-title">
-                            <a title="{{item.OptionName}}" target="_new" href="{{item.ServiceUrl}}" class="text-ellipsis pull-left">{{item.ServiceUrl}}</a>
+                            <a title="{{item.OptionName}}" target="_blank" href="{{item.ServiceUrl}}" class="text-ellipsis pull-left">{{item.ServiceUrl}}</a>
                         </td>
                     </tr>
                     <tr id="tr-spinner"><td colspan="2"><div id="div-spinner"><i class="fa fa-spinner fa-spin"></i></div></td></tr>

@@ -104,7 +104,7 @@
                         </th>
                         <th class="table-item-title ">{{lbl.title}}</th>
                         <th class="hmax768">{{lbl.description}}</th>
-                        <th class="hmax768">XFN <a href="http://gmpg.org/xfn/intro" title="XFN" target="_new"><i class="fa fa-info-circle"></i></a></th>
+                        <th class="hmax768">XFN <a href="http://gmpg.org/xfn/intro" title="XFN" target="_blank"><i class="fa fa-info-circle"></i></a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,7 +112,7 @@
                         <td> <input type="checkbox" data-ng-model="item.IsChecked" /> </td>
                         <td class="table-item-title">
                             <a title="{{item.Title}}" href="" ng-click="modalEdit(item.Id)" class="text-ellipsis pull-left">{{item.Title}}</a>
-                            <a title="{{item.FeedUrl}}" class="external-link pull-right" target="_new" href="{{item.FeedUrl}}"><i class="fa fa-external-link"></i></a>
+                            <a title="{{item.FeedUrl}}" class="external-link pull-right" target="_blank" href="{{item.FeedUrl}}"><i class="fa fa-external-link"></i></a>
                         </td>
                         <td class="hmax768"><span class="pull-left">{{item.Description}}</span></td>
                         <td class="hmax768"><span class="pull-left">{{item.Xfn}}</span></td>

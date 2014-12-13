@@ -68,7 +68,7 @@
                                 <div class="row">
                                     <div class="col col-md-4">
                                         <img ng-if="!package.PackageUrl" class="pkg-img" width="100" ng-src="{{package.IconUrl}}" alt="Package image" title="" />
-                                        <a ng-if="package.PackageUrl" href="{{package.PackageUrl}}" target="_new">
+                                        <a ng-if="package.PackageUrl" href="{{package.PackageUrl}}" target="_blank">
                                             <img class="pkg-img" width="100" ng-src="{{package.IconUrl}}" alt="Package image" title="" />
                                         </a>
                                     </div>
@@ -166,7 +166,7 @@
                             <a title="{{item.Title}}" href="" ng-click="loadCustomFields(item.Id)">{{item.Title}}</a>
                             <span class="item-description hmax480">{{item.Description}}</span>
                         </div>
-                        <a ng-if="item.Website != null" title="{{item.Title}}" class="external-link pull-right" target="_new" href="{{item.Website}}"><i class="fa fa-external-link"></i></a>
+                        <a ng-if="item.Website != null" title="{{item.Title}}" class="external-link pull-right" target="_blank" href="{{item.Website}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td>{{item.LastUpdated.substring(0,10)}}</td>
                     <td>{{item.OnlineVersion}}</td>

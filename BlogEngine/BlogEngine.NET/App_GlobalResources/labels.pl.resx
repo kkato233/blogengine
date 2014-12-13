@@ -1027,7 +1027,7 @@
     <value>Skrócona nazwa strony prowajdera komentarzy</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Aby używać Disqus jako prowajdera komentarzy musisz najpierw utworzyć konto na &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Aby używać Disqus jako prowajdera komentarzy musisz najpierw utworzyć konto na &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             Krótka nazwa jednoznacznie identyfikuje Twoją stronę na Disqus (Skrócona nazwa strony w ustawieniach podstawowych).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

@@ -1028,7 +1028,7 @@
     <value>Disqus 웹사이트 축약이름</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>답글관리자로 Disqus 을 사용하려면 &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;에 우선 등록하세요&lt;br /&gt;
+    <value>답글관리자로 Disqus 을 사용하려면 &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;에 우선 등록하세요&lt;br /&gt;
             축약 이름이 Disqus 웹사이트의 유니크한 구분자로 사용됩니다 (기본설정에 웹사이트 축약이름).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

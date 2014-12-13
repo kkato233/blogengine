@@ -1334,9 +1334,9 @@
     <comment>Disqus Website Short Name</comment>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>要使用 Disqus 评论系统的话, 需要先在 &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>要使用 Disqus 评论系统的话, 需要先在 &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             注册, 将获得的短名填入配置项中(站点短名在基础配置中).</value>
-    <comment>To use Disqus as your comment manager you need first set up account at &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <comment>To use Disqus as your comment manager you need first set up account at &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             Short name used to uniquely identify your website on Disqus (Website shortname in Basic Settings).</comment>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

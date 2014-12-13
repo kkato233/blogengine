@@ -68,7 +68,7 @@
                         <a href="#" data-target="#modal-form" data-toggle="modal" class="btn btn-default pull-left"><i class="fa fa-cog"></i>{{lbl.settings}}</a>
                         <a href="@returnUrl" class="btn btn-default"><i class="fa fa-ban"></i>{{lbl.cancel}}</a>
                         <a href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
-                        <span ng-if="page.Id"><a href="{{page.RelativeLink}}" class="btn btn-default" target="_new"><i class="fa fa-eye"></i> {{lbl.goToPage}}</a></span>
+                        <span ng-if="page.Id"><a href="{{page.RelativeLink}}" class="btn btn-default" target="_blank"><i class="fa fa-eye"></i> {{lbl.goToPage}}</a></span>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
         <div class="container">
             <div class="BlogEngine-app pull-left">
                 <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET @BlogSettings.Instance.Version()</a> |
-                <a href="http://dotnetblogengine.net/Donate.aspx" target="_new" id="donate">@Resources.labels.makeDonation</a>
+                <a href="http://dotnetblogengine.net/Donate.aspx" target="_blank" id="donate">@Resources.labels.makeDonation</a>
             </div>
             <a class="logo-brand pull-right" target="_blank" href="http://dotnetblogengine.net/"><img src="~/Content/images/blog/logo-footer.png" alt="BlogEngine.NET" /></a>
         </div>

@@ -47,19 +47,19 @@
                     <td><input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" /></td>
                     <td class="table-item-title">
                         <a title="{{item.Title}}" class="pull-left" href="{{SiteVars.RelativeWebRoot}}admin/editor/post.cshtml?id={{item.Id}}"> <span class="text-ellipsis">{{item.Title}}</span> </a>
-                        <a title="{{item.Title}}" class="external-link pull-right" target="_blank" href="{{SiteVars.RelativeWebRoot}}post/{{item.Slug}}"><i class="fa fa-external-link"></i></a>
+                        <a title="{{item.Title}}" class="external-link pull-right" target="_blank" href="{{item.RelativeLink}}"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td class="hmax992"><a href="" title="{{item.Author}}" ng-click="gridFilter('Author',item.Author,'')">{{item.Author}}</a></td>
                     <td class="item-comment-post hmax479">
                         <div ng-if="item.Comments">
                             <span class="item-comment-count item-comment-approved" ng-if="item.Comments[1] != 0" title="{{lbl.approved}}: {{item.Comments[1]}}">
-                                <a href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[1]}}</a>
+                                <a href="{{item.RelativeLink}}#comment" target="_blank">{{item.Comments[1]}}</a>
                             </span>
                             <span class="item-comment-count item-comment-pending" ng-if="item.Comments[0] != 0" title="{{lbl.pending}}: {{item.Comments[0]}}">
-                                <a href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[0]}}</a>
+                                <a href="{{item.RelativeLink}}#comment" target="_blank">{{item.Comments[0]}}</a>
                             </span>
                             <span class="item-comment-count item-comment-spam" ng-if="item.Comments[2] != 0" title="{{lbl.spam}}: {{item.Comments[2]}}">
-                                <a href="{{item.RelativeLink}}#comment" target="_new">{{item.Comments[2]}}</a>
+                                <a href="{{item.RelativeLink}}#comment" target="_blank">{{item.Comments[2]}}</a>
                             </span>
                         </div>
                     </td>

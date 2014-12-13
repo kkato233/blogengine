@@ -47,7 +47,7 @@
                     <td><input type="checkbox" id="{{item.Slug}}" data-ng-model="item.IsChecked" ng-disabled="item.HasChildren === true" /></td>
                     <td class="table-item-title">
                         <a title="{{item.Title}}" class="pull-left text-ellipsis" href="{{SiteVars.RelativeWebRoot}}admin/editor/page.cshtml?id={{item.Id}}"><span class="text-ellipsis">{{item.Title}}</span></a>
-                        <a title="{{item.Title}}" target="_new" href="{{SiteVars.RelativeWebRoot}}page/{{item.Slug}}" class="pull-right external-link"><i class="fa fa-external-link"></i></a>
+                        <a title="{{item.Title}}" target="_blank" href="{{item.RelativeLink}}" class="pull-right external-link"><i class="fa fa-external-link"></i></a>
                     </td>
                     <td class="hmax992">{{item.Parent.OptionName}}</td>
                     <td>{{item.SortOrder}}</td>

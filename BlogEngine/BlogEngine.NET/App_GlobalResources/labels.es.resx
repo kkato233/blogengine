@@ -1111,7 +1111,7 @@
     <value>Nombre corto de sitio web Disqus</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Para usar Disqus como su administrador de comentarios primero necesita crear una cuenta en &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Para usar Disqus como su administrador de comentarios primero necesita crear una cuenta en &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
            El nombre corto se usa únicamente para identificar su sitio web en Disqus (Nombre corto del sitio web en Configuración Básica).
   </value>
   </data>

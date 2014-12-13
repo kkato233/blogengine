@@ -1028,7 +1028,7 @@
     <value>Disqus網站簡稱</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>要使用Disqus作為你的評論管理器之前，你必須先在&lt;a href="http://disqus.com" target="_new"&gt;Disqus&lt;/a&gt;創立帳號&lt;br /&gt;
+    <value>要使用Disqus作為你的評論管理器之前，你必須先在&lt;a href="http://disqus.com" target="_blank"&gt;Disqus&lt;/a&gt;創立帳號&lt;br /&gt;
             簡稱將用來識別你的網站(簡稱在進階設定>基本找的到)</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

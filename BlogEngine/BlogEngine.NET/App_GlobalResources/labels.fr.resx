@@ -1043,7 +1043,7 @@
     <value>Nom court du site Disqus</value>
   </data>
   <data name="disqusSignupMessage" xml:space="preserve">
-    <value>Pour faire de Disqus votre gestionnaire de commentaires, vous devez d'abord créer un compte sur &lt;a href="http://disqus.com" target="_new"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
+    <value>Pour faire de Disqus votre gestionnaire de commentaires, vous devez d'abord créer un compte sur &lt;a href="http://disqus.com" target="_blank"&gt;disqus.com&lt;/a&gt;&lt;br /&gt;
             Nom court et unique utilisé pour identifier votre site web sur Disqus (Nom court du site Internet dans les réglages généraux).</value>
   </data>
   <data name="dontHaveAccount" xml:space="preserve">

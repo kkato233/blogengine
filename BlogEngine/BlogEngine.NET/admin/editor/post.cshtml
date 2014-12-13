@@ -105,7 +105,7 @@
                             <span ng-if="status() < 2"><a href="#" ng-click="save()" class="btn btn-default"><i class="fa fa-save"></i> {{lbl.save}}</a></span>
                             <a ng-if="status() < 2" href="#" data-ng-click="publish(true)" class="btn btn-success"><i class="fa fa-check"></i>{{lbl.publish}}</a>
                             <a ng-if="status() == 2" href="#" data-ng-click="save()" class="btn btn-success"><i class="fa fa-save"></i>{{lbl.save}}</a>
-                            <span ng-if="post.Id"><a href="{{post.RelativeLink}}" class="btn btn-default" target="_new"><i class="fa fa-eye"></i> {{lbl.goToPost}}</a></span>
+                            <span ng-if="post.Id"><a href="{{post.RelativeLink}}" class="btn btn-default" target="_blank"><i class="fa fa-eye"></i> {{lbl.goToPost}}</a></span>
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
         <div class="container">
             <div class="BlogEngine-app pull-left">
                 <a href="http://dotnetblogengine.net" target="_blank">BlogEngine.NET @BlogSettings.Instance.Version()</a> |
-                <a href="http://dotnetblogengine.net/Donate.aspx" target="_new" id="donate">@Resources.labels.makeDonation</a>
+                <a href="http://dotnetblogengine.net/Donate.aspx" target="_blank" id="donate">@Resources.labels.makeDonation</a>
             </div>
             <a class="logo-brand pull-right" target="_blank" href="http://dotnetblogengine.net/"><img src="~/Content/images/blog/logo-footer.png" alt="BlogEngine.NET" /></a>
         </div>

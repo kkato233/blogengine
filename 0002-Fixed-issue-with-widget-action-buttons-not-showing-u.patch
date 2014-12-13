@@ -1,0 +1,141 @@
+From 94f87739f59e48359862f3f262b0f21380634316 Mon Sep 17 00:00:00 2001
+From: kkato233 <kazuhiro.kato@hotmail.co.jp>
+Date: Sun, 14 Dec 2014 00:18:30 +0900
+Subject: [PATCH 2/4] Fixed issue with widget action buttons not showing up
+
+---
+ BlogEngine/BlogEngine.NET/BlogEngine.NET.csproj           |   6 ++++++
+ BlogEngine/BlogEngine.NET/Content/Auto/Global.css         |   6 ++++++
+ .../images/blog/actions/action-delete-small-lt.png        | Bin 0 -> 201 bytes
+ .../Content/images/blog/actions/action-delete-small.png   | Bin 0 -> 184 bytes
+ .../Content/images/blog/actions/action-edit-small-lt.png  | Bin 0 -> 240 bytes
+ .../Content/images/blog/actions/action-edit-small.png     | Bin 0 -> 222 bytes
+ .../Content/images/blog/actions/action-tools-small-lt.png | Bin 0 -> 241 bytes
+ .../Content/images/blog/actions/action-tools-small.png    | Bin 0 -> 199 bytes
+ 8 files changed, 12 insertions(+)
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small-lt.png
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small.png
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small-lt.png
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small.png
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small-lt.png
+ create mode 100644 BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small.png
+
+diff --git a/BlogEngine/BlogEngine.NET/BlogEngine.NET.csproj b/BlogEngine/BlogEngine.NET/BlogEngine.NET.csproj
+index 04d6726..d891184 100644
+--- a/BlogEngine/BlogEngine.NET/BlogEngine.NET.csproj
++++ b/BlogEngine/BlogEngine.NET/BlogEngine.NET.csproj
+@@ -279,6 +279,12 @@
+     <Content Include="Content\bootstrap-theme.min.css" />
+     <Content Include="Content\bootstrap.css" />
+     <Content Include="Content\bootstrap.min.css" />
++    <Content Include="Content\images\blog\actions\action-delete-small-lt.png" />
++    <Content Include="Content\images\blog\actions\action-delete-small.png" />
++    <Content Include="Content\images\blog\actions\action-edit-small-lt.png" />
++    <Content Include="Content\images\blog\actions\action-edit-small.png" />
++    <Content Include="Content\images\blog\actions\action-tools-small-lt.png" />
++    <Content Include="Content\images\blog\actions\action-tools-small.png" />
+     <Content Include="Content\images\blog\flags\ad.png" />
+     <Content Include="Content\images\blog\flags\ae.png" />
+     <Content Include="Content\images\blog\flags\af.png" />
+diff --git a/BlogEngine/BlogEngine.NET/Content/Auto/Global.css b/BlogEngine/BlogEngine.NET/Content/Auto/Global.css
+index 9d0f3a8..9d54a81 100644
+--- a/BlogEngine/BlogEngine.NET/Content/Auto/Global.css
++++ b/BlogEngine/BlogEngine.NET/Content/Auto/Global.css
+@@ -61,6 +61,12 @@ div.post .text a[rel~="muse"][rel~="met"], div.post .text a[rel~="crush"][rel~="
+ .LoginRequired	{ margin: 10px 0 10px 0; }
+ 
+ /*[ Widget action buttons ]*/
++.imgDelete      { background-image:url('../../Content/images/blog/actions/action-delete-small-lt.png'); }
++.imgDelete:hover{ background-image:url('../../Content/images/blog/actions/action-delete-small.png'); }
++.imgMove        { background-image:url('../../Content/images/blog/actions/action-tools-small-lt.png'); }
++.imgMove:hover  { background-image:url('../../Content/images/blog/actions/action-tools-small.png'); }
++.imgEdit        { background-image:url('../../Content/images/blog/actions/action-edit-small-lt.png'); }
++.imgEdit:hover  { background-image:url('../../Content/images/blog/actions/action-edit-small.png'); }
+ .widgetImg		{ width: 16px; height: 16px; display:inline-block; }
+ .widget a:hover	{ text-decoration: none; }
+ #comment-form p	{ margin: 1px; display: inline-table; width: 100%; }
+\ No newline at end of file
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small-lt.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small-lt.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ac54ab9499a82d737b9acf91194117a27fb017f5
+GIT binary patch
+literal 201
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`Ea{HEjtmUzPnffIy#(?lOI#yL
+zg7ec#$`gxH85~pclTsBta}(23gHjVyDhp4h+5i<rd%8G=RNPAX^Z&m+vuZ<Uqm#i0
+zwharoL&C$GHIfzVy46_4vU77)Uoa(`NKKdUV?MVi)8v?9yE)G}Ax*d45e8~OJoyTT
+t=G2PKSNy^BQHRmcAVKCVHxC0N8$(W}sPwMFh+LpG44$rjF6*2UngB%<JZ=C0
+
+literal 0
+HcmV?d00001
+
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-delete-small.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e318ba2f67a1855ff43f4b998e5bf589da0a100a
+GIT binary patch
+literal 184
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`k|nMYCBgY=CFO}lsSJ)O`AMk?
+zp1FzXsX?iUDV2pMQ*D5XqC8z3Ln>}1{rUgjo>{e_v(d@m1KWlL+#%uN%^Cp*3>JAd
+z9*v5Q=G^tbUaHrdXE|d}hSdMZ6AnwW^|*9h)D!zBtl4HRka#ZbNIJ(phZGeBHbIHA
+e+&m17Yz%c@MWwYvL-T>QFnGH9xvX<aXaWH5**fF^
+
+literal 0
+HcmV?d00001
+
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small-lt.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small-lt.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..299b84ecc222f2d646bf7abf6ba322f195d9cdef
+GIT binary patch
+literal 240
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`Ea{HEjtmUzPnffIy#(?lOI#yL
+zg7ec#$`gxH85~pclTsBta}(23gHjVyDhp4h+5i<bdAc};RNPAX^Z&m+vuZ<Uqtk(=
+zGb`7vJGT6qgxCDs++5Y0tj8>FxJV}C<maDfIP|22@y51hcK$=G4d?8=*Dz}Mu}U_r
+zlbp|ZEaJ$yB<>6~FOy_b2JeQss#c1PkFMXnJ2&I(jhF-;pIhmTjAhd#&feg$@K!KQ
+jVmQWl-bX~5K_G#FeUFw)T6no6&@~L6u6{1-oD!M<ktS1s
+
+literal 0
+HcmV?d00001
+
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-edit-small.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..31f4894b95030872ee45430715a38f12b516b6af
+GIT binary patch
+literal 222
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`k|nMYCBgY=CFO}lsSJ)O`AMk?
+zp1FzXsX?iUDV2pMQ*D5X8a!PbLn>|^33lXbP~chI{r}O4#TK6p;>_AR-Fyu%%f>h{
+zwUou)T(C-0Xi}4)TEw~bsMnWo?+x2>El&Hw$$PE~ET5ZP6X)NSv-kVsLr)HS7fiJB
+zc=te^>6%P}n>ULOXGdaz`K2HCgSw>8h}_7~IAid!L6UKe-^?El%=`TxYaL+NBCffv
+T(DS|z&@Bv}u6{1-oD!M<D?C-6
+
+literal 0
+HcmV?d00001
+
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small-lt.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small-lt.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..686402314ebaaa687a2838eb0d1aed137ba3ab63
+GIT binary patch
+literal 241
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`Ea{HEjtmUzPnffIy#(?lOI#yL
+zg7ec#$`gxH85~pclTsBta}(23gHjVyDhp4h+5i<bd%8G=RNPAX^Z&m+vuZ<Uqm#ph
+z2L1Sb5|eWsN=vsER##hR>fP8=x!KS|+3c`G(ThhtFB&_1jg2yLb8Wk?v%cWsIJs~K
+z!`-qOY%z~QI^EoII61>D5<W8tZ=6+lGEpKSF|jdGx`%hN@(b1y>5oTwm`^a&{5ak(
+kf9%H-Np>4^CKd?>ox4S<{0e$eK<6-cy85}Sb4q9e0G&Tn5C8xG
+
+literal 0
+HcmV?d00001
+
+diff --git a/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small.png b/BlogEngine/BlogEngine.NET/Content/images/blog/actions/action-tools-small.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ab8cbc606912676f92180be3ff0bac6130fb6174
+GIT binary patch
+literal 199
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbL!WQl7;NpOBzNqJ&XDuZK6ep0G}
+zXKrG8YEWuoN@d~6R2!fo{s5m4*Q%<jO`A6T`0?ZO=g<HD|Gyi!<_b`XwIs+d7|8w4
+z@Ov8{$Us|97srr_TS*Cy%sdvXGcK}7NK9arkaS?;=_z1j({RXe{BV#-fG>n&HA9=2
+pkF(*LqXiNi27+H?co<kD7#6iL3uP6mo&Xxe;OXk;vd$@?2>@X{K5qa3
+
+literal 0
+HcmV?d00001
+
+-- 
+1.9.4.msysgit.1
+

@@ -1,0 +1,104 @@
+
+diff --git a/BlogEngine/BlogEngine.Core/Properties/AssemblyInfo.cs b/BlogEngine/BlogEngine.Core/Properties/AssemblyInfo.cs
+index e202464..2cdb17d 100644
+--- a/BlogEngine/BlogEngine.Core/Properties/AssemblyInfo.cs
++++ b/BlogEngine/BlogEngine.Core/Properties/AssemblyInfo.cs
+@@ -13,11 +13,11 @@
+ [assembly: AssemblyConfiguration("")]
+ [assembly: AssemblyCompany("")]
+ [assembly: AssemblyProduct("BlogEngine.NET")]
+-[assembly: AssemblyCopyright("Copyright @ 2007-2013")]
++[assembly: AssemblyCopyright("Copyright @ 2007-2014")]
+ [assembly: AssemblyTrademark("")]
+ [assembly: AssemblyCulture("")]
+ [assembly: CLSCompliant(false)]
+ [assembly: ComVisible(false)]
+ [assembly: AllowPartiallyTrustedCallers]
+-[assembly: AssemblyVersion("3.1.0.8")]
++[assembly: AssemblyVersion("3.1.1.0")]
+ [assembly: SecurityRules(SecurityRuleSet.Level1)]
+diff --git a/BlogEngine/BlogEngine.Core/Web/HttpHandlers/FileHandler.cs b/BlogEngine/BlogEngine.Core/Web/HttpHandlers/FileHandler.cs
+index cd9c936..dbe11e3 100644
+--- a/BlogEngine/BlogEngine.Core/Web/HttpHandlers/FileHandler.cs
++++ b/BlogEngine/BlogEngine.Core/Web/HttpHandlers/FileHandler.cs
+@@ -70,6 +70,14 @@ public void ProcessRequest(HttpContext context)
+             if (!string.IsNullOrEmpty(context.Request.QueryString["file"]))
+             {
+                 var fileName = context.Request.QueryString["file"];
++
++                // prevent directory traversal
++                if (fileName.Contains(".."))
++                {
++                    OnBadRequest(fileName);
++                    context.Response.Redirect(string.Format("{0}error404.aspx", Utils.AbsoluteWebRoot));
++                }
++
+                 OnServing(fileName);
+                 fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
+                 try
+diff --git a/BlogEngine/BlogEngine.Core/Web/HttpHandlers/ImageHandler.cs b/BlogEngine/BlogEngine.Core/Web/HttpHandlers/ImageHandler.cs
+index be05676..e287867 100644
+--- a/BlogEngine/BlogEngine.Core/Web/HttpHandlers/ImageHandler.cs
++++ b/BlogEngine/BlogEngine.Core/Web/HttpHandlers/ImageHandler.cs
+@@ -74,6 +74,14 @@ public void ProcessRequest(HttpContext context)
+                 try
+                 {
+                     fileName = !fileName.StartsWith("/") ? string.Format("/{0}", fileName) : fileName;
++
++                    // prevent directory traversal
++                    if (fileName.Contains(".."))
++                    {
++                        OnBadRequest(fileName);
++                        context.Response.Redirect(string.Format("{0}error404.aspx", Utils.AbsoluteWebRoot));
++                    }
++
+                     var file = BlogService.GetFile(string.Format("{0}files{1}", Blog.CurrentInstance.StorageLocation, fileName));
+                     if (file != null)
+                     {
+diff --git a/BlogEngine/BlogEngine.NET/setup/upgrade/Updater.asmx b/BlogEngine/BlogEngine.NET/setup/upgrade/Updater.asmx
+index d819376..0d51fa9 100644
+--- a/BlogEngine/BlogEngine.NET/setup/upgrade/Updater.asmx
++++ b/BlogEngine/BlogEngine.NET/setup/upgrade/Updater.asmx
+@@ -228,14 +228,15 @@ public class Updater  : WebService {
+             return "";
+         }
+         try
+-        {       
++        {
++            DeleteDir("\\api");
++            DeleteDir("\\editors");
++            DeleteDir("\\Modules");
++            DeleteDir("\\pics");
++            
+             ReplaceDir("\\Account");
+             ReplaceDir("\\admin");          
+-            ReplaceDir("\\api");
+-            ReplaceDir("\\editors");
+             ReplaceDir("\\fonts");
+-            ReplaceDir("\\Modules");
+-            ReplaceDir("\\pics");
+             
+             ReplaceDir("\\setup\\Mono");
+             ReplaceDir("\\setup\\MySQL");
+@@ -284,6 +285,8 @@ public class Updater  : WebService {
+             ReplaceLabelsFile();
+ 
+             CopyWebConfig();
++            
++            ReplaceFile("Global.asax");
+ 
+             FixSH();
+ 
+@@ -355,6 +358,9 @@ public class Updater  : WebService {
+         content = content.Replace(defaultValidationKey, validationKey);
+         content = content.Replace(defaultDecryptionKey, decryptionKey);
+ 
++        // replace old editor path in web.config
++        content = content.Replace("~/editors", "~/admin/editors");
++
+         return content;
+     }
+ 
+-- 
+1.9.4.msysgit.1
+
